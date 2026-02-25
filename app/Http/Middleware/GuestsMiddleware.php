@@ -19,7 +19,7 @@ class GuestsMiddleware
         // If the user is already logged in, redirect them based on their role
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->hasRole('admin')) {
+            if ($user->hasRole('superAdmin')) {
                 // Redirect to admin dashboard
                 return redirect()->route('admin.dashboard');
             } elseif ($user->hasRole('faculty')) {

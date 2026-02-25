@@ -2,14 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\FacultyProfile;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FacultyProfileFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
+ */
+class EmployeeFactory extends Factory
 {
-    protected $model = FacultyProfile::class;
+    protected $model = Employee::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
@@ -17,14 +25,9 @@ class FacultyProfileFactory extends Factory
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->lastName(),
             'last_name' => fake()->lastName(),
+            'position' => fake()->jobTitle(),
             'branch_id' => \App\Models\Branch::inRandomOrder()->first()->id ?? \App\Models\Branch::factory(),
             'department_id' => \App\Models\Department::inRandomOrder()->first()->id ?? \App\Models\Department::factory(),
-            'academic_rank' => fake()->randomElement(['Instructor I', 'Assistant Professor', 'Professor']),
-            'email' => fake()->unique()->safeEmail(),
-            'contactno' => fake()->phoneNumber(),
-            'address' => fake()->address(),
-            'sex' => fake()->randomElement(['Male', 'Female']),
-            'birthday' => fake()->date(),
         ];
     }
 }

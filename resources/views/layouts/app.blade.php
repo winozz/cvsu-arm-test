@@ -79,33 +79,49 @@
                 </x-slot:brand>
 
                 {{-- Dashboard Menu --}}
-                <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('admin.dashboard')"
-                    :route="route('admin.dashboard')" />
+                <x-side-bar.item text="Dashboard" icon="home"
+                    :current="request()->routeIs('admin.dashboard', 'faculty.dashboard', 'college-admin.dashboard', 'department-admin.dashboard')"
+                    :route="route('dashboard.resolve')" />
 
-                {{-- Teaching Menu List --}}
-                <x-side-bar.item text="Teaching" opened>
+                {{-- FACULTY LINKS --}}
+                @hasanyrole(['superAdmin', 'faculty'])
+                {{-- Teaching Links --}}
+                <x-side-bar.item text="Faculty" opened>
                     <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
                     <x-side-bar.item text="Grades" icon="check-badge" />
                     <x-side-bar.item text="Teaching History" icon="academic-cap" />
                 </x-side-bar.item>
+                @endhasanyrole
 
-                {{-- Research&Extensions Menu List --}}
-                <x-side-bar.item text="Research & Extensions" opened>
-                    <x-side-bar.item text="Researches" icon="book-open" />
-                    <x-side-bar.item text="Extensions" icon="document-text" />
+                {{-- COLLEGE ADMIN LINKS --}}
+                @hasanyrole(['superAdmin', 'collegeAdmin'])
+                <x-side-bar.item text="College" opened>
+                    <x-side-bar.item text="Departments" icon="briefcase"
+                        :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" />
+                    <x-side-bar.item text="Rooms" icon="building-office" />
+                    <x-side-bar.item text="Schedules" icon="calendar" />
                 </x-side-bar.item>
+                @endhasanyrole
 
-                {{-- ADMIN NAVIGATION --}}
-                @hasrole('admin')
-                {{-- Campus Management Menu List--}}
-                <x-side-bar.item text="Campus Management" opened>
+                {{-- DEPARTMENT ADMIN LINKS --}}
+                @hasanyrole(['superAdmin', 'deptAdmin'])
+                <x-side-bar.item text="Department" opened>
+                    <x-side-bar.item text="Faculty" icon="identification" />
+                    <x-side-bar.item text="Courses" icon="academic-cap" />
+                </x-side-bar.item>
+                @endhasanyrole
+
+                {{-- SUPERADMIN ADMIN LINKS --}}
+                @hasanyrole(['superAdmin'])
+                {{-- Campus Management --}}
+                <x-side-bar.item text="Campus" opened>
                     <x-side-bar.item text="Campuses / Colleges" icon="building-library"
                         :current="request()->routeIs('admin.branches')" :route="route('admin.branches')" />
                     <x-side-bar.item text="Departments" icon="briefcase"
                         :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" />
                 </x-side-bar.item>
 
-                {{-- User Management Menu List--}}
+                {{-- User Management Links--}}
                 <x-side-bar.item text="User Management" opened>
                     <x-side-bar.item text="Faculty List" icon="identification" />
                     <x-side-bar.item text="User Accounts" icon="users" />

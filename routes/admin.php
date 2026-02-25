@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['auth', 'role:superAdmin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {

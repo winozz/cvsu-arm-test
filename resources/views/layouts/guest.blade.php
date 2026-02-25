@@ -16,8 +16,8 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased" x-cloak x-bind:class="{ 'dark bg-gray-800': darkTheme, 'bg-gray-100': !darkTheme }">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+<body class="font-sans antialiased" x-cloak x-bind:class="{ 'dark bg-zinc-800': darkTheme, 'bg-zinc-100': !darkTheme }">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-zinc-100 dark:bg-zinc-700">
         {{ $slot }}
     </div>
     @livewireScripts

@@ -7,31 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FacultyProfile extends Model
+class Employee extends Model
 {
-    /** @use HasFactory<\Database\Factories\FacultyProfileFactory> */
+    /** @use HasFactory<\Database\Factories\EmployeeFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $table = 'faculty_profiles';
+    protected $table = 'employees';
 
     protected $fillable = [
         'user_id',
         'first_name',
         'middle_name',
         'last_name',
+        'position',
         'branch_id',
         'department_id',
-        'academic_rank',
-        'email',
-        'contactno',
-        'address',
-        'sex',
-        'birthday',
-        'updated_by',
     ];
 
     /**
-     * Get the user that owns the FacultyProfile
+     * Get the user that owns the Employee profile
      */
     public function user(): BelongsTo
     {

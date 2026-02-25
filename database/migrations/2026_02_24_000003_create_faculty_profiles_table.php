@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
-            $table->string('branch');
-            $table->string('department');
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnUpdate();
+            $table->foreignId('department_id')->constrained('departments')->cascadeOnUpdate();
             $table->string('academic_rank')->nullable();
             $table->string('email')->unique();
             $table->string('contactno')->nullable();

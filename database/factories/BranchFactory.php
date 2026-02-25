@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Branch;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,10 +19,9 @@ class BranchFactory extends Factory
         $type = $this->faker->randomElement(['Main', 'Satellite']);
 
         return [
-            'branch_id' => Branch::generateNextId($type),
             'code' => strtoupper($this->faker->unique()->lexify('????')),
-            'name' => 'CvSU '.$type.' - '.$this->faker->city,
-            'type' => $type,
+            'name' => 'CvSU '.$this->faker->randomElement(['Main', 'Satellite']).' - '.$this->faker->city,
+            'type' => $this->faker->randomElement(['Main', 'Satellite']),
             'address' => $this->faker->address,
             'is_active' => true,
         ];

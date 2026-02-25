@@ -26,7 +26,6 @@ class User extends Authenticatable
         'email',
         'google_id',
         'avatar',
-        // 'role',
     ];
 
     /**
@@ -67,9 +66,9 @@ class User extends Authenticatable
     }
 
     // Helper to check role
-    public function isAdmin(): bool
+    public function isSuperAdmin(): bool
     {
-        return $this->hasRole('admin');
+        return $this->hasRole('superAdmin');
     }
 
     /**
@@ -81,5 +80,10 @@ class User extends Authenticatable
     public function facultyProfile(): HasOne
     {
         return $this->hasOne(FacultyProfile::class, 'user_id', 'id');
+    }
+
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class, 'user_id', 'id');
     }
 }
