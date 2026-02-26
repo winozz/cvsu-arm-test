@@ -8,6 +8,8 @@
 
     <title>{{ $title ?? config('app.name') }}</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     <tallstackui:script />
     @livewireStyles
 
@@ -22,11 +24,13 @@
 
     {{-- MAIN LAYOUT --}}
     <x-layout>
-        {{-- DASHBOARD HEADER SLOT --}}
+        {{-- TOAST & DIALOG --}}
         <x-slot:top>
             <x-dialog />
             <x-toast />
         </x-slot:top>
+
+        {{-- DASHBOARD HEADER SLOT --}}
         <x-slot:header>
             <x-layout.header>
                 <x-slot:left>
@@ -35,10 +39,6 @@
                 <x-slot:right>
                     <x-dropdown>
                         <x-slot:action class="flex items-center justify-center">
-                            {{-- The Avatar serves as the visual trigger --}}
-                            {{--
-                            <x-avatar sm background="3aa13a " color="fff" :model="auth()->user()"
-                                x-on:click="show = !show" class="cursor-pointer border-2 border-emerald-600" /> --}}
 
                             <button x-on:click="show = !show"
                                 class="flex items-center gap-2 px-2 py-1 transition-opacity cursor-pointer hover:opacity-80 focus:outline-none">
@@ -117,8 +117,6 @@
                 <x-side-bar.item text="Campus" opened>
                     <x-side-bar.item text="Campuses / Colleges" icon="building-library"
                         :current="request()->routeIs('admin.branches')" :route="route('admin.branches')" />
-                    <x-side-bar.item text="Departments" icon="briefcase"
-                        :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" />
                 </x-side-bar.item>
 
                 {{-- User Management Links--}}

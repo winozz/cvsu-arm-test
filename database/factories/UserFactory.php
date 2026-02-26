@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Employee;
+use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -41,7 +41,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole('collegeAdmin');
-            Employee::factory()->create([
+            EmployeeProfile::factory()->create([
                 'user_id' => $user->id,
                 'first_name' => explode(' ', $user->name)[0],
                 'last_name' => explode(' ', $user->name)[1] ?? 'Admin',
@@ -55,7 +55,7 @@ class UserFactory extends Factory
             $user->assignRole('deptAdmin');
 
             // deptAdmin is an employee role
-            \App\Models\Employee::factory()->create([
+            EmployeeProfile::factory()->create([
                 'user_id' => $user->id,
                 'first_name' => explode(' ', $user->name)[0],
                 'last_name' => explode(' ', $user->name)[1] ?? 'Admin',
@@ -69,7 +69,7 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $user->assignRole(['faculty', 'deptAdmin']);
             FacultyProfile::factory()->create(['user_id' => $user->id, 'email' => $user->email]);
-            Employee::factory()->create(['user_id' => $user->id]);
+            EmployeeProfile::factory()->create(['user_id' => $user->id]);
         });
     }
 }

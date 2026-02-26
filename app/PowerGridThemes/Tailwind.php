@@ -1,10 +1,8 @@
 <?php
 
-namespace App\PowerGridThemes;
+namespace PowerComponents\LivewirePowerGrid\Themes;
 
-use PowerComponents\LivewirePowerGrid\Themes\Tailwind;
-
-class Minimalist extends Tailwind
+class Tailwind extends Theme
 {
     public string $name = 'tailwind';
 
@@ -12,15 +10,15 @@ class Minimalist extends Tailwind
     {
         return [
             'layout' => [
-                'base' => 'p-3 align-middle inline-block min-w-full w-full sm:px-4 lg:px-6',
-                'div' => 'rounded-t-lg relative dark:bg-pg-primary-700 dark:border-pg-primary-600',
-                'table' => 'min-w-full bg-white dark:!bg-primary-800',
+                'base' => 'p-3 align-middle inline-block min-w-full w-full sm:px-6 lg:px-8',
+                'div' => 'rounded-t-lg relative border-x border-t border-pg-primary-200 dark:bg-pg-primary-700 dark:border-pg-primary-600',
+                'table' => 'min-w-full dark:!bg-primary-800',
                 'container' => '-my-2 overflow-x-auto sm:-mx-3 lg:-mx-8',
                 'actions' => 'flex gap-2',
             ],
 
             'header' => [
-                'thead' => 'shadow-sm rounded-t-lg ',
+                'thead' => 'shadow-sm rounded-t-lg bg-pg-primary-100 dark:bg-pg-primary-900',
                 'tr' => '',
                 'th' => 'font-extrabold px-3 py-3 text-left text-xs text-pg-primary-700 tracking-wider whitespace-nowrap dark:text-pg-primary-300',
                 'thAction' => '!font-bold',
@@ -30,7 +28,7 @@ class Minimalist extends Tailwind
                 'tbody' => 'text-pg-primary-800',
                 'tbodyEmpty' => '',
                 'tr' => 'border-b border-pg-primary-100 dark:border-pg-primary-600 hover:bg-pg-primary-50 dark:bg-pg-primary-800 dark:hover:bg-pg-primary-700',
-                'td' => 'px-3 py-1 text-sm whitespace-nowrap dark:text-pg-primary-200',
+                'td' => 'px-3 py-2 whitespace-nowrap dark:text-pg-primary-200',
                 'tdEmpty' => 'p-2 whitespace-nowrap dark:text-pg-primary-200',
                 'tdSummarize' => 'p-2 whitespace-nowrap dark:text-pg-primary-200 text-sm text-pg-primary-600 text-right space-y-2',
                 'trSummarize' => '',
@@ -46,8 +44,8 @@ class Minimalist extends Tailwind
         return [
             'view' => $this->root().'.footer',
             'select' => 'appearance-none !bg-none focus:ring-primary-600 focus-within:focus:ring-primary-600 focus-within:ring-primary-600 dark:focus-within:ring-primary-600 flex rounded-md ring-1 transition focus-within:ring-2 dark:ring-pg-primary-600 dark:text-pg-primary-300 text-gray-600 ring-gray-300 dark:bg-pg-primary-800 bg-white dark:placeholder-pg-primary-400 rounded-md border-0 bg-transparent py-1.5 px-4 pr-7 ring-0 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6 w-auto',
-            'footer' => 'rounded-b-lg  dark:bg-pg-primary-700',
-            'footer_with_pagination' => 'md:flex md:flex-row w-full items-center py-3 bg-white overflow-y-auto pl-2 pr-2 relative dark:bg-pg-primary-900 text-sm',
+            'footer' => 'border-x border-b rounded-b-lg border-b border-pg-primary-200 dark:bg-pg-primary-700 dark:border-pg-primary-600',
+            'footer_with_pagination' => 'md:flex md:flex-row w-full items-center py-3 bg-white overflow-y-auto pl-2 pr-2 relative dark:bg-pg-primary-900',
         ];
     }
 

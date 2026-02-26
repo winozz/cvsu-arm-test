@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Employee extends Model
+class EmployeeProfile extends Model
 {
     /** @use HasFactory<\Database\Factories\EmployeeFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $table = 'employees';
+    protected $table = 'employee_profiles';
 
     protected $fillable = [
         'user_id',
