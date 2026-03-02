@@ -1,7 +1,7 @@
 <?php
 
 use App\Imports\BranchesImport;
-use App\Livewire\Forms\BranchForm;
+use App\Livewire\Forms\Admin\BranchForm;
 use App\Models\Branch;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -94,7 +94,8 @@ new class extends Component
         <h1 class="text-lg font-medium">Branches/Colleges Management</h1>
 
         <div class="flex gap-2">
-            <x-button wire:click="$set('importModal', true)" sm outline color="secondary" icon="arrow-up-tray" text="Import Data" />
+            <x-button wire:click="$set('importModal', true)" sm outline color="secondary" icon="arrow-up-tray"
+                text="Import Data" />
             <x-button wire:click="create" sm color="primary" icon="plus" text="New Branch" />
         </div>
     </div>
@@ -102,7 +103,7 @@ new class extends Component
     {{-- PowerGrid Table --}}
     <livewire:admin.branches-table />
 
-    {{-- Add Modal Only --}}
+    {{-- Add Modal --}}
     <x-modal wire="branchModal" title="New Branch">
         <div class="space-y-4">
             <x-input label="Code" wire:model="form.code" />
@@ -113,8 +114,8 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('branchModal', false)" />
-            <x-button color="primary" text="Save" wire:click="save" />
+            <x-button flat text="Cancel" wire:click="$set('branchModal', false)" sm />
+            <x-button color="primary" text="Save" wire:click="save" sm />
         </x-slot:footer>
     </x-modal>
 

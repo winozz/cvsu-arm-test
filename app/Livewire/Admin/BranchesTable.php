@@ -72,16 +72,11 @@ final class BranchesTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('code')
-            // Generate HTML links for the code and name
             ->add('code_link', fn (Branch $model) => '<a href="'.route('admin.branches.show', $model->id).'" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">'.e($model->code).'</a>')
             ->add('name')
             ->add('name_link', fn (Branch $model) => '<a href="'.route('admin.branches.show', $model->id).'" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">'.e($model->name).'</a>')
             ->add('type')
-            ->add('address')
-            ->add('is_active', fn ($row) => $row->is_active ? 'Active' : 'Inactive')
-            ->add('created_at_formatted', fn (Branch $model) => $model->created_at->format('d/m/Y'))
-
-            ->add('status', fn ($row) => $row->trashed() ? 'Deleted' : 'Active');
+            ->add('address');
     }
 
     public function columns(): array
@@ -105,20 +100,6 @@ final class BranchesTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Status', 'status')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->visibleInExport(false)
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
-                ->visibleInExport(true)
-                ->hidden()
-                ->sortable()
-                ->searchable(),
-
             Column::action('Action'),
         ];
     }
@@ -126,12 +107,6 @@ final class BranchesTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            // Text Filters
-            Filter::inputText('id')->operators(['contains', 'is', 'is_not']),
-            Filter::inputText('code')->operators(['contains', 'is', 'is_not']),
-            Filter::inputText('name')->operators(['contains', 'is', 'is_not']),
-            Filter::inputText('address')->operators(['contains']),
-
             // Select Filter for Campus Type
             Filter::select('type', 'type')
                 ->dataSource([
@@ -140,9 +115,6 @@ final class BranchesTable extends PowerGridComponent
                 ])
                 ->optionLabel('name')
                 ->optionValue('id'),
-
-            // Date Filter
-            Filter::datepicker('created_at_formatted', 'created_at'),
         ];
     }
 

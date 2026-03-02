@@ -31,4 +31,14 @@ class EmployeeProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

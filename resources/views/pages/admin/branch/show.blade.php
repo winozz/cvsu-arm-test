@@ -1,8 +1,11 @@
 <?php
 
-use Livewire\Component;
+use App\Livewire\Forms\Admin\BranchDepartmentForm;
+use App\Livewire\Forms\Admin\BranchForm;
 use App\Models\Branch;
-use App\Livewire\Forms\BranchForm;
+use App\Models\Department;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component
@@ -10,8 +13,16 @@ new class extends Component
     use Interactions;
 
     public Branch $branch;
+
     public BranchForm $form;
+
+    public BranchDepartmentForm $departmentForm;
+
     public bool $editModal = false;
+
+    public bool $departmentModal = false;
+
+    public bool $isEditingDepartment = false;
 
     public function mount(Branch $branch): void
     {
@@ -21,7 +32,6 @@ new class extends Component
 
     public function edit(): void
     {
-        // Re-hydrate the form just in case and open the modal
         $this->form->setBranch($this->branch);
         $this->editModal = true;
     }
@@ -33,11 +43,81 @@ new class extends Component
         $this->editModal = false;
         $this->toast()->success('Success', 'Branch updated successfully.')->send();
     }
+
+    // --- Department Management ---
+
+    public function createDepartment(): void
+    {
+        $this->departmentForm->reset();
+        $this->departmentForm->branch_id = $this->branch->id;
+        $this->isEditingDepartment = false;
+        $this->departmentModal = true;
+    }
+
+    #[On('editDepartment')]
+    public function editDepartment(Department $department): void
+    {
+        $this->departmentForm->setDepartment($department);
+        $this->isEditingDepartment = true;
+        $this->departmentModal = true;
+    }
+
+    public function saveDepartment(): void
+    {
+        // Enforce the branch_id capture before saving
+        $this->departmentForm->branch_id = $this->branch->id;
+
+        if ($this->isEditingDepartment) {
+            $this->departmentForm->update();
+            $this->toast()->success('Success', 'Department updated successfully.')->send();
+        } else {
+            $this->departmentForm->store();
+            $this->toast()->success('Success', 'Department created successfully.')->send();
+        }
+
+        $this->departmentModal = false;
+        $this->dispatch('pg:eventRefresh-branchDepartmentsTable');
+    }
+
+    #[On('confirmDelete')]
+    public function confirmDelete($id): void
+    {
+        $deptId = is_array($id) ? $id['id'] : $id;
+        $this->dialog()->question('Warning!', 'Are you sure you want to delete this department?')
+            ->confirm('Yes, delete', 'deleteDepartment', $deptId)
+            ->cancel('Cancel')
+            ->send();
+    }
+
+    public function deleteDepartment($id): void
+    {
+        Department::findOrFail($id)->delete();
+        $this->toast()->success('Deleted', 'Department moved to trash.')->send();
+        $this->dispatch('pg:eventRefresh-branchDepartmentsTable');
+    }
+
+    #[On('confirmRestore')]
+    public function confirmRestore($id): void
+    {
+        $deptId = is_array($id) ? $id['id'] : $id;
+        $this->dialog()->question('Restore?', 'Are you sure you want to restore this department?')
+            ->confirm('Yes, restore', 'restoreDepartment', $deptId)
+            ->cancel('Cancel')
+            ->send();
+    }
+
+    public function restoreDepartment($id): void
+    {
+        Department::withTrashed()->findOrFail($id)->restore();
+        $this->toast()->success('Restored', 'Department has been restored.')->send();
+        $this->dispatch('pg:eventRefresh-branchDepartmentsTable');
+    }
 };
 ?>
 
 <div class="max-w-7xl mx-auto py-8">
     <x-toast />
+    <x-dialog />
 
     {{-- Header & Campus Information --}}
     <div
@@ -61,22 +141,18 @@ new class extends Component
 
     {{-- Departments Section --}}
     <div class="mt-8">
-        <h2 class="text-xl font-semibold mb-4 dark:text-white">Departments</h2>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+            <h2 class="text-xl font-semibold dark:text-white">Departments</h2>
+            <x-button wire:click="createDepartment" sm color="primary" icon="plus" text="New Department" />
+        </div>
 
         <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-800">
-            {{-- You will replace this with your actual Departments PowerGrid Table later --}}
-            <p class="text-gray-500 dark:text-gray-400">
-                Departments under this campus will be listed here.
-            </p>
-            {{-- Example usage for later:
-            <livewire:admin.departments-table :branch-id="$branch->id" /> --}}
-
+            {{-- Departments Table--}}
             <livewire:admin.branch-departments-table :branch-id="$branch->id" />
-
         </div>
     </div>
 
-    {{-- Edit Modal --}}
+    {{-- Edit Branch Modal --}}
     <x-modal wire="editModal" title="Edit {{ $branch->name }}">
         <div class="space-y-4">
             <x-input label="Code" wire:model="form.code" />
@@ -89,6 +165,20 @@ new class extends Component
         <x-slot:footer>
             <x-button flat text="Cancel" wire:click="$set('editModal', false)" />
             <x-button color="primary" text="Save Changes" wire:click="save" />
+        </x-slot:footer>
+    </x-modal>
+
+    {{-- Reusable Department Modal --}}
+    <x-modal wire="departmentModal" title="{{ $isEditingDepartment ? 'Edit Department' : 'New Department' }}">
+        <div class="space-y-4">
+            <x-input label="Code" wire:model="departmentForm.code" />
+            <x-input label="Name" wire:model="departmentForm.name" />
+            <x-toggle label="Active" wire:model="departmentForm.is_active" />
+        </div>
+
+        <x-slot:footer>
+            <x-button flat text="Cancel" wire:click="$set('departmentModal', false)" sm />
+            <x-button color="primary" text="Save" wire:click="saveDepartment" sm />
         </x-slot:footer>
     </x-modal>
 </div>

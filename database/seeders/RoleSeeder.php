@@ -33,7 +33,7 @@ class RoleSeeder extends Seeder
             ['name' => 'College Admin', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $collegeAdmin->assignRole('collegeAdmin');
-        $collegeAdmin->employee()->updateOrCreate(['user_id' => $collegeAdmin->id], [
+        $collegeAdmin->employeeProfile()->updateOrCreate(['user_id' => $collegeAdmin->id], [
             'first_name' => 'College', 'last_name' => 'Admin', 'branch_id' => $branch->id, 'department_id' => $department->id,
         ]);
 
@@ -43,7 +43,7 @@ class RoleSeeder extends Seeder
             ['name' => 'Department Admin', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $deptAdmin->assignRole('deptAdmin');
-        $deptAdmin->employee()->updateOrCreate(['user_id' => $deptAdmin->id], [
+        $deptAdmin->employeeProfile()->updateOrCreate(['user_id' => $deptAdmin->id], [
             'first_name' => 'Department', 'last_name' => 'Admin', 'branch_id' => $branch->id, 'department_id' => $department->id,
         ]);
 
@@ -52,14 +52,14 @@ class RoleSeeder extends Seeder
             ['email' => 'sangangbayant@gmail.com'],
             ['name' => 'Faculty Account', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
-        $faculty->assignRole('faculty');
+        $faculty->assignRole(['faculty', 'collegeAdmin']);
         $faculty->facultyProfile()->updateOrCreate(['user_id' => $faculty->id], [
             'first_name' => 'Faculty', 'last_name' => 'Account', 'email' => 'sangangbayant@gmail.com',
             'branch_id' => $branch->id, 'department_id' => $department->id,
         ]);
 
         // Dummy Data Generation
-        User::factory(20)->faculty()->create(); // 10 Faculty Only
+        User::factory(100)->faculty()->create(); // 10 Faculty Only
         User::factory(5)->collegeAdmin()->create(); // 5 Employees Only
         User::factory(5)->deptAdmin()->create(); // 5 Department Admins Only
         User::factory(5)->dualRole()->create(); // 5 Faculty + DeptAdmin

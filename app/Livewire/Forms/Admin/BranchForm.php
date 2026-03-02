@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Admin;
 
 use App\Models\Branch;
 use Illuminate\Validation\Rule;
@@ -20,7 +20,6 @@ class BranchForm extends Form
 
     public $is_active = true;
 
-   
     public function rules()
     {
         return [

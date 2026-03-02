@@ -82,7 +82,7 @@ class User extends Authenticatable
         return $this->hasOne(FacultyProfile::class, 'user_id', 'id');
     }
 
-    public function employee(): HasOne
+    public function employeeProfile(): HasOne
     {
         return $this->hasOne(EmployeeProfile::class, 'user_id', 'id');
     }

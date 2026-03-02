@@ -96,8 +96,10 @@
                 {{-- COLLEGE ADMIN LINKS --}}
                 @hasanyrole(['superAdmin', 'collegeAdmin'])
                 <x-side-bar.item text="College" opened>
+                    {{--
                     <x-side-bar.item text="Departments" icon="briefcase"
-                        :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" />
+                        :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" /> --}}
+                    <x-side-bar.item text="Departments" icon="briefcase" />
                     <x-side-bar.item text="Rooms" icon="building-office" />
                     <x-side-bar.item text="Schedules" icon="calendar" />
                 </x-side-bar.item>
@@ -122,7 +124,8 @@
                 {{-- User Management Links--}}
                 <x-side-bar.item text="User Management" opened>
                     <x-side-bar.item text="Faculty List" icon="identification" />
-                    <x-side-bar.item text="User Accounts" icon="users" />
+                    <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users')"
+                        :route="route('admin.users')" />
                 </x-side-bar.item>
                 @endhasrole
             </x-side-bar>

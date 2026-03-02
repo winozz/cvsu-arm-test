@@ -14,7 +14,8 @@ Route::middleware(['auth', 'role:superAdmin'])
         Route::livewire('/branches', 'pages::admin.branch.index')->name('branches');
         Route::livewire('/branches/{branch}', 'pages::admin.branch.show')->name('branches.show');
 
-        // Departments routes
-        Route::livewire('/departments', 'pages::admin.department.index')->name('departments');
+        // Users routes
+        Route::livewire('/users', 'pages::admin.users.index')->name('users');
+        Route::livewire('/users/{user}', 'pages::admin.users.show')->name('users.show');
 
     });
