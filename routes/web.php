@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 | GUEST ROUTES
 |--------------------------------------------------------------------------
 */
+
 Route::middleware('guests')->group(function () {
     Route::view('/', 'auth.login')->name('login');
     Route::redirect('/login', '/');
@@ -47,7 +48,7 @@ Route::middleware('auth')->get('/dashboard', function () {
 Route::post('/logout', [GoogleAuthController::class, 'logout'])
     ->name('logout');
 
-require __DIR__.'/admin.php';
-require __DIR__.'/college.php';
-require __DIR__.'/department.php';
-require __DIR__.'/faculty.php';
+require __DIR__ . '/admin.php';
+require __DIR__ . '/college.php';
+require __DIR__ . '/department.php';
+require __DIR__ . '/faculty.php';

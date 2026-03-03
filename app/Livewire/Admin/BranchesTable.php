@@ -36,7 +36,7 @@ final class BranchesTable extends PowerGridComponent
 
         return [
             // Set up export options
-            PowerGrid::exportable(fileName: 'branch-list')
+            PowerGrid::exportable(fileName: 'departments-list')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 
@@ -58,8 +58,8 @@ final class BranchesTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Branch::query()
-            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
-            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+            ->when($this->softDeletes === 'withTrashed', fn($query) => $query->withTrashed())
+            ->when($this->softDeletes === 'onlyTrashed', fn($query) => $query->onlyTrashed());
     }
 
     public function relationSearch(): array
@@ -72,9 +72,9 @@ final class BranchesTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('code')
-            ->add('code_link', fn (Branch $model) => '<a href="'.route('admin.branches.show', $model->id).'" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">'.e($model->code).'</a>')
+            ->add('code_link', fn(Branch $model) => '<a href="' . route('admin.branches.show', $model->id) . '" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">' . e($model->code) . '</a>')
             ->add('name')
-            ->add('name_link', fn (Branch $model) => '<a href="'.route('admin.branches.show', $model->id).'" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">'.e($model->name).'</a>')
+            ->add('name_link', fn(Branch $model) => '<a href="' . route('admin.branches.show', $model->id) . '" class="text-primary-500 hover:text-primary-700 dark:hover:text-primary-400 hover:underline font-medium transition-colors">' . e($model->name) . '</a>')
             ->add('type')
             ->add('address');
     }
@@ -121,7 +121,7 @@ final class BranchesTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(Branch $row): array

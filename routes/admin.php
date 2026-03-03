@@ -18,4 +18,7 @@ Route::middleware(['auth', 'role:superAdmin'])
         Route::livewire('/users', 'pages::admin.users.index')->name('users');
         Route::livewire('/users/{user}', 'pages::admin.users.show')->name('users.show');
 
+        // Users routes
+        Route::livewire('/faculty-profiles', 'pages::admin.faculty-profiles.index')->name('faculty-profiles');
+        Route::livewire('/faculty-profiles/{facultyProfile}', 'pages::admin.faculty-profiles.show')->name('faculty-profiles.show');
     });

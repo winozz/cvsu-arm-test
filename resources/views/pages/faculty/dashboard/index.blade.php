@@ -2,12 +2,15 @@
 
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     //
 };
 ?>
 
 <div>
-    {{-- Order your soul. Reduce your wants. - Augustine --}}
+    <h1 class="text-xl font-bold dark:text-white">Faculty Dashboard</h1>
+
+    <div class="mt-4">
+        Main dashboard content goes here. You can create Livewire components and include them here as needed.
+    </div>
 </div>

@@ -18,8 +18,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased" x-cloak x-data="{ name: @js(auth()->user()->name) }"
-    x-on:name-updated.window="name = $event.detail.name"
+<body class="font-sans antialiased" x-cloak x-data="{ name: @js(auth()->user()->name) }" x-on:name-updated.window="name = $event.detail.name"
     x-bind:class="{ 'dark bg-gray-800': darkTheme, 'bg-gray-50': !darkTheme }">
 
     {{-- MAIN LAYOUT --}}
@@ -79,54 +78,56 @@
                 </x-slot:brand>
 
                 {{-- Dashboard Menu --}}
-                <x-side-bar.item text="Dashboard" icon="home"
-                    :current="request()->routeIs('admin.dashboard', 'faculty.dashboard', 'college-admin.dashboard', 'department-admin.dashboard')"
-                    :route="route('dashboard.resolve')" />
+                <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs(
+                    'admin.dashboard',
+                    'faculty.dashboard',
+                    'college-admin.dashboard',
+                    'department-admin.dashboard',
+                )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
                 @hasanyrole(['superAdmin', 'faculty'])
-                {{-- Teaching Links --}}
-                <x-side-bar.item text="Faculty" opened>
-                    <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
-                    <x-side-bar.item text="Grades" icon="check-badge" />
-                    <x-side-bar.item text="Teaching History" icon="academic-cap" />
-                </x-side-bar.item>
+                    {{-- Teaching Links --}}
+                    <x-side-bar.item text="Faculty" opened>
+                        <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
+                        <x-side-bar.item text="Grades" icon="check-badge" />
+                        <x-side-bar.item text="Teaching History" icon="academic-cap" />
+                    </x-side-bar.item>
                 @endhasanyrole
 
                 {{-- COLLEGE ADMIN LINKS --}}
                 @hasanyrole(['superAdmin', 'collegeAdmin'])
-                <x-side-bar.item text="College" opened>
-                    {{--
+                    <x-side-bar.item text="College" opened>
+                        {{--
                     <x-side-bar.item text="Departments" icon="briefcase"
                         :current="request()->routeIs('admin.departments')" :route="route('admin.departments')" /> --}}
-                    <x-side-bar.item text="Departments" icon="briefcase" />
-                    <x-side-bar.item text="Rooms" icon="building-office" />
-                    <x-side-bar.item text="Schedules" icon="calendar" />
-                </x-side-bar.item>
+                        <x-side-bar.item text="Departments" icon="briefcase" />
+                        <x-side-bar.item text="Rooms" icon="building-office" />
+                        <x-side-bar.item text="Schedules" icon="calendar" />
+                    </x-side-bar.item>
                 @endhasanyrole
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
                 @hasanyrole(['superAdmin', 'deptAdmin'])
-                <x-side-bar.item text="Department" opened>
-                    <x-side-bar.item text="Faculty" icon="identification" />
-                    <x-side-bar.item text="Courses" icon="academic-cap" />
-                </x-side-bar.item>
+                    <x-side-bar.item text="Department" opened>
+                        <x-side-bar.item text="Faculty" icon="identification" />
+                        <x-side-bar.item text="Courses" icon="academic-cap" />
+                    </x-side-bar.item>
                 @endhasanyrole
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
                 @hasanyrole(['superAdmin'])
-                {{-- Campus Management --}}
-                <x-side-bar.item text="Campus" opened>
-                    <x-side-bar.item text="Campuses / Colleges" icon="building-library"
-                        :current="request()->routeIs('admin.branches')" :route="route('admin.branches')" />
-                </x-side-bar.item>
+                    {{-- Campus Management --}}
+                    <x-side-bar.item text="Campus" opened>
+                        <x-side-bar.item text="Campuses / Colleges" icon="building-library" :current="request()->routeIs('admin.branches', 'admin.branches.*')"
+                            :route="route('admin.branches')" />
+                    </x-side-bar.item>
 
-                {{-- User Management Links--}}
-                <x-side-bar.item text="User Management" opened>
-                    <x-side-bar.item text="Faculty List" icon="identification" />
-                    <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users')"
-                        :route="route('admin.users')" />
-                </x-side-bar.item>
+                    {{-- User Management Links --}}
+                    <x-side-bar.item text="User Management" opened>
+                        <x-side-bar.item text="Faculty List" icon="identification" :current="request()->routeIs('admin.faculty-profiles', 'admin.faculty-profiles.*')" :route="route('admin.faculty-profiles')"  />
+                        <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
+                    </x-side-bar.item>
                 @endhasrole
             </x-side-bar>
         </x-slot:menu>

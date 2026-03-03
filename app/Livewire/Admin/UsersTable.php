@@ -7,36 +7,61 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Responsive;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use Spatie\Permission\Models\Role;
+use TallStackUi\Traits\Interactions;
 
 final class UsersTable extends PowerGridComponent
 {
+    use Interactions, WithExport;
+
     public string $tableName = 'usersTable';
+
+    /**
+     * Override the bood method of PowerGridComponent
+     */
+    public function boot(): void
+    {
+        // Place filters outside the table header
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            // Set up export options
+            PowerGrid::exportable(fileName: 'users-list')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+
             PowerGrid::header()
                 ->showSearchInput()
                 ->showSoftDeletes(showMessage: true),
+
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+
+            PowerGrid::responsive()
+                ->fixedColumns('name', Responsive::ACTIONS_COLUMN_NAME),
         ];
     }
 
     public function datasource(): Builder
     {
         return User::query()
-            ->role(['superAdmin', 'collegeAdmin', 'deptAdmin'])
+            ->role(['superAdmin', 'collegeAdmin', 'deptAdmin', 'faculty'])
             ->with(['facultyProfile', 'employeeProfile', 'roles'])
-            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
-            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+            ->when($this->softDeletes === 'withTrashed', fn($query) => $query->withTrashed())
+            ->when($this->softDeletes === 'onlyTrashed', fn($query) => $query->onlyTrashed());
     }
 
     public function relationSearch(): array
@@ -53,12 +78,12 @@ final class UsersTable extends PowerGridComponent
             ->add('id')
             ->add('avatar_view', function ($item) {
                 if (! empty($item->avatar)) {
-                    return '<img class="w-8 h-8 shrink-0 grow-0 rounded-full object-cover" src="'.$item->avatar.'" alt="'.$item->name.'">';
+                    return '<img class="w-8 h-8 shrink-0 grow-0 rounded-full object-cover" src="' . $item->avatar . '" alt="' . $item->name . '">';
                 }
 
-                return '<div class="w-8 h-8 shrink-0 grow-0 rounded-full bg-zinc-200 dark:bg-zinc-400 text-zinc-800 flex items-center justify-center text-xs font-bold" title="'.$item->name.'">'
-                        .strtoupper($item->initials()).
-                       '</div>';
+                return '<div class="w-8 h-8 shrink-0 grow-0 rounded-full bg-zinc-200 dark:bg-zinc-400 text-zinc-800 flex items-center justify-center text-xs font-bold" title="' . $item->name . '">'
+                    . strtoupper($item->initials()) .
+                    '</div>';
             })
             ->add('name')
             ->add('email')
@@ -67,8 +92,8 @@ final class UsersTable extends PowerGridComponent
                     $formattedName = Str::headline($role->name);
 
                     return '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800">'
-                            .$formattedName.
-                           '</span>';
+                        . $formattedName .
+                        '</span>';
                 })->implode(' ');
             })
             ->add('position_rank', function (User $user) {
@@ -99,6 +124,30 @@ final class UsersTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::select('roles_list')
+                ->dataSource(
+                    Role::query()
+                        ->whereIn('name', ['superAdmin', 'collegeAdmin', 'deptAdmin', 'faculty'])
+                        ->get()
+                        ->map(fn($role) => [
+                            'id' => $role->name,
+                            'name' => Str::headline($role->name),
+                        ])
+                        ->toArray()
+                )
+                ->optionValue('id')
+                ->optionLabel('name')
+                ->builder(function (Builder $query, $value) {
+
+                    if (! filled($value)) {
+                        return $query;
+                    }
+
+                    return $query->whereHas('roles', function (Builder $q) use ($value) {
+                        $q->where('name', $value);
+                    });
+                }),
+
             Filter::inputText('position_rank')->builder(function (Builder $query, $value) {
                 $searchTerm = is_array($value) ? ($value['value'] ?? '') : $value;
                 if (empty($searchTerm)) {

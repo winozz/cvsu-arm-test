@@ -9,8 +9,7 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use Interactions, WithFileUploads;
 
     public BranchForm $form;
@@ -39,10 +38,7 @@ new class extends Component
     public function confirmDelete($id): void
     {
         $branchId = is_array($id) ? $id['id'] : $id;
-        $this->dialog()->question('Warning!', 'Are you sure you want to delete this branch?')
-            ->confirm('Yes, delete', 'delete', $branchId)
-            ->cancel('Cancel')
-            ->send();
+        $this->dialog()->question('Warning!', 'Are you sure you want to delete this branch?')->confirm('Yes, delete', 'delete', $branchId)->cancel('Cancel')->send();
     }
 
     public function delete($id): void
@@ -56,10 +52,7 @@ new class extends Component
     public function confirmRestore($id): void
     {
         $branchId = is_array($id) ? $id['id'] : $id;
-        $this->dialog()->question('Restore?', 'Are you sure you want to restore this branch?')
-            ->confirm('Yes, restore', 'restore', $branchId)
-            ->cancel('Cancel')
-            ->send();
+        $this->dialog()->question('Restore?', 'Are you sure you want to restore this branch?')->confirm('Yes, restore', 'restore', $branchId)->cancel('Cancel')->send();
     }
 
     public function restore($id): void
@@ -75,7 +68,7 @@ new class extends Component
             'importFile' => 'required|mimes:csv,txt,xlsx,xls',
         ]);
 
-        Excel::import(new BranchesImport, $this->importFile);
+        Excel::import(new BranchesImport(), $this->importFile);
 
         $this->importModal = false;
         $this->reset('importFile');
@@ -86,16 +79,12 @@ new class extends Component
 ?>
 
 <div class="max-w-7xl mx-auto py-8">
-    <x-dialog />
-    <x-toast />
-
     {{-- Header --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-        <h1 class="text-lg font-medium">Branches/Colleges Management</h1>
+        <h1 class="text-xl font-bold dark:text-white">Branches/Colleges Management</h1>
 
         <div class="flex gap-2">
-            <x-button wire:click="$set('importModal', true)" sm outline color="secondary" icon="arrow-up-tray"
-                text="Import Data" />
+            <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Data" />
             <x-button wire:click="create" sm color="primary" icon="plus" text="New Branch" />
         </div>
     </div>
@@ -126,8 +115,8 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('importModal', false)" />
-            <x-button color="primary" text="Start Import" wire:click="importData" />
+            <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />
+            <x-button color="primary" text="Start Import" wire:click="importData" sm />
         </x-slot:footer>
     </x-modal>
 </div>

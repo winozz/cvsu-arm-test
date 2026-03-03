@@ -12,11 +12,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class UsersImport implements ToCollection, WithHeadingRow
 {
-    /**
-     * Expected Excel Headers:
-     * first_name | last_name | email | password | roles | type | branch_id | department_id
-     * (roles can be comma-separated, e.g., "collegeAdmin,deptAdmin")
-     */
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
@@ -24,44 +19,45 @@ class UsersImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
-            // 1. Create or fetch the user
-            $user = User::firstOrCreate(
+            // 1. Update or Create the main User
+            $user = User::updateOrCreate(
                 ['email' => $row['email']],
                 [
-                    'name' => trim(($row['first_name'] ?? '').' '.($row['last_name'] ?? '')),
+                    'name' => trim(($row['first_name'] ?? '') . ' ' . ($row['middle_name'] ?? '') . ' ' . ($row['last_name'] ?? '')),
                     'password' => Hash::make($row['password'] ?? 'password123'),
                 ]
             );
 
-            // 2. Assign multiple roles
             if (! empty($row['roles'])) {
-                // Split by comma and trim whitespace
-                $rolesArray = array_map('trim', explode(',', $row['roles']));
-                $user->assignRole($rolesArray);
+                $user->syncRoles(array_map('trim', explode(',', $row['roles'])));
             }
 
-            // 3. Create Profile Data
-            $profileType = strtolower($row['type'] ?? '');
+            $type = strtolower($row['type'] ?? '');
 
-            if ($profileType === 'faculty') {
+            // 2. Sync Profile Data
+            if ($type === 'faculty') {
                 FacultyProfile::updateOrCreate(
                     ['user_id' => $user->id],
                     [
                         'first_name' => $row['first_name'] ?? '',
+                        'middle_name' => $row['middle_name'] ?? '',
                         'last_name' => $row['last_name'] ?? '',
-                        'email' => $row['email'] ?? '',
+                        'email' => $user->email,
                         'branch_id' => $row['branch_id'] ?? null,
                         'department_id' => $row['department_id'] ?? null,
+                        'academic_rank' => $row['academic_rank'] ?? null,
                     ]
                 );
-            } elseif ($profileType === 'employee') {
+            } elseif ($type === 'employee') {
                 EmployeeProfile::updateOrCreate(
                     ['user_id' => $user->id],
                     [
                         'first_name' => $row['first_name'] ?? '',
+                        'middle_name' => $row['middle_name'] ?? '',
                         'last_name' => $row['last_name'] ?? '',
                         'branch_id' => $row['branch_id'] ?? null,
                         'department_id' => $row['department_id'] ?? null,
+                        'position' => $row['position'] ?? null,
                     ]
                 );
             }

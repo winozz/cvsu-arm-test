@@ -14,6 +14,9 @@ class UsersForm extends Form
     #[Validate('required|string|max:255')]
     public string $first_name = '';
 
+    #[Validate('nullable|string|max:255')]
+    public string $middle_name = '';
+
     #[Validate('required|string|max:255')]
     public string $last_name = '';
 
@@ -34,18 +37,33 @@ class UsersForm extends Form
     #[Validate('required|exists:departments,id')]
     public $department_id = null;
 
+    // Faculty Specific Fields
+    public $academic_rank = '';
+
+    public $contactno = '';
+
+    public $address = '';
+
+    public $sex = '';
+
+    public $birthday = '';
+
+    // Employee Specific Fields
+    public $position = '';
+
     public function rules()
     {
         return [
             'roles.*' => 'exists:roles,name',
+            'sex' => 'nullable|in:Male,Female',
+            'birthday' => 'nullable|date',
         ];
     }
 
     public function store()
     {
         $this->validate();
-
-        $fullName = trim($this->first_name.' '.$this->last_name);
+        $fullName = trim($this->first_name . ' ' . ($this->middle_name ? $this->middle_name . ' ' : '') . $this->last_name);
 
         $user = User::create([
             'name' => $fullName,
@@ -59,18 +77,27 @@ class UsersForm extends Form
             FacultyProfile::create([
                 'user_id' => $user->id,
                 'first_name' => $this->first_name,
+                'middle_name' => $this->middle_name,
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'branch_id' => $this->branch_id,
                 'department_id' => $this->department_id,
+                'academic_rank' => $this->academic_rank,
+                'contactno' => $this->contactno,
+                'address' => $this->address,
+                'sex' => $this->sex,
+                'birthday' => $this->birthday,
             ]);
         } else {
             EmployeeProfile::create([
                 'user_id' => $user->id,
                 'first_name' => $this->first_name,
+                'middle_name' => $this->middle_name,
                 'last_name' => $this->last_name,
+                'email' => $this->email,
                 'branch_id' => $this->branch_id,
                 'department_id' => $this->department_id,
+                'position' => $this->position,
             ]);
         }
 

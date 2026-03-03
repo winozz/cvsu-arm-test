@@ -8,8 +8,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use Interactions;
 
     public Branch $branch;
@@ -83,10 +82,7 @@ new class extends Component
     public function confirmDelete($id): void
     {
         $deptId = is_array($id) ? $id['id'] : $id;
-        $this->dialog()->question('Warning!', 'Are you sure you want to delete this department?')
-            ->confirm('Yes, delete', 'deleteDepartment', $deptId)
-            ->cancel('Cancel')
-            ->send();
+        $this->dialog()->question('Warning!', 'Are you sure you want to delete this department?')->confirm('Yes, delete', 'deleteDepartment', $deptId)->cancel('Cancel')->send();
     }
 
     public function deleteDepartment($id): void
@@ -100,10 +96,7 @@ new class extends Component
     public function confirmRestore($id): void
     {
         $deptId = is_array($id) ? $id['id'] : $id;
-        $this->dialog()->question('Restore?', 'Are you sure you want to restore this department?')
-            ->confirm('Yes, restore', 'restoreDepartment', $deptId)
-            ->cancel('Cancel')
-            ->send();
+        $this->dialog()->question('Restore?', 'Are you sure you want to restore this department?')->confirm('Yes, restore', 'restoreDepartment', $deptId)->cancel('Cancel')->send();
     }
 
     public function restoreDepartment($id): void
@@ -116,9 +109,6 @@ new class extends Component
 ?>
 
 <div class="max-w-7xl mx-auto py-8">
-    <x-toast />
-    <x-dialog />
-
     {{-- Header & Campus Information --}}
     <div
         class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-lg shadow dark:bg-gray-800">
@@ -147,7 +137,7 @@ new class extends Component
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-800">
-            {{-- Departments Table--}}
+            {{-- Departments Table --}}
             <livewire:admin.branch-departments-table :branch-id="$branch->id" />
         </div>
     </div>
@@ -163,8 +153,8 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('editModal', false)" />
-            <x-button color="primary" text="Save Changes" wire:click="save" />
+            <x-button flat text="Cancel" wire:click="$set('editModal', false)" sm />
+            <x-button color="primary" text="Save Changes" wire:click="save" sm />
         </x-slot:footer>
     </x-modal>
 

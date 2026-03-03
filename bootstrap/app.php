@@ -3,11 +3,13 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
@@ -21,5 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->renderable(function (UnauthorizedException $e, Request $request) {
+            // Redirects unauthorized access to the resolver route in web.php
+            return redirect()->route('dashboard.resolve')
+                ->with('error', 'You do not have permission to access that page.');
+        });
     })->create();

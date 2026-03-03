@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Responsive;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -44,6 +45,9 @@ final class BranchDepartmentsTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+
+            PowerGrid::responsive()
+                ->fixedColumns('name', Responsive::ACTIONS_COLUMN_NAME),
         ];
     }
 
@@ -52,8 +56,8 @@ final class BranchDepartmentsTable extends PowerGridComponent
         // Scope the query to only fetch departments for this specific branch
         return Department::query()
             ->where('branch_id', $this->branchId)
-            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
-            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+            ->when($this->softDeletes === 'withTrashed', fn($query) => $query->withTrashed())
+            ->when($this->softDeletes === 'onlyTrashed', fn($query) => $query->onlyTrashed());
     }
 
     public function relationSearch(): array
@@ -67,9 +71,9 @@ final class BranchDepartmentsTable extends PowerGridComponent
             ->add('id')
             ->add('code')
             ->add('name')
-            ->add('is_active', fn ($row) => $row->is_active ? 'Active' : 'Inactive')
-            ->add('created_at_formatted', fn (Department $model) => $model->created_at->format('d/m/Y'))
-            ->add('status', fn ($row) => $row->trashed() ? 'Deleted' : 'Active');
+            ->add('is_active', fn($row) => $row->is_active ? 'Active' : 'Inactive')
+            ->add('created_at_formatted', fn(Department $model) => $model->created_at->format('d/m/Y'))
+            ->add('status', fn($row) => $row->trashed() ? 'Deleted' : 'Active');
     }
 
     public function columns(): array
