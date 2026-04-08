@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\FacultyProfileFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,17 +10,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FacultyProfile extends Model
 {
-    /** @use HasFactory<\Database\Factories\FacultyProfileFactory> */
+    /** @use HasFactory<FacultyProfileFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = 'faculty_profiles';
 
     protected $fillable = [
         'user_id',
+        'employee_no',
         'first_name',
         'middle_name',
         'last_name',
-        'branch_id',
+        'campus_id',
+        'college_id',
         'department_id',
         'academic_rank',
         'email',
@@ -38,9 +41,14 @@ class FacultyProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function branch(): BelongsTo
+    public function campus(): BelongsTo
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Campus::class);
+    }
+
+    public function college(): BelongsTo
+    {
+        return $this->belongsTo(College::class);
     }
 
     public function department(): BelongsTo

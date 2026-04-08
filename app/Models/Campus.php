@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Database\Factories\DepartmentFactory;
+use Database\Factories\CampusFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'code', 'description', 'campus_id', 'college_id',  'is_active'])]
-class Department extends Model
+#[Fillable(['name', 'code', 'description', 'is_active'])]
+class Campus extends Model
 {
-    /** @use HasFactory<DepartmentFactory> */
+    /** @use HasFactory<CampusFactory> */
     use HasFactory, SoftDeletes;
 
     protected function isActive(): Attribute
@@ -23,13 +23,13 @@ class Department extends Model
         );
     }
 
-    public function campus(): BelongsTo
+    public function colleges(): HasMany
     {
-        return $this->belongsTo(Campus::class);
+        return $this->hasMany(College::class);
     }
 
-    public function college(): BelongsTo
+    public function departments(): HasMany
     {
-        return $this->belongsTo(College::class);
+        return $this->hasMany(Department::class);
     }
 }

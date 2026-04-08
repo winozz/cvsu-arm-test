@@ -72,7 +72,7 @@
         <x-slot:menu>
             <x-side-bar>
                 <x-slot:brand>
-                    <div class="mt-8 flex items-center justify-center">
+                    <div class="my-4 flex items-center justify-center">
                         <img src="{{ asset('/images/cvsu-logo.png') }}" class="w-10" />
                     </div>
                 </x-slot:brand>
@@ -114,12 +114,6 @@
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
                 @hasanyrole(['superAdmin'])
-                    {{-- Campus Management --}}
-                    <x-side-bar.item text="Campus" opened>
-                        <x-side-bar.item text="Campuses / Colleges" icon="building-library" :current="request()->routeIs('admin.branches', 'admin.branches.*')"
-                            :route="route('admin.branches')" />
-                    </x-side-bar.item>
-
                     {{-- User Management Links --}}
                     <x-side-bar.item text="System Management" opened>
                         <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />

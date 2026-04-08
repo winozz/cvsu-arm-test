@@ -25,6 +25,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'password',
+        'email_verified_at',
         'google_id',
         'avatar',
         'is_active',
@@ -88,9 +90,12 @@ class User extends Authenticatable
      */
     public function canUseGoogleSignIn(): bool
     {
-        return $this->is_active && ! $this->trashed();
+        if (! $this->is_active || $this->trashed()) {
+            return false;
+        }
 
-        return true;
+        return collect(array_keys(self::DASHBOARD_ROUTES))
+            ->contains(fn (string $role): bool => $this->hasAccessibleDashboardRole($role));
     }
 
     /**
@@ -106,7 +111,7 @@ class User extends Authenticatable
     public function dashboardRoute(): ?string
     {
         foreach (self::DASHBOARD_ROUTES as $role => $route) {
-            if ($this->hasRole($role)) {
+            if ($this->hasAccessibleDashboardRole($role)) {
                 return $route;
             }
         }
@@ -124,5 +129,27 @@ class User extends Authenticatable
             'avatar' => $avatar,
             'email_verified_at' => $this->email_verified_at ?? now(),
         ])->save();
+    }
+
+    protected function hasAccessibleDashboardRole(string $role): bool
+    {
+        if (! $this->hasRole($role)) {
+            return false;
+        }
+
+        return match ($role) {
+            'superAdmin' => true,
+            'collegeAdmin', 'deptAdmin' => $this->employeeProfile()->exists(),
+            'faculty' => $this->hasFacultySignInProfile(),
+            default => false,
+        };
+    }
+
+    protected function hasFacultySignInProfile(): bool
+    {
+        $profile = $this->facultyProfile;
+
+        return $profile !== null
+            && Str::lower((string) $profile->email) === Str::lower($this->email);
     }
 }

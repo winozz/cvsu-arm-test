@@ -2,17 +2,20 @@
 
 namespace Database\Factories;
 
-use App\Models\Branch;
+use App\Models\College;
 use App\Models\Department;
 use App\Models\EmployeeProfile;
 use App\Models\User;
+use Database\Factories\Concerns\ResolvesAcademicContext;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EmployeeProfile>
+ * @extends Factory<EmployeeProfile>
  */
 class EmployeeProfileFactory extends Factory
 {
+    use ResolvesAcademicContext;
+
     protected $model = EmployeeProfile::class;
 
     /**
@@ -25,10 +28,9 @@ class EmployeeProfileFactory extends Factory
         $firstName = fake()->firstName();
         $middleName = fake()->boolean(40) ? fake()->lastName() : null;
         $lastName = fake()->lastName();
-        $department = Department::query()->inRandomOrder()->first();
-        $branchId = $department?->branch_id ?? Branch::query()->inRandomOrder()->value('id') ?? Branch::factory()->create()->id;
+        $department = $this->resolveDepartment();
 
-        return [
+        return array_merge($this->academicContext($department), [
             'user_id' => User::factory()->state([
                 'name' => trim($firstName.' '.($middleName ? $middleName.' ' : '').$lastName),
             ]),
@@ -37,24 +39,24 @@ class EmployeeProfileFactory extends Factory
             'middle_name' => $middleName,
             'last_name' => $lastName,
             'position' => fake()->jobTitle(),
-            'branch_id' => $branchId,
-            'department_id' => $department?->id,
-        ];
+        ]);
     }
 
     public function forDepartment(Department $department): static
     {
-        return $this->state(fn () => [
-            'branch_id' => $department->branch_id,
-            'department_id' => $department->id,
-        ]);
+        return $this->state(fn (): array => $this->academicContext($department));
     }
 
     public function withoutDepartment(): static
     {
-        return $this->state(fn () => [
-            'branch_id' => null,
-            'department_id' => null,
-        ]);
+        return $this->state(function (): array {
+            $college = College::query()->inRandomOrder()->first() ?? College::factory()->create();
+
+            return [
+                'campus_id' => $college->campus_id,
+                'college_id' => $college->id,
+                'department_id' => null,
+            ];
+        });
     }
 }

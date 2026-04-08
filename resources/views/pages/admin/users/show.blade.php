@@ -1,7 +1,8 @@
 <?php
 
 use App\Livewire\Forms\Admin\UsersForm;
-use App\Models\Branch;
+use App\Models\Campus;
+use App\Models\College;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -17,7 +18,8 @@ new class extends Component {
     public UsersForm $form;
     public bool $isEditing = false;
 
-    public Collection $branches;
+    public Collection $campuses;
+    public Collection $colleges;
     public Collection $departments;
     public Collection $availableRoles;
 
@@ -26,15 +28,32 @@ new class extends Component {
         $this->user = $user->load(['facultyProfile', 'employeeProfile', 'roles']);
         $this->form->setValues($this->user);
 
-        $this->branches = Branch::where('is_active', true)->get();
+        $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
         $this->availableRoles = Role::all();
 
-        $this->departments = $this->form->branch_id ? Department::where('branch_id', $this->form->branch_id)->get() : collect();
+        $this->colleges = $this->form->campus_id
+            ? College::where('campus_id', $this->form->campus_id)->where('is_active', true)->orderBy('name')->get()
+            : collect();
+        $this->departments = $this->form->college_id
+            ? Department::where('college_id', $this->form->college_id)->where('is_active', true)->orderBy('name')->get()
+            : collect();
     }
 
-    public function updatedFormBranchId($value)
+    public function updatedFormCampusId($value)
     {
-        $this->departments = Department::where('branch_id', $value)->get();
+        $this->colleges = filled($value)
+            ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get()
+            : collect();
+        $this->departments = collect();
+        $this->form->college_id = null;
+        $this->form->department_id = null;
+    }
+
+    public function updatedFormCollegeId($value)
+    {
+        $this->departments = filled($value)
+            ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get()
+            : collect();
         $this->form->department_id = null;
     }
 
@@ -42,8 +61,11 @@ new class extends Component {
     public function updatedFormType($value)
     {
         if ($value === 'standard') {
-            $this->form->branch_id = null;
+            $this->form->campus_id = null;
+            $this->form->college_id = null;
             $this->form->department_id = null;
+            $this->colleges = collect();
+            $this->departments = collect();
         }
     }
 
@@ -155,7 +177,9 @@ new class extends Component {
                         Assignment & Profile Details</h4>
                 </div>
 
-                <x-select.styled label="Campus" wire:model.live="form.branch_id" :disabled="!$isEditing" :options="$branches->map(fn($b) => ['label' => $b->name, 'value' => $b->id])->toArray()"
+                <x-select.styled label="Campus" wire:model.live="form.campus_id" :disabled="!$isEditing" :options="$campuses->map(fn($campus) => ['label' => $campus->name, 'value' => $campus->id])->toArray()"
+                    select="label:label|value:value" />
+                <x-select.styled label="College" wire:model.live="form.college_id" :disabled="!$isEditing" :options="$colleges->map(fn($college) => ['label' => $college->name, 'value' => $college->id])->toArray()"
                     select="label:label|value:value" />
                 <x-select.styled :label="$form->type === 'employee' ? 'Department (Optional)' : 'Department'" :hint="$form->type === 'employee' ? 'Leave this blank if the employee is not assigned to a department.' : null" :placeholder="$form->type === 'employee' ? 'Select a department if applicable' : 'Select a department'"
                     wire:model="form.department_id" :disabled="!$isEditing" :options="$departments->map(fn($d) => ['label' => $d->name, 'value' => $d->id])->toArray()"

@@ -1,9 +1,11 @@
 <?php
 
-use App\Models\Branch;
+use App\Models\Campus;
+use App\Models\College;
 use App\Models\Department;
 use App\Models\FacultyProfile;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
@@ -18,28 +20,32 @@ new class extends Component {
     public $middle_name = '';
     public $last_name = '';
     public $email = '';
-    public $branch_id = null;
-    public $department_id = null;
+    public ?int $campus_id = null;
+    public ?int $college_id = null;
+    public ?int $department_id = null;
     public $academic_rank = '';
     public $contactno = '';
     public $address = '';
     public $sex = '';
     public $birthday = '';
 
-    public Collection $branches;
+    public Collection $campuses;
+    public Collection $colleges;
     public Collection $departments;
 
     public function mount(FacultyProfile $facultyProfile)
     {
-        $this->facultyProfile = $facultyProfile->load(['user', 'branch', 'department']);
-        $this->branches = Branch::where('is_active', true)->get();
+        $this->facultyProfile = $facultyProfile->load(['user', 'campus', 'college', 'department']);
+        $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
+        $this->colleges = collect();
         $this->departments = collect();
 
         $this->first_name = $this->facultyProfile->first_name;
         $this->middle_name = $this->facultyProfile->middle_name;
         $this->last_name = $this->facultyProfile->last_name;
         $this->email = $this->facultyProfile->email;
-        $this->branch_id = $this->facultyProfile->branch_id;
+        $this->campus_id = $this->facultyProfile->campus_id;
+        $this->college_id = $this->facultyProfile->college_id;
         $this->department_id = $this->facultyProfile->department_id;
         $this->academic_rank = $this->facultyProfile->academic_rank;
         $this->contactno = $this->facultyProfile->contactno;
@@ -47,14 +53,30 @@ new class extends Component {
         $this->sex = $this->facultyProfile->sex;
         $this->birthday = $this->facultyProfile->birthday;
 
-        if ($this->branch_id) {
-            $this->departments = Department::where('branch_id', $this->branch_id)->get();
+        if ($this->campus_id) {
+            $this->colleges = College::where('campus_id', $this->campus_id)->where('is_active', true)->orderBy('name')->get();
+        }
+
+        if ($this->college_id) {
+            $this->departments = Department::where('college_id', $this->college_id)->where('is_active', true)->orderBy('name')->get();
         }
     }
 
-    public function updatedBranchId($value)
+    public function updatedCampusId($value)
     {
-        $this->departments = Department::where('branch_id', $value)->get();
+        $this->colleges = filled($value)
+            ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get()
+            : collect();
+        $this->departments = collect();
+        $this->college_id = null;
+        $this->department_id = null;
+    }
+
+    public function updatedCollegeId($value)
+    {
+        $this->departments = filled($value)
+            ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get()
+            : collect();
         $this->department_id = null;
     }
 
@@ -82,14 +104,31 @@ new class extends Component {
         $this->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:faculty_profiles,email,' . $this->facultyProfile->id,
-            'branch_id' => 'required|exists:branches,id',
-            'department_id' => 'required|exists:departments,id',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('faculty_profiles', 'email')->ignore($this->facultyProfile->id)->whereNull('deleted_at'),
+                Rule::unique('users', 'email')->ignore($this->facultyProfile->user_id)->whereNull('deleted_at'),
+            ],
+            'campus_id' => 'required|exists:campuses,id',
+            'college_id' => [
+                'required',
+                Rule::exists('colleges', 'id')->where(
+                    fn ($query) => $query->where('campus_id', $this->campus_id)
+                ),
+            ],
+            'department_id' => [
+                'required',
+                Rule::exists('departments', 'id')->where(
+                    fn ($query) => $query->where('college_id', $this->college_id)
+                ),
+            ],
             'sex' => 'nullable|in:Male,Female',
             'birthday' => 'nullable|date',
         ]);
 
         $fullName = trim($this->first_name . ' ' . ($this->middle_name ? $this->middle_name . ' ' : '') . $this->last_name);
+        $department = Department::query()->findOrFail($this->department_id);
 
         // Update the Profile
         $this->facultyProfile->update([
@@ -97,13 +136,14 @@ new class extends Component {
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
-            'branch_id' => $this->branch_id,
-            'department_id' => $this->department_id,
+            'campus_id' => $department->campus_id,
+            'college_id' => $department->college_id,
+            'department_id' => $department->id,
             'academic_rank' => $this->academic_rank,
             'contactno' => $this->contactno,
             'address' => $this->address,
             'sex' => $this->sex,
-            'birthday' => $this->birthday,
+            'birthday' => $this->birthday ?: null,
         ]);
 
         // Keep the underlying User record synced
@@ -114,7 +154,12 @@ new class extends Component {
             ]);
         }
 
-        $this->facultyProfile->refresh();
+        $this->facultyProfile->refresh()->load(['user', 'campus', 'college', 'department']);
+        $this->campus_id = $this->facultyProfile->campus_id;
+        $this->college_id = $this->facultyProfile->college_id;
+        $this->department_id = $this->facultyProfile->department_id;
+        $this->colleges = College::where('campus_id', $this->campus_id)->where('is_active', true)->orderBy('name')->get();
+        $this->departments = Department::where('college_id', $this->college_id)->where('is_active', true)->orderBy('name')->get();
         $this->isEditing = false;
         $this->toast()->success('Faculty Profile updated successfully.')->send();
     }
@@ -151,7 +196,10 @@ new class extends Component {
             <x-input label="Contact No" wire:model="contactno" :disabled="!$isEditing" />
             <x-input label="Academic Rank" wire:model="academic_rank" :disabled="!$isEditing" />
 
-            <x-select.styled label="Campus" wire:model.live="branch_id" :disabled="!$isEditing" :options="$branches->map(fn($b) => ['label' => $b->name, 'value' => $b->id])->toArray()"
+            <x-select.styled label="Campus" wire:model.live="campus_id" :disabled="!$isEditing" :options="$campuses->map(fn($campus) => ['label' => $campus->name, 'value' => $campus->id])->toArray()"
+                select="label:label|value:value" />
+
+            <x-select.styled label="College" wire:model.live="college_id" :disabled="!$isEditing" :options="$colleges->map(fn($college) => ['label' => $college->name, 'value' => $college->id])->toArray()"
                 select="label:label|value:value" />
 
             <x-select.styled label="Department" wire:model="department_id" :disabled="!$isEditing" :options="$departments->map(fn($d) => ['label' => $d->name, 'value' => $d->id])->toArray()"

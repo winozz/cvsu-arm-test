@@ -72,7 +72,7 @@ new class extends Component
     <x-modal wire="permissionModal" title="{{ $isEditing ? 'Edit Permission' : 'New Permission' }}">
         <div class="space-y-4">
             <div class="grid gap-4 md:grid-cols-2">
-                <x-input label="Name" wire:model="form.name" hint="Use the system permission key, e.g. edit.users" />
+                <x-input label="Name" wire:model="form.name" hint="Use the system permission key, e.g. users.view or campuses.view" />
                 <x-input label="Guard" wire:model="form.guard_name" />
             </div>
         </div>

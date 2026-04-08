@@ -1,0 +1,25 @@
+id,name,code,description,campus_id
+1,College of Engineering and Information Technology,CEIT,CEIT in Main University,1
+2,College of Nursing,CON,CON in Main University,1
+3,"College of Agriculture, Food, Environment, and Natural Resources",CAFENR,NULL,1
+4,College of Arts and Sciences,CAS,NULL,1
+5,College of Criminal Justice,CCJ,NULL,1
+6,"College of Economics, Management, and Development Studies",CEMDS,NULL,1
+7,College of Education,CED,NULL,1
+8,College of Medicine,COM,NULL,1
+9,"College of Sports, Physical Education, and Recreation",CSPEAR,NULL,1
+10,College of Veterinary Medicine and Biomedical Science,CVMBS,NULL,1
+11,Graduate School and Open Learning College,GS-OLC,NULL,1
+12,College of Tourism and Hospitality Management,CTHM,NULL,1
+13,Bacoor,BCR,NULL,3
+14,Carmona,CRMN,NULL,4
+15,Cavite City,CC,NULL,5
+16,Dasma,DSMRÃ‘S,NULL,6
+17,Gen. Trias,GN.TRS,NULL,7
+18,Imus,IMUS,NULL,8
+19,Naic,NAIC,NULL,9
+20,CCAT,CCAT,NULL,10
+21,Silang,SILANG,NULL,11
+22,Tanza,TANZA,NULL,12
+23,Trece,TMC,NULL,13
+25,Department of Psychology,.,NULL,13

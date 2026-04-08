@@ -62,7 +62,7 @@ final class RolesTable extends PowerGridComponent
             ->add('id')
             ->add('name')
             ->add('guard_name')
-            ->add('permissions_list', fn (Role $role) => $role->permissions->pluck('name')->implode(', '))
+            // ->add('permissions_list', fn (Role $role) => $role->permissions->pluck('name')->implode(', '))
             ->add('deleted_at', fn (Role $role) => $role->deleted_at?->format('d/m/Y'));
     }
 
@@ -72,7 +72,7 @@ final class RolesTable extends PowerGridComponent
             Column::make('ID', 'id'),
             Column::make('Name', 'name')->sortable()->searchable(),
             Column::make('Guard', 'guard_name')->sortable()->searchable(),
-            Column::make('Permissions', 'permissions_list'),
+            // Column::make('Permissions', 'permissions_list'),
             Column::make('Deleted At', 'deleted_at')->sortable(),
             Column::action('Action'),
         ];

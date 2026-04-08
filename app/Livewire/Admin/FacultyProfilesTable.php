@@ -42,7 +42,7 @@ final class FacultyProfilesTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return FacultyProfile::query()
-            ->with(['user', 'branch', 'department'])
+            ->with(['user', 'campus', 'college', 'department'])
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
@@ -50,7 +50,8 @@ final class FacultyProfilesTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'branch' => ['name'],
+            'campus' => ['name'],
+            'college' => ['name'],
             'department' => ['name'],
             'user' => ['name', 'email'],
         ];
@@ -64,7 +65,8 @@ final class FacultyProfilesTable extends PowerGridComponent
             ->add('full_name', fn (FacultyProfile $model) => trim($model->first_name.' '.$model->last_name))
             ->add('email')
             ->add('academic_rank', fn (FacultyProfile $model) => $model->academic_rank ?: '-')
-            ->add('branch_name', fn (FacultyProfile $model) => $model->branch ? $model->branch->name : '-')
+            ->add('campus_name', fn (FacultyProfile $model) => $model->campus?->name ?? '-')
+            ->add('college_name', fn (FacultyProfile $model) => $model->college?->name ?? '-')
             ->add('department_name', fn (FacultyProfile $model) => $model->department ? $model->department->name : '-');
     }
 
@@ -75,7 +77,8 @@ final class FacultyProfilesTable extends PowerGridComponent
             Column::make('Name', 'full_name')->sortable()->searchable(),
             Column::make('Email', 'email')->sortable()->searchable(),
             Column::make('Academic Rank', 'academic_rank')->sortable()->searchable(),
-            Column::make('Campus', 'branch_name')->searchable(),
+            Column::make('Campus', 'campus_name')->searchable(),
+            Column::make('College', 'college_name')->searchable(),
             Column::make('Department', 'department_name')->searchable(),
             Column::action('Action'),
         ];

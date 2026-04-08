@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Branch;
+use App\Models\College;
 use App\Models\Department;
-use Illuminate\Support\Arr;
+use Database\Seeders\Support\CvsuSeedData;
 use Illuminate\Database\Seeder;
+use RuntimeException;
 
 class DepartmentSeeder extends Seeder
 {
@@ -14,41 +15,34 @@ class DepartmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $departmentTemplates = [
-            ['code' => 'ACAD', 'name' => 'Academic Programs Department'],
-            ['code' => 'STUD', 'name' => 'Student Services Department'],
-            ['code' => 'REXT', 'name' => 'Research and Extension Department'],
-            ['code' => 'QA', 'name' => 'Planning and Quality Assurance Department'],
-            ['code' => 'ADMS', 'name' => 'Administrative Services Department'],
-        ];
+        $colleges = College::query()->get()->keyBy(
+            fn (College $college): string => "{$college->campus_id}:{$college->code}"
+        );
 
-        Branch::query()
-            ->orderBy('type')
-            ->orderBy('name')
-            ->get()
-            ->each(function (Branch $branch) use ($departmentTemplates): void {
-                foreach ($departmentTemplates as $template) {
-                    $department = Department::factory()
-                        ->forBranch($branch)
-                        ->state([
-                            'code' => sprintf('%s-%02d', $template['code'], $branch->id),
-                            'name' => $template['name'],
-                            'is_active' => true,
-                        ])
-                        ->make();
+        CvsuSeedData::departments()->each(function (array $department) use ($colleges): void {
+            /** @var College|null $college */
+            $college = $colleges->get("{$department['campus_id']}:{$department['college_code']}");
 
-                    $record = Department::withTrashed()->updateOrCreate(
-                        [
-                            'branch_id' => $branch->id,
-                            'code' => $department->code,
-                        ],
-                        Arr::only($department->getAttributes(), ['name', 'is_active'])
-                    );
+            if (! $college) {
+                throw new RuntimeException("Unable to seed department [{$department['code']}] because its college is missing.");
+            }
 
-                    if ($record->trashed()) {
-                        $record->restore();
-                    }
-                }
-            });
+            $record = Department::withTrashed()->updateOrCreate(
+                [
+                    'college_id' => $college->id,
+                    'code' => $department['code'],
+                ],
+                [
+                    'campus_id' => $college->campus_id,
+                    'name' => $department['name'],
+                    'description' => $department['description'],
+                    'is_active' => true,
+                ]
+            );
+
+            if ($record->trashed()) {
+                $record->restore();
+            }
+        });
     }
 }

@@ -11,13 +11,13 @@ beforeEach(function () {
 
 function mockGoogleUser(string $email, string $id = 'google-123', ?string $avatar = 'https://example.test/avatar.png'): void
 {
-    $googleUser = \Mockery::mock()->shouldIgnoreMissing();
+    $googleUser = Mockery::mock()->shouldIgnoreMissing();
     $googleUser->shouldReceive('getEmail')->andReturn($email);
     $googleUser->shouldReceive('getId')->andReturn($id);
     $googleUser->shouldReceive('getAvatar')->andReturn($avatar);
     $googleUser->shouldReceive('getName')->andReturn('Test User');
 
-    $driver = \Mockery::mock()->shouldIgnoreMissing();
+    $driver = Mockery::mock()->shouldIgnoreMissing();
     $driver->shouldReceive('stateless')->andReturnSelf();
     $driver->shouldReceive('user')->andReturn($googleUser);
 
@@ -37,10 +37,9 @@ test('google callback logs in eligible user and redirects to dashboard', functio
 
     $response = $this->get(route('google.callback'));
 
-    $response->assertSessionHasErrors(['email']);
-    $response->assertRedirect(route('login'));
-    $this->assertGuest();
-    expect($response->getSession()->get('errors')->first('email'))->toContain('Authentication failed');
+    $response->assertRedirect(route('admin.dashboard'));
+    $response->assertSessionHasNoErrors();
+    $this->assertAuthenticatedAs($user->fresh());
 });
 
 test('google callback rejects unauthorized domains', function () {

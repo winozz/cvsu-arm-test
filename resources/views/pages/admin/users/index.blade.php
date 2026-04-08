@@ -2,7 +2,8 @@
 
 use App\Imports\UsersImport;
 use App\Livewire\Forms\Admin\UsersForm;
-use App\Models\Branch;
+use App\Models\Campus;
+use App\Models\College;
 use App\Models\Department;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -22,7 +23,9 @@ new class extends Component {
 
     public $importFile;
 
-    public Collection $branches;
+    public Collection $campuses;
+
+    public Collection $colleges;
 
     public Collection $departments;
 
@@ -30,22 +33,48 @@ new class extends Component {
 
     public function mount()
     {
-        $this->branches = Branch::where('is_active', true)->get();
+        $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
+        $this->colleges = collect();
         $this->departments = collect();
         $this->roles = Role::all();
     }
 
-    public function updatedFormBranchId($branchId)
+    public function create()
     {
-        $this->departments = Department::where('branch_id', $branchId)->where('is_active', true)->get();
+        $this->form->reset();
+        $this->form->type = 'standard';
+        $this->form->roles = [];
+        $this->colleges = collect();
+        $this->departments = collect();
+        $this->createModal = true;
+    }
+
+    public function updatedFormCampusId($campusId)
+    {
+        $this->colleges = filled($campusId)
+            ? College::where('campus_id', $campusId)->where('is_active', true)->orderBy('name')->get()
+            : collect();
+        $this->departments = collect();
+        $this->form->college_id = null;
+        $this->form->department_id = null;
+    }
+
+    public function updatedFormCollegeId($collegeId)
+    {
+        $this->departments = filled($collegeId)
+            ? Department::where('college_id', $collegeId)->where('is_active', true)->orderBy('name')->get()
+            : collect();
         $this->form->department_id = null;
     }
 
     public function updatedFormType($value)
     {
         if ($value === 'standard') {
-            $this->form->branch_id = null;
+            $this->form->campus_id = null;
+            $this->form->college_id = null;
             $this->form->department_id = null;
+            $this->colleges = collect();
+            $this->departments = collect();
         }
     }
 
@@ -62,7 +91,7 @@ new class extends Component {
     {
         $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
 
-        // Excel::import(new UsersImport, $this->importFile);
+        Excel::import(new UsersImport(), $this->importFile);
         $this->importModal = false;
         $this->importFile = null;
         $this->toast()->success('Imported', 'Users have been successfully imported.')->send();
@@ -78,7 +107,7 @@ new class extends Component {
         <div class="flex gap-2">
             <x-button color="slate" text="Import" icon="arrow-up-tray" wire:click="$set('importModal', true)" sm
                 outline />
-            <x-button color="primary" text="New User" icon="plus" wire:click="$set('createModal', true)" sm />
+            <x-button color="primary" text="New User" icon="plus" wire:click="create" sm />
         </div>
     </div>
 
@@ -123,12 +152,15 @@ new class extends Component {
                         Assignment & Profile</h4>
                 </div>
 
-                <x-select.styled label="Campus / Branch" wire:model.live="form.branch_id" :options="$branches->map(fn($b) => ['label' => $b->name, 'value' => $b->id])->toArray()"
+                <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$campuses->map(fn($campus) => ['label' => $campus->name, 'value' => $campus->id])->toArray()"
+                    select="label:label|value:value" />
+
+                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges->map(fn($college) => ['label' => $college->name, 'value' => $college->id])->toArray()"
                     select="label:label|value:value" />
 
                 <x-select.styled :label="$form->type === 'employee' ? 'Department (Optional)' : 'Department'" :hint="$form->type === 'employee' ? 'Leave this blank if the employee is not assigned to a department.' : null" :placeholder="$form->type === 'employee' ? 'Select a department if applicable' : 'Select a department'"
                     wire:model="form.department_id" :options="$departments->map(fn($d) => ['label' => $d->name, 'value' => $d->id])->toArray()" select="label:label|value:value"
-                    :disabled="$departments->isEmpty()" :required="$form->type === 'faculty'" />
+                    :disabled="$colleges->isEmpty()" :required="$form->type === 'faculty'" />
 
                 @if ($form->type === 'faculty')
                     <x-input label="Academic Rank" wire:model="form.academic_rank" />
@@ -154,6 +186,7 @@ new class extends Component {
     <x-modal wire="importModal" title="Import Users">
         <div class="space-y-4">
             <x-upload wire:model="importFile" label="Select Excel/CSV File" hint="Supported files: .xlsx, .csv" />
+            <p class="text-xs text-zinc-500">Recommended headers: first_name, middle_name, last_name, email, type, roles, campus_id, college_id, department_id, academic_rank, position, contactno, sex, birthday, address, password</p>
         </div>
         <x-slot:footer>
             <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />

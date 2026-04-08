@@ -10,10 +10,6 @@ Route::middleware(['auth', 'role:superAdmin'])
         // Dashboard Routes
         Route::livewire('/dashboard', 'pages::admin.dashboard.index')->name('dashboard');
 
-        // Branches Routes
-        Route::livewire('/branches', 'pages::admin.branch.index')->name('branches');
-        Route::livewire('/branches/{branch}', 'pages::admin.branch.show')->name('branches.show');
-
         // Users Routes
         Route::livewire('/users', 'pages::admin.users.index')->name('users');
         Route::livewire('/users/{user}', 'pages::admin.users.show')->name('users.show');

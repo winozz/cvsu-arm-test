@@ -5,10 +5,13 @@ namespace Database\Factories;
 use App\Models\Department;
 use App\Models\FacultyProfile;
 use App\Models\User;
+use Database\Factories\Concerns\ResolvesAcademicContext;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FacultyProfileFactory extends Factory
 {
+    use ResolvesAcademicContext;
+
     protected $model = FacultyProfile::class;
 
     public function definition(): array
@@ -17,9 +20,9 @@ class FacultyProfileFactory extends Factory
         $middleName = fake()->boolean(40) ? fake()->lastName() : null;
         $lastName = fake()->lastName();
         $email = fake()->unique()->safeEmail();
-        $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
+        $department = $this->resolveDepartment();
 
-        return [
+        return array_merge($this->academicContext($department), [
             'user_id' => User::factory()->state([
                 'name' => trim($firstName.' '.($middleName ? $middleName.' ' : '').$lastName),
                 'email' => $email,
@@ -28,23 +31,18 @@ class FacultyProfileFactory extends Factory
             'first_name' => $firstName,
             'middle_name' => $middleName,
             'last_name' => $lastName,
-            'branch_id' => $department->branch_id,
-            'department_id' => $department->id,
-            'academic_rank' => fake()->randomElement(['Instructor I', 'Assistant Professor', 'Professor']),
+            'academic_rank' => fake()->randomElement(['Instructor I', 'Instructor II', 'Assistant Professor I']),
             'email' => fn (array $attributes) => User::query()->find($attributes['user_id'])?->email ?? $email,
-            'contactno' => fake()->phoneNumber(),
+            'contactno' => fake()->numerify('09#########'),
             'address' => fake()->address(),
             'sex' => fake()->randomElement(['Male', 'Female']),
             'birthday' => fake()->dateTimeBetween('-60 years', '-21 years')->format('Y-m-d'),
             'updated_by' => User::query()->inRandomOrder()->value('id'),
-        ];
+        ]);
     }
 
     public function forDepartment(Department $department): static
     {
-        return $this->state(fn () => [
-            'branch_id' => $department->branch_id,
-            'department_id' => $department->id,
-        ]);
+        return $this->state(fn (): array => $this->academicContext($department));
     }
 }

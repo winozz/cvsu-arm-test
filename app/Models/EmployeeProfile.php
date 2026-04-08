@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\EmployeeProfileFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,18 +10,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmployeeProfile extends Model
 {
-    /** @use HasFactory<\Database\Factories\EmployeeFactory> */
+    /** @use HasFactory<EmployeeProfileFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = 'employee_profiles';
 
     protected $fillable = [
         'user_id',
+        'employee_no',
         'first_name',
         'middle_name',
         'last_name',
         'position',
-        'branch_id',
+        'campus_id',
+        'college_id',
         'department_id',
     ];
 
@@ -32,9 +35,14 @@ class EmployeeProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function branch(): BelongsTo
+    public function campus(): BelongsTo
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Campus::class);
+    }
+
+    public function college(): BelongsTo
+    {
+        return $this->belongsTo(College::class);
     }
 
     public function department(): BelongsTo

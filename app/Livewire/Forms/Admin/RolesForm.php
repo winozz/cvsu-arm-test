@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Forms\Admin;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\CanManage;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -39,7 +41,7 @@ class RolesForm extends Form
             'guard_name' => $validated['guard_name'],
         ]);
 
-        $role->syncPermissions($this->permissions);
+        $role->syncPermissions($this->resolvePermissions($validated['guard_name']));
 
         $this->resetForm();
 
@@ -55,7 +57,7 @@ class RolesForm extends Form
             'guard_name' => $validated['guard_name'],
         ]);
 
-        $this->role?->syncPermissions($this->permissions);
+        $this->role?->syncPermissions($this->resolvePermissions($validated['guard_name']));
 
         $this->resetForm();
     }
@@ -83,5 +85,13 @@ class RolesForm extends Form
     {
         $this->reset(['role', 'name', 'permissions']);
         $this->guard_name = 'web';
+    }
+
+    protected function resolvePermissions(string $guardName): EloquentCollection
+    {
+        return Permission::query()
+            ->where('guard_name', $guardName)
+            ->whereIn('id', array_map('intval', $this->permissions))
+            ->get();
     }
 }
