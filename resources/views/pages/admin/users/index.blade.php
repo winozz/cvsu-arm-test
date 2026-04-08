@@ -112,11 +112,9 @@ new class extends Component {
     </div>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
-                <livewire:admin.users-table />
+                <livewire:admin.tables.users-table />
             </x-card>
-        </div>
     </div>
 
     {{-- Create User Modal --}}

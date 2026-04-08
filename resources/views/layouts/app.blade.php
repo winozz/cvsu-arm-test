@@ -114,6 +114,11 @@
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
                 @hasanyrole(['superAdmin'])
+                    {{-- Campuses Links --}}
+                    <x-side-bar.item text="Campuses/Colleges" opened>
+                        <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('admin.campuses', 'admin.campuses.*')" :route="route('admin.campuses')" />
+                    </x-side-bar.item>
+
                     {{-- User Management Links --}}
                     <x-side-bar.item text="System Management" opened>
                         <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
@@ -125,7 +130,9 @@
         </x-slot:menu>
 
         {{-- MAIN CONTENTS --}}
-        {{ $slot }}
+        <main class="max-w-7xl mx-auto">
+            {{ $slot }}
+        </main>
     </x-layout>
 
     @livewireScripts

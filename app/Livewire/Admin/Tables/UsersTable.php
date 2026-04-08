@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Admin\Tables;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -173,19 +173,19 @@ final class UsersTable extends PowerGridComponent
             $actions[] = Button::add('view')
                 ->slot('View')
                 ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
-                ->class('group flex items-center gap-1 text-xs text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
+                ->class('group flex items-center gap-1 font-bold text-xs text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
                 ->route('admin.users.show', ['user' => $row->id]);
 
             $actions[] = Button::add('delete')
                 ->slot('Remove')
                 ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700'])
-                ->class('group flex items-center gap-1 text-xs text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
+                ->class('group flex items-center gap-1 font-bold text-xs text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
                 ->dispatch('confirmDelete', ['id' => $row->id]);
         } else {
             $actions[] = Button::add('restore')
                 ->slot('Restore')
                 ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700'])
-                ->class('group flex items-center gap-1 text-xs text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
+                ->class('group flex items-center gap-1 text-xs font-bold text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
                 ->dispatch('confirmRestore', ['id' => $row->id]);
         }
 

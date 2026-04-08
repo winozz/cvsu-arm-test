@@ -29,7 +29,7 @@ class GoogleAuthController extends Controller
     public function callback(Request $request)
     {
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')->user();
             $email = Str::lower(trim((string) $googleUser->getEmail()));
 
             if ($email === '' || ! Str::endsWith($email, ['@cvsu.edu.ph', '@gmail.com'])) {

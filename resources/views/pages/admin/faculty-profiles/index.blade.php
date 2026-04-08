@@ -11,8 +11,7 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
@@ -46,9 +45,7 @@ new class extends Component
 
     public function updatedFormCampusId($campusId)
     {
-        $this->colleges = filled($campusId)
-            ? College::where('campus_id', $campusId)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->colleges = filled($campusId) ? College::where('campus_id', $campusId)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->departments = collect();
         $this->form->college_id = null;
         $this->form->department_id = null;
@@ -56,9 +53,7 @@ new class extends Component
 
     public function updatedFormCollegeId($collegeId)
     {
-        $this->departments = filled($collegeId)
-            ? Department::where('college_id', $collegeId)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->departments = filled($collegeId) ? Department::where('college_id', $collegeId)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->form->department_id = null;
     }
 
@@ -86,20 +81,20 @@ new class extends Component
 };
 ?>
 
-<div class="max-w-7xl mx-auto py-8">
+<div class="">
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Faculty Profiles</h1>
         <div class="flex gap-2">
             <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Faculty" />
-            <x-button wire:click="create" sm color="primary" icon="plus" text="Add Faculty" />
+            <x-button wire:click="create" sm color="primary" icon="plus" text="New Faculty" />
         </div>
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
-        <livewire:admin.faculty-profiles-table />
+        <livewire:admin.tables.faculty-profiles-table />
     </div>
 
-    <x-modal wire="createModal" title="Add New Faculty">
+    <x-modal wire="createModal" title="New Faculty">
         <div class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <x-input label="First Name" wire:model="form.first_name" />
@@ -119,10 +114,14 @@ new class extends Component
                 <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$campuses->map(fn($campus) => ['label' => $campus->name, 'value' => $campus->id])->toArray()"
                     select="label:label|value:value" />
 
-                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges->map(fn($college) => ['label' => $college->name, 'value' => $college->id])->toArray()"
+                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges
+                    ->map(fn($college) => ['label' => $college->name, 'value' => $college->id])
+                    ->toArray()"
                     select="label:label|value:value" />
 
-                <x-select.styled label="Department" wire:model="form.department_id" :options="$departments->map(fn($department) => ['label' => $department->name, 'value' => $department->id])->toArray()"
+                <x-select.styled label="Department" wire:model="form.department_id" :options="$departments
+                    ->map(fn($department) => ['label' => $department->name, 'value' => $department->id])
+                    ->toArray()"
                     select="label:label|value:value" :disabled="$colleges->isEmpty()" />
             </div>
 
@@ -139,7 +138,8 @@ new class extends Component
     <x-modal wire="importModal" title="Import Faculty Profiles">
         <div class="space-y-4">
             <x-upload wire:model="importFile" label="Select Excel/CSV File" hint="Supported files: .xlsx, .csv" />
-            <p class="text-xs text-zinc-500">Headers needed: first_name, middle_name, last_name, email, campus_id, college_id, department_id, academic_rank, contactno, sex, birthday, address, password</p>
+            <p class="text-xs text-zinc-500">Headers needed: first_name, middle_name, last_name, email, campus_id,
+                college_id, department_id, academic_rank, contactno, sex, birthday, address, password</p>
         </div>
         <x-slot:footer>
             <x-button flat text="Cancel" wire:click="$set('importModal', false)" />
