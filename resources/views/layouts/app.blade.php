@@ -98,7 +98,8 @@
                 {{-- COLLEGE ADMIN LINKS --}}
                 @hasanyrole(['superAdmin', 'collegeAdmin'])
                     <x-side-bar.item text="College" opened>
-                        <x-side-bar.item text="Departments" icon="briefcase" />
+                        <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
+                        <x-side-bar.item text="Courses" icon="academic-cap" />
                     </x-side-bar.item>
                 @endhasanyrole
 

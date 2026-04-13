@@ -60,6 +60,8 @@ class DepartmentForm extends Form
             throw new LogicException('Cannot update a department without an active record.');
         }
 
+        $this->assertDepartmentMatchesContext($this->department);
+
         $validated = $this->validateForm();
 
         $this->department->update($this->payload($validated));
@@ -67,6 +69,40 @@ class DepartmentForm extends Form
         $department = $this->department->fresh();
 
         $this->resetForm($validated['campus_id'], $validated['college_id']);
+
+        return $department;
+    }
+
+    public function delete(): Department
+    {
+        if (! $this->department) {
+            throw new LogicException('Cannot delete a department without an active record.');
+        }
+
+        $this->assertDepartmentMatchesContext($this->department);
+
+        $this->department->delete();
+
+        $department = $this->department->fresh();
+
+        $this->resetForm($this->campus_id, $this->college_id);
+
+        return $department;
+    }
+
+    public function restore(): Department
+    {
+        if (! $this->department) {
+            throw new LogicException('Cannot restore a department without an active record.');
+        }
+
+        $this->assertDepartmentMatchesContext($this->department);
+
+        $this->department->restore();
+
+        $department = $this->department->fresh();
+
+        $this->resetForm($this->campus_id, $this->college_id);
 
         return $department;
     }
@@ -106,5 +142,16 @@ class DepartmentForm extends Form
             'description' => filled($validated['description']) ? trim($validated['description']) : null,
             'is_active' => (bool) $validated['is_active'],
         ];
+    }
+
+    protected function assertDepartmentMatchesContext(Department $department): void
+    {
+        if (! $this->campus_id || ! $this->college_id) {
+            throw new LogicException('Cannot manage a department without campus and college context.');
+        }
+
+        if ((int) $department->campus_id !== (int) $this->campus_id || (int) $department->college_id !== (int) $this->college_id) {
+            throw new LogicException('Cannot manage a department outside the current campus/college context.');
+        }
     }
 }

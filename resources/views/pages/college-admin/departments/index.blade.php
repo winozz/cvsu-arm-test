@@ -1,7 +1,7 @@
 <?php
 
-use App\Livewire\Forms\Admin\DepartmentForm;
 use App\Livewire\Forms\Admin\CollegeForm;
+use App\Livewire\Forms\Admin\DepartmentForm;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
@@ -33,14 +33,20 @@ new class extends Component {
 
     public array $departmentDuplicateConflicts = [];
 
-    public function mount(Campus $campus, College $college): void
+    public function mount(): void
     {
-        abort_unless($college->campus_id === $campus->id, 404);
+        $user = auth()
+            ->user()
+            ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college']);
+        $profile = $user?->employeeProfile;
 
-        $this->campus = $campus;
-        $this->college = $college;
-        $this->collegeForm->setCollege($college);
-        $this->departmentForm->resetForm($campus->id, $college->id);
+        abort_unless($profile?->campus && $profile?->college, 403);
+        abort_unless((int) $profile->college->campus_id === (int) $profile->campus->id, 403);
+
+        $this->campus = $profile->campus;
+        $this->college = $profile->college;
+        $this->collegeForm->setCollege($this->college);
+        $this->departmentForm->resetForm($this->campus->id, $this->college->id);
     }
 
     public function editCollege(): void
@@ -340,8 +346,8 @@ new class extends Component {
         </div>
         <div class="flex gap-2">
             <x-button wire:click="editCollege" sm color="primary" icon="pencil" text="Edit Details" />
-            <x-button tag="a" href="{{ route('admin.campuses.show', [$this->campus->id]) }}" sm outline
-                text="Back to Colleges" />
+            <x-button tag="a" href="{{ route('college-admin.dashboard') }}" sm outline
+                text="Back to Dashboard" />
         </div>
     </div>
 
@@ -363,7 +369,7 @@ new class extends Component {
             </div>
 
             <x-input label="Campus" :value="$campus->code . ' - ' . $campus->name" disabled
-                hint="This college belongs to the selected campus and cannot be changed here." />
+                hint="This college belongs to your assigned campus and cannot be changed here." />
 
             <x-textarea label="Description" wire:model="collegeForm.description"
                 hint="Optional short description for this college." />

@@ -104,6 +104,18 @@ final class DepartmentsTable extends PowerGridComponent
                 ->icon('default-pencil-square', ['class' => 'w-4 h-4 text-blue-500 group-hover:text-blue-700 dark:group-hover:text-blue-400'])
                 ->class('group flex items-center gap-1 text-xs font-bold text-blue-500 rounded border border-blue-500 px-2 py-1 hover:text-blue-700 hover:bg-zinc-100 dark:hover:bg-blue-800 dark:hover:text-blue-400 transition-all duration-300 cursor-pointer')
                 ->dispatch('openEditDepartmentModal', ['department' => $row->id]),
+
+            Button::add('delete')
+                ->slot('Remove')
+                ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700 dark:group-hover:text-red-400'])
+                ->class('group flex items-center gap-1 text-xs font-bold text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 dark:hover:bg-red-800 dark:hover:text-red-400 transition-all duration-300 cursor-pointer')
+                ->dispatch('confirmDeleteDepartment', ['id' => $row->id]),
+
+            Button::add('restore')
+                ->slot('Restore')
+                ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700 dark:group-hover:text-amber-400'])
+                ->class('group flex items-center gap-1 text-xs font-bold text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 dark:hover:bg-amber-800 dark:hover:text-amber-400 transition-all duration-300 cursor-pointer')
+                ->dispatch('confirmRestoreDepartment', ['id' => $row->id]),
         ];
     }
 
@@ -112,6 +124,12 @@ final class DepartmentsTable extends PowerGridComponent
         return [
             Rule::button('edit')
                 ->when(fn ($row) => $row->trashed())
+                ->hide(),
+            Rule::button('delete')
+                ->when(fn ($row) => $row->trashed())
+                ->hide(),
+            Rule::button('restore')
+                ->when(fn ($row) => ! $row->trashed())
                 ->hide(),
         ];
     }

@@ -7,8 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use Interactions;
 
     public Campus $campus;
@@ -63,14 +62,14 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenCampusModal();
-            Log::error('Campus Save Failed: '.$e->getMessage());
+            Log::error('Campus Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the campus.')->send();
         }
     }
 };
 ?>
 
-<div class="">
+<div>
     <div
         class="flex flex-col items-start justify-between gap-4 p-6 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
         <div>

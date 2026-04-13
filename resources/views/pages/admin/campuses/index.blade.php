@@ -7,7 +7,7 @@ new class extends Component {
 };
 ?>
 
-<div class="">
+<div>
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Campuses</h1>
     </div>
