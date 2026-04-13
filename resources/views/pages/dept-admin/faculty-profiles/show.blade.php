@@ -10,28 +10,43 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public FacultyProfile $facultyProfile;
+
     public bool $isEditing = false;
 
     // Form fields
     public $first_name = '';
+
     public $middle_name = '';
+
     public $last_name = '';
+
     public $email = '';
+
     public ?int $campus_id = null;
+
     public ?int $college_id = null;
+
     public ?int $department_id = null;
+
     public $academic_rank = '';
+
     public $contactno = '';
+
     public $address = '';
+
     public $sex = '';
+
     public $birthday = '';
 
     public Collection $campuses;
+
     public Collection $colleges;
+
     public Collection $departments;
 
     public function mount(FacultyProfile $facultyProfile)
@@ -115,13 +130,13 @@ new class extends Component {
             'last_name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('faculty_profiles', 'email')->ignore($this->facultyProfile->id)->whereNull('deleted_at'), Rule::unique('users', 'email')->ignore($this->facultyProfile->user_id)->whereNull('deleted_at')],
             'campus_id' => 'required|exists:campuses,id',
-            'college_id' => ['required', Rule::exists('colleges', 'id')->where(fn($query) => $query->where('campus_id', $this->campus_id))],
-            'department_id' => ['required', Rule::exists('departments', 'id')->where(fn($query) => $query->where('college_id', $this->college_id))],
+            'college_id' => ['required', Rule::exists('colleges', 'id')->where(fn ($query) => $query->where('campus_id', $this->campus_id))],
+            'department_id' => ['required', Rule::exists('departments', 'id')->where(fn ($query) => $query->where('college_id', $this->college_id))],
             'sex' => 'nullable|in:Male,Female',
             'birthday' => 'nullable|date',
         ]);
 
-        $fullName = trim($this->first_name . ' ' . ($this->middle_name ? $this->middle_name . ' ' : '') . $this->last_name);
+        $fullName = trim($this->first_name.' '.($this->middle_name ? $this->middle_name.' ' : '').$this->last_name);
         $department = Department::query()->findOrFail($this->department_id);
 
         // Update the Profile
@@ -176,7 +191,7 @@ new class extends Component {
         </div>
         <div class="flex gap-2">
             <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
-            <x-button tag="a" href="{{ route('admin.faculty-profiles') }}" sm outline text="Back to List" />
+            <x-button tag="a" href="{{ route('department-admin.faculty-profiles') }}" sm outline text="Back to List" />
         </div>
     </div>
 

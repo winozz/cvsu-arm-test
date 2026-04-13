@@ -12,7 +12,8 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
@@ -80,7 +81,7 @@ new class extends Component {
         $this->ensureCanManage('faculty_profiles.create');
 
         $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
-        Excel::import(new FacultyProfilesImport(), $this->importFile);
+        Excel::import(new FacultyProfilesImport, $this->importFile);
 
         $this->importModal = false;
         $this->importFile = null;

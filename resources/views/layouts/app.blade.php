@@ -33,7 +33,6 @@
         <x-slot:header>
             <x-layout.header>
                 <x-slot:left>
-                    <x-theme-switch />
                 </x-slot:left>
                 <x-slot:right>
                     <x-dropdown>
@@ -49,13 +48,12 @@
                                 {{-- The Avatar serves as the visual trigger --}}
                                 <x-avatar sm background="3aa13a " color="fff" :model="auth()->user()"
                                     class="cursor-pointer border-2 border-emerald-600" />
-
-                                {{--
-                                <x-icon name="chevron-down" class="w-4 h-4 text-zinc-400" /> --}}
                             </button>
                         </x-slot:action>
-
-                        <x-dropdown.items icon="user-circle" text="My Profile" />
+                        <x-slot:header>
+                            <x-theme-switch block />
+                        </x-slot:header>
+                        {{-- <x-dropdown.items icon="user-circle" text="My Profile" /> --}}
 
                         {{-- Logout Button --}}
                         <form method="POST" action="{{ route('logout') }}">
@@ -86,32 +84,38 @@
                 )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
-                @can('faculty_schedules.view')
+                @if (auth()->user()?->can('faculty_schedules.view') && auth()->user()?->employeeProfile()->exists())
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
                         <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
                         {{-- <x-side-bar.item text="Grades" icon="check-badge" />
                         <x-side-bar.item text="Teaching History" icon="academic-cap" /> --}}
                     </x-side-bar.item>
-                @endcan
+                @endif
 
                 {{-- COLLEGE ADMIN LINKS --}}
-                @can('departments.view')
+                @if (auth()->user()?->can('departments.view') && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="College" opened>
                         <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
-                        <x-side-bar.item text="Courses" icon="academic-cap" />
                     </x-side-bar.item>
-                @endcan
+                @endif
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                @canany(['schedules.view', 'faculty_profiles.view'])
+                {{-- @canany(['schedules.view', 'faculty_profiles.view']) --}}
+
+                @if (auth()->user()
+                        ?->can(['schedules.view', 'faculty_profiles.view']) && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="Department" opened>
                         <x-side-bar.item text="Schedules" icon="calendar-days" />
-                        <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('admin.faculty-profiles', 'admin.faculty-profiles.*')" :route="route('admin.faculty-profiles')" />
+                        <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
+                            'department-admin.faculty-profiles',
+                            'department-admin.faculty-profiles.*',
+                        )" :route="route('department-admin.faculty-profiles')" />
                         <x-side-bar.item text="Courses" icon="academic-cap" />
                         <x-side-bar.item text="Rooms" icon="building-office" />
                     </x-side-bar.item>
-                @endcanany
+                @endif
+                {{-- @endcanany --}}
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
                 @canany(['campuses.view', 'users.view', 'roles.view', 'permissions.view', 'assignments.manage'])

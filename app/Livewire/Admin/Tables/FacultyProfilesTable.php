@@ -103,7 +103,7 @@ final class FacultyProfilesTable extends PowerGridComponent
                 ->slot('View')
                 ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
                 ->class('group flex items-center gap-1 text-xs text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
-                ->route('admin.faculty-profiles.show', ['facultyProfile' => $row->id]);
+                ->route('department-admin.faculty-profiles.show', ['facultyProfile' => $row->id]);
         }
 
         if ($this->canManage('faculty_profiles.delete')) {

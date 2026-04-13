@@ -130,10 +130,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6 py-8">
-    <x-toast />
-    <x-dialog />
-
+<div class="space-y-6 py-8 max-w-5xl">
     <div>
         <h1 class="text-xl font-bold dark:text-white">Assignments Center</h1>
         <p class="text-sm text-zinc-600 dark:text-zinc-300">Manage direct user assignment of roles and permissions.</p>
@@ -160,7 +157,7 @@ new class extends Component {
                             Roles:</span>
                         <div class="flex flex-wrap gap-2">
                             @forelse ($userRoles as $role)
-                                <x-badge :text="$role" color="primary" light />
+                                <x-badge :text="$role" color="primary" light sm />
                             @empty
                                 <span class="text-sm italic text-zinc-500">No roles assigned.</span>
                             @endforelse
@@ -189,7 +186,7 @@ new class extends Component {
                 </div>
 
                 <div class="flex justify-end">
-                    <x-button color="primary" wire:click="confirmSave">Save User Assignments</x-button>
+                    <x-button color="primary" wire:click="confirmSave" sm>Save User Assignments</x-button>
                 </div>
             </div>
         @else

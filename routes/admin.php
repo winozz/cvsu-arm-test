@@ -31,14 +31,6 @@ Route::middleware(['auth'])
             ->middleware('permission:users.view')
             ->name('users.show');
 
-        // Faculty Profile Routes
-        Route::livewire('/faculty-profiles', 'pages::admin.faculty-profiles.index')
-            ->middleware('permission:faculty_profiles.view')
-            ->name('faculty-profiles');
-        Route::livewire('/faculty-profiles/{facultyProfile}', 'pages::admin.faculty-profiles.show')
-            ->middleware('permission:faculty_profiles.view')
-            ->name('faculty-profiles.show');
-
         // Roles Management Routes
         Route::livewire('/roles', 'pages::admin.roles.index')
             ->middleware('permission:roles.view')
