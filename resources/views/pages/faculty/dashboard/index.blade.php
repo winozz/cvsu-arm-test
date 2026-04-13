@@ -1,9 +1,15 @@
 <?php
 
+use App\Traits\CanManage;
 use Livewire\Component;
 
 new class extends Component {
-    //
+    use CanManage;
+
+    public function mount(): void
+    {
+        $this->ensureCanManage('faculty_schedules.view');
+    }
 };
 ?>
 

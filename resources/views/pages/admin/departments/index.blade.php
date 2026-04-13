@@ -5,6 +5,7 @@ use App\Livewire\Forms\Admin\CollegeForm;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
+use App\Traits\CanManage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -13,7 +14,7 @@ use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use Interactions;
+    use CanManage, Interactions;
 
     public College $college;
 
@@ -35,6 +36,8 @@ new class extends Component {
 
     public function mount(Campus $campus, College $college): void
     {
+        $this->ensureCanManage('departments.view');
+
         abort_unless($college->campus_id === $campus->id, 404);
 
         $this->campus = $campus;
@@ -45,6 +48,8 @@ new class extends Component {
 
     public function editCollege(): void
     {
+        $this->ensureCanManage('colleges.update');
+
         $this->resetValidation();
         $this->collegeForm->setCollege($this->college->fresh());
         $this->collegeModal = true;
@@ -64,6 +69,8 @@ new class extends Component {
 
     public function confirmSaveCollege(): void
     {
+        $this->ensureCanManage('colleges.update');
+
         $this->collegeForm->validateForm();
         $this->collegeModal = false;
 
@@ -72,6 +79,8 @@ new class extends Component {
 
     public function saveCollege(): void
     {
+        $this->ensureCanManage('colleges.update');
+
         try {
             $this->collegeForm->update();
             $this->college->refresh();
@@ -90,23 +99,25 @@ new class extends Component {
     #[On('openEditDepartmentModal')]
     public function openEditDepartmentModal(Department $department): void
     {
+        $this->ensureCanManage('departments.update');
+
         abort_unless($department->college_id === $this->college->id, 404);
 
         $this->resetValidation();
         $this->departmentForm->setDepartment($department);
         $this->isEditingDepartment = true;
-        $this->departmentDuplicateConflictDetected = false;
-        $this->departmentDuplicateConflicts = [];
+        $this->resetDepartmentDuplicateState();
         $this->departmentModal = true;
     }
 
     public function openCreateDepartmentModal(): void
     {
+        $this->ensureCanManage('departments.create');
+
         $this->resetValidation();
         $this->departmentForm->resetForm($this->campus->id, $this->college->id);
         $this->isEditingDepartment = false;
-        $this->departmentDuplicateConflictDetected = false;
-        $this->departmentDuplicateConflicts = [];
+        $this->resetDepartmentDuplicateState();
         $this->departmentModal = true;
     }
 
@@ -114,8 +125,7 @@ new class extends Component {
     {
         $this->departmentModal = false;
         $this->isEditingDepartment = false;
-        $this->departmentDuplicateConflictDetected = false;
-        $this->departmentDuplicateConflicts = [];
+        $this->resetDepartmentDuplicateState();
         $this->resetValidation();
         $this->departmentForm->resetForm($this->campus->id, $this->college->id);
     }
@@ -127,48 +137,47 @@ new class extends Component {
 
     public function confirmSaveDepartment(): void
     {
+        $this->ensureCanManage($this->isEditingDepartment ? 'departments.update' : 'departments.create');
+
         $this->departmentForm->validateForm();
         $this->departmentModal = false;
 
-        if (!$this->isEditingDepartment) {
-            $conflicts = $this->findPotentialDepartmentConflicts();
+        if ($this->isEditingDepartment) {
+            $this->resetDepartmentDuplicateState();
+            $this->openDepartmentSaveDialog();
 
-            if ($conflicts !== []) {
-                $this->departmentDuplicateConflictDetected = true;
-                $this->departmentDuplicateConflicts = $conflicts;
-
-                $this->dialog()->warning('Possible Duplicate Department', $this->duplicateDepartmentWarningMessage($conflicts))->confirm('Proceed anyway', 'saveDepartment')->cancel('Go Back', 'reopenDepartmentModal')->send();
-
-                return;
-            }
+            return;
         }
 
-        $this->departmentDuplicateConflictDetected = false;
-        $this->departmentDuplicateConflicts = [];
-        $title = $this->isEditingDepartment ? 'Save Changes?' : 'Create Department?';
-        $description = $this->isEditingDepartment ? 'Are you sure you want to update this department?' : 'Are you sure you want to create this department?';
-        $confirm = $this->isEditingDepartment ? 'Yes, save changes' : 'Yes, create department';
+        $conflicts = $this->findPotentialDepartmentConflicts();
 
-        $this->dialog()->question($title, $description)->confirm($confirm, 'saveDepartment')->cancel('Cancel', 'reopenDepartmentModal')->send();
+        if ($conflicts !== []) {
+            $this->departmentDuplicateConflictDetected = true;
+            $this->departmentDuplicateConflicts = $conflicts;
+
+            $this->dialog()->warning('Possible Duplicate Department', $this->duplicateDepartmentWarningMessage($conflicts))->confirm('Proceed anyway', 'saveDepartment')->cancel('Go Back', 'reopenDepartmentModal')->send();
+
+            return;
+        }
+
+        $this->resetDepartmentDuplicateState();
+        $this->openDepartmentSaveDialog();
     }
 
     public function saveDepartment(): void
     {
+        $this->ensureCanManage($this->isEditingDepartment ? 'departments.update' : 'departments.create');
+
         try {
             if ($this->isEditingDepartment) {
                 $this->departmentForm->update();
-                $message = 'Department details updated successfully.';
-            } else {
-                $this->departmentForm->store();
-                $message = 'Department created successfully.';
+                $this->finalizeDepartmentSave('Department details updated successfully.');
+
+                return;
             }
 
-            $this->departmentModal = false;
-            $this->isEditingDepartment = false;
-            $this->departmentDuplicateConflictDetected = false;
-            $this->departmentDuplicateConflicts = [];
-            $this->dispatch('pg:eventRefresh-departmentsTable');
-            $this->toast()->success('Success', $message)->send();
+            $this->departmentForm->store();
+            $this->finalizeDepartmentSave('Department created successfully.');
         } catch (ValidationException $e) {
             $this->reopenDepartmentModal();
             throw $e;
@@ -179,9 +188,35 @@ new class extends Component {
         }
     }
 
+    protected function resetDepartmentDuplicateState(): void
+    {
+        $this->departmentDuplicateConflictDetected = false;
+        $this->departmentDuplicateConflicts = [];
+    }
+
+    protected function openDepartmentSaveDialog(): void
+    {
+        $title = $this->isEditingDepartment ? 'Save Changes?' : 'Create Department?';
+        $description = $this->isEditingDepartment ? 'Are you sure you want to update this department?' : 'Are you sure you want to create this department?';
+        $confirm = $this->isEditingDepartment ? 'Yes, save changes' : 'Yes, create department';
+
+        $this->dialog()->question($title, $description)->confirm($confirm, 'saveDepartment')->cancel('Cancel', 'reopenDepartmentModal')->send();
+    }
+
+    protected function finalizeDepartmentSave(string $message): void
+    {
+        $this->departmentModal = false;
+        $this->isEditingDepartment = false;
+        $this->resetDepartmentDuplicateState();
+        $this->dispatch('pg:eventRefresh-departmentsTable');
+        $this->toast()->success('Success', $message)->send();
+    }
+
     #[On('confirmDeleteDepartment')]
     public function confirmDeleteDepartment(int $id): void
     {
+        $this->ensureCanManage('departments.delete');
+
         $department = $this->findManagedDepartment($id);
 
         $this->dialog()
@@ -194,6 +229,8 @@ new class extends Component {
     #[On('deleteDepartment')]
     public function deleteDepartment(int $id): void
     {
+        $this->ensureCanManage('departments.delete');
+
         $department = $this->findManagedDepartment($id);
 
         try {
@@ -211,6 +248,8 @@ new class extends Component {
     #[On('confirmRestoreDepartment')]
     public function confirmRestoreDepartment(int $id): void
     {
+        $this->ensureCanManage('departments.restore');
+
         $department = $this->findManagedDepartment($id, true);
 
         $this->dialog()
@@ -223,6 +262,8 @@ new class extends Component {
     #[On('restoreDepartment')]
     public function restoreDepartment(int $id): void
     {
+        $this->ensureCanManage('departments.restore');
+
         $department = $this->findManagedDepartment($id, true);
 
         try {

@@ -3,6 +3,7 @@
 use App\Livewire\Forms\Admin\RolesForm;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Traits\CanManage;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -10,9 +11,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
-    use Interactions;
+new class extends Component {
+    use CanManage, Interactions;
 
     public RolesForm $form;
 
@@ -24,11 +24,15 @@ new class extends Component
 
     public function mount(): void
     {
+        $this->ensureCanManage('roles.view');
+
         $this->availablePermissions = Permission::query()->orderBy('name')->get();
     }
 
     public function openCreateModal(): void
     {
+        $this->ensureCanManage('roles.create');
+
         $this->form->resetForm();
         $this->isEditing = false;
         $this->roleModal = true;
@@ -37,6 +41,8 @@ new class extends Component
     #[On('openEditModal')]
     public function openEditModal(Role $role): void
     {
+        $this->ensureCanManage('roles.update');
+
         $this->form->setRole($role->load('permissions'));
         $this->isEditing = true;
         $this->roleModal = true;
@@ -44,22 +50,26 @@ new class extends Component
 
     public function save(): void
     {
+        $this->ensureCanManage($this->isEditing ? 'roles.update' : 'roles.create');
+
         try {
             if ($this->isEditing) {
                 $this->form->update();
-                $message = 'Role updated successfully.';
-            } else {
-                $this->form->store();
-                $message = 'Role created successfully.';
+                $this->roleModal = false;
+                $this->dispatch('pg:eventRefresh-rolesTable');
+                $this->toast()->success('Success', 'Role updated successfully.')->send();
+
+                return;
             }
 
+            $this->form->store();
             $this->roleModal = false;
             $this->dispatch('pg:eventRefresh-rolesTable');
-            $this->toast()->success('Success', $message)->send();
+            $this->toast()->success('Success', 'Role created successfully.')->send();
         } catch (ValidationException $e) {
             throw $e;
         } catch (Exception $e) {
-            Log::error('Role Save Failed: '.$e->getMessage());
+            Log::error('Role Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the role.')->send();
         }
     }

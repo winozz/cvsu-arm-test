@@ -4,13 +4,14 @@ use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\FacultyProfile;
+use App\Traits\CanManage;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use Interactions;
+    use CanManage, Interactions;
 
     public FacultyProfile $facultyProfile;
     public bool $isEditing = false;
@@ -35,6 +36,8 @@ new class extends Component {
 
     public function mount(FacultyProfile $facultyProfile)
     {
+        $this->ensureCanManage('faculty_profiles.view');
+
         $this->facultyProfile = $facultyProfile->load(['user', 'campus', 'college', 'department']);
         $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
         $this->colleges = collect();
@@ -64,9 +67,7 @@ new class extends Component {
 
     public function updatedCampusId($value)
     {
-        $this->colleges = filled($value)
-            ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->colleges = filled($value) ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->departments = collect();
         $this->college_id = null;
         $this->department_id = null;
@@ -74,55 +75,48 @@ new class extends Component {
 
     public function updatedCollegeId($value)
     {
-        $this->departments = filled($value)
-            ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->departments = filled($value) ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->department_id = null;
     }
 
     public function confirmEdit()
     {
-        if ($this->isEditing) {
-            $this->isEditing = false;
+        $this->ensureCanManage('faculty_profiles.update');
+
+        if (! $this->isEditing) {
+            $this->dialog()->question('Enable Editing?', 'Do you want to modify this faculty profile?')->confirm('Yes', 'enableEditing')->send();
+
             return;
         }
-        $this->dialog()->question('Enable Editing?', 'Do you want to modify this faculty profile?')->confirm('Yes', 'enableEditing')->send();
+
+        $this->isEditing = false;
     }
 
     public function enableEditing()
     {
+        $this->ensureCanManage('faculty_profiles.update');
+
         $this->isEditing = true;
     }
 
     public function confirmSave()
     {
+        $this->ensureCanManage('faculty_profiles.update');
+
         $this->dialog()->question('Save Changes?', 'Update this faculty profile and user record?')->confirm('Yes', 'save')->send();
     }
 
     public function save()
     {
+        $this->ensureCanManage('faculty_profiles.update');
+
         $this->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('faculty_profiles', 'email')->ignore($this->facultyProfile->id)->whereNull('deleted_at'),
-                Rule::unique('users', 'email')->ignore($this->facultyProfile->user_id)->whereNull('deleted_at'),
-            ],
+            'email' => ['required', 'email', Rule::unique('faculty_profiles', 'email')->ignore($this->facultyProfile->id)->whereNull('deleted_at'), Rule::unique('users', 'email')->ignore($this->facultyProfile->user_id)->whereNull('deleted_at')],
             'campus_id' => 'required|exists:campuses,id',
-            'college_id' => [
-                'required',
-                Rule::exists('colleges', 'id')->where(
-                    fn ($query) => $query->where('campus_id', $this->campus_id)
-                ),
-            ],
-            'department_id' => [
-                'required',
-                Rule::exists('departments', 'id')->where(
-                    fn ($query) => $query->where('college_id', $this->college_id)
-                ),
-            ],
+            'college_id' => ['required', Rule::exists('colleges', 'id')->where(fn($query) => $query->where('campus_id', $this->campus_id))],
+            'department_id' => ['required', Rule::exists('departments', 'id')->where(fn($query) => $query->where('college_id', $this->college_id))],
             'sex' => 'nullable|in:Male,Female',
             'birthday' => 'nullable|date',
         ]);

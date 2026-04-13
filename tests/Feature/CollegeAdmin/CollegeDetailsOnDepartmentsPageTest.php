@@ -4,7 +4,14 @@ use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
+
+beforeEach(function () {
+    $this->seed(PermissionSeeder::class);
+    $this->seed(RoleSeeder::class);
+});
 
 test('college admin can update their current college details from the departments page', function () {
     $campus = Campus::factory()->create([

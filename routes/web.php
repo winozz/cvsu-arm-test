@@ -27,7 +27,7 @@ Route::middleware('guests')->group(function () {
 Route::middleware('auth')->get('/dashboard', function () {
     $dashboardRoute = Auth::user()?->dashboardRoute();
 
-    abort_unless($dashboardRoute && Route::has($dashboardRoute), 403, 'You do not have a valid role assigned.');
+    abort_unless($dashboardRoute && Route::has($dashboardRoute), 403, 'You do not have a valid permission assigned.');
 
     return redirect()->route($dashboardRoute);
 })->name('dashboard.resolve');

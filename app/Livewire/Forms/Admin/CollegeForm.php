@@ -3,12 +3,15 @@
 namespace App\Livewire\Forms\Admin;
 
 use App\Models\College;
+use App\Traits\CanManage;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 use LogicException;
 
 class CollegeForm extends Form
 {
+    use CanManage;
+
     public ?College $college = null;
 
     public string $code = '';
@@ -30,6 +33,8 @@ class CollegeForm extends Form
 
     public function update(): College
     {
+        $this->ensureCanManage('colleges.update');
+
         if (! $this->college) {
             throw new LogicException('Cannot update a college without an active record.');
         }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Tables;
 
 use App\Models\FacultyProfile;
+use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -16,7 +17,7 @@ use TallStackUi\Traits\Interactions;
 
 final class FacultyProfilesTable extends PowerGridComponent
 {
-    use Interactions;
+    use CanManage, Interactions;
 
     public string $tableName = 'facultyProfilesTable';
 
@@ -95,23 +96,33 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function actions($row): array
     {
-        return [
-            Button::add('view-faculty')
+        $actions = [];
+
+        if ($this->canManage('faculty_profiles.view')) {
+            $actions[] = Button::add('view-faculty')
                 ->slot('View')
                 ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
                 ->class('group flex items-center gap-1 text-xs text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
-                ->route('admin.faculty-profiles.show', ['facultyProfile' => $row->id]),
-            Button::add('delete-faculty')
+                ->route('admin.faculty-profiles.show', ['facultyProfile' => $row->id]);
+        }
+
+        if ($this->canManage('faculty_profiles.delete')) {
+            $actions[] = Button::add('delete-faculty')
                 ->slot('Remove')
                 ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700'])
                 ->class('group flex items-center gap-1 text-xs text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
-                ->call('confirmDeleteFaculty', ['id' => $row->id]),
-            Button::add('restore-faculty')
+                ->call('confirmDeleteFaculty', ['id' => $row->id]);
+        }
+
+        if ($this->canManage('faculty_profiles.restore')) {
+            $actions[] = Button::add('restore-faculty')
                 ->slot('Restore')
                 ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700'])
                 ->class('group flex items-center gap-1 text-xs text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
-                ->call('confirmRestoreFaculty', ['id' => $row->id]),
-        ];
+                ->call('confirmRestoreFaculty', ['id' => $row->id]);
+        }
+
+        return $actions;
     }
 
     public function actionRules($row): array
@@ -142,12 +153,16 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function confirmDeleteFaculty(array $params): void
     {
+        $this->ensureCanManage('faculty_profiles.delete');
+
         $profileId = (int) $params['id'];
         $this->dialog()->question('Warning!', 'Are you sure you want to delete this faculty profile?')->confirm('Yes, delete', 'deleteProfile', $profileId)->cancel('Cancel')->send();
     }
 
     public function deleteProfile($id): void
     {
+        $this->ensureCanManage('faculty_profiles.delete');
+
         FacultyProfile::findOrFail($id)->delete();
         $this->toast()->success('Deleted', 'Faculty Profile moved to trash.')->send();
         $this->dispatch('pg:eventRefresh-'.$this->tableName);
@@ -155,12 +170,16 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function confirmRestoreFaculty(array $params): void
     {
+        $this->ensureCanManage('faculty_profiles.restore');
+
         $profileId = (int) $params['id'];
         $this->dialog()->question('Restore?', 'Are you sure you want to restore this faculty profile?')->confirm('Yes, restore', 'restoreProfile', $profileId)->cancel('Cancel')->send();
     }
 
     public function restoreProfile($id): void
     {
+        $this->ensureCanManage('faculty_profiles.restore');
+
         FacultyProfile::withTrashed()->findOrFail($id)->restore();
         $this->toast()->success('Restored', 'Faculty Profile has been restored.')->send();
         $this->dispatch('pg:eventRefresh-'.$this->tableName);
