@@ -6,7 +6,9 @@ use App\Models\College;
 use App\Models\Department;
 use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
+use App\Models\Permission;
 use App\Models\User;
+use App\Traits\CanManage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -14,6 +16,8 @@ use Livewire\Form;
 
 class UsersForm extends Form
 {
+    use CanManage;
+
     public ?User $user = null;
 
     // 1. Added ? to make properties nullable
@@ -26,6 +30,8 @@ class UsersForm extends Form
     public ?string $email = '';
 
     public array $roles = [];
+
+    public array $direct_permissions = [];
 
     public ?string $type = 'standard';
 
@@ -64,6 +70,8 @@ class UsersForm extends Form
             ],
             'roles' => 'required|array|min:1',
             'roles.*' => 'exists:roles,name',
+            'direct_permissions' => 'nullable|array',
+            'direct_permissions.*' => 'exists:permissions,name',
             'type' => 'required|in:faculty,employee,standard',
 
             'campus_id' => 'exclude_if:type,standard|required|exists:campuses,id',
@@ -94,6 +102,7 @@ class UsersForm extends Form
         $this->user = $user;
         $this->email = $user->email ?? '';
         $this->roles = $user->roles->pluck('name')->toArray();
+        $this->direct_permissions = $user->getDirectPermissions()->pluck('name')->toArray();
 
         $faculty = $user->facultyProfile;
         $employee = $user->employeeProfile;
@@ -140,6 +149,8 @@ class UsersForm extends Form
 
     public function store(): void
     {
+        $this->ensureCanManage('users.create');
+
         $this->validate();
 
         DB::transaction(function (): void {
@@ -155,6 +166,7 @@ class UsersForm extends Form
             ]);
 
             $newUser->syncRoles($this->roles);
+            $newUser->syncPermissions($this->resolveDirectPermissions());
 
             if ($this->type === 'faculty') {
                 FacultyProfile::create(array_merge($assignment, [
@@ -183,6 +195,8 @@ class UsersForm extends Form
 
     public function update(): void
     {
+        $this->ensureCanManage('users.update');
+
         $this->validate();
 
         DB::transaction(function (): void {
@@ -197,6 +211,7 @@ class UsersForm extends Form
             ]);
 
             $this->user->syncRoles($this->roles);
+            $this->user->syncPermissions($this->resolveDirectPermissions());
 
             if ($this->type === 'standard') {
                 FacultyProfile::where('user_id', $this->user->id)->delete();
@@ -261,5 +276,13 @@ class UsersForm extends Form
             'college_id' => $college->id,
             'department_id' => null,
         ];
+    }
+
+    protected function resolveDirectPermissions()
+    {
+        return Permission::query()
+            ->where('guard_name', 'web')
+            ->whereIn('name', $this->direct_permissions)
+            ->get();
     }
 }

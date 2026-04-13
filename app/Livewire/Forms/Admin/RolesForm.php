@@ -34,6 +34,8 @@ class RolesForm extends Form
 
     public function store(): Role
     {
+        $this->ensureCanManage('roles.create');
+
         $validated = $this->validate($this->rules());
 
         $role = Role::create([
@@ -50,6 +52,8 @@ class RolesForm extends Form
 
     public function update(): void
     {
+        $this->ensureCanManage('roles.update');
+
         $validated = $this->validate($this->rules());
 
         $this->role?->update([

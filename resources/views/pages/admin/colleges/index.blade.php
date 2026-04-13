@@ -2,13 +2,14 @@
 
 use App\Livewire\Forms\Admin\CampusForm;
 use App\Models\Campus;
+use App\Traits\CanManage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use Interactions;
+    use CanManage, Interactions;
 
     public Campus $campus;
 
@@ -18,12 +19,16 @@ new class extends Component {
 
     public function mount(Campus $campus): void
     {
+        $this->ensureCanManage('colleges.view');
+
         $this->campus = $campus;
         $this->form->setCampus($campus);
     }
 
     public function editCampus(): void
     {
+        $this->ensureCanManage('campuses.update');
+
         $this->resetValidation();
         $this->form->setCampus($this->campus->fresh());
         $this->campusModal = true;
@@ -43,6 +48,8 @@ new class extends Component {
 
     public function confirmSaveCampus(): void
     {
+        $this->ensureCanManage('campuses.update');
+
         $this->form->validateForm();
         $this->campusModal = false;
 
@@ -51,6 +58,8 @@ new class extends Component {
 
     public function saveCampus(): void
     {
+        $this->ensureCanManage('campuses.update');
+
         try {
             $this->form->update();
             $this->campus->refresh();

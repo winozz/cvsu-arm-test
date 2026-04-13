@@ -35,7 +35,7 @@ test('roles page can update a role with permissions selected as string ids', fun
     $user->assignRole('superAdmin');
 
     $originalPermission = Permission::findOrCreate('roles.view', 'web');
-    $updatedPermission = Permission::findOrCreate('roles.edit', 'web');
+    $updatedPermission = Permission::findOrCreate('roles.update', 'web');
 
     $role = Role::findOrCreate('registrarAdmin', 'web');
     $role->syncPermissions([$originalPermission]);

@@ -3,11 +3,14 @@
 namespace App\Livewire\Forms\Admin;
 
 use App\Models\Department;
+use App\Traits\CanManage;
 use Livewire\Form;
 use LogicException;
 
 class DepartmentForm extends Form
 {
+    use CanManage;
+
     public ?Department $department = null;
 
     public ?int $campus_id = null;
@@ -41,6 +44,8 @@ class DepartmentForm extends Form
 
     public function store(): Department
     {
+        $this->ensureCanManage('departments.create');
+
         if (! $this->campus_id || ! $this->college_id) {
             throw new LogicException('Cannot create a department without campus and college context.');
         }
@@ -56,6 +61,8 @@ class DepartmentForm extends Form
 
     public function update(): Department
     {
+        $this->ensureCanManage('departments.update');
+
         if (! $this->department) {
             throw new LogicException('Cannot update a department without an active record.');
         }
@@ -75,6 +82,8 @@ class DepartmentForm extends Form
 
     public function delete(): Department
     {
+        $this->ensureCanManage('departments.delete');
+
         if (! $this->department) {
             throw new LogicException('Cannot delete a department without an active record.');
         }
@@ -92,6 +101,8 @@ class DepartmentForm extends Form
 
     public function restore(): Department
     {
+        $this->ensureCanManage('departments.restore');
+
         if (! $this->department) {
             throw new LogicException('Cannot restore a department without an active record.');
         }

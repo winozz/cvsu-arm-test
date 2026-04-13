@@ -24,17 +24,19 @@ class RoleSeeder extends Seeder
             'collegeAdmin' => [
                 PermissionEnum::DASHBOARD_VIEW->value,
                 PermissionEnum::PROFILE_VIEW->value,
-                PermissionEnum::PROFILE_EDIT->value,
+                PermissionEnum::PROFILE_UPDATE->value,
 
                 PermissionEnum::DEPARTMENT_CREATE->value,
                 PermissionEnum::DEPARTMENT_VIEW->value,
-                PermissionEnum::DEPARTMENT_EDIT->value,
+                PermissionEnum::DEPARTMENT_UPDATE->value,
                 PermissionEnum::DEPARTMENT_DELETE->value,
                 PermissionEnum::DEPARTMENT_RESTORE->value,
 
                 PermissionEnum::SCHEDULE_VIEW->value,
                 PermissionEnum::FACULTY_PROFILE_VIEW->value,
-                PermissionEnum::FACULTY_PROFILE_EDIT->value,
+                PermissionEnum::FACULTY_PROFILE_UPDATE->value,
+                PermissionEnum::COLLEGE_VIEW->value,
+                PermissionEnum::COLLEGE_UPDATE->value,
                 PermissionEnum::COURSE_VIEW->value,
                 PermissionEnum::ROOM_VIEW->value,
             ],
@@ -42,29 +44,29 @@ class RoleSeeder extends Seeder
             'deptAdmin' => [
                 PermissionEnum::DASHBOARD_VIEW->value,
                 PermissionEnum::PROFILE_VIEW->value,
-                PermissionEnum::PROFILE_EDIT->value,
+                PermissionEnum::PROFILE_UPDATE->value,
 
                 PermissionEnum::SCHEDULE_CREATE->value,
                 PermissionEnum::SCHEDULE_VIEW->value,
-                PermissionEnum::SCHEDULE_EDIT->value,
+                PermissionEnum::SCHEDULE_UPDATE->value,
                 PermissionEnum::SCHEDULE_DELETE->value,
                 PermissionEnum::SCHEDULE_RESTORE->value,
                 PermissionEnum::SCHEDULE_ASSIGN->value,
 
                 PermissionEnum::FACULTY_PROFILE_VIEW->value,
-                PermissionEnum::FACULTY_PROFILE_EDIT->value,
+                PermissionEnum::FACULTY_PROFILE_UPDATE->value,
                 PermissionEnum::FACULTY_PROFILE_DELETE->value,
                 PermissionEnum::FACULTY_PROFILE_RESTORE->value,
 
                 PermissionEnum::COURSE_CREATE->value,
                 PermissionEnum::COURSE_VIEW->value,
-                PermissionEnum::COURSE_EDIT->value,
+                PermissionEnum::COURSE_UPDATE->value,
                 PermissionEnum::COURSE_DELETE->value,
                 PermissionEnum::COURSE_RESTORE->value,
 
                 PermissionEnum::ROOM_CREATE->value,
                 PermissionEnum::ROOM_VIEW->value,
-                PermissionEnum::ROOM_EDIT->value,
+                PermissionEnum::ROOM_UPDATE->value,
                 PermissionEnum::ROOM_DELETE->value,
                 PermissionEnum::ROOM_RESTORE->value,
             ],
@@ -72,7 +74,7 @@ class RoleSeeder extends Seeder
             'faculty' => [
                 PermissionEnum::DASHBOARD_VIEW->value,
                 PermissionEnum::PROFILE_VIEW->value,
-                PermissionEnum::PROFILE_EDIT->value,
+                PermissionEnum::PROFILE_UPDATE->value,
                 PermissionEnum::FACULTY_SCHEDULE_VIEW->value,
             ],
         ];

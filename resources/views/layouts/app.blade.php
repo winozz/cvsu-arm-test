@@ -86,47 +86,60 @@
                 )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
-                @hasanyrole(['superAdmin', 'faculty'])
+                @can('faculty_schedules.view')
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
                         <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
                         {{-- <x-side-bar.item text="Grades" icon="check-badge" />
                         <x-side-bar.item text="Teaching History" icon="academic-cap" /> --}}
                     </x-side-bar.item>
-                @endhasanyrole
+                @endcan
 
                 {{-- COLLEGE ADMIN LINKS --}}
-                @hasanyrole(['superAdmin', 'collegeAdmin'])
+                @can('departments.view')
                     <x-side-bar.item text="College" opened>
                         <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
                         <x-side-bar.item text="Courses" icon="academic-cap" />
                     </x-side-bar.item>
-                @endhasanyrole
+                @endcan
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                @hasanyrole(['superAdmin', 'deptAdmin'])
+                @canany(['schedules.view', 'faculty_profiles.view'])
                     <x-side-bar.item text="Department" opened>
                         <x-side-bar.item text="Schedules" icon="calendar-days" />
                         <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('admin.faculty-profiles', 'admin.faculty-profiles.*')" :route="route('admin.faculty-profiles')" />
                         <x-side-bar.item text="Courses" icon="academic-cap" />
                         <x-side-bar.item text="Rooms" icon="building-office" />
                     </x-side-bar.item>
-                @endhasanyrole
+                @endcanany
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
-                @hasanyrole(['superAdmin'])
+                @canany(['campuses.view', 'users.view', 'roles.view', 'permissions.view', 'assignments.manage'])
                     {{-- Campuses Links --}}
-                    <x-side-bar.item text="Campuses/Colleges" opened>
-                        <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('admin.campuses', 'admin.campuses.*')" :route="route('admin.campuses')" />
-                    </x-side-bar.item>
+                    @can('campuses.view')
+                        <x-side-bar.item text="Campuses/Colleges" opened>
+                            <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('admin.campuses', 'admin.campuses.*')" :route="route('admin.campuses')" />
+                        </x-side-bar.item>
+                    @endcan
 
                     {{-- User Management Links --}}
-                    <x-side-bar.item text="System Management" opened>
-                        <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
-                        <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('admin.roles', 'admin.roles.*')" :route="route('admin.roles')" />
-                        <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('admin.permissions', 'admin.permissions.*')" :route="route('admin.permissions')" />
-                    </x-side-bar.item>
-                @endhasrole
+                    @canany(['users.view', 'roles.view', 'permissions.view', 'assignments.manage'])
+                        <x-side-bar.item text="System Management" opened>
+                            @can('users.view')
+                                <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
+                            @endcan
+                            @can('roles.view')
+                                <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('admin.roles', 'admin.roles.*')" :route="route('admin.roles')" />
+                            @endcan
+                            @can('permissions.view')
+                                <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('admin.permissions', 'admin.permissions.*')" :route="route('admin.permissions')" />
+                            @endcan
+                            @can('assignments.manage')
+                                <x-side-bar.item text="Assignments" icon="link" :current="request()->routeIs('admin.assignments', 'admin.assignments.*')" :route="route('admin.assignments')" />
+                            @endcan
+                        </x-side-bar.item>
+                    @endcanany
+                @endcanany
             </x-side-bar>
         </x-slot:menu>
 

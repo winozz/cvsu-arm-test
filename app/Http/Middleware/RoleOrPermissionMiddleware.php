@@ -27,7 +27,7 @@ class RoleOrPermissionMiddleware
         }
 
         // Allow user if has specified permissions
-        if (count($permissions) > 0 && $user->hasPermissions($permissions)) {
+        if (count($permissions) > 0 && $user->hasAnyPermission($permissions)) {
             return $next($request);
         }
 

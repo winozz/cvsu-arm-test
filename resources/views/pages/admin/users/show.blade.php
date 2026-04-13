@@ -4,7 +4,9 @@ use App\Livewire\Forms\Admin\UsersForm;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
+use App\Models\Permission;
 use App\Models\User;
+use App\Traits\CanManage;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -12,7 +14,7 @@ use Spatie\Permission\Models\Role;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use Interactions;
+    use CanManage, Interactions;
 
     public User $user;
     public UsersForm $form;
@@ -22,28 +24,26 @@ new class extends Component {
     public Collection $colleges;
     public Collection $departments;
     public Collection $availableRoles;
+    public Collection $availablePermissions;
 
     public function mount(User $user)
     {
+        $this->ensureCanManage('users.view');
+
         $this->user = $user->load(['facultyProfile', 'employeeProfile', 'roles']);
         $this->form->setValues($this->user);
 
         $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
         $this->availableRoles = Role::all();
+        $this->availablePermissions = Permission::query()->orderBy('name')->get();
 
-        $this->colleges = $this->form->campus_id
-            ? College::where('campus_id', $this->form->campus_id)->where('is_active', true)->orderBy('name')->get()
-            : collect();
-        $this->departments = $this->form->college_id
-            ? Department::where('college_id', $this->form->college_id)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->colleges = $this->form->campus_id ? College::where('campus_id', $this->form->campus_id)->where('is_active', true)->orderBy('name')->get() : collect();
+        $this->departments = $this->form->college_id ? Department::where('college_id', $this->form->college_id)->where('is_active', true)->orderBy('name')->get() : collect();
     }
 
     public function updatedFormCampusId($value)
     {
-        $this->colleges = filled($value)
-            ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->colleges = filled($value) ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->departments = collect();
         $this->form->college_id = null;
         $this->form->department_id = null;
@@ -51,9 +51,7 @@ new class extends Component {
 
     public function updatedFormCollegeId($value)
     {
-        $this->departments = filled($value)
-            ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get()
-            : collect();
+        $this->departments = filled($value) ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
         $this->form->department_id = null;
     }
 
@@ -71,20 +69,28 @@ new class extends Component {
 
     public function confirmEdit()
     {
-        if ($this->isEditing) {
-            $this->isEditing = false;
+        $this->ensureCanManage('users.update');
+
+        if (!$this->isEditing) {
+            $this->dialog()->question('Enable Editing?', 'Do you want to modify this user?')->confirm('Yes', 'enableEditing')->send();
+
             return;
         }
-        $this->dialog()->question('Enable Editing?', 'Do you want to modify this user?')->confirm('Yes', 'enableEditing')->send();
+
+        $this->isEditing = false;
     }
 
     public function enableEditing()
     {
+        $this->ensureCanManage('users.update');
+
         $this->isEditing = true;
     }
 
     public function confirmSave()
     {
+        $this->ensureCanManage('users.update');
+
         // Add a warning if they are downgrading a user to "Standard"
         if ($this->form->type === 'standard' && ($this->user->facultyProfile || $this->user->employeeProfile)) {
             $this->dialog()->warning('Warning!', 'Switching to "Standard" will permanently delete their specific Faculty or Employee records. Continue?')->confirm('Yes, Save Changes', 'save')->send();
@@ -96,6 +102,8 @@ new class extends Component {
 
     public function save()
     {
+        $this->ensureCanManage('users.update');
+
         $this->form->update();
         $this->user->refresh()->load(['facultyProfile', 'employeeProfile', 'roles']);
         $this->isEditing = false;
@@ -158,6 +166,34 @@ new class extends Component {
 
             <div>
                 @if ($isEditing)
+                    <x-select.styled label="Direct Permissions" wire:model="form.direct_permissions" multiple searchable
+                        hint="Assign optional permissions directly to this user" placeholder="Choose permissions"
+                        :options="$availablePermissions
+                            ->map(
+                                fn($permission) => [
+                                    'label' => Str::headline($permission->name),
+                                    'value' => $permission->name,
+                                ],
+                            )
+                            ->toArray()" select="label:label|value:value" />
+                @else
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Direct Permissions</p>
+                    <div class="mt-1 flex flex-wrap gap-1">
+                        @forelse ($user->getDirectPermissions() as $permission)
+                            <span
+                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                                {{ Str::headline($permission->name) }}
+                            </span>
+                        @empty
+                            <span class="text-sm text-zinc-500 dark:text-zinc-400">No direct permissions
+                                assigned.</span>
+                        @endforelse
+                    </div>
+                @endif
+            </div>
+
+            <div>
+                @if ($isEditing)
                     <x-select.styled label="Profile Type" wire:model.live="form.type" :options="[
                         ['label' => 'Standard User', 'value' => 'standard'],
                         ['label' => 'Faculty', 'value' => 'faculty'],
@@ -179,7 +215,9 @@ new class extends Component {
 
                 <x-select.styled label="Campus" wire:model.live="form.campus_id" :disabled="!$isEditing" :options="$campuses->map(fn($campus) => ['label' => $campus->name, 'value' => $campus->id])->toArray()"
                     select="label:label|value:value" />
-                <x-select.styled label="College" wire:model.live="form.college_id" :disabled="!$isEditing" :options="$colleges->map(fn($college) => ['label' => $college->name, 'value' => $college->id])->toArray()"
+                <x-select.styled label="College" wire:model.live="form.college_id" :disabled="!$isEditing" :options="$colleges
+                    ->map(fn($college) => ['label' => $college->name, 'value' => $college->id])
+                    ->toArray()"
                     select="label:label|value:value" />
                 <x-select.styled :label="$form->type === 'employee' ? 'Department (Optional)' : 'Department'" :hint="$form->type === 'employee' ? 'Leave this blank if the employee is not assigned to a department.' : null" :placeholder="$form->type === 'employee' ? 'Select a department if applicable' : 'Select a department'"
                     wire:model="form.department_id" :disabled="!$isEditing" :options="$departments->map(fn($d) => ['label' => $d->name, 'value' => $d->id])->toArray()"

@@ -3,12 +3,15 @@
 namespace App\Livewire\Forms\Admin;
 
 use App\Models\Permission;
+use App\Traits\CanManage;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PermissionsForm extends Form
 {
+    use CanManage;
+
     public ?Permission $permission = null;
 
     #[Validate('required|string|max:255')]
@@ -26,6 +29,8 @@ class PermissionsForm extends Form
 
     public function store(): Permission
     {
+        $this->ensureCanManage('permissions.create');
+
         $validated = $this->validate($this->rules());
 
         $permission = Permission::create([
@@ -40,6 +45,8 @@ class PermissionsForm extends Form
 
     public function update(): void
     {
+        $this->ensureCanManage('permissions.update');
+
         $validated = $this->validate($this->rules());
 
         $this->permission?->update([

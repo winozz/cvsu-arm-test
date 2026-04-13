@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Tables;
 
 use App\Models\Role;
+use App\Traits\CanManage;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ use TallStackUi\Traits\Interactions;
 
 final class RolesTable extends PowerGridComponent
 {
-    use Interactions, WithExport;
+    use CanManage, Interactions, WithExport;
 
     public string $tableName = 'rolesTable';
 
@@ -80,25 +81,33 @@ final class RolesTable extends PowerGridComponent
 
     public function actions($row): array
     {
-        return [
-            Button::add('edit-role')
+        $actions = [];
+
+        if ($this->canManage('roles.update')) {
+            $actions[] = Button::add('edit-role')
                 ->slot('Edit')
                 ->icon('default-pencil-square', ['class' => 'w-4 h-4 text-blue-500 group-hover:text-blue-700 dark:group-hover:text-blue-400'])
                 ->class('group flex items-center gap-1 text-xs font-bold text-blue-500 rounded border border-blue-500 px-2 py-1 hover:text-blue-700 hover:bg-zinc-100 dark:hover:bg-blue-800 dark:hover:text-blue-400 transition-all duration-300 cursor-pointer')
-                ->dispatch('openEditModal', ['role' => $row->id]), // Fixed event to match index.blade.php listener
+                ->dispatch('openEditModal', ['role' => $row->id]);
+        }
 
-            Button::add('delete-role')
+        if ($this->canManage('roles.delete')) {
+            $actions[] = Button::add('delete-role')
                 ->slot('Remove')
                 ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700 dark:group-hover:text-red-400'])
                 ->class('group flex items-center gap-1 text-xs font-bold text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 dark:hover:bg-red-800 dark:hover:text-red-400 transition-all duration-300 cursor-pointer')
-                ->dispatch('confirmDeleteRole', ['id' => $row->id]),
+                ->dispatch('confirmDeleteRole', ['id' => $row->id]);
+        }
 
-            Button::add('restore-role')
+        if ($this->canManage('roles.restore')) {
+            $actions[] = Button::add('restore-role')
                 ->slot('Restore')
                 ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700 dark:group-hover:text-amber-400'])
                 ->class('group flex items-center gap-1 text-xs font-bold text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 dark:hover:bg-amber-800 dark:hover:text-amber-400 transition-all duration-300 cursor-pointer')
-                ->dispatch('confirmRestoreRole', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmRestoreRole', ['id' => $row->id]);
+        }
+
+        return $actions;
     }
 
     public function actionRules($row): array
@@ -113,6 +122,8 @@ final class RolesTable extends PowerGridComponent
     #[On('confirmDeleteRole')]
     public function confirmDeleteRole(int $id): void
     {
+        $this->ensureCanManage('roles.delete');
+
         $this->dialog()
             ->question('Warning!', 'Are you sure you want to delete this role?')
             ->confirm('Yes, delete', 'deleteRole', $id)
@@ -123,6 +134,8 @@ final class RolesTable extends PowerGridComponent
     #[On('deleteRole')]
     public function deleteRole(int $id): void
     {
+        $this->ensureCanManage('roles.delete');
+
         try {
             Role::findOrFail($id)->delete();
             $this->toast()->success('Deleted', 'Role moved to trash.')->send();
@@ -136,6 +149,8 @@ final class RolesTable extends PowerGridComponent
     #[On('confirmRestoreRole')]
     public function confirmRestoreRole(int $id): void
     {
+        $this->ensureCanManage('roles.restore');
+
         $this->dialog()
             ->question('Restore?', 'Are you sure you want to restore this role?')
             ->confirm('Yes, restore', 'restoreRole', $id)
@@ -146,6 +161,8 @@ final class RolesTable extends PowerGridComponent
     #[On('restoreRole')]
     public function restoreRole(int $id): void
     {
+        $this->ensureCanManage('roles.restore');
+
         try {
             Role::withTrashed()->findOrFail($id)->restore();
             $this->toast()->success('Restored', 'Role has been restored.')->send();

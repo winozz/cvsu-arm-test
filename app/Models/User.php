@@ -94,24 +94,24 @@ class User extends Authenticatable
             return false;
         }
 
-        return collect(array_keys(self::DASHBOARD_ROUTES))
-            ->contains(fn (string $role): bool => $this->hasAccessibleDashboardRole($role));
+        return collect(array_keys(self::DASHBOARD_ACCESS))
+            ->contains(fn (string $route): bool => $this->hasAccessibleDashboardRoute($route));
     }
 
     /**
      * Resolve the highest priority dashboard route for this user.
      */
-    public const DASHBOARD_ROUTES = [
-        'superAdmin' => 'admin.dashboard',
-        'collegeAdmin' => 'college-admin.dashboard',
-        'deptAdmin' => 'department-admin.dashboard',
-        'faculty' => 'faculty.dashboard',
+    public const DASHBOARD_ACCESS = [
+        'admin.dashboard' => 'campuses.view',
+        'college-admin.dashboard' => 'departments.view',
+        'department-admin.dashboard' => 'schedules.assign',
+        'faculty.dashboard' => 'faculty_schedules.view',
     ];
 
     public function dashboardRoute(): ?string
     {
-        foreach (self::DASHBOARD_ROUTES as $role => $route) {
-            if ($this->hasAccessibleDashboardRole($role)) {
+        foreach (array_keys(self::DASHBOARD_ACCESS) as $route) {
+            if ($this->hasAccessibleDashboardRoute($route)) {
                 return $route;
             }
         }
@@ -131,16 +131,18 @@ class User extends Authenticatable
         ])->save();
     }
 
-    protected function hasAccessibleDashboardRole(string $role): bool
+    protected function hasAccessibleDashboardRoute(string $route): bool
     {
-        if (! $this->hasRole($role)) {
+        $permission = self::DASHBOARD_ACCESS[$route] ?? null;
+
+        if (! $permission || ! $this->can($permission)) {
             return false;
         }
 
-        return match ($role) {
-            'superAdmin' => true,
-            'collegeAdmin', 'deptAdmin' => $this->employeeProfile()->exists(),
-            'faculty' => $this->hasFacultySignInProfile(),
+        return match ($route) {
+            'admin.dashboard' => true,
+            'college-admin.dashboard', 'department-admin.dashboard' => $this->employeeProfile()->exists(),
+            'faculty.dashboard' => $this->hasFacultySignInProfile(),
             default => false,
         };
     }

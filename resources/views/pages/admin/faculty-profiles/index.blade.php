@@ -5,6 +5,7 @@ use App\Livewire\Forms\Admin\FacultyProfileForm;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
+use App\Traits\CanManage;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -12,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use Interactions, WithFileUploads;
+    use CanManage, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
 
@@ -30,6 +31,8 @@ new class extends Component {
 
     public function mount()
     {
+        $this->ensureCanManage('faculty_profiles.view');
+
         $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
         $this->colleges = collect();
         $this->departments = collect();
@@ -37,6 +40,8 @@ new class extends Component {
 
     public function create()
     {
+        $this->ensureCanManage('faculty_profiles.create');
+
         $this->form->reset();
         $this->colleges = collect();
         $this->departments = collect();
@@ -59,6 +64,8 @@ new class extends Component {
 
     public function save()
     {
+        $this->ensureCanManage('faculty_profiles.create');
+
         $this->form->store();
         $this->createModal = false;
         $this->form->reset();
@@ -70,6 +77,8 @@ new class extends Component {
 
     public function import()
     {
+        $this->ensureCanManage('faculty_profiles.create');
+
         $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
         Excel::import(new FacultyProfilesImport(), $this->importFile);
 

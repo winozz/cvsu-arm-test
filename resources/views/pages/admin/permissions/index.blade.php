@@ -2,15 +2,20 @@
 
 use App\Livewire\Forms\Admin\PermissionsForm;
 use App\Models\Permission;
+use App\Traits\CanManage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
-    use Interactions;
+new class extends Component {
+    use CanManage, Interactions;
+
+    public function mount(): void
+    {
+        $this->ensureCanManage('permissions.view');
+    }
 
     public PermissionsForm $form;
 
@@ -20,6 +25,8 @@ new class extends Component
 
     public function openCreateModal()
     {
+        $this->ensureCanManage('permissions.create');
+
         $this->form->resetForm();
         $this->isEditing = false;
         $this->permissionModal = true;
@@ -28,6 +35,8 @@ new class extends Component
     #[On('editPermission')]
     public function openEditModal(Permission $permission)
     {
+        $this->ensureCanManage('permissions.update');
+
         $this->form->setPermission($permission);
         $this->isEditing = true;
         $this->permissionModal = true;
@@ -35,22 +44,26 @@ new class extends Component
 
     public function save(): void
     {
+        $this->ensureCanManage($this->isEditing ? 'permissions.update' : 'permissions.create');
+
         try {
             if ($this->isEditing) {
                 $this->form->update();
-                $message = 'Permission updated successfully.';
-            } else {
-                $this->form->store();
-                $message = 'Permission created successfully.';
+                $this->permissionModal = false;
+                $this->dispatch('pg:eventRefresh-permissionsTable');
+                $this->toast()->success('Success', 'Permission updated successfully.')->send();
+
+                return;
             }
 
+            $this->form->store();
             $this->permissionModal = false;
             $this->dispatch('pg:eventRefresh-permissionsTable');
-            $this->toast()->success('Success', $message)->send();
+            $this->toast()->success('Success', 'Permission created successfully.')->send();
         } catch (ValidationException $e) {
             throw $e;
         } catch (Exception $e) {
-            Log::error('Permission Save Failed: '.$e->getMessage());
+            Log::error('Permission Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the permission.')->send();
         }
     }
@@ -72,7 +85,8 @@ new class extends Component
     <x-modal wire="permissionModal" title="{{ $isEditing ? 'Edit Permission' : 'New Permission' }}">
         <div class="space-y-4">
             <div class="grid gap-4 md:grid-cols-2">
-                <x-input label="Name" wire:model="form.name" hint="Use the system permission key, e.g. users.view or campuses.view" />
+                <x-input label="Name" wire:model="form.name"
+                    hint="Use the system permission key, e.g. users.view or campuses.view" />
                 <x-input label="Guard" wire:model="form.guard_name" />
             </div>
         </div>

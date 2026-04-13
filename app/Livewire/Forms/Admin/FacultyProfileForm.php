@@ -5,6 +5,7 @@ namespace App\Livewire\Forms\Admin;
 use App\Models\Department;
 use App\Models\FacultyProfile;
 use App\Models\User;
+use App\Traits\CanManage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -12,6 +13,8 @@ use Livewire\Form;
 
 class FacultyProfileForm extends Form
 {
+    use CanManage;
+
     #[Validate('required|string|max:255')]
     public string $first_name = '';
 
@@ -80,6 +83,8 @@ class FacultyProfileForm extends Form
 
     public function store(): void
     {
+        $this->ensureCanManage('faculty_profiles.create');
+
         $this->validate();
 
         $fullName = trim($this->first_name.' '.($this->middle_name ? $this->middle_name.' ' : '').$this->last_name);
