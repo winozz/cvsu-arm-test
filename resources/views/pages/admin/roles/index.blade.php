@@ -80,7 +80,9 @@ new class extends Component {
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Roles</h1>
         <div class="flex gap-2">
-            <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
+            @can('roles.create')
+                <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
+            @endcan
         </div>
     </div>
 
@@ -108,8 +110,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('roleModal', false)" sm />
-            <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Role'" wire:click="save" sm />
+            @canany(['roles.update', 'roles.create'])
+                <x-button flat text="Cancel" wire:click="$set('roleModal', false)" sm />
+                <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Role'" wire:click="save" sm />
+            @endcanany
         </x-slot:footer>
     </x-modal>
 </div>

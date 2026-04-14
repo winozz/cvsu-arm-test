@@ -74,7 +74,9 @@ new class extends Component {
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Permissions</h1>
         <div class="flex gap-2">
-            <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Permission" />
+            @can('permissions.create')
+                <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Permission" />
+            @endcan
         </div>
     </div>
 
@@ -92,8 +94,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('permissionModal', false)" sm />
-            <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Permission'" wire:click="save" sm />
+            @canany(['permissions.update', 'permissions.create'])
+                <x-button flat text="Cancel" wire:click="$set('permissionModal', false)" sm />
+                <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Permission'" wire:click="save" sm />
+            @endcanany
         </x-slot:footer>
     </x-modal>
 </div>

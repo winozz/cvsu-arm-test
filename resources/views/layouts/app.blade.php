@@ -88,8 +88,6 @@
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
                         <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
-                        {{-- <x-side-bar.item text="Grades" icon="check-badge" />
-                        <x-side-bar.item text="Teaching History" icon="academic-cap" /> --}}
                     </x-side-bar.item>
                 @endif
 
@@ -106,13 +104,29 @@
                 @if (auth()->user()
                         ?->can(['schedules.view', 'faculty_profiles.view']) && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="Department" opened>
-                        <x-side-bar.item text="Schedules" icon="calendar-days" />
-                        <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
-                            'department-admin.faculty-profiles',
-                            'department-admin.faculty-profiles.*',
-                        )" :route="route('department-admin.faculty-profiles')" />
-                        <x-side-bar.item text="Courses" icon="academic-cap" />
-                        <x-side-bar.item text="Rooms" icon="building-office" />
+
+                        @can('schedules.view')
+                            <x-side-bar.item text="Schedules" icon="calendar-days" />
+                        @endcan
+
+
+                        @can('faculty_profiles.view')
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
+                                'department-admin.faculty-profiles',
+                                'department-admin.faculty-profiles.*',
+                            )" :route="route('department-admin.faculty-profiles')" />
+                        @endcan
+
+                        @can('programs.view')
+                            <x-side-bar.item text="Programs" icon="academic-cap" />
+                        @endcan
+
+                        <x-side-bar.item text="Subjects" icon="book-open" />
+
+                        @can('rooms.view')
+                            <x-side-bar.item text="Rooms" icon="building-office" />
+                        @endcan
+
                     </x-side-bar.item>
                 @endif
                 {{-- @endcanany --}}

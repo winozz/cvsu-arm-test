@@ -42,12 +42,19 @@ enum PermissionEnum: string
     case FACULTY_PROFILE_DELETE = 'faculty_profiles.delete';
     case FACULTY_PROFILE_RESTORE = 'faculty_profiles.restore';
 
-    // Course/Programs Management
-    case COURSE_VIEW = 'courses.view';
-    case COURSE_CREATE = 'courses.create';
-    case COURSE_UPDATE = 'courses.update';
-    case COURSE_DELETE = 'courses.delete';
-    case COURSE_RESTORE = 'courses.restore';
+    // Programs Management
+    case PROGRAM_VIEW = 'programs.view';
+    case PROGRAM_CREATE = 'programs.create';
+    case PROGRAM_UPDATE = 'programs.update';
+    case PROGRAM_DELETE = 'programs.delete';
+    case PROGRAM_RESTORE = 'programs.restore';
+
+    // Subjects Management
+    case SUBJECT_VIEW = 'subjects.view';
+    case SUBJECT_CREATE = 'subjects.create';
+    case SUBJECT_UPDATE = 'subjects.update';
+    case SUBJECT_DELETE = 'subjects.delete';
+    case SUBJECT_RESTORE = 'subjects.restore';
 
     // Rooms Management
     case ROOM_VIEW = 'rooms.view';

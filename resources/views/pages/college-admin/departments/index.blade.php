@@ -13,8 +13,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions;
 
     public College $college;
@@ -105,7 +104,7 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenCollegeModal();
-            Log::error('College Save Failed: '.$e->getMessage());
+            Log::error('College Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the college.')->send();
         }
     }
@@ -197,17 +196,14 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenDepartmentModal();
-            Log::error('Department Save Failed: '.$e->getMessage());
+            Log::error('Department Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the department.')->send();
         }
     }
 
     protected function resolveFallbackCollegeContext(): void
     {
-        $fallbackCollege = College::query()
-            ->with('campus')
-            ->orderBy('name')
-            ->first();
+        $fallbackCollege = College::query()->with('campus')->orderBy('name')->first();
 
         abort_unless($fallbackCollege?->campus, 403);
 
@@ -253,7 +249,7 @@ new class extends Component
         $department = $this->findManagedDepartment($id);
 
         $this->dialog()
-            ->question('Warning!', 'Are you sure you want to delete '.e($department->code).' - '.e($department->name).'?')
+            ->question('Warning!', 'Are you sure you want to delete ' . e($department->code) . ' - ' . e($department->name) . '?')
             ->confirm('Yes, delete', 'deleteDepartment', $department->id)
             ->cancel('Cancel')
             ->send();
@@ -273,7 +269,7 @@ new class extends Component
             $this->dispatch('pg:eventRefresh-departmentsTable');
             $this->toast()->success('Deleted', 'Department moved to trash.')->send();
         } catch (Exception $e) {
-            Log::error('Department Deletion Failed: '.$e->getMessage());
+            Log::error('Department Deletion Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'Failed to delete department. Please try again or contact support.')->send();
         }
     }
@@ -286,7 +282,7 @@ new class extends Component
         $department = $this->findManagedDepartment($id, true);
 
         $this->dialog()
-            ->question('Restore?', 'Are you sure you want to restore '.e($department->code).' - '.e($department->name).'?')
+            ->question('Restore?', 'Are you sure you want to restore ' . e($department->code) . ' - ' . e($department->name) . '?')
             ->confirm('Yes, restore', 'restoreDepartment', $department->id)
             ->cancel('Cancel')
             ->send();
@@ -306,14 +302,14 @@ new class extends Component
             $this->dispatch('pg:eventRefresh-departmentsTable');
             $this->toast()->success('Restored', 'Department has been restored.')->send();
         } catch (Exception $e) {
-            Log::error('Department Restoration Failed: '.$e->getMessage());
+            Log::error('Department Restoration Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'Failed to restore department. Please try again or contact support.')->send();
         }
     }
 
     protected function findPotentialDepartmentConflicts(): array
     {
-        return Department::query()->where('college_id', $this->college->id)->whereNull('deleted_at')->get()->filter(fn (Department $department) => $this->departmentLooksSimilar($department))->sortBy(fn (Department $department) => $department->code)->map(fn (Department $department) => e($department->code).' - '.e($department->name))->values()->all();
+        return Department::query()->where('college_id', $this->college->id)->whereNull('deleted_at')->get()->filter(fn(Department $department) => $this->departmentLooksSimilar($department))->sortBy(fn(Department $department) => $department->code)->map(fn(Department $department) => e($department->code) . ' - ' . e($department->name))->values()->all();
     }
 
     protected function departmentLooksSimilar(Department $department): bool
@@ -380,9 +376,9 @@ new class extends Component
 
     protected function duplicateDepartmentWarningMessage(array $conflicts): string
     {
-        $items = collect($conflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+        $items = collect($conflicts)->map(fn(string $conflict) => '&bull; ' . $conflict)->implode('<br>');
 
-        return 'There are already existing departments under this college with the same or similar code/name. '.'This may cause a conflict or duplicate record.<br><br>'.$items.'<br><br>Do you want to continue creating this department anyway?';
+        return 'There are already existing departments under this college with the same or similar code/name. ' . 'This may cause a conflict or duplicate record.<br><br>' . $items . '<br><br>Do you want to continue creating this department anyway?';
     }
 
     protected function findManagedDepartment(int $id, bool $includeTrashed = false): Department
@@ -413,16 +409,23 @@ new class extends Component
             </div>
         </div>
         <div class="flex gap-2">
-            <x-button wire:click="editCollege" sm color="primary" icon="pencil" text="Edit Details" />
-            <x-button tag="a" href="{{ route('college-admin.dashboard') }}" sm outline
-                text="Back to Dashboard" />
+            @can('colleges.update')
+                <x-button wire:click="editCollege" sm color="primary" icon="pencil" text="Edit Details" />
+            @endcan
+
+            @can('departments.view')
+                <x-button tag="a" href="{{ route('college-admin.dashboard') }}" sm outline
+                    text="Back to Dashboard" />
+            @endcan
         </div>
     </div>
 
     <div
         class="flex flex-col items-start justify-between gap-4 px-6 py-4 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
         <h1 class="text-2xl font-bold dark:text-white">Department List</h1>
-        <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+        @can('departments.create')
+            <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+        @endcan
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
@@ -451,8 +454,10 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="closeCollegeModal" sm />
-            <x-button color="primary" text="Save Changes" wire:click="confirmSaveCollege" sm />
+            @can('colleges.update')
+                <x-button flat text="Cancel" wire:click="closeCollegeModal" sm />
+                <x-button color="primary" text="Save Changes" wire:click="confirmSaveCollege" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 
@@ -482,8 +487,10 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="closeDepartmentModal" sm />
-            <x-button color="primary" :text="$isEditingDepartment ? 'Save Changes' : 'Create Department'" wire:click="confirmSaveDepartment" sm />
+            @canany(['departments.update', 'departments.create'])
+                <x-button flat text="Cancel" wire:click="closeDepartmentModal" sm />
+                <x-button color="primary" :text="$isEditingDepartment ? 'Save Changes' : 'Create Department'" wire:click="confirmSaveDepartment" sm />
+            @endcanany
         </x-slot:footer>
     </x-modal>
 </div>
