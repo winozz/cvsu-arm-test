@@ -186,7 +186,9 @@ new class extends Component {
                 </div>
 
                 <div class="flex justify-end">
-                    <x-button color="primary" wire:click="confirmSave" sm>Save User Assignments</x-button>
+                    @can('assignments.manage')
+                        <x-button color="primary" wire:click="confirmSave" sm>Save User Assignments</x-button>
+                    @endcan
                 </div>
             </div>
         @else

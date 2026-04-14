@@ -116,9 +116,11 @@ new class extends Component {
             {{ __('User Management') }}
         </h2>
         <div class="flex gap-2">
-            <x-button color="slate" text="Import" icon="arrow-up-tray" wire:click="$set('importModal', true)" sm
-                outline />
-            <x-button color="primary" text="New User" icon="plus" wire:click="create" sm />
+            @can('users.create')
+                <x-button color="slate" text="Import" icon="arrow-up-tray" wire:click="$set('importModal', true)" sm
+                    outline />
+                <x-button color="primary" text="New User" icon="plus" wire:click="create" sm />
+            @endcan
         </div>
     </div>
 
@@ -195,8 +197,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
-            <x-button color="primary" text="Save User" wire:click="save" sm />
+            @can('users.create')
+                <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
+                <x-button color="primary" text="Save User" wire:click="save" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 
@@ -209,8 +213,10 @@ new class extends Component {
                 password</p>
         </div>
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />
-            <x-button color="green" text="Run Import" wire:click="import" sm />
+            @can('users.create')
+                <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />
+                <x-button color="green" text="Run Import" wire:click="import" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 </div>

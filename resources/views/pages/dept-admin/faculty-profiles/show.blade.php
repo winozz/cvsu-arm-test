@@ -10,8 +10,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions;
 
     public FacultyProfile $facultyProfile;
@@ -98,7 +97,7 @@ new class extends Component
     {
         $this->ensureCanManage('faculty_profiles.update');
 
-        if (! $this->isEditing) {
+        if (!$this->isEditing) {
             $this->dialog()->question('Enable Editing?', 'Do you want to modify this faculty profile?')->confirm('Yes', 'enableEditing')->send();
 
             return;
@@ -130,13 +129,13 @@ new class extends Component
             'last_name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('faculty_profiles', 'email')->ignore($this->facultyProfile->id)->whereNull('deleted_at'), Rule::unique('users', 'email')->ignore($this->facultyProfile->user_id)->whereNull('deleted_at')],
             'campus_id' => 'required|exists:campuses,id',
-            'college_id' => ['required', Rule::exists('colleges', 'id')->where(fn ($query) => $query->where('campus_id', $this->campus_id))],
-            'department_id' => ['required', Rule::exists('departments', 'id')->where(fn ($query) => $query->where('college_id', $this->college_id))],
+            'college_id' => ['required', Rule::exists('colleges', 'id')->where(fn($query) => $query->where('campus_id', $this->campus_id))],
+            'department_id' => ['required', Rule::exists('departments', 'id')->where(fn($query) => $query->where('college_id', $this->college_id))],
             'sex' => 'nullable|in:Male,Female',
             'birthday' => 'nullable|date',
         ]);
 
-        $fullName = trim($this->first_name.' '.($this->middle_name ? $this->middle_name.' ' : '').$this->last_name);
+        $fullName = trim($this->first_name . ' ' . ($this->middle_name ? $this->middle_name . ' ' : '') . $this->last_name);
         $department = Department::query()->findOrFail($this->department_id);
 
         // Update the Profile
@@ -190,8 +189,13 @@ new class extends Component
             </div>
         </div>
         <div class="flex gap-2">
-            <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
-            <x-button tag="a" href="{{ route('department-admin.faculty-profiles') }}" sm outline text="Back to List" />
+            @can('faculty_profiles.update')
+                <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
+            @endcan
+            @can('faculty_profiles.view')
+                <x-button tag="a" href="{{ route('department-admin.faculty-profiles') }}" sm outline
+                    text="Back to List" />
+            @endcan
         </div>
     </div>
 
@@ -225,7 +229,9 @@ new class extends Component
 
         @if ($isEditing)
             <div class="mt-8 flex justify-end">
-                <x-button wire:click="confirmSave" color="primary" text="Save Changes" icon="check" />
+                @can('faculty_profiles.update')
+                    <x-button wire:click="confirmSave" color="primary" text="Save Changes" icon="check" />
+                @endcan
             </div>
         @endif
     </div>

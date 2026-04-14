@@ -37,7 +37,8 @@ class RoleSeeder extends Seeder
                 PermissionEnum::FACULTY_PROFILE_UPDATE->value,
                 PermissionEnum::COLLEGE_VIEW->value,
                 PermissionEnum::COLLEGE_UPDATE->value,
-                PermissionEnum::COURSE_VIEW->value,
+                PermissionEnum::PROGRAM_VIEW->value,
+                PermissionEnum::SUBJECT_VIEW->value,
                 PermissionEnum::ROOM_VIEW->value,
             ],
 
@@ -58,11 +59,17 @@ class RoleSeeder extends Seeder
                 PermissionEnum::FACULTY_PROFILE_DELETE->value,
                 PermissionEnum::FACULTY_PROFILE_RESTORE->value,
 
-                PermissionEnum::COURSE_CREATE->value,
-                PermissionEnum::COURSE_VIEW->value,
-                PermissionEnum::COURSE_UPDATE->value,
-                PermissionEnum::COURSE_DELETE->value,
-                PermissionEnum::COURSE_RESTORE->value,
+                PermissionEnum::PROGRAM_CREATE->value,
+                PermissionEnum::PROGRAM_VIEW->value,
+                PermissionEnum::PROGRAM_UPDATE->value,
+                PermissionEnum::PROGRAM_DELETE->value,
+                PermissionEnum::PROGRAM_RESTORE->value,
+
+                PermissionEnum::SUBJECT_CREATE->value,
+                PermissionEnum::SUBJECT_VIEW->value,
+                PermissionEnum::SUBJECT_UPDATE->value,
+                PermissionEnum::SUBJECT_DELETE->value,
+                PermissionEnum::SUBJECT_RESTORE->value,
 
                 PermissionEnum::ROOM_CREATE->value,
                 PermissionEnum::ROOM_VIEW->value,

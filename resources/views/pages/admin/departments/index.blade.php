@@ -380,16 +380,22 @@ new class extends Component {
             </div>
         </div>
         <div class="flex gap-2">
-            <x-button wire:click="editCollege" sm color="primary" icon="pencil" text="Edit Details" />
-            <x-button tag="a" href="{{ route('admin.campuses.show', [$this->campus->id]) }}" sm outline
-                text="Back to Colleges" />
+            @can('colleges.update')
+                <x-button wire:click="editCollege" sm color="primary" icon="pencil" text="Edit Details" />
+            @endcan
+            @can('colleges.view')
+                <x-button tag="a" href="{{ route('admin.campuses.show', [$this->campus->id]) }}" sm outline
+                    text="Back to Colleges" />
+            @endcan
         </div>
     </div>
 
     <div
         class="flex flex-col items-start justify-between gap-4 px-6 py-4 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
         <h1 class="text-2xl font-bold dark:text-white">Department List</h1>
-        <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+        @can('departments.create')
+            <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+        @endcan
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
@@ -418,8 +424,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="closeCollegeModal" sm />
-            <x-button color="primary" text="Save Changes" wire:click="confirmSaveCollege" sm />
+            @can('colleges.update')
+                <x-button flat text="Cancel" wire:click="closeCollegeModal" sm />
+                <x-button color="primary" text="Save Changes" wire:click="confirmSaveCollege" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 
@@ -449,8 +457,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="closeDepartmentModal" sm />
-            <x-button color="primary" :text="$isEditingDepartment ? 'Save Changes' : 'Create Department'" wire:click="confirmSaveDepartment" sm />
+            @canany(['departments.update', 'departments.create'])
+                <x-button flat text="Cancel" wire:click="closeDepartmentModal" sm />
+                <x-button color="primary" :text="$isEditingDepartment ? 'Save Changes' : 'Create Department'" wire:click="confirmSaveDepartment" sm />
+            @endcanany
         </x-slot:footer>
     </x-modal>
 </div>

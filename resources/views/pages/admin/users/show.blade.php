@@ -132,8 +132,12 @@ new class extends Component {
             </div>
         </div>
         <div class="flex gap-2">
-            <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
-            <x-button tag="a" href="{{ route('admin.users') }}" sm outline text="Back" />
+            @can('users.update')
+                <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
+            @endcan
+            @can('users.view')
+                <x-button tag="a" href="{{ route('admin.users') }}" sm outline text="Back" />
+            @endcan
         </div>
     </div>
 
@@ -239,7 +243,9 @@ new class extends Component {
 
         @if ($isEditing)
             <div class="mt-8 flex justify-end">
-                <x-button wire:click="confirmSave" color="primary" text="Save Changes" />
+                @can('users.update')
+                    <x-button wire:click="confirmSave" color="primary" text="Save Changes" />
+                @endcan
             </div>
         @endif
     </div>

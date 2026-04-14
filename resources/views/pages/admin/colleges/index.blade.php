@@ -94,8 +94,12 @@ new class extends Component {
         </div>
 
         <div class="flex gap-2">
-            <x-button wire:click="editCampus" sm color="primary" icon="pencil" text="Edit Details" />
-            <x-button tag="a" href="{{ route('admin.campuses') }}" sm outline text="Back to Campuses" />
+            @can('campuses.update')
+                <x-button wire:click="editCampus" sm color="primary" icon="pencil" text="Edit Details" />
+            @endcan
+            @can('campuses.view')
+                <x-button tag="a" href="{{ route('admin.campuses') }}" sm outline text="Back to Campuses" />
+            @endcan
         </div>
     </div>
     <div
@@ -125,8 +129,10 @@ new class extends Component {
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="closeCampusModal" sm />
-            <x-button color="primary" text="Save Changes" wire:click="confirmSaveCampus" sm />
+            @can('campuses.update')
+                <x-button flat text="Cancel" wire:click="closeCampusModal" sm />
+                <x-button color="primary" text="Save Changes" wire:click="confirmSaveCampus" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 </div>

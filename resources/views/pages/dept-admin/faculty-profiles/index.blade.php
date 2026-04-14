@@ -12,8 +12,7 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
@@ -81,7 +80,7 @@ new class extends Component
         $this->ensureCanManage('faculty_profiles.create');
 
         $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
-        Excel::import(new FacultyProfilesImport, $this->importFile);
+        Excel::import(new FacultyProfilesImport(), $this->importFile);
 
         $this->importModal = false;
         $this->importFile = null;
@@ -95,8 +94,10 @@ new class extends Component
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Faculty Profiles</h1>
         <div class="flex gap-2">
-            <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Faculty" />
-            <x-button wire:click="create" sm color="primary" icon="plus" text="New Faculty" />
+            @can('faculty_profiles.create')
+                <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Faculty" />
+                <x-button wire:click="create" sm color="primary" icon="plus" text="New Faculty" />
+            @endcan
         </div>
     </div>
 
@@ -140,8 +141,10 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('createModal', false)" />
-            <x-button color="primary" text="Save Faculty" wire:click="save" />
+            @can('faculty_profiles.create')
+                <x-button flat text="Cancel" wire:click="$set('createModal', false)" />
+                <x-button color="primary" text="Save Faculty" wire:click="save" />
+            @endcan
         </x-slot:footer>
     </x-modal>
 
@@ -152,8 +155,10 @@ new class extends Component
                 college_id, department_id, academic_rank, contactno, sex, birthday, address, password</p>
         </div>
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('importModal', false)" />
-            <x-button color="primary" text="Upload & Import" wire:click="import" wire:loading.attr="disabled" />
+            @can('faculty_profiles.create')
+                <x-button flat text="Cancel" wire:click="$set('importModal', false)" />
+                <x-button color="primary" text="Upload & Import" wire:click="import" wire:loading.attr="disabled" />
+            @endcan
         </x-slot:footer>
     </x-modal>
 </div>
