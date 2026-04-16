@@ -4,11 +4,6 @@ use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 use Spatie\Permission\Models\Role;
 
-beforeEach(function () {
-    collect(['superAdmin', 'collegeAdmin', 'deptAdmin', 'faculty'])
-        ->each(fn (string $role) => Role::findOrCreate($role, 'web'));
-});
-
 function mockGoogleUser(string $email, string $id = 'google-123', ?string $avatar = 'https://example.test/avatar.png'): void
 {
     $googleUser = Mockery::mock()->shouldIgnoreMissing();
@@ -26,70 +21,77 @@ function mockGoogleUser(string $email, string $id = 'google-123', ?string $avata
         ->andReturn($driver);
 }
 
-test('google callback logs in eligible user and redirects to dashboard', function () {
-    $user = User::factory()->create([
-        'email' => 'admin@cvsu.edu.ph',
-        'name' => 'Admin User',
-    ]);
-    $user->assignRole('superAdmin');
+describe('google authentication', function () {
+    beforeEach(function () {
+        collect(['superAdmin', 'collegeAdmin', 'deptAdmin', 'faculty'])
+            ->each(fn (string $role) => Role::findOrCreate($role, 'web'));
+    });
 
-    mockGoogleUser('admin@cvsu.edu.ph');
+    it('google callback logs in eligible user and redirects to dashboard', function () {
+        $user = User::factory()->create([
+            'email' => 'admin@cvsu.edu.ph',
+            'name' => 'Admin User',
+        ]);
+        $user->assignRole('superAdmin');
 
-    $response = $this->get(route('google.callback'));
+        mockGoogleUser('admin@cvsu.edu.ph');
 
-    $response->assertRedirect(route('admin.dashboard'));
-    $response->assertSessionHasNoErrors();
-    $this->assertAuthenticatedAs($user->fresh());
-});
+        $response = $this->get(route('google.callback'));
 
-test('google callback rejects unauthorized domains', function () {
-    mockGoogleUser('user@yahoo.com');
+        $response->assertRedirect(route('admin.dashboard'));
+        $response->assertSessionHasNoErrors();
+        $this->assertAuthenticatedAs($user->fresh());
+    });
 
-    $response = $this->get(route('google.callback'));
+    it('google callback rejects unauthorized domains', function () {
+        mockGoogleUser('user@yahoo.com');
 
-    $response->assertRedirect(route('login'));
-    $response->assertSessionHasErrors([
-        'email' => 'Please use an authorized Google account to continue.',
-    ]);
-    $this->assertGuest();
-});
+        $response = $this->get(route('google.callback'));
 
-test('google callback rejects users not provisioned in the system', function () {
-    mockGoogleUser('missing@cvsu.edu.ph');
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHasErrors([
+            'email' => 'Please use an authorized Google account to continue.',
+        ]);
+        $this->assertGuest();
+    });
 
-    $response = $this->get(route('google.callback'));
+    it('google callback rejects users not provisioned in the system', function () {
+        mockGoogleUser('missing@cvsu.edu.ph');
 
-    $response->assertRedirect(route('login'));
-    $response->assertSessionHasErrors([
-        'email' => 'Your account must be added by an administrator before you can sign in.',
-    ]);
-    $this->assertGuest();
-});
+        $response = $this->get(route('google.callback'));
 
-test('google callback rejects ineligible users', function () {
-    $user = User::factory()->create([
-        'email' => 'faculty@cvsu.edu.ph',
-    ]);
-    $user->assignRole('faculty');
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHasErrors([
+            'email' => 'Your account must be added by an administrator before you can sign in.',
+        ]);
+        $this->assertGuest();
+    });
 
-    mockGoogleUser('faculty@cvsu.edu.ph');
+    it('google callback rejects ineligible users', function () {
+        $user = User::factory()->create([
+            'email' => 'faculty@cvsu.edu.ph',
+        ]);
+        $user->assignRole('faculty');
 
-    $response = $this->get(route('google.callback'));
+        mockGoogleUser('faculty@cvsu.edu.ph');
 
-    $response->assertRedirect(route('login'));
-    $response->assertSessionHasErrors([
-        'email' => 'Your account is inactive. Please contact the administrator.',
-    ]);
-    $this->assertGuest();
-});
+        $response = $this->get(route('google.callback'));
 
-test('logout clears authenticated session and redirects to login', function () {
-    $user = User::factory()->create();
-    $user->assignRole('superAdmin');
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHasErrors([
+            'email' => 'Your account is inactive. Please contact the administrator.',
+        ]);
+        $this->assertGuest();
+    });
 
-    $this->actingAs($user)
-        ->post(route('logout'))
-        ->assertRedirect(route('login'));
+    it('logout clears authenticated session and redirects to login', function () {
+        $user = User::factory()->create();
+        $user->assignRole('superAdmin');
 
-    $this->assertGuest();
+        $this->actingAs($user)
+            ->post(route('logout'))
+            ->assertRedirect(route('login'));
+
+        $this->assertGuest();
+    });
 });

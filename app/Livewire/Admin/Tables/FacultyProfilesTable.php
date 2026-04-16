@@ -142,15 +142,6 @@ final class FacultyProfilesTable extends PowerGridComponent
         ];
     }
 
-    private function isTrashedRow(mixed $row): bool
-    {
-        if (method_exists($row, 'trashed')) {
-            return $row->trashed();
-        }
-
-        return filled(data_get($row, 'deleted_at'));
-    }
-
     public function confirmDeleteFaculty(array $params): void
     {
         $this->ensureCanManage('faculty_profiles.delete');

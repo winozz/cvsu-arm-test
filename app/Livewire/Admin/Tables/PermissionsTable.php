@@ -138,7 +138,7 @@ final class PermissionsTable extends PowerGridComponent
             $this->toast()->success('Deleted', 'Permission moved to trash.')->send();
             $this->dispatch('pg:eventRefresh-'.$this->tableName);
         } catch (\Exception $e) {
-            Log::error('Permission Deletion Failed'.$e->getMessage());
+            Log::error('Permission deletion failed: '.$e->getMessage());
             $this->toast()->error('Error', 'Failed to delete permission. Please try again or contact support.')->send();
         }
     }
@@ -162,10 +162,10 @@ final class PermissionsTable extends PowerGridComponent
 
         try {
             Permission::withTrashed()->findOrFail($id)->restore();
-            $this->toast()->success('Restored', 'Permissionhas been restored.')->send();
+            $this->toast()->success('Restored', 'Permission has been restored.')->send();
             $this->dispatch('pg:eventRefresh-'.$this->tableName);
         } catch (\Exception $e) {
-            Log::error('Permission Restoration Failed'.$e->getMessage());
+            Log::error('Permission restoration failed: '.$e->getMessage());
             $this->toast()->error('Error', 'Failed to restore permission. Please try again or contact support.')->send();
         }
     }

@@ -33,7 +33,7 @@ final class DepartmentsTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable(fileName: 'permissions-list')
+            PowerGrid::exportable(fileName: 'departments-list')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 

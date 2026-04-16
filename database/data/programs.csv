@@ -1,0 +1,93 @@
+id,title,code,description,no_of_years,level
+380,Bachelor of Agricultural Entrepreneurship,BAE,NULL,4,UNDERGRADUATE
+381,Bachelor of Agricultural Entrepreneurship major in Crop Production Technology,BAE-CPT,NULL,4,UNDERGRADUATE
+382,Bachelor of Agricultural Entrepreneurship major in Animal Production Technology,BAE-APT,NULL,4,UNDERGRADUATE
+383,Bachelor of Science in Agriculture,BSA,NULL,4,UNDERGRADUATE
+384,Bachelor of Science in Agriculture major in Crop Science,BSA-CS,NULL,4,UNDERGRADUATE
+385,Bachelor of Science in Agriculture major in Animal Science,BSA-AS,NULL,4,UNDERGRADUATE
+386,Bachelor of Science in Environmental Science,BSES,NULL,4,UNDERGRADUATE
+387,Bachelor of Science in Food Technology,BSFT,NULL,4,UNDERGRADUATE
+388,Bachelor of Arts in English Language Studies,BAELS,NULL,4,UNDERGRADUATE
+389,Bachelor of Arts in Journalism,BAJOURN,NULL,4,UNDERGRADUATE
+390,Bachelor of Arts in Political Science,BAPS,NULL,4,UNDERGRADUATE
+391,Bachelor of Science in Applied Mathematics,BSAM,NULL,4,UNDERGRADUATE
+392,Bachelor of Science in Biology,BSBIO,NULL,4,UNDERGRADUATE
+393,Bachelor of Science in Biology major in Ecology,BSBIO-ECOLOGY,NULL,4,UNDERGRADUATE
+394,Bachelor of Science in Biology major in General Biology,BSBIO-GEN BIO,NULL,4,UNDERGRADUATE
+395,Bachelor of Science in Biology major in Medical Biology,BSBIO-MED BIO,NULL,4,UNDERGRADUATE
+396,Bachelor of Science in Biology major in Microbiology,BSBIO-MICRO,NULL,4,UNDERGRADUATE
+397,Bachelor of Science in Psychology,BSPSYC,NULL,4,UNDERGRADUATE
+398,Bachelor of Science in Social Work,BSSW,NULL,4,UNDERGRADUATE
+399,Bachelor of Science in Development Communication,BSDEVCOM,NULL,4,UNDERGRADUATE
+400,Bachelor of Arts in Communication,BACOMM,NULL,4,UNDERGRADUATE
+401,Bachelor of Science in Criminology,BSC,NULL,4,UNDERGRADUATE
+402,Bachelor of Science in Industrial Security Management,BSISM,NULL,4,UNDERGRADUATE
+403,Bachelor of Science in Accountancy,BSACC,NULL,4,UNDERGRADUATE
+404,Bachelor of Science in Business Administration major in Human Resource Management,BSBA-HRM,NULL,4,UNDERGRADUATE
+405,Bachelor of Science in Business Administration major in Financial Management,BSBA-FM,NULL,4,UNDERGRADUATE
+406,Bachelor of Science in Business Administration major in Marketing Management,BSBA-MM,NULL,4,UNDERGRADUATE
+407,Bachelor of Science in Business Administration major in Operations Management,BSBA-OM,NULL,4,UNDERGRADUATE
+408,Bachelor of Science in Business Administration major in Service Management Program,BSBA-SMP,NULL,4,UNDERGRADUATE
+409,Bachelor of Science in Business Management,BSBM,NULL,4,UNDERGRADUATE
+410,Bachelor of Science in Business Management major in Human Resource Management,BSBM-HRM,NULL,4,UNDERGRADUATE
+411,Bachelor of Science in Business Management major in Financial Management,BSBM-FM,NULL,4,UNDERGRADUATE
+412,Bachelor of Science in Business Management major in Marketing Management,BSBM-MM,NULL,4,UNDERGRADUATE
+413,Bachelor of Science in Business Management major in Operations Management,BSBM-OM,NULL,4,UNDERGRADUATE
+414,Bachelor of Science in Business Management major in Service Management Program,BSBM-SMP,NULL,4,UNDERGRADUATE
+415,Bachelor of Early Childhood Education,BECED,NULL,4,UNDERGRADUATE
+416,Bachelor of Elementary Education,BEE,NULL,4,UNDERGRADUATE
+417,Bachelor of Science in Hospitality Management,BSHM,NULL,4,UNDERGRADUATE
+418,Bachelor of Science in Tourism Management,BSTM,NULL,4,UNDERGRADUATE
+419,Bachelor of Secondary Education major in English,BSE-E,NULL,4,UNDERGRADUATE
+420,Bachelor of Secondary Education major in Filipino,BSE-F,NULL,4,UNDERGRADUATE
+421,Bachelor of Secondary Education major in Mathematics,BSE-M,NULL,4,UNDERGRADUATE
+422,Bachelor of Secondary Education major in Science,BSE-S,NULL,4,UNDERGRADUATE
+423,Bachelor of Secondary Education major in Social Studies,BSE-SS,NULL,4,UNDERGRADUATE
+424,Bachelor of Special Needs Education,BSNED,NULL,4,UNDERGRADUATE
+425,Bachelor of Technology and Livelihood Education major in Home Economics,BTLE,NULL,4,UNDERGRADUATE
+426,Teacher Certificate Program,TCP,NULL,2,POST-BACCALAUREATE
+427,Bachelor of Science in Agricultural and Biosystems Engineering,BSABE,NULL,4,UNDERGRADUATE
+428,Bachelor of Science in Architecture,BSARCH,NULL,5,UNDERGRADUATE
+429,Bachelor of Science in Civil Engineering,BSCE,NULL,4,UNDERGRADUATE
+430,Bachelor of Science in Civil Engineering major in Construction Engineering and Management,BSCE-CEM,NULL,4,UNDERGRADUATE
+431,Bachelor of Science in Civil Engineering major in Structural Engineering,BSCE-SE,NULL,4,UNDERGRADUATE
+432,Bachelor of Science in Computer Engineering,BSCPE,NULL,4,UNDERGRADUATE
+433,Bachelor of Science in Computer Science,BSCS,NULL,4,UNDERGRADUATE
+434,Bachelor of Science in Electrical Engineering,BSEE,NULL,4,UNDERGRADUATE
+435,Bachelor of Science in Electronics Engineering,BSECE,NULL,4,UNDERGRADUATE
+436,Bachelor of Science in Industrial Engineering,BSIE,NULL,4,UNDERGRADUATE
+437,Bachelor of Science in Industrial Technology major in Automotive Technology,BSINDT-AUTO,NULL,4,UNDERGRADUATE
+438,Bachelor of Science in Industrial Technology major in Electrical Technology,BSINDT-ELEC,NULL,4,UNDERGRADUATE
+439,Bachelor of Science in Industrial Technology major in Electronics Technology,BSINDT-ELEX,NULL,4,UNDERGRADUATE
+440,Bachelor of Science in Information Technology,BSIT,NULL,4,UNDERGRADUATE
+441,Doctor of Medicine,DMED,NULL,4,POST-BACCALAUREATE
+442,Bachelor of Science in Medical Technology,BSMT,NULL,4,UNDERGRADUATE
+443,Bachelor of Science in Midwifery,BSM,NULL,4,UNDERGRADUATE
+444,Bachelor of Science in Nursing,BSN,NULL,4,UNDERGRADUATE
+445,Diploma in Midwifery,MW,NULL,4,PRE-BACCALAUREATE
+446,Bachelor of Physical Education,BPED,NULL,4,UNDERGRADUATE
+447,Bachelor of Science in Exercise and Sports Sciences,BSESS,NULL,4,UNDERGRADUATE
+448,Bachelor of Science in Exercise and Sports Sciences major in Fitness and Sports Coaching,BSESS-SC,NULL,4,UNDERGRADUATE
+449,Bachelor of Science in Exercise and Sports Sciences major in Fitness and Sports Management,BSESS-SM,NULL,4,UNDERGRADUATE
+450,Doctor of Veterinary Medicine,DVM,NULL,6,UNDERGRADUATE
+451,Bachelor of Science in Industrial Technology major in Drafting Technology,BSIT-DRAFT,NULL,4,UNDERGRADUATE
+452,Bachelor of Science in Industrial Technology major in Mechanical Technology,BSIT-MECH,NULL,4,UNDERGRADUATE
+453,Bachelor of Science in Industrial Technology major in Stationary Marine Technology,BSIT-SMT,NULL,4,UNDERGRADUATE
+454,Bachelor of Science in Industrial Technology major in Welding and Fabrication Technology,BSIT-WAF,NULL,4,UNDERGRADUATE
+455,Bachelor of Science in Industrial Technology major in Fashion and Apparel Technology,BSIT-FAT,NULL,4,UNDERGRADUATE
+456,Bachelor of Science in Industrial Technology major in HVAC-R Technology,BSIT-HVAC-R,NULL,4,UNDERGRADUATE
+457,Bachelor of Technical-Vocational Teacher Education major in Food and Service Management,BTVTED-FSM,NULL,4,UNDERGRADUATE
+458,Bachelor of Technical-Vocational Teacher Education major in Automotive Technology,BTVTED-AUTO,NULL,4,UNDERGRADUATE
+459,Bachelor of Technical-Vocational Teacher Education major in Electrical Technology,BTVTED-ELEC,NULL,4,UNDERGRADUATE
+460,Bachelor of Technical-Vocational Teacher Education major in Electronics Technology,BTVTED-ELEX,NULL,4,UNDERGRADUATE
+461,Bachelor of Technical-Vocational Teacher Education major in Garments Fashion and Design,BTVTED-GFD,NULL,4,UNDERGRADUATE
+462,Bachelor of Technical-Vocational Teacher Education major in HVAC Technology,BTVTED-HVAC,NULL,4,UNDERGRADUATE
+463,Bachelor of Technical-Vocational Teacher Education major in Mechanical Technology,BTVTED-MT,NULL,4,UNDERGRADUATE
+464,Bachelor of Science in Fisheries and Aquatic Sciences,BSFAS,NULL,4,UNDERGRADUATE
+465,Bachelor of Science in Office Administration,BSOA,NULL,4,UNDERGRADUATE
+466,Bachelor of Science in Economics,BSECON,NULL,4,UNDERGRADUATE
+467,Bachelor of Science in International Studies major in Asian Studies,BSIS-AS,NULL,4,UNDERGRADUATE
+468,Bachelor of Science in International Studies major in European Studies,BSIS-ES,NULL,4,UNDERGRADUATE
+469,Bachelor of Science in Development Management major in Training Program Management,BSDM-TPRM,NULL,4,UNDERGRADUATE
+470,Bachelor of Science in Development Management major in Rural Development Management,BSDM-RUDM,NULL,4,UNDERGRADUATE
+471,Bachelor of Science in Entrepreneurship,BSENT,NULL,4,UNDERGRADUATE

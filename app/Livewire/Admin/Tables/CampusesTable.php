@@ -29,7 +29,7 @@ final class CampusesTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable(fileName: 'permissions-list')
+            PowerGrid::exportable(fileName: 'campuses-list')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 

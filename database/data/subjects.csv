@@ -1,0 +1,1863 @@
+id,title,code,description,lecture_units,laboratory_units,is_credit,created_at,updated_at
+21,***,COMMELEC115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+22,AB Electrification and Control Systems,ABEN80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+23,AB Machinery and Mechanization,ABEN70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+24,AB Power Engineering,ABEN50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+25,AB Products Processing and Storage,ABEN85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+26,AB Structures Engineering,ABEN60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+27,"ABE and Related Laws, Specifications, Contracts, and Professional Ethics",ABEN24,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+28,Abstract Algebra,BSEM37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+29,AC and DC Industrial Motor Controls,ELEC90,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+30,Accountancy Research,ACTG32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+31,Accounting for Business Combinations,ACTG31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+32,Accounting for Government and Non-Profit Organizations,ACTG33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+33,Accounting for Special Transactions,ACTG30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+34,Accounting Information System,ITEC30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+35,Accounting Research Methods,ACTG29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+36,"Adapted Physical Education and Recreation, Music and Health",SNED28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+37,Administration and Management of Physical Education and Health Education Programs,BPED20,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+38,Administration and Supervision,MDWY110a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+40,Advance Digital Electronics,ELEX75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+41,Advanced Calculus I,BSAM65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+42,Advanced Database System,DCIT55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+43,Advanced Engineering Math,DCEE22a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+44,Advanced Engineering Mathematics,ENSC21a,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+45,Advanced Genetics I,BGEN50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+46,Advanced Genetics II,BGEN55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+47,Advanced Mathematics for IE,IENG70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+48,Advanced Statistics,BSEM34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+50,Agribusiness Commodity Systems,AGSC4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+51,Agribusiness Finance,ETRP55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+52,Agribusiness Management,ETRP50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+53,Agribusiness Research,ETRP60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+54,Agricultural Competency Appraisal I,AGSC197,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+55,Agricultural Competency Appraisal II,AGSC198,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+56,Agricultural Economics and Marketing,ECON12,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+57,Agricultural Extension and Communication,EXTN11,NULL,3,0,1,7/8/2024 16:27,11/25/2024 9:04
+58,Agricultural Policy and Development,AGSC5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+59,Agri-Fishery Part I,TECO25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+60,Agri-Fishery Part II,TECO28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+61,Agronomic Crop Production Enterprise,AECP131,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+62,Analysis of Urine and Body Fluids,MEDT15,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+63,Analytic Geometry,MATH1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+64,Analytical Chemistry,BSES28,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+65,Analytical Chemistry (Qualitative and Quantitative Chem),CHEM16,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+66,Anatomy and Physiology,BSES24,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+67,Anatomy and Physiology of Human Movement,BPED65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+68,Ang Filipino sa Kurikulum ng Batayang Edukasyon,BSEF23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+69,Animal Breeding,ANSC131,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+70,Animal Diseases Prevention and Control,ANSC136,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+71,Animal Nutrition and Feeding,AEAP106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+72,Animal Physiology,ANSC106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+73,Animal Product Processing,AEAP121,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+74,Animal Welfare,ZOTC85,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+75,"Apiculture, Wildlife Conservation and Medicine",VMED95,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+76,Application Development and Emerging Technologies,DCIT26,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+77,Applied Business Tools and Technologies,TOUR23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+78,Applied Business Tools and Technologies (GDS) with Lab,BSHM23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+79,"Applied Motor Control  and Learning Exercise, Sports and Dance",BPED155,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+80,Applied Multivariate Analysis,BSAM121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+81,Applied Physics,PHYS5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+82,Applied Statistics,STAT2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+83,Applied Statistics and Experimental Designs for Agricultural Science,STAT11,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+84,Applied Thermodynamics,ENGS29,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+85,Approaches and Practices in Pest Management,CRPT2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+86,Aquaculture and Aquatic Animal Medicine,VMED85,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+87,Aquaculture Engineering,ABEN115,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+88,Aquatic Science,ENSC65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+89,Aquatics,BPED105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+90,Architectural Design I,ARCH50,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+91,Architectural Design II,ARCH60,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+92,Architectural Design III,ARCH75,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+93,Architectural Design IV,ARCH95,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+94,Architectural Design IX,ARCH205,NULL,1,4,1,7/8/2024 16:27,7/8/2024 16:27
+95,Architectural Design V,ARCH115,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+96,Architectural Design VI,ARCH135,NULL,1,3,1,7/8/2024 16:27,7/8/2024 16:27
+97,Architectural Design VII,ARCH160,NULL,1,4,1,7/8/2024 16:27,7/8/2024 16:27
+98,Architectural Design VIII,ARCH185,NULL,1,4,1,7/8/2024 16:27,7/8/2024 16:27
+99,Architectural Design X-Thesis,ARCH225,NULL,1,4,1,7/8/2024 16:27,7/8/2024 16:27
+100,Architectural Interiors,ARCH70,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+101,Architectural Structures,ARCH28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+102,Architecture and Organization,COSC65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+103,Argumentation and Debate,ENLS121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+104,Arnis and Disarming Techniques,FITT6,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+105,Art Appreciation,GNED01,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+106,Art Appreciation (Creativity in Engg Design),GNED01,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+107,Arts in Daily Living,HECO29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+108,Arts in the K- 12 Curriculum,BPED55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+109,Asian Language I,ALAN1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+110,Asian Language II,ALAN2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+111,Asian Studies,BSESS32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+112,Assessment and Evaluation in Mathematics,BSEM40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+113,Assessment and Evaluation in the Social Sciences,BSESS40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+114,Assessment in Learning I,EDUC75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+115,Assessment in Learning II,EDUC80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+116,Assessment of Children's Development and Learning,ECED29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+117,Assessment of Fitness and Sports,FASC130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+118,Assessment of Fitness and Sports Performance,FASM115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+119,Asset Protection,ISAD34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+120,Astronomy,BSES35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+121,Auditing and Assurance Principles,AUDI21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+122,Auditing and Assurance: Concepts and Applications I,AUDI22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+123,Auditing and Assurance: Concepts and Applications II,AUDI23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+124,Auditing and Assurance: Specialized Industries,AUDI24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+125,Auditing in a CIS Environment,AUDI25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+126,AUTO Design Project I,AUTO200a,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+127,AUTO Design Project II,AUTO200b,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+128,Auto Electrical and Electronics System,AUTO50,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+129,Auto Shop Service Management,AUTO105,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+130,Automata Theory and Formal Languages,COSC100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+131,Automotive Air-conditioning System,AUTO90,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+132,Automotive LPG System,AUTO80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+133,Banking and Financial Institutions,FMGT55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+134,Bar and Beverage Management with Lab,BSHM26,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+135,Barayti at Baryasyon ng Wika,BSEF31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+136,Basic Biotechnology,GBIO110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+137,Basic Farm Machineries and Mechanization,ABEN70a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+138,"Basic Farm Machineries, Mechanization and Water Management",ABEN70a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+139,Basic Food Preparation,FTEC55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+140,Basic Microeconomics,BMGT21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+141,Basic Nutrition,FTEC100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+142,Basic Occupational Health and Safety,DCEE25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+143,Basic Occupational Safety and Health,IENG125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+144,"Basic Occupational Safety, Health, and Environmental Protection",ISAD36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+145,Basic Social Management and Administration,BSESS111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+146,Basic Thermodynamics,ENGS28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+147,Basic Veterinary Pharmacology,VPHM50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+148,Behavior Management and Modification,SNED26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+149,Behavioral Ecology,BECL55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+150,Beneficial Arthropods and Microorganisms,AGSC65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+151,Biochemistry,BSES27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+152,Biochemistry for Health Sciences,CHBH13,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+153,Biochemistry for Med Lab Science,CHEM14,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+154,Biodiversity Conservation,ENSC60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+155,"Biodiversity, Conservation and Resource Management",BECL85,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+156,Biological Research Methods,GBIO145,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+157,Biology Elective I,BELE1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+158,Biology Elective II,BELE2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+159,Biology for Health Sciences,BIOL5,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+160,Biomechanics,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+161,Biophysics,BPHY50,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+162,Biostatistics,SBIO100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+163,Biostatistics and Epidemiology,MEDT05,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+164,Body Management and Under chassis,AUTO110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+165,Body Repair and Painting,AUTO100,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+166,Bread and Pastry Production,BSHM131,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+167,Broadcast Journalism,JOUR90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+168,Building and Enhancing New Literacies Across the Curriculum,EDUC95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+169,Building Systems Design,CENG65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+170,Building Technology I,ARCH80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+171,Building Technology II,ARCH120,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+172,Building Technology III,ARCH140,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+173,Building Technology IV,ARCH190,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+174,Building Technology V,ARCH210,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+175,Building Utilities I,ARCH90,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+176,Building Utilities II,ARCH100,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+177,Building Utilities III,ARCH165,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+178,Building Wiring Installation and Design,ELEC60,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+179,Business and Competitive Intelligence in Industrial Security,ISAD39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+180,Business Communication,ENLS112,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+181,Business Law,BMGT24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+182,Business Law (Obligations and Contracts),BMGT24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+183,Business Laws and Regulations,BLAW22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+184,Business Management and Application for Architecture I,ARCH220,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+185,Business Management and Application for Architecture II,ARCH235,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+186,Business Plan and Feasibility Studies,ETRP65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+187,Business Report Writing,OFAD90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+188,Business Research,BMGT29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+189,Business Taxation,TAXN22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+190,Business Ethics and Law,FASM140,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+191,CADD I,ARCH130,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+192,CADD II,ARCH155,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+193,Calculus,MATH2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+194,Calculus (Integral and Differential),MATH8,NULL,5,0,1,7/8/2024 16:27,7/8/2024 16:27
+195,Calculus I,BSAM50,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+196,Calculus I - Differential Calculus,MATH11,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+197,Calculus I with Analytic Geometry,BSEM27,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+198,Calculus II,BSAM55,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+199,Calculus II - Integral Calculus,MATH12,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+200,Calculus 3,BSAM60,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+201,Campus Journalism,BSEE40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+202,Canine and Feline Medicine,VMED55,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+203,Capital Markets Management,FMGT80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+204,Capstone Project and Research I,ITEC200A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+205,Capstone Project and Research II,ITEC200B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+206,Car Care Servicing Emission Control and Tune-up,AUTO75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+207,Carburetion and Fuel Injection Calibration,AUTO70,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+208,Cardiorespiratory Fitness/ Aerobic Training,SESS100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+209,"Care of Clients with Life Threatening Conditions/Problems/High Acuity Acutely/Ill/Multi-organ and Emergency Situations, Acute and Chronic (RLE)",NURS19,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+210,Care of Clients with Maladaptive Patterns of Behavior (RLE),NURS18,NULL,7,1,1,7/8/2024 16:27,7/8/2024 16:27
+211,"Care of Clients with Problems in Nutrition and GI,  Metabolism and Endocrine, Perception and Coordination,   Acute and Chronic (RLE)",NURS17,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+212,"Care of Clients with Problems in Oxygenation Fluids and Electrolytes , Infectious, Inflammatory and Immunologic Response, Cellular Aberrations, Acute and Chronic (RLE)",NURS13,NULL,13,1,1,7/8/2024 16:27,7/8/2024 16:27
+213,"Care of Mother, Child at Risk or with Problems (Acute and Chronic) (RLE)",NURS10,NULL,11,1,1,7/8/2024 16:27,7/8/2024 16:27
+214,"Care of Mother, Child, Adolescent (Well Client) (RLE)",NURS08,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+215,Care of Older Person (RLE),NURS15,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+216,CE Competency Appraisal I,CENG196,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+217,CE Competency Appraisal II,CENG197,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+218,CE Competency Appraisal III,CENG198,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+219,"CE Laws, Ethics, Specification and Contracts",CENG105,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+220,CE Project I,CENG200a,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+221,CE Project II,CENG200b,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+222,CE Project 3,CENG200c,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+223,Cell and Molecular Biology,BIOL25,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+224,Cereal/ Bakery Science,FTEC116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+225,Cereals and Field Legumes,CRSC116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+226,"Character Formation with Leadership, Decision Making, Management and Admin",CFLM2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+227,"Character Formation, Nationalism and Patriotism",CFLM1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+228,Chemical Biology I: Organic Molecules,CBIO50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+229,Chemical Biology II: Analytical Methods for Biology,CBIO55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+230,Chemical Biology 3: Biomolecules,CBIO60,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+231,Chemistry for Engineers,CHEM14,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+232,Child and Adolescent Development,HECO27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+233,Child Development,ECED23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+234,Children and Adolescent Literature,BSEE32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+235,Children's Literature,ECED28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+236,Civic Engagement and Participatory Communication,COMMELEC111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+237,Civil Engineering Orientation,CENG21,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+238,Climate Science,ENSC70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+239,Clinical Bacteriology,MEDT14,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+240,Clinical Chemistry I,MEDT13,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+241,Clinical Chemistry II,MEDT19,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+242,Clinical Internship I,MEDT25,NULL,0,12,1,7/8/2024 16:27,7/8/2024 16:27
+243,Clinical Internship II,MEDT28,NULL,0,12,1,7/8/2024 16:27,7/8/2024 16:27
+244,Clinical Management I (OB Emergencies High Risk Pregnancy Management),MDWY95a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+245,Clinical Parasitology,MEDT09,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+246,Clinical Practicum ECC VIII (RLE),MDWY29b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+247,Clinical Practicum I (RLE),MDWY55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+248,Clinical Practicum II (RLE),MDWY65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+249,Clinical Practicum III (RLE),MDWY70,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+250,Clinical Practicum IV (RLE),MDWY80,NULL,5,1,1,7/8/2024 16:27,7/8/2024 16:27
+251,Clinical Practicum IX (RLE),MDWY110b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+252,Clinical Practicum V (RLE),MDWY90,NULL,6,1,1,7/8/2024 16:27,7/8/2024 16:27
+253,Clinical Practicum VI (RLE),MDWY95b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+254,Clinical Practicum VII (RLE),MDWY105b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+255,Clinical Practicum VII CHM (RLE),MDWY100b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+256,Clinical Psychology,BPSY106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+257,Clinico-Pathological Conference I,VCLN60,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+258,Clinico-Pathological Conference II,VCLN65,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+259,Clothing Construction,HECO31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+260,"Clothing Selection, Purchase, and Care",HECO26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+261,Coaching Theory and Practice in Exercise and Sports,FASC150,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+262,Coffee and Cacao Production and Processing,CRSC111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+263,Cognitive Psychology,BPSY90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+264,College Algebra,MATH2a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+265,College and Advanced Algebra,BSEM22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+266,Communication in the ASEAN Setting,DVCMELEC125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+267,Communication Management,COMM80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+268,Communication Media Law and Ethics,COMM70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+269,Communication Media Laws and Ethics,DVCM75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+270,Communication Planning,COMM75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+271,Communication Programs and Campaigns,DVCM80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+272,Communication Research,COMM60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+273,Communication Theory,COMM55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+274,"Communication, Culture and Society",COMM65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+275,"Communication, Culture, and Society",DVCM60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+276,Communications I (Principles of Communication Systems),ECEN80,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+277,Communications II,ECEN90,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+278,Communications 3 (Transmission Media and Antenna),ECEN95,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+279,Communications 4 (Data Communications),ECEN100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+280,Community and Public Health for Med Lab Science,MEDT03,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+281,Community Development and Social Change,DMGT22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+282,Community Ecology,BECL60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+283,Community Health Nursing I Individual and Family as Client (RLE),NURS05,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+284,Community Health Nursing II Population Groups and Community  as Clients (RLE),NURS14,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+285,Community Health Program Management,MDWY125b,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+286,Community Health Service Management (Program),MDWY100a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+287,Community Journalism,JOUR101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+288,Community Media Management,DVCMELEC120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+289,Community Organizing and Development,RUDM116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+290,Comparative Economic Planning,BSESS34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+291,Comparative Government and Politics,BSESS35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+292,Comparative Models in Policing,LEAD2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+293,Comparative Vertebrate Anatomy,BANI50,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+294,Comparative Veterinary Anatomy,VETA55,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+295,Compensation Administration,HRMT70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+296,Competency  Appraisal II,ABEN197,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+297,Competency  Appraisal III,ABEN198,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+298,Competency I,FTEC198A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+299,Competency II,FTEC198B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+300,Competency Appraisal,CA,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+301,Competency Appraisal I,BPSY197,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+302,Competency Appraisal I (HBSE and SWPPS),SWRK197,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+303,Competency Appraisal I: Mathematics,EENG196,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+304,Competency Appraisal II,BPSY198,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+305,Competency Appraisal II (SW Methods),SWRK198,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+306,Competency Appraisal II: Engineering Science and Allied Subjects,EENG197,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+307,Competency Appraisal 3: Electrical Engineering,EENG198,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+308,Comprehensive Family Planning,MDWY105a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+309,Computer Aided Drafting and Design (CADD),DRAW23,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+310,Computer Applications in AB Engineering,ABEN23,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+311,Computer Architecture and Organization,CPEN125,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+312,Computer Engineering as a Discipline,CPEN50,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+313,Computer Engineering Drafting and Design,CPEN90,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+314,Computer Mediated Communication,ENLS115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+315,Computer Networks and Security,CPEN105,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+316,Computer Programming I,DCIT22,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+317,Computer Programming II,DCIT23,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+318,Conceptual Framework and Accounting Standards,ACTG23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+319,Construction Materials and Testing,CENG60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+320,Construction Methods  and  Project Management,CENG115,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+321,Consumer Behavior,MKTG50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+322,Consumer Behavior and Market Research,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+323,Consumer Education,HECO25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+324,Contemporary Issues in Exercise and Sports,SESS90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+325,Contemporary Issues in PE and Sports,BPED25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+326,"Contemporary, Popular, and Emergent Literature",BSEE37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+327,Content and Pedagogy for the Mother Tongue,BEED36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+328,Content and Pedagogy in the Mother Tongue Based Multilingual Education,ECED41,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+329,Cooperative Management,FMGT 106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+330,Coordinated School Health Program,BPED120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+331,Corporate and Security Investigation and Report Writing,ISAD30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+332,Cost Accounting and Control,ACTG22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+333,Cost Control,BSHM141,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+334,Costing and Pricing,OMGT55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+335,CpE Competency,CPEN140,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+336,CpE Design Project I,CPEN200a,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+337,CpE Design Project II,CPEN200b,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+338,CpE Laws and Professional Practice,CPEN110,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+339,Crafts Design (Handicraft),HECO32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+340,"Creative Arts, Music, and Movement in Early Childhood Education",ECED25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+341,Credit and Collection,FMGT60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+342,"Crime Prevention, Detection and Control",ISAD40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+343,Crime Scene Protection and Preservation,ISAD41,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+344,Criminal Law (Book I),CLAW3,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+345,Criminal Law (Book II),CLAW4,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+346,Criminal Procedure and Court Testimony,CLAW6,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+347,Criminological Research I (Research Methods with Applied Statistics),CRIM7,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+348,Criminological Research II (Thesis Writing and Presentation),CRIM8,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+349,Crisis Management and Business Continuity Plan,ISAD38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+350,Cross Cultural Communication,DVCM85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+351,Cruise Tourism,TOUR141,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+352,CS Elective II (Introduction to Game Development),COSC106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+353,CS Elective 3 (Internet of Things),COSC111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+354,CS Elective I(Computer Graphics and Visual Computing),COSC101,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+355,Culinary Science/ Molecular Gastronomy,FTEC126,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+356,Curriculum and Assessment for Physical Education and Health Education,BPED130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+357,Curriculum and Pedagogy in Inclusive Education,SNED27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+358,Curriculum Assessment for PE and Health Education,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+359,Customers Relation,OFAD80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+360,Cytogenetics,BGEN60,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+361,Dalumat ng/sa Filipino,GNED12,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+362,Data and Digital Communications,CPEN80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+363,Data Journalism,JOUR121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+364,Data Structures and Algorithm Analysis,CPEN65,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+365,Data Structures and Algorithms,DCIT25,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+366,Descent Work Employment and Transcultural Nursing,NURS21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+367,Design I/Capstone Project I,ECEN200a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+368,Design and Analysis of Algorithm,COSC90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+369,Design and Management of AB Processing Systems,ABEN125,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+370,Development Communication,COMM85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+371,Development of Individualized Education Plan,SNED33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+372,Development Policies,RUDM111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+373,Developmental Biology,GBIO100,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+374,Developmental Genetics,BGEN75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+375,Developmental Psychology,BPSY65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+376,Developmental Zoology,BANI55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+377,Diagnose and Overhaul Diesel Engine,AUTO95,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+378,Diesel Engine and Injection System,AUTO60,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+379,Differential and Integral Calculus,MATH11,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+380,Differential Calculus,MATH7a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+381,Differential Equations,MATH13,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+382,Differential Equations I,BSAM100,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+383,Digital Electronics,INDT22,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+384,Digital Electronics I (Logic Circuits and Design),CpEN75,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+385,Digital Electronics II (Microprocessor and Microcontroller Systems),CpEN110,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+386,Digital Logic Design,COSC60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+387,Digital Signal Processing,CPEN135,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+388,Diplomatic and Consular Practices,BAPS110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+389,Direct Marketing,MKTG 103,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+390,Disaster Nursing (RLE),NURS23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+391,Disaster Risk Reduction and Management,DMGT126,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+392,Discrete Mathematics,BSAM85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+393,Discrete Structure,COSC50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+394,Discrete Structures II,COSC55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+395,Dispute Resolution and Crises/Incidents Mgmt.,CRIM6,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+396,Distribution Management,MKTG 102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+397,Distribution System and Substation Design,EENG105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+398,Driving,AUTO115,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+399,"Drug Education, Consumer Health Education and Healthy Eating",BPED145,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+400,Dulaang Filipino,BSEF39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+401,Dynamics of Rigid Bodies,ENGS22a,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+402,Early Childhood Care,MDWY29a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+403,Early Childhood Education Curriculum Models,ECED34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+404,Early Childhood Inclusive Education,SNED32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+405,Early Learning Environment,ECED37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+406,Earth Science,BSES34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+407,ECE Elective I,ECEN101,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+408,ECE Laws and Ethics,ECEN65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+409,E-Commerce and Internet Marketing,MKTG 101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+410,Econometrics,ECON80A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+411,Econometrics lab,ECON80B,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+412,Economic Botany,BBOT60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+413,Economic Development,ECON21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+414,Economic Research,ECON90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+415,Ecosystem Structure and Dynamics,ENSC2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+416,Editorial Management,JOUR130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+417,Educational Assessment of Students with Additional Needs,SNED25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+418,Edukasyon Pantahanan at Pankabuhayan with Entrep,BEED30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+419,Edukasyong Pantahanan at Pangkabuhayan,BEED29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+420,EE Design Project I/Thesis I,EENG200a,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+421,EE Design Project II/Thesis II,EENG200b,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+422,EE Elective I,EENG101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+423,EE Elective II,EENG106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+424,"EE Laws, Codes and Professional Ethics",EENG60,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+425,ELEC I,DVCMELEC1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+426,ELEC II,DVCMELEC2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+427,ELEC 4,DVCMELEC4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+428,ELEC 5,DVCMELEC5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+429,ELEC 6,DVCMELEC6,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+430,ELEC 7,DVCMELEC7,NULL,3,0,1,7/8/2024 16:27,11/25/2024 11:15
+431,ELEC 8,DVCMELEC8,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+432,ELEC Design Project I,ELEC200a,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+433,ELEC Design Project II,ELEC200b,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+434,Elective (Foreign Language),ELAN21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+435,Elective Course II,CPEN106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+436,Elective Course III,CPEN111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+437,Elective Course I,CPEN101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+438,Electrical Apparatus and Devices,EENG85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+439,Electrical Circuits I,EENG50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+440,Electrical Circuits II,EENG60,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+441,Electrical Engineering as a Discipline (non-credit),EENG50,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+442,Electrical Equipments (single/three phase),ELEC80,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+443,Electrical Machines I,EENG75,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+444,Electrical Machines II,EENG80,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+445,Electrical Principles I,ELEC50,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+446,Electrical Standards and Practices,EENG70,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+447,Electrical System and Illumination Engineering Design,EENG90,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+448,Electricity and Magnetism,BSES31,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+449,Electromagnetics,DCEE27,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+450,Electronics I (Electronic Devices and Circuits),ECEN60,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+451,Electronics II (Electronics Ckt Analysis and Des.),ECEN70,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+452,Electronics 3 (Electronic System and Design),ECEN85,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+453,Electronics Communication I,ELEX60,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+454,Electronics Communication II,ELEX70,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+455,Electronics Design and Fabrication,ELEX55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+456,Electronics Engine Management Control  System,AUTO85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+458,"Electronics, Devices, Instruments and Circuit",ELEX50,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+459,Elementary Electrical Engineering,EENG23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+460,Elementary French,ELAN1A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+461,Elementary Korean,ALAN1A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+462,Elementary Nippongo,ALAN2A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+463,Elementary Spanish,ELAN2A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+464,Elementary Statistics and Probability,BSEM26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+465,ELEX Design Project I,ELEX200a,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+466,ELEX Design Project II,ELEX200b,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+467,ELT Approaches and Methods,ENLS116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+468,Embedded Systems,CPEN120,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+469,Emergencies Preparedness,BPED125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+470,Emergency Planning and Disaster Management,ISAD31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+471,Emerging Technologies in CpE,CPEN130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+472,Engine Overhauling and Performance Testing,AUTO55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+473,Engineering Data Analysis,MATH14,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+474,Engineering Drawing and Plans,DRAW22,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+475,Engineering Economics,ENGS30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+476,Engineering Economy,ENSC30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+477,Engineering Management,ENGS32a,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+478,Engineering Mechanics I,ENSC21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+479,Engineering Mechanics II,ENSC22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+480,Engineering Utilities  (Mechanical),EENG22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+481,Engineering Utilities I (Electrical),EENG21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+482,English Discourse,ENLS100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+483,English for Specific Purposes,BSEE111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+484,English Language Curriculum Development,ENLS118,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+485,English Phonology and Morphology,ENLS65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+486,English Syntax,ENLS90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+487,Entrepreneurship in Tourism and Hospitality,BSHM90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+488,Enterprise Development Project I,AEAP199a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+489,Enterprise Development Project II,AEAP199b,NULL,12,0,1,7/8/2024 16:27,7/8/2024 16:27
+490,Enterprise Resource Planning,OMGT 102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+491,Entomology,BANI70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+492,Entrepreneurial Behavior and Competencies,OFAD115A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+493,Entrepreneurship,TECO29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+494,Entrepreneurship and Innovation,DMGT101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+495,Environmental Economics,ELEC121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+496,"Environmental Ethics, Policies and Laws",ENSC55,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+497,Environmental Health and Biosafety,VEPH65,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+498,Environmental Health and Safety,ENSC85,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+499,Environmental Impact Assessment,ENSC120,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+500,Environmental Laws and Protection with Disaster Risk Mitigation,CDIN10,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+501,Environmental Management System,OMGT80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+502,Environmental Microbiology,ENSC5,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+503,Environmental Modelling and Simulation,ENSC125,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+504,Environmental Planning,ENSC115,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+505,Environmental Research Writing,ENSC90,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+506,Environmental Science,BSES36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+507,Environmental Sciences and Engineering,ENSC32b,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+508,Environmental Statistics,ENSC4,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+509,Environmental Sustainability in the Food Industry,FTEC115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+510,Environmental Technology,BECL90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+511,Environmental Toxicology,BECL95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+512,Epidemiology,BMED80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+514,Equine Production and Health Management,ZOTC80,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+515,Ergogenics and Healthy Eating in Exercise and Sports,FASC145,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+516,Ergonomics I,IENG95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+517,Ergonomics II,IENG110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+518,Ergonomics and Facilities Planning for the Hospitality Industry,BSHM27,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+519,Estruktura ng Wikang Filipino,BSEF24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+520,Ethics,GNED02,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+521,Ethnobotany,BBOT55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+522,European Language I,ELAN21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+523,European Language II,ELAN22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+524,Events Management,OFAD85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+525,Evidence,CLAW5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+526,Evolutionary Biology,GBIO105,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+527,Executive Protection Management,ISAD29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+528,Exercise Prescription  and Programing,FASM135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+529,Exercise Prescription and Programming,FASC115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+530,Experimental Design,STAT12,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+531,Experimental Psychology,BPSY95,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+532,Experimental Statistics,MATH4,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+533,Facilitating Learner-Centered Teaching,EDUC70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+534,Facilities Management,OMGT75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+535,Family and Consumers Life Skills,TECO22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+536,"Family, School, and Community Relationship",ECED40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+537,Feature Writing,JOUR75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+538,Feedback and Control Systems,DCEE24,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+539,Field Instruction I,SWRK140,500 hours,15,0,1,7/8/2024 16:27,7/8/2024 16:27
+540,Field Instruction II,SWRK140,500 hours,15,0,1,7/8/2024 16:27,7/8/2024 16:27
+541,Field Methods in Psychology,BPSY75,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+542,Field Study I - Observations of Teaching -Learning in Actual School Environment,EDFS21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+543,Field Study II - Participation and Teaching Assistantship,EDFS22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+544,Fields of Social Work,SWRK60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+545,Filipino Political Thoughts,BAPS95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+546,Filipino Psychology,BPSY70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+547,Financial Accounting,ACTG101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+548,Financial Accounting and Reporting,ACTG21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+549,Financial Analysis and Reporting,FMGT75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+550,Financial Controllership,FMGT 102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+551,Financial Economics,ECON75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+552,Financial Management,FINN22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+553,Financial Markets,FINN21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+554,Fire Protection and Arson Investigation,CDIN6,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+555,First Aid and Water Survival,FITT7,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+556,Fish Science and Technology,FTEC121,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+557,Fitness Exercises,FITT2,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+558,Fluid Mechanics,BSES30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+559,Food Analysis,FTEC130,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+560,Food and Beverage Service,BSHM101,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+561,Food and Industrial Microbiology,BMCR65,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+562,Food and Nutrition,HECO23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+563,Food Business Management and Entrepreneurship,FTEC120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+564,Food Chemistry I,FTEC85,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+565,Food Chemistry II,FTEC105,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+566,Food Engineering,FTEC90,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+567,Food Law,FTEC145,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+568,Food Microbiology,FTEC70,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+569,Food Packaging and Labeling,FTEC135,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+570,Food Process Engineering,ABEN105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+571,Food Processing I,FTEC65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+572,Food Processing II,FTEC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+573,Food Product Development and Innovation,FTEC140,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+574,Food Quality Assurance,FTEC95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+575,Food Safety,FTEC80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+576,Forage and Pasture Crop Production,AEAP131,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+577,Foreign Language,ALAN21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+578,Foreign Trade of Europe,ISES70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+579,Forensic Ballistics,FOSC6,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+580,Forensic Chemistry and Toxicology,FOSC3,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+581,Forensic Photography,FOSC1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+582,Foundation of Midwifery Practice,MDWY50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+583,Foundation of Social Studies,BSESS21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+584,Foundation of Special and Inclusive Education,EDUC65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+585,Foundations of Early Childhood Education,ECED21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+586,Foundations of Shorthand,OFAD50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+587,Freshwater Ecology,BECL65,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+588,Front Office Operation,BSHM111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+589,Fruit Crops Production Enterprise,AECP116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+590,Fruits and Plantation Crops Production and Management,CRSC126,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+591,Fundamental of Martial Arts,FITT5,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+592,Fundamentals Concepts of Mathematics,BSAM80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+593,Fundamentals in Lodging Operations,BSHM21,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+594,Fundamentals of Business Process Outsourcing I0I,SMGT50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+595,Fundamentals of Business Process Outsourcing I0II,SMGT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+596,Fundamentals of Community Broadcasting,DVCM105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+597,Fundamentals of Computing I,BSAM70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+598,Fundamentals of Computing II,BSAM75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+599,Fundamentals of Deformable Bodies,ENSC25,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+600,Fundamentals of Development Communication,DVCM50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+601,Fundamentals of Financial Management,MNGT5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+602,Fundamentals of Food Technology,HECO24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+603,Fundamentals of Immunology,VMCB65,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+604,Fundamentals of Industrial Security,ISAD20,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+605,Fundamentals of Information Systems,INSY50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+606,Fundamentals of Investigation and Intelligence,CDIN1,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+607,Fundamentals of Invest and Intelligence,ISAD25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+608,Fundamentals of Management,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+609,Fundamentals of Management Practice,FASM105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+610,Fundamentals of Marksmanship,FITT8,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+611,Fundamentals of Mixed Signals and Sensors,CPEN85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+612,Fundamentals of Nursing Practice (RLE),NURS04,NULL,4,1,1,7/8/2024 16:27,7/8/2024 16:27
+613,Fundamentals of Operations Management,MNGT4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+614,Fundamentals of Political Science,BAPS50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+615,Fundamentals of Power Plant Engineering Design,EENG100,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+616,Fundamentals of Surveying,CENG50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+617,Gender and Society,GNED10,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+618,"Gender Politics, Civil Society and Human Rights in Asia",ISAS60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+619,"Gender Politics, Civil Society and Human Rights in Europe",ISES60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+620,General Biochemistry,CHEM11,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+621,General Botany,GBIO50,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+622,General Chemistry (Organic),CHEM5,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+623,General Chemistry with Organic Chemistry,CHGO15,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+624,General Ecology,GBIO85,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+625,General Economics with Agrarian Reform and Taxation,ECON11,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+626,General Inorganic Chemistry,CHEM1c,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+627,General Microbiology,FTEC50,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+628,General Physics,PHYS1,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+629,General Physics I,PHYS100,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+630,General Physics II,PHYS105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+631,General Physiology,GBIO80,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+632,General Physiology and Toxicology,AGSC55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+633,General Principles of Veterinary Medicine,VMED50,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+634,General Veterinary Microbiology,VMCB50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+635,General Veterinary Pathology,VPTH50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+636,General Veterinary Physiology,VPHY50,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+637,General Zoology,GBIO55,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+638,"Genetic Resources, Conservation and  Management",BGEN85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+639,Genetics,BSES21,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+640,Geographic Information System and Remote Sensing,ENSC50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+641,Geography I (Human Geography),BSESS25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+642,Geography II (Physical Geography),BSESS26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+643,Geography 3 (Urban Geography),BSESS27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+644,Geology for Civil Engineers,CENG22,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+645,Geology for Environmental Science,ENSC3,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+646,Geotechnical Engineering I ( Soil Mechanics),CENG100,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+647,Gifted and Talented Learners,SNED24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+648,Global Economy and Sustainable Development,DMGT111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+649,Global Finance with Electronic Banking,FMGT 103,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+650,"Global Tourism, Geography and Culture",TOUR21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+651,Good Governance and Social Responsibility,BMGT27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+652,Good Manners and Right Conduct,BEED37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+653,"Governance, Business Ethics, Risk Management, and Internal Control",ACTG28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+654,Graph Theory and Applications,BSAM106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+655,Graphics I,ARCH21,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+656,Graphics II,ARCH23,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+657,Gross Veterinary Anatomy,VETA50,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+658,Group Dynamics,DMGT121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+659,Guiding Children's Behavior and Moral Development,ECED35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+660,Health Assessment (RLE),NURS02,NULL,4,1,1,7/8/2024 16:27,7/8/2024 16:27
+661,Health Care Ethics (Bioethics),NURS09,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+662,Health Care Facility Management (Application of Entrepreneurship),MDWY125e,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+663,Health Economics,ELEC101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+664,Health Education,NURS03,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+665,Health Information System for Medical Laboratory Science,MEDT04,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+666,"Health, Nutrition, and Safety",ECED24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+667,Hematology I,MEDT16,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+668,Hematology II,MEDT20,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+669,Herb and Vegetable Production Enterprise,AECP111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+670,Highway and Railroad Engineering,CENG55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+671,Histopathologic and Cytologic Techniques,MEDT12,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+672,History of Architecture I,ARCH85,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+673,History of Architecture II,ARCH105,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+674,History of Architecture III,ARCH125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+675,History of Architecture IV,ARCH145,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+676,History of English Language,ENLS50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+677,History of Mathematics,BSEM21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+678,Home Economics Literacy,TECO21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+679,Hospitality Practicum I-Housekeeping and Food and Beverage (300 hours),BSHM199-A,NULL,0,3,1,7/8/2024 16:27,7/8/2024 16:27
+680,Household Resource Management,HECO21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+681,Housing,ARCH230,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+682,Human Anatomy and Physiology,BIOL140,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+683,Human Anatomy and Physiology with Pathophysiology,BMED66,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+684,Human Behavior and Victimology,CRIM3,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+685,Human Behavior in Organization,DMGT23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+686,Human Genetics,BGEN70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+687,Human Histology,MEDT11,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+688,Human Resource Management,BMGT23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+689,Human Resource Management for Technology,INDT26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+690,Human Resource Management System,HRMT 102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+691,Human Rights Education,CLAW2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+692,Hydraulics,CENG70,NULL,4,1,1,7/8/2024 16:27,7/8/2024 16:27
+693,Hydrology,CENG80,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+694,Hydrometeorology,ABEN55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+695,IE Design Project (Manuscript),IENG200c,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+696,IE Design Project (Outline),IENG200b,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+697,IE Design Project (Title),IENG200a,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+698,IE Elective I,IENG101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+699,IE Elective II,IENG106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+700,IE Elective 3,IENG111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+701,Illumination and Design,ELEC85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+702,Immunohematology,MEDT22,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+703,Immunology,BMED70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+704,Immunology and Serology,MEDT21,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+705,Inclusive Education in Early Childhood Setting,ECED27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+706,Income Taxation,TAXN21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+707,"Individual and Dual Sports (Racket Sports, Athletics, Martial Arts)",BPED70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+708,Industrial Ecology,ENSC95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+709,Industrial Economics,ELEC106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+710,Industrial Electronics,EENG115,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+711,Industrial Materials and Processes,IENG60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+712,Industrial Organization and Management,IENG55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+713,Industrial Organization and Management Practices,INDT28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+714,Industrial Robotics,ELEX105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+715,Industrial Technology Drawing I (CADD IID),DRAW24,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+716,Industrial Technology Drawing I (CADD 3D),DRAW25,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+717,Industrial/Agricultural Marketing,MKTG 104,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+718,Industrial/Organizational Psychology,BPSY100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+719,Industry Immersion  (640 hours),IENG199b,NULL,8,0,1,7/8/2024 16:27,7/8/2024 16:27
+720,Industry Immersion Program (240 hrs. with at least 160 hrs. actual industry engagement),AENG199,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+721,Infant and Toddlers Programs,ECED36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+722,Information Assurance and Security,ITEC85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+723,Information Assurance and Security II,ITEC100,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+724,Information Management,DCIT24,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+725,Information Security,ISAD23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+726,Information Systems,IENG115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+727,Inorganic and Organic Chemistry,CHEM6,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+728,Inorganic Chemistry,BSES25,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+729,Insect Ecology,BECL80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+730,Inspection Trips and Seminars,IENG145,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+731,Institutional Corrections,COAD1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+732,Institutional Orientation,CvSU101,NULL,1,0,0,7/8/2024 16:27,7/8/2024 16:27
+733,"Instructional Adaptations for Teaching the Content Areas (Social Science, Humanities)",SNED31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+734,Instructional Adaptations in Language and Literacy Instruction,SNED29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+735,Instructional Adaptations in Mathematics and Science Instruction,SNED30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+736,Instructional Materials Development and Evaluation,ENLS117,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+737,Instrumentation and Controls,EENG110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+738,Instrumentation and Process Control,ELEX80,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+739,Integral Calculus,MATH11a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+740,Integrated Marketing Communication,COMM105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+741,Integrated Programming and Technologies I,ITEC60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+742,"Integrated Software Applications  (MIS Concept, Desktop Publishing, Word Processing, Spreadsheet, and Presentation)",OFAD100,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+743,Integrative Methods in Teaching Social Science Discipline in Basic Education,BSESS38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+744,Intellectual Property Rights,ELEC1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+745,Intelligent Systems,COSC105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+746,Intensive Nursing Practicum (RLE),NURS25,NULL,7,1,1,7/8/2024 16:27,7/8/2024 16:27
+747,Intercultural Communication,ENLS119,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+748,Intermediate Accounting I,ACTG24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+749,Intermediate Accounting II,ACTG25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+750,Intermediate Accounting 3,ACT27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+751,Intermediate French,ELAN1B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+752,Intermediate Korean,ALAN1B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+753,Intermediate Nippongo,ALAN2B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+754,Intermediate Spanish,ELAN2B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+755,International Dance and other Forms,BPED115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+756,International Economics,ELEC111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+757,International Environmental Relations,ISEA28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+758,International Human Rights and Humanitarian Laws,BAPS125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+759,International Laws and Organizations,BAPS120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+760,International Marketing,MKTG 105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+761,International Organizations,ISEA25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+762,International Political Ideologies,BAPS115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+763,International Relations,ISEA27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+764,International Trade and Agreements,BMGT26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+765,Internet Research for Business,OFAD75B,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+766,Internship,JOUR125,200 hours,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+767,Internship (200 hours),COMM115,NULL,3,0,1,7/8/2024 16:27,11/25/2024 9:34
+768,Internship (400 hrs.),ACTG199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+769,Internship (On-the Job Training I and II) (540 Field Hours),CRIM199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+770,Interpersonal Communication in Development,DVCM100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+771,Internship (Industry Immersion),FASC195,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+772,Intro to Med Lab Science Research,MEDT18,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+773,Introduction to AB Engineering,ABEN21,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+774,Introduction to Agricultural Commodity Systems and Enterprise Development,AGSC4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+775,Introduction to Agriculture,AGSC1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+776,Introduction to Animal Science,ANSC1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+777,"Introduction to Asian History, Culture and Geography",ISAS50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+778,Introduction to Biotechnology,GBIO60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+779,Introduction to Business Analytics,SMGT 102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+780,Introduction to Communication,COMM50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+781,Introduction to Communication Media,DVCM55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+782,Introduction to Comparative Politics,BAPS65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+783,Introduction to Computing,DCIT21,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+784,Introduction to Counseling,BPSY101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+785,Introduction to Criminal Justice System,CLAW1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+786,Introduction to Criminology,CRIM1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+787,Introduction to Cybercrime and Digital Forensic Investigation,CDIN9,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+788,Introduction to Development Communication and Extension Education,DMGT24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+789,Introduction to Development Management,DMGT21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+790,Introduction to English Language System,ENLS55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+791,Introduction to Environmental Science,ENSC1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+792,"Introduction to European History, Culture and Geography",ISES50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+793,Introduction to Farming Systems,FSYS1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+794,Introduction to Film,COMM110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+795,Introduction to Food Technology,FTEC01,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+796,Introduction to Forensic Science,ISAD26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+797,Introduction to Geopolitics,ISEA22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+798,Introduction to HDL,CPEN115,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+799,Introduction to Human Computer Interaction,ITEC80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+800,Introduction to Human Resource Management with Labor Laws,MNGT1,NULL,3,0,1,7/8/2024 16:27,7/12/2024 22:12
+801,Introduction to ICT Specialization Part I,TECO24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+802,Introduction to ICT Specialization Part II,TECO30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+803,Introduction to Industrial Arts Part I,TECO23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+804,Introduction to Industrial Arts Part II,TECO26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+805,Introduction to Industrial Security Administration,LEAD3,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+806,Introduction to International Relations,BAPS70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+807,Introduction to International Studies,ISEA21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+808,"Introduction to Language, Society and Culture",ENLS75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+809,Introduction to Linguistics,BSEE21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+810,Introduction to Livestock and Poultry Production,ANSC2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+811,Introduction to Management and Leadership,MNGT2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+812,Introduction to Mathematical Statistics,ECON22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+813,"Introduction to Meetings, Incentives, Conferences and Events Management (MICE) as applied to Tourism",TOUR28,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+814,Introduction to MICE as applied in Hospitality,BSHM29,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+815,Introduction to Organic Agriculture,AGSC2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+816,Introduction to Philippine Politics and Governance,BAPS55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+817,Introduction to Political Analysis and Research,BAPS85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+818,Introduction to Political Theory,BAPS60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+819,Introduction to Pragmatics,ENLS95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+820,Introduction to Psychology,BPSY50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+821,Introduction to Science Communication,DVCM110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+822,Introduction to Society Administration and Management,ISAD24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+823,Introduction to Statistics,MNGT3,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+824,Introduction to Veterinary Clinics,VCLN50,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+825,Introduction to Zoology,ZOOLI,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+826,Introductory Economics,ECON21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+827,Introduksyon sa Pag-aaral ng Wika,BSEF21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+828,Introduksyon sa Pagsasalin,BSEF28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+829,Introduksyon sa Pamamahayag,BSEF30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+830,Introduksyon sa Pananaliksik-Wika at Panitikan,BSEF29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+831,Inventory Management,OMGT50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+832,Invertebrate Zoology,BANI65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+833,Investigative Journalism,JOUR110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+834,Investment and Portfolio Management,FMGT70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+835,Irrigation and Drainage Engineering,ABEN75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+836,IT Application Tools in Business,ITEC5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+837,IT ELECTIVE I (Human Computer Interaction II),ITEC101,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+838,IT ELECTIVE II (Web System and Technologies II),ITEC106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+839,IT ELECTIVE 3 (Integrated Programming and Technologies II),ITEC111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+840,IT ELECTIVE 4 (Systems Integration and Architecture II),ITEC116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+841,Journalism Ethics,JOUR85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+842,Journalism Principles and Practices,JOUR50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+843,Journalism Studies,JOUR120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+844,Juvenile Del. and Juvenile Justice System,CRIM5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+845,Keyboarding and Documents Processing,OFAD55,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+846,Kitchen Essentials 7 Basic Food Preparation,BSHM22,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+847,Knowledge and Philosophical Foundations of the Social Work Profession,SWRK50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+848,Knowledge Management,COMM95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+849,Kontekstwalisadong Komunikasyon Sa Filipino,GNED11,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+850,Kulturang Popular,BSEF34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+851,Labor Law and Legislation,HRMT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+852,Labor Relations and Negotiations,HRMT80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+853,Laboratory Animal Management and Medicine,VMED90,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+854,Laboratory Management,MEDT08,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+855,Land and Water Conservation Engineering€™g.,ABEN95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+856,Language and Education Research,BSEE31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+857,Language and Gender,ENLS120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+858,Language and Power,ENLS130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+859,Language Learning Materials Development,BSEE26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+860,Language of Literary Texts,ENLS85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+861,Language of Non-Literary Texts,ENLS110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+862,Language Programs and Policies in Multilingual Society,BSEE25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+863,Language Research I: Methodology,ENLS140,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+864,Language Research II: Undergraduate Thesis,ENLS200,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+865,"Language, Culture and Society",BSEE22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+866,Large Animal Surgery,VSUR60,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+867,Law Enforcement Operations and Planning with Crime Mapping,LEAD4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+868,Law Enforcement Org and Admin (Inter-agency Approach),LEAD1,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+869,Law on Obligations and Contracts,BLAW21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+870,Law Related Studies,BSESS36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+871,Learners with Developmental Disabilities,SNED21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+872,"Learners with Emotional, Behavioral, Language and Communication Disabilities",SNED23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+873,Learners with Sensory and Physical Disabilities,SNED22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+874,Legal Aspect in Tourism and Hospitality,BSHM80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+875,Legal Aspects in Tourism and Hospitality,TOUR80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+876,Lie Detection Techniques,FOSC5,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+877,Life and Works of Rizal,GNED09,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+878,Linear Algebra,BSAM90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+879,Linear Models,BSAM101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+880,Literacy Development,ECED30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+881,Literary Criticism,BSEE38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+882,Logic (Inductive and Deductive Reasoning),GNED16,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+883,Logic and Critical Thinking,MCON2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+884,Logic and Set Theory,BSEM25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+885,Logic Circuit and Design,CPEN75,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+886,Logic Circuits and Design,CpEN75a,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+887,Logistic Management,OMGT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+888,Logistics Management,OMGT 65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+889,Machine Design for AB Production,ABEN90,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+890,Machine Shorthand I,OFAD95,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+891,Macro Economics,BSESS29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+892,Macro Perspective of Tourism and Hospitality,BSHM50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+893,Macroeconomics,ECON23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+894,Maikling Kuwento at Nobelang Filipino,BSEF37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+895,Malikhaing Pagsulat,BSEF111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+896,Management Information System and Technology,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+897,Management of Early Childhood Education Program,ECED38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+898,Management Science,MNGT21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+899,Managerial Accounting,ACTG102,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+900,Managerial Economics,ECON65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+901,Managerial Problem Solving and Decision Making,DMGT106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+902,Marine Ecology,BECL70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+903,Market Research,MKTG55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+904,Marketing Management,MKTG80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+905,Marriage and Family Relationships,HECO30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+906,Material Science and Engineering,ECEN55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+907,Materials and Business Technology Management,INDT27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+908,Materials and Processes for ABE,ABEN22,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+909,Mathematical Economics,ECON70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+910,Mathematical Modeling,BSAM115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+911,Mathematics in the Modern World,GNED03,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+912,Mathematics of Investment,BMGT11,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+913,Meat Science and Technology,FTEC111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+914,Mechanics of Deformable Bodies,ENGS24,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+915,Med Lab Science Research Paper Writing and Presentation,MEDT24,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+916,Media and Society,JOUR95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+917,Media Law,JOUR115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+918,Medical and Wellness Tourism,TOUR111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+919,Medical Entomology,BMED50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+920,Medical Histology,BMED75,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+921,Medical Microbiology,BMCR70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+922,Medical Technology Assessment Program I,MEDT26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+923,Medical Technology Assessment Program II,MEDT29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+924,MedTech Laws and Bioethics,MEDT10,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+925,Meteorology,BSES40,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+926,Methods of Agricultural Research,AGSC3,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+927,Methods of Research,DCEE26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+928,Mga Babasahin Hinggil sa Kasaysayan ng Pilipinas,GNED04,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+929,Mga Natatanging Diskurso sa Wika at Panitikan,BSEF32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+930,Micro Economics,BSESS28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+931,Micro Perspective of Tourism and Hospitality,BSHM65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+932,Microbial Genetics,BGEN80,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+933,Microbial Physiology,BMCR60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+934,Microbiological Techniques,BMCR50,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+935,Microbiology,GBIO65,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+936,Microbiology and Parasitology,BSES23,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+937,Microeconomics,ECON60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+938,Microprocessor and Interfacing Techniques,ELEX90,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+939,Microprocessor and Microcontroller Systems,CpEN100a,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+940,Microprocessors and Microcontrollers Systems,CPEN100,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+941,Midwifery Educational program Management,MDWY125a,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+942,Midwifery Entrepreneurship,MDWY28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+943,Midwifery Pharmacology,MDWY27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+944,Midwifery Practice I,MDWY60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+945,Midwifery Practice II,MDWY75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+946,Midwifery Practice III,MDWY85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+947,Midwifery Research I (Proposal Writing),MDWY200a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+948,Midwifery Research II (Paper Writing and Presentation),MDWY200b,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+949,Microbial Ecology,BMCR55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+950,Modern Geometry,BSEM30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+951,Modern Physics,BSES33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+952,Molecular Biology and Diagnostics,MEDT17,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+953,Molecular Genetics,BGEN65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+954,Monetary Economics,ECON65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+955,Monetary Policy and Central Banking,FMGT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+956,"Mosses, Hepatics and Ferns",BBOT50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+957,Motivation and group dynamics,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+958,Movement Education,BPED90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+959,Movement Enhancement,FITT1,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+960,Multicultural Diversity in Workplace for the Tourism and Professional,BSHM85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+961,Multicultural Diversity in Workplace for the Tourism Professional,TOUR85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+962,Multimedia Journalism,JOUR105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+963,Multimedia Materials Production and Management,DVCMELEC115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+964,Multimedia Systems,ITEC70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+965,Multimodal Communication,ENLS125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+966,Musculoskeletal Fitness/ Resistance Training,SESS105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+967,Music in the K-III Curriculum,BPED50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+968,Mycology,BMCR75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+969,Mycology and Virology,MEDT23,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+970,Mythology and Folklore,BSEE33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+971,"National Service Training Program I (CWTS/LTS,ROTC)",NSTP1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+972,"National Service Training Program II (CWTS/LTS,ROTC)",NSTP2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+973,Natural Resource and Environmental Management,ENSC1a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+974,Natural Resources Economics,ELEC116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+975,Network Fundamentals,ITEC90,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+976,Network Management,ITEC105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+977,Networks and Communication,COSC85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+978,News Editing and Production,JOUR100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+979,News Writing and Reporting,JOUR65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+980,Non-Formal Education,DMGT116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+981,Non-Institutional Corrections,COAD2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+982,Non-Traditional Games and Sports,BPED35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+983,Number Theory,BSEM32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+984,Numeracy Development,ECED26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+985,Numerical Analysis,BSAM110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+986,Numerical and Symbolic Computation,COSC110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+987,Numerical Methods and Analysis,DCEE23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+988,Numerical Solutions to CE Problems,CENG23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+989,Nursing Informatics,NURS11,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+990,Nursing Leadership and Management - LEC,NURS20,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+991,Nursing Leadership and Management (RLE),NURS22,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+992,Nutrition and Diet Therapy,NURS06,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+993,Nutrition and Dietetics,MDWY25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+994,Object Oriented Programming,CPEN60,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+995,Office Administration Internship  (II00 hours),OFAD199A,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+996,Office Professional Elective I - Legal Office Procedures,OFAD126,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+997,Office Professional Elective II - Filipino Stenography,OFAD106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+998,Office Professional Elective 3 - Accounting II,OFAD111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+999,Office Professional Elective 4 - Introduction to Project Management,OFAD121,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+1000,Office Professional Elective 5 - Customer Analytics,OFAD131,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1001,Office Professional Elective 6 - Legal Office Internship  (II00hrs.),OFAD199B,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+1002,On the Job Training,EENG199a,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1003,On-the Job Training,FTEC199,250 hours,5,0,1,7/8/2024 16:27,7/8/2024 16:27
+1004,On-the Job Training (50 hrs. orientation),FTEC199,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+1005,On-the-Job Training,BIOL90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1006,On-the-Job Training (200 Hours),OTJT,NULL,0,0,1,7/8/2024 16:27,7/8/2024 16:27
+1007,On-the-Job Training (240 hours),ECEN199,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1008,On-the-Job Training/CpE Practice (240 hours),CPEN199,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1009,On-the-Job Training/Internship,AGSC199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1010,Open Source Technology,ITEC65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1011,Operating Systems,COSC80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1012,Operations Auditing,AUDI26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1013,Operations Management,BMGT25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1014,Operations Management and TQM,BMGT25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1015,Operations Management in TH Industry,TOUR151,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1016,Operations Management in Tourism and Hospitality Industry,BSHM161,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1017,Operations Management (TQM),IENG21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1018,Operations Research,BSAM125,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1019,Operations Research I,IENG85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1020,Operations Research II,IENG100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1021,Opinion and Commentary,JOUR126,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1022,Organic Agriculture Production Systems,CRSC136,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1023,Organic Chemistry,BSES26,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1024,Organizational Development,HRMT75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1025,Ornamental Crops Production and Landscaping,CRSC131,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1026,Ornamental Crops Production Enterprise,AECP121,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1027,Outdoor and Adventure Education,BPED30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1028,Paghahanda at Ebalwasyon ng Kagamitang Panturo,BSEF27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1029,Pagsasalin sa Ibat-ibang Disiplina,BSEF110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1030,Pagtuturo and Filipino sa Elementarya (I),BEED25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1031,Pagtuturo and Filipino sa Elementarya (II),BEED26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1032,Pagtuturo at Pagtataya ng Makrong Kasanayang Pangwika,BSEF25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1033,Panimulang Lingwistika,BSEF22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1035,Panitikan ng Rehiyon,BSEF33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1036,Panitikang Panlipunan,GNED14,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1037,Panulaang Filipino,BSEF38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1038,Panunuring Pampanitikan,BSEF36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1039,Parasitology,BANI75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1040,Partial Differential Equations,BSAM111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1041,Peace Communication,COMMELEC114,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1042,Personal and Professional Development,OFAD60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1043,Personal Identification Techniques,FOSC2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1044,"Personal, Community and Environmental Health",BPED100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1045,Personnel Security,ISAD22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1046,Pharmacology,NURS07,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1047,Philippine Electrical Code,ELEC65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1048,Philippine English,ENLS113,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1049,Philippine Foreign Relations,ISEA23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1050,Philippine Literature,LITT1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1051,Philippine Local Government and Development Administration,BAPS100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1052,Philippine Public Administration,BAPS80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1053,Philippine Social Realities and Social Welfare,SWRK55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1054,"Philippine Tourism, Geography and Culture",BSHM60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1055,Philippine Traditional Dances,BPED110,NULL,3,0,0,7/8/2024 16:27,7/23/2024 17:42
+1056,Philippine Traditional Games and Sports,BPED140,NULL,3,0,0,7/8/2024 16:27,7/23/2024 17:43
+1057,Philosophical and Socio anthropological foundations of Physical Education and Sports,BPED60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1058,Philosophical and Socio-anthropological Foundations of Physical Education and Sports,SESS50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1059,Photo-journalism,JOUR80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1060,Phycology,BBOT85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1061,Physical Activities towards Health and Fitness I,FITT3,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1062,Physical Activities towards Health and Fitness II,FITT4,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1063,Physical Chemistry,CHEM75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1064,Physical Security Systems,ISAD21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1065,Physics for ECE,PHYS24,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1066,Physics for Engineers,PHYS14,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1067,Physics for Environmental Science,PHYS1d,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1068,Physiological/ Biological Psychology,BPSY105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1069,Physiology of Exercise  and Physical Activity,BPED95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1070,Physiology of Exercise and Physical Activity,SESS65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1071,Places and Landscape in a Changing World,BSESS24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1072,Plane and Solid Geometry,BSEM24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1073,Plane Trigonometry,MATH4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1074,Planning I,ARCH170,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1075,Planning II,ARCH195,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1076,Planning III,ARCH215,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1077,Plant and Livestock Systems and Environmental Control Engineering,ABEN100,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1078,Plant Geography,BBOT90,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1079,Plant Growth and Development,BBOT75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1080,Plant Morphoanatomy,BBOT70,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1081,Plant Physiology,BBOT65,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1082,Plant Propagation and Nursery Enterprise,AECP106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1083,Plantation Crop Production Enterprise,AECP126,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1084,Platform Technologies,ITEC55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1085,Play and Developmentally Appropriate Practices in Early Childhood Education,ECED22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1086,Pneumatics and Hydraulics,INDT24,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1087,Political Economy of Communication,COMMELEC113,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1088,Political Geography of Europe,ISES75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1089,Political Journalism,JOUR106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1090,Politics and Government in Southeast Asia,BAPS75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1091,Pollution Management,ENSC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1092,Population Ecology,BECL50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1093,Population Migration and Development,RUDM101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1094,Postharvest and Seed Technology,AGSC60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1095,Post-harvest Handling Technology,FTEC125,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1096,Poultry Medicine,VMED60,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1097,Poultry Production and Flock Health Management,ZOTC70,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1098,Poultry Production and Management,ANSC111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1099,Poultry Production Enterprise,AEAP116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1100,Power Production and Management Systems,ELEC95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1101,Power Systems Analysis,EENG95,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1102,Power Train Conversion System,AUTO65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1103,Practices in Crop Production,CRSC2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1104,Practicum,BAPS105,250 hours,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1105,Practicum (minimum 486 hours),ITEC199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1106,Practicum (Skills Development),AGSC99,240 hours,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1107,Practicum I and II,ISAD199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1108,PRACTICUM II- Hotel Operations (600 hours),BSHM199-B,NULL,0,6,1,7/8/2024 16:27,7/8/2024 16:27
+1109,Practicum in Psychology (I50 hours per setting),BPSY111,450 hours,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1110,Practicum Integrated Learning II (600 hours),BMGT199,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1111,Prevention and Management of Exercise and Sports-related injuries,BPED45,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1112,Prevention and Management or Exercise and Sports- Related Injuries,SESS85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1113,Primary Health Care II,MDWY23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1114,Primary Health Care I,MDWY21,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+1115,Primary Health Care I (RLE),MDWY22,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1116,Primary Health Care II (RLE),MDWY24,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1117,"Principle Motor Control and Learning of Exercise, Sports and Dance",BPED85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1118,Principle of Accounting/Marketing/Finance,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1119,"Principle, Methods and Strategies in Teaching H. E.",MDWY26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1120,Principles and Methods of Teaching Accounting,ACTG36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1121,Principles and Methods of Teaching Mathematics,BSEM36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1122,"Principles and Practices of Plant Breeding, Propagation and Nursery Management",CRSC106,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1123,Principles and Theories of Language Acquisition and Learning,BSEE24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1124,Principles and Strategies of Teaching in Med Lab Science,MEDT06,NULL,2,0,1,7/8/2024 16:27,7/19/2024 21:46
+1125,Principles of Accounting,FASM110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1126,Principles of Agricultural Entrepreneurship and Marketing,ETRP1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1127,Principles of Animal Breeding and Genetics,ZOTC55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1128,Principles of Animal Nutrition,ZOTC60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1129,Principles of Animal Production and Economics,ZOTC50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1130,Principles of Animal Science,ANSC1a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1131,Principles of Crop Production,CRSC1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1132,Principles of Crop Protection,CRPT1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1133,Principles of Crop Science,CRSC1a,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1134,Principles of Economics,ECON2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1135,Principles of Finance,FASM125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1136,Principles of Food Preparation,HECO22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1137,Principles of Laboratory Science Practice I,MEDT01,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1138,Principles of Laboratory Science Practice II,MEDT02,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1139,Principles of Marketing,FASM130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1140,Principles of Reinforced/Prestressed Concrete,CENG90,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1141,Principles of Soil Science,SOIL1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1142,Principles of Steel Design,CENG85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1143,Principles of Systematic Biology,BIOL23,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1144,Principles of Systems Thinking,SMGT80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1145,Principles of Transportation Engineering,CENG95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1146,Principles of Veterinary Surgery and Anesthesiology,VSUR50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1147,Probability,BSAM95,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1148,"Problem-Solving, Mathematical Investigations and Modelling",BSEM35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1149,Process of Teaching P.E and Health Education,BPED160,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1150,Product Management,MKTG60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1151,Production of Social Studies Instructional Materials,BSESS39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1152,Production Technology Management,INDT30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1153,Productivity and Quality Tools,OMGT70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1154,Professional Conduct and Ethical Standards,ISAD27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1155,Professional Conduct and Ethical Standard,CRIM4,NULL,3,0,1,7/8/2024 16:27,7/11/2024 19:20
+1156,Professional Course-Specialized I,CENG101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1157,Professional Course-Specialized II,CENG106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1158,Professional Course-specialized 3,CENG111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1159,Professional Course-specialized 4,CENG116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1160,Professional Course-Specialized 5,CENG121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1161,Professional Development and Applied Ethics,BSHM70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1162,Professional Practice I,ARCH150,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1163,Professional Practice II,ARCH175,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1164,Professional Practice III,ARCH200,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1165,Professional Preparation,FASC175,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1166,Professional Salesmanship,MKTG75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1167,Programmable Controller Application,ELEX100,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+1168,Programmable Controls,INDT23,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1169,Programming Languages,COSC95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1170,"Programming, Logic, and Design",CPEN21,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+1171,Project Communication Strategies,DMGT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1172,Project Development and Management,DMGT50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1173,Project Feasibility (Lab),IENG130,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+1174,Project Feasibility (Lec),IENG120,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1175,Project Financial Analysis,DMGT55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1176,Project Management,OMGT60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1177,Project Monitoring and Evaluation,DMGT60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1178,Properties of AB Materials,ABEN65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1179,Property and Resources Management for Educators,BSESS110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1180,Psychological Assessment,BPSY85,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1181,Psychological Statistics,BPSY55,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1182,Psychology of Exercise and Sports,SESS95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1183,Psychology of Language,ENLS80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1184,Public and Private International Law,ISEA29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1185,Public Finance,FMGT 101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1186,Public Information Principles and Practice,COMMELEC112,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1187,Public Relations Principles and Practices,COMM100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1188,Purposive Communication,GNED05,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1189,Qualitative and Quantitative Analysis of Political Data,BAPS90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1190,Qualitative Chemistry,CHEM60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1191,Quality Control,INDT29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1192,Quality Management System,IENG90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1193,Quantitative Chemistry,CHEM65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1194,Quantitative Methods (Modeling and Simulation),ITEC95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1195,Quantitative Techniques in Business,BMGT22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1196,Quantity Surveying,CENG110,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1197,Questioned Document Examination,FOSC4,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1198,Real-Estate Security Administration and Management,ISAD35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1199,Recreational and Leisure Management,TOUR101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1200,Recruitment and Selection,HRMT55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1201,Regulatory Framework and Legal Issues in Business,BLAW23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1202,Renewable Energy for AB Applications,ABEN110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1203,Reproductive Health,MDWY125c,NULL,8,1,1,7/8/2024 16:27,7/8/2024 16:27
+1204,Research I,DMGT26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1205,Research II,FASC190,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1206,Research I (RLE),NURS12,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1207,Research II (RLE),NURS16,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1208,Research in Early Childhood Education,ECED39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1209,Research in Education,BEED38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1210,Research in Hospitality,BSHM28,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1211,Research in Journalism,JOUR70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1212,Research in Mathematics,BSEM38,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+1213,Research in Psychology I,BPSY115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1214,Research in Psychology II,BPSY120,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1215,Research in Social Studies,BSESS22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1216,Research in Special Needs and Inclusive Education,SNED36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1217,Research in Teaching,BSES39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1218,Research in Tourism,TOUR26,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1219,Research Methods,BSAM195,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1220,Research Methods and Scientific Writings,VRES50,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1221,Research Methods for Architecture,ARCH180,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1222,Research Methods in International Studies,ISEA30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1223,Research/EDP Final Manuscript,BMGT200b,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1224,Research/EDP Proposal,BMGT200a,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1225,Retail Management,MKTG65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1226,Retorika/Masining na Pagpapahayag,GNED13,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1227,Risk Assessment and Management,ISAD37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1228,Risk Management,FMGT 105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1229,"Risk Management as Applied to Safety, Security and Sanitation",BSHM55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1230,"Risk, Disaster, and Humanitarian Communication",COMM90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1231,Ruminant Medicine,VMED70,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1232,Ruminant Production and Management,AEAP126,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1233,Ruminant Production and Health Management,ZOTC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1234,Rural Development,RUDM106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1235,Sampling Theory,BSAM116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1236,Sanaysay at Talumpati,BSEF35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1237,School Food Service Management,HECO28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1238,Science in Early Childhood Education,ECED33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1239,"Science, Technology, and Society",GNED06,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1240,Society Automation and System Integration,ELEC2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1241,Security and Critical Infrastructures,ISAD33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1242,Semantics in English,ENLS70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1243,Semiconductor Devices,ELEX65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1244,Seminar,AEAP190,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1245,Seminar I,MEDT27,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1246,Seminar II,MEDT30,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1247,Seminar A,AGSC190a,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1248,Seminar B,AGSC190b,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1249,Seminar in Applied Mathematics,BSAM190,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1250,Seminar in Social Work Practice,SWRK155,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1251,Seminar on Journalism Issues,JOUR140,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1252,Seminars / Colloquia,EENG190,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+1253,Seminars and Fieldtrips,CPEN190,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+1254,Sensor and Interfacing,ELEX85,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1255,Sensory Evaluation,FTEC60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1256,Service Culture,SMGT70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1257,Service Marketing,SMGT 85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1258,Signal and Communication System,ELEC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1259,"Signals, Spectra and Signal Processing",ECEN75,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1260,Slaughter Animals and Processing,AGSC50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1261,Slaughter of Animals and Processing,AGSC50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1262,Small Animal Surgery,VSUR55,NULL,1,2,1,7/8/2024 16:27,7/8/2024 16:27
+1263,Social and Professional Issues,DCIT65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1264,Social Change and Development Perspectives,SWRK65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1265,Social Deviations and Social Work,SWRK80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1266,Social Environment and Social Work,SWRK85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1267,Social Forestry and Community Organizing,ENSC100,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1268,Social Media for Journalists,JOUR111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1269,Social Psychology,BPSY110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1270,Social Studies in Early Childhood Education,ECED31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1271,Social Welfare Agency Administration,SWRK100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1272,"Social Welfare Policies, Programs, and Services",SWRK95,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1273,Social Welfare Project/Program Development and Management,SWRK120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1274,Social Work Communication and Documentation,SWRK75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1275,Social Work Community Education and Training,SWRK130,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1276,Social Work Counselling,SWRK90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1277,Social Work Practice with Communities,SWRK125,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1278,Social Work Practice with Groups,SWRK110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1279,Social Work Practice with Individuals and Families,SWRK105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1280,Social Work Research I,SWRK135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1281,Social Work Research II,SWRK145,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1282,Social Work Statistics,SWRK115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1283,Socio-Cultural Anthropology,BSESS33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1284,Software Design,CPEN70,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1285,Software Engineering I,COSC70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1286,Software Engineering II,COSC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1287,"Soil Fertility, Conservation, and Management",SOIL2,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1288,Soil Science,SOIL1,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1289,Solar Electric Design and Installation,ELEC70,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+1290,Solid Mensuration,MATH9,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1291,Special Penal Laws,CLAW4-A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1292,Special Project,JOUR135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1293,Special Topic I,ST1,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1294,Special Topic/Seminar,DMGT99,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1295,Special Topics,AEAP90,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1296,Special Topics in English Language Studies,ENLS114,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1297,Special Topics in Financial Management,FMGT85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1298,Special Topics in Human Resource Management,HRMT85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1299,Special Topics in Marketing Management,MKTG85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1300,Special Topics in Operations Management,OMGT85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1301,Special Topics in Service Management,SMGT85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1302,Specialized Crime Investigation II,CDIN3,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1303,Specialization I (Project Management),ARCH101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1304,Specialization II (Construction Management),ARCH106,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1305,Specialization III (Facilities Management),ARCH111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1306,Specialized Crime Investigation I with Legal Medicine,CDIN2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1307,Speech and Theater Arts,BSEE30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1308,Sports and Exercise Psychology,BPED80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1309,Sports Ethics and Law,FASC120,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1310,Sports Journalism,JOUR116,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1311,Statics and Dynamics of Rigid Bodies,ENSC23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1312,Statics of Rigid Bodies,ENGS21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1313,Statistical Analysis I for IE,IENG50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1314,Statistical Analysis II for IE,IENG65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1315,Statistical Analysis with Software Application,STAT101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1316,Statistical Biology,SBIO50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1317,Statistical Theory,BSAM105,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1318,Statistics Applied to Food Research,STAT5,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1319,Statistics for Social Science,DMGT25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1320,Statistics for Social Sciences,DVCM115,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1321,Steel and Timber Design,ARCH27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1322,Strategic Business Analysis,MNGT23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1323,Strategic Cost Management,ACTG26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1324,Strategic Human Resource Management,HRMT 101,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1325,Strategic Management,BMGT30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1326,Strategic management in Tourism and Hospitality,BSHM151,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1327,Strength and Conditioning,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1328,Strength of Materials,ENSC24a,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1329,Stress Management,ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1330,Structural Theory,CENG75,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1331,Structure of English,BSEE23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1332,Stylistics,ENLS105,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1333,Stylistics and Discourse Analysis,BSEE110,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1334,Supervised Industrial Training I,AUTO199a,NULL,0,3,1,7/8/2024 16:27,7/8/2024 16:27
+1335,Supervised Industrial Training II,AUTO199b,NULL,0,8,1,7/8/2024 16:27,7/8/2024 16:27
+1336,Supervised Industrial Training 3,AUTO199c,NULL,0,8,1,7/8/2024 16:27,7/8/2024 16:27
+1337,Supervised Work Experience in Government Agencies in Tourism and Hospitality,TOUR199-A,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+1338,Supervised Work Experience in Travel Services and Tour Operations,TOUR199-B,NULL,0,4,1,7/8/2024 16:27,7/8/2024 16:27
+1339,Supply Chain Management,IENG135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1340,Supply Chain/Logistics Purchasing Management,BSHM24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1341,Survey of Afro-Asian Literature,BSEE35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1342,Survey of English and American Literature,BSEE36,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1343,Survey of Philippine Literature in English,BSEE34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1344,Surveying,ENSC25,NULL,1,3,1,7/8/2024 16:27,7/8/2024 16:27
+1345,Sustainable Hospitality Management,BSHM121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1346,Sustainable Tourism,TOUR22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1347,Swimming and Aquatics,SESS80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1348,Swine Production and Heath Management,ZOTC65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1349,Swine Production and Management,ANSC116,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1350,Swine Production Enterprise,AEAP111,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1351,System Analysis and Design,INSY55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1352,System Integration and Architecture I,ITEC75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1353,Systematics,GBIO90,NULL,3,2,1,7/8/2024 16:27,7/8/2024 16:27
+1354,Systemic Veterinary Pathology,VPTH55,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1355,Systemic Veterinary Physiology,VPHY55,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1356,Systems Administration and Maintenance,ITEC110,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1357,Systems Engineering,IENG140,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1358,Taxation,BMGT28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1359,Taxation (Income and Taxation),BMGT28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1360,Taxonomy of Higher Vascular Plant,BBOT80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1361,Teaching and Assessment of Grammar,BSEE29,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1362,Teaching and Assessment of Literature Study,BSEE27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1363,Teaching and Assessment of Macroskills,BSEE28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1364,Teaching Approaches in Secondary Social Studies,BSESS37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1365,Teaching Arts in Elementary Grades,BEED33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1366,Teaching English in Elementary Grades(Language Arts),BEED34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1367,Teaching in Elementary Grades Through Literature,BEED35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1368,Teaching Internship,EDFS23,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1369,Teaching Internship with Action Research,EDFS27,NULL,6,0,1,7/8/2024 16:27,7/8/2024 16:27
+1370,Teaching Math in Intermediate Grades,BEED28,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1371,Teaching Math in the Primary Grades,BEED27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1372,Teaching Multi-Grade Classes,SNED34,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1373,Teaching Multi-grade Classes (elective),ELECTIVE,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1374,Teaching Music in Elementary Grades,BEED31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1375,Teaching P.E. and Health in Elementary Grades,BEED32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1376,Teaching Science in Intermediate Grades,BEED22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1377,Teaching Science in the Primary Grades,BEEd21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1378,Teaching Social Studies in Intermediate Grades,BEED24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1379,Teaching Social Studies in Primary Grades,BEED23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1380,"Team Sports (Soccer/Football, Basketball, Volleyball, Baseball, Softball, Non-traditional: Ultimate, Handball, Floorball, Futsal, Sepak Takraw)",BPED135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1381,Team Sports I or II,SESS75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1382,Tech English I (Technical Report Writing and Presentation,CDIN5,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1383,Technical English II (Legal Forms),CDIN8,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1384,Technical Writing,BSEE39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1385,Technical Writing in the Professions,ENLS111,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1386,Technology Application II ( Teaching P.E and Health including Instructional  Materials,BPED150,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1387,Technology for Teaching and Learning I,EDUC85,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1388,Technology for Teaching and Learning II,BEED39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1389,Technology for Teaching and Learning II (Instrumentation and Technology in Mathematics),BSEM39,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1390,Technology for Teaching and Learning II (Science),BSES38,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1391,Technology for Teaching and Learning II (Technology in Secondary Language Education),BSEE41,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1392,Technology for Teaching and Learning II- Utilization of Instructional Technology in Early Childhood Education,ECED32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1393,Technology Research I,RESE21,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1394,Technology Research II,RESE22,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1395,Technopreneurship,ENSC33,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1396,Technopreneurship I0I,ENGS35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1397,Terrestrial Ecology,BECL75,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1398,Terrorism and Insurgency in Asian Politics,ISAS65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1399,Terrorism and Insurgency in European Politics,ISES65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1400,The Child and Adolescent Learners and  Learning Principles,EDUC50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1401,The Contemporary World,GNED07,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1402,The Filipino Personality and Social Work,SWRK70,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1403,"The Teacher and the Community, School Culture and Organizational Leadership",EDUC60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1404,The Teacher and The School Curriculum,EDUC90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1405,The Teaching of Science,BSES37,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1406,The Teaching Profession,BPED75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1407,Theoretical Foundation in Nursing,NURS01,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1408,Theories of Crime Causation,CRIM2,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1409,Theories of Language and Language Acquisition,ENLS60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1410,Theories of Personality,BPSY60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1411,Theory of Architecture I,ARCH55,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1412,Theory of Architecture II,ARCH65,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1413,Theory of Interest,BSAM120,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1414,Theory of Structures,ARCH26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1415,Therapeutic Modalities,COAD3,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1416,Theriogenology,VMED80,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1417,Thermodynamics,BSES29,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1418,Thermodynamics and Heat Transfer,ENSC30,NULL,4,1,1,7/8/2024 16:27,7/8/2024 16:27
+1419,Thesis,DMGT200A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1420,Thesis I,ABEN200a,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1421,Thesis I (Proposal Writing),AGSC200a,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1422,Thesis I (Thesis Proposal and Outline Defense),VRES200A,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+1423,Thesis II,ABEN200b,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1424,Thesis II (Conduct of Proposal),AGSC200b,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1425,Thesis II (Thesis Conduct and Defense),VRES200B,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+1426,Thesis 3,ABEN200c,NULL,4,0,1,7/8/2024 16:27,7/8/2024 16:27
+1427,Thesis 3 (Manuscript Writing),AGSC200c,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1428,Thesis/Special Project I,DVCM200A,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1429,Thesis/Special Project II,DVCM200B,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1430,Time Series Analysis,BSAM126,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1431,Tour and Travel Management,TOUR27,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1432,Tour Guiding Management,TOUR131,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1433,Tourism and Hospitality Management I (Macro Perspective),TOUR50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1434,Tourism and Hospitality Management II (Micro Perspectives),TOUR65,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1435,Tourism and Hospitality Marketing,BSHM75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1436,Tourism and Hospitality Service Quality Management,BSHM100,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1437,Tourism and Hospitality Services Quality Management,TOUR90,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1438,Tourism Information Management,TOUR121,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1439,Tourism Policy Planning and Development,TOUR24,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1440,Traffic Management and Accident Investigation with Driving,CDIN4,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1441,Training and Development,HRMT60,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1442,Transition Education,SNED35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1443,Translation Studies,ENLS135,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1444,Transmission and Distribution System,ELEC105,NULL,2,3,1,7/8/2024 16:27,7/8/2024 16:27
+1445,Transportation Management,TOUR25,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1446,Treasury Management,FMGT 104,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1447,Trends and Issues in Social Studies,BSESS23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1448,Trigonometry,BSEM23,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1449,Tropical Design,ARCH110,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1450,"Ugnayan ng Wika, Kultura at Lipunan",BSEF26,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1451,Undergraduate Seminar,ABEN190,NULL,1,0,1,7/8/2024 16:27,7/8/2024 16:27
+1452,Undergraduate Thesis,BSAM200,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1453,Undergraduate Thesis I,BAPS195,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1454,Undergraduate Thesis II,BAPS200,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1455,Undergraduate Thesis III,BIOL200c,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1456,Undergraduate Thesis in Environmental Science I,ENSC200a,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1457,Undergraduate Thesis in Environmental Science II,ENSC200b,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1458,Undergraduate Thesis in Environmental Science III,ENSC200c,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1459,Understanding the Self,GNED08,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1460,Updates in Financial Reporting Standards,ACTG35,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1461,Vegetable and Herbs Production and Management,CRSC121,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1462,Veterinary Bacteriology and Mycology,VMCB55,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1463,Veterinary Clerkship,VCLN55,NULL,0,2,1,7/8/2024 16:27,7/8/2024 16:27
+1464,Veterinary Clinical Pathology,VPTH60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1465,Veterinary Clinical Pharmacology,VPHM55,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1466,Veterinary Competency Appraisal I,VCLN198A,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1467,Veterinary Competency Appraisal II,VCLN198B,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1468,Veterinary Developmental Anatomy,VETA60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1469,Veterinary Diagnostic Imaging,VSUR65,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1470,Veterinary Entomology and Protozoology,VPAR50,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+1471,Veterinary Epidemiology,VEPH50,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1472,Veterinary Food Safety and Hygiene,VEPH60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1473,Veterinary Helminthology,VPAR55,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+1474,Veterinary Internship I,VCLN70,NULL,0,10,1,7/8/2024 16:27,7/8/2024 16:27
+1475,Veterinary Internship II,VCLN75,NULL,0,12,1,7/8/2024 16:27,7/8/2024 16:27
+1476,Veterinary Jurisprudence and Ethics,VMED105,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1477,Veterinary Microscopic Anatomy (Histology),VETA65,NULL,2,2,1,7/8/2024 16:27,7/8/2024 16:27
+1478,Veterinary Practice Management and Entrepreneurship,VMED100,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1479,Veterinary Reproductive Physiology and Endocrinology,VPHY60,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1480,veterinary Virology,VMCB60,NULL,2,0,1,7/8/2024 16:27,7/8/2024 16:27
+1481,Vice and Drug Education and Control,CDIN7,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1482,Vice and Drug Education and Vice Control,ISAD32,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1483,Virology,BMCR80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1484,Visual Techniques I,ARCH22,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1485,Visual Techniques II,ARCH24,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1486,Visual Techniques III,ARCH25,NULL,1,1,1,7/8/2024 16:27,7/8/2024 16:27
+1487,Waste Management Engineering,ABEN120,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1488,Watershed Management,ENSC80,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1489,Waves and Optics,BSES32,NULL,3,1,1,7/8/2024 16:27,7/8/2024 16:27
+1490,Web System and Technologies I,ITEC50,NULL,2,1,1,7/8/2024 16:27,7/8/2024 16:27
+1491,Wildlife Zoology,BANI80,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1492,Work Study and Measurement (Lab),IENG80,NULL,0,1,1,7/8/2024 16:27,7/8/2024 16:27
+1493,Work Study and Measurement (Lec),IENG75,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1494,World History I (Ancient and Medieval Era),BSESS30,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1495,World History II (Modern and Contemporary Era),BSESS31,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1496,World Literature,GNED15,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1497,"Zoonoses, EIDs and One Health",VEPH55,NULL,3,0,1,7/8/2024 16:27,7/8/2024 16:27
+1498,Abnormal Psychology,BPSY80,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1499,Accounting,ACTG21,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1500,Administrative Office Procedures and Management,OFAD70,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1501,Advanced Shorthand,OFAD65,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1502,Agricultural Economics,ELEC126,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1503,Algebra and Trigonometry,MATH3,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1504,Anthropology of Current Asian Issues,ISAS55,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1505,Anthropology of Current European Issues,ISES55,NULL,3,0,1,7/8/2024 17:52,7/8/2024 17:52
+1506,Competency Appraisal I,CRIM197,NULL,1,2,1,7/11/2024 21:11,7/12/2024 22:00
+1507,Competency Appraisal II,CRIM198,NULL,1,2,1,7/11/2024 21:12,7/12/2024 22:00
+1508,Organic Chemistry,CHEM4,NULL,2,1,0,7/11/2024 23:13,11/25/2024 9:30
+1509,Genetics,GBIO120,NULL,2,1,1,7/11/2024 23:24,7/12/2024 16:24
+1510,Animal Nutrition and Feeding,AGSC70,NULL,2,1,1,7/12/2024 17:34,7/12/2024 17:34
+1511,ANSC121,Ruminant Production and Management,NULL,2,1,1,7/12/2024 21:30,7/12/2024 21:30
+1512,Ruminant Production and Management,ANSC121,NULL,2,1,1,7/12/2024 21:31,7/12/2024 21:31
+1513,Animal Product Processing,ANSC 126,NULL,2,1,1,7/12/2024 21:34,7/12/2024 21:34
+1514,Colloquium,AGSC190c,NULL,1,0,1,7/12/2024 21:55,7/12/2024 21:55
+1515,Introduction to Cybercrime and Digital Forensic Investigation,ISAD28,NULL,3,0,1,7/12/2024 22:19,7/12/2024 22:19
+1516,Competency Appraisal,ISAD200,NULL,1,2,1,7/12/2024 22:42,7/12/2024 22:42
+1517,Cytogenetics,MEDT07,NULL,2,0,1,7/19/2024 21:59,7/19/2024 21:59
+1518,Introduction to Health Care,MDWY20,NULL,2,1,1,7/20/2024 0:04,7/20/2024 0:04
+1519,Organic Chemistry,CHEM50,NULL,2,1,1,7/20/2024 0:27,7/20/2024 0:27
+1520,Biochemistry,CHEM55,NULL,3,1,1,7/20/2024 0:34,7/20/2024 0:34
+1521,General Zoology for Veterinary Medicine,VZOO100,NULL,3,1,1,7/20/2024 0:42,7/20/2024 0:42
+1522,Equine Medicine,VMED75,NULL,2,0,1,7/22/2024 16:46,7/22/2024 16:46
+1523,Swine Medicine,VMED65,NULL,2,0,1,7/22/2024 16:48,7/22/2024 16:48
+1524,Irrigation and Water Management,ABEN75,NULL,2,1,1,7/22/2024 21:51,7/22/2024 21:51
+1525,Anatomy and Physiology of Human Movement,SESS55,NULL,3,0,1,7/23/2024 18:02,8/7/2024 0:23
+1526,"Individual and Dual Sports (Racket Sports,Athletics,Martial Arts)",SESS60,NULL,3,0,1,7/23/2024 18:05,7/23/2024 18:05
+1527,"Principle Motor Control and Learning of Exercise, Sports and Dance",SESS70,NULL,3,0,1,7/23/2024 18:09,7/23/2024 18:09
+1528,Biomechanics,FASC110,NULL,3,0,1,7/23/2024 18:16,7/23/2024 18:16
+1529,Strength and Conditioning,FASC125,NULL,3,0,1,7/23/2024 18:26,7/23/2024 18:26
+1530,Research 1,FASC180,NULL,3,0,1,7/23/2024 18:27,7/23/2024 18:27
+1531,Elective 1 (2 lec/1 lab),ELECTIVE1,NULL,2,1,1,8/6/2024 22:23,8/7/2024 0:18
+1532,Elective 1 (3 lec),ELECTIVE1,NULL,3,0,1,8/7/2024 0:20,8/7/2024 0:20
+1533,Elective 2 (2 lec/1 lab),ELECTIVE2,NULL,2,1,1,8/7/2024 0:24,8/7/2024 0:24
+1534,Elective 2 (3 lec),ELECTIVE2,NULL,3,0,1,8/7/2024 0:25,8/7/2024 0:25
+1535,Elective 3 (2 lec/1 lab),ELECTIVE3,NULL,2,1,1,8/7/2024 0:27,8/7/2024 0:27
+1536,Elective 3 (3 lec),ELECTIVE3,NULL,3,0,1,8/7/2024 0:28,8/7/2024 0:28
+1537,Elective 4 (2 lec/1 lab),ELECTIVE4,NULL,2,1,1,8/7/2024 0:29,8/7/2024 0:29
+1538,Elective 4 (3 lec),ELECTIVE4,NULL,3,0,1,8/7/2024 0:29,8/7/2024 0:29
+1539,Elective 5 (2 lec/1 lab),ELECTIVE5,NULL,2,1,1,8/7/2024 0:30,8/7/2024 0:30
+1540,Elective 5 (3 lec),ELECTIVE5,NULL,3,0,1,8/7/2024 0:31,8/7/2024 0:31
+1542,Outdoor and Adventure,SESS110,NULL,3,0,1,8/7/2024 0:55,8/7/2024 0:55
+1543,Research 1,FASM180,NULL,3,0,1,8/7/2024 1:22,8/7/2024 1:22
+1544,Ergogenics and Healthy Eating in Exercise and Sports,FASM145,NULL,3,0,1,8/7/2024 1:25,8/7/2024 1:25
+1545,Research 2,FASM190,NULL,6,0,1,8/7/2024 1:44,8/7/2024 1:44
+1546,Intership,FASM190,NULL,6,0,1,8/7/2024 1:47,8/7/2024 1:47
+1547,Competency Appraisal 1,EDUC197,NULL,3,0,1,8/7/2024 21:20,8/7/2024 21:20
+1548,Research I,BPED165,NULL,3,0,1,8/7/2024 21:27,8/7/2024 21:27
+1549,Competency Appraisal 2,EDUC198,NULL,3,0,1,8/7/2024 21:28,8/7/2024 21:28
+1550,The Teaching Profession,EDUC55,NULL,3,0,1,8/7/2024 22:01,8/7/2024 22:01
+1551,Teaching Internship,EDUC23,NULL,6,0,1,8/7/2024 23:04,8/7/2024 23:04
+1552,Special Topic 1,BECED_SP,NULL,3,0,1,8/7/2024 23:19,8/7/2024 23:19
+1553,Technology for Teaching and Learning 2,TECO27,NULL,3,0,1,8/9/2024 1:30,8/9/2024 1:30
+1555,World History 2 (Modern and Contemporary Era),BSESS31,NULL,3,0,1,8/13/2024 18:54,8/13/2024 18:54
+1556,Technology for Teaching and Learning 2,BSESS41,NULL,3,0,1,8/13/2024 18:55,8/13/2024 18:55
+1558,"Risk Management as Applied to Safety, Security and Sanitation",TOUR55,NULL,3,0,1,9/13/2024 18:08,9/13/2024 18:08
+1559,"Philippine Tourism, Geography and Culture",TOUR60,NULL,3,0,1,9/13/2024 18:11,9/13/2024 18:11
+1560,Asian Language 1,ALAN21A,NULL,3,0,1,9/13/2024 18:18,9/13/2024 18:18
+1561,Professional Development & Applied Ethics,TOUR70,NULL,3,0,1,9/13/2024 18:30,9/13/2024 18:30
+1562,Asian Language 2,ALAN22A,NULL,3,0,0,9/13/2024 18:32,9/13/2024 18:33
+1563,Tourism and Hospitality Marketing,TOUR75,NULL,3,0,1,9/16/2024 18:36,9/16/2024 18:36
+1564,Entrepreneurship in Tourism and Hospitality,TOUR95,NULL,3,0,1,9/16/2024 18:45,9/16/2024 18:45
+1565,Strategic Management in Tourism and Hospitality,TOUR161,NULL,3,0,1,9/16/2024 18:47,9/16/2024 18:47
+1566,Operations Management,BADM24,NULL,3,0,0,9/16/2024 19:03,12/4/2024 14:04
+1567,Manangement Science,BADM32,NULL,3,0,1,9/16/2024 19:09,9/16/2024 19:09
+1568,Intermediate Accounting 3,ACTG27,NULL,3,0,1,9/16/2024 19:20,9/16/2024 19:20
+1569,Human Behavior iin Organization,BADM31,NULL,3,0,1,9/16/2024 19:27,9/16/2024 19:27
+1570,International Trade and Agreements,ECON24,NULL,3,0,1,9/16/2024 19:31,9/16/2024 19:31
+1571,Strategic Management,BADM27,NULL,3,0,1,9/16/2024 19:39,9/16/2024 19:39
+1572,Strategic Business Analysis,BADM32,NULL,3,0,1,9/16/2024 19:40,9/16/2024 19:40
+1573,Financial Management,FMGT50,NULL,3,0,1,9/16/2024 20:01,9/16/2024 20:01
+1574,Organic Chemistry,CHEM3c,NULL,3,2,1,11/21/2024 10:43,11/21/2024 10:43
+1575,Biochemistry,CHEM12a,NULL,3,2,1,11/21/2024 10:51,11/21/2024 10:51
+1576,Analytical Chemistry,CHEM16,NULL,3,2,1,11/21/2024 11:03,11/21/2024 11:03
+1577,Environmental Economics,ENSC105,NULL,2,0,1,11/25/2024 9:15,11/25/2024 9:15
+1578,Disaster Risk Reduction and Mangement,ENSC110,NULL,2,0,1,11/25/2024 9:19,11/25/2024 9:19
+1579,Undergraduate Seminar,ENSC199,NULL,1,0,1,11/25/2024 9:21,11/25/2024 9:21
+1580,***,COMMELEC116,NULL,3,0,1,11/25/2024 9:31,11/25/2024 9:31
+1581,Undergraduate Thesis 1,COMM200A,NULL,3,0,1,11/25/2024 9:33,11/25/2024 9:33
+1582,***,COMMELEC117,NULL,3,0,1,11/25/2024 9:34,11/25/2024 9:34
+1583,***,COMMELEC118,NULL,3,0,1,11/25/2024 9:35,11/25/2024 9:35
+1584,***,COMMELEC119,NULL,3,0,1,11/25/2024 9:35,11/25/2024 9:35
+1585,Undergraduate Thesis 2,COMM200B,NULL,3,0,1,11/25/2024 9:37,11/25/2024 9:39
+1587,Communication Theory,DVCM65,NULL,3,0,1,11/25/2024 10:47,11/25/2024 10:47
+1588,Knowledge Management,DVCM90,NULL,3,0,1,11/25/2024 10:49,11/25/2024 10:49
+1589,"Risk, Disaster, and Humanitarian Communication",DVCM95,NULL,3,0,1,11/25/2024 11:02,11/25/2024 11:02
+1590,Communication Research,DVCM70,NULL,3,0,1,11/25/2024 11:08,11/25/2024 11:08
+1591,Internship (200 hours),DVCM130,NULL,3,0,1,11/25/2024 11:09,11/25/2024 11:09
+1592,Methods of Research,FTEC110,NULL,3,0,1,11/25/2024 13:42,11/25/2024 13:42
+1593,Thesis 1,FTEC200A,NULL,1,0,1,11/25/2024 13:58,11/25/2024 13:58
+1594,Thesis 1,FTEC 200A,NULL,0,1,1,11/25/2024 15:39,11/25/2024 15:39
+1595,Undergraduate Seminar,FTEC190,NULL,1,0,1,11/25/2024 15:54,11/25/2024 15:54
+1596,Thesis 2,FTEC200B,NULL,0,1,1,11/25/2024 15:55,11/25/2024 15:55
+1597,Taxation,BMGT 28,NULL,3,0,1,11/25/2024 16:30,11/25/2024 16:30
+1598,Economic  Development,ECON50,NULL,3,0,1,11/26/2024 7:40,11/26/2024 7:40
+1599,Macroeconomics,ECON55,NULL,3,0,1,11/26/2024 7:41,11/26/2024 7:41
+1600,Operations Research,ECON85,NULL,3,0,1,11/26/2024 7:53,11/26/2024 7:53
+1601,Managerial Economics,ECON95,NULL,3,0,1,11/26/2024 7:58,11/26/2024 7:58
+1602,Undergraduate Thesis 1,ECON200A,NULL,3,0,1,11/26/2024 9:42,11/26/2024 9:42
+1603,Undergraduate Thesis 2,ECON200B,NULL,3,0,1,11/26/2024 9:42,11/26/2024 9:42
+1604,Surveying,ENSC27,NULL,2,1,1,11/26/2024 10:25,11/26/2024 10:25
+1605,Computer Aided Drafting (CAD),DRAW3,NULL,0,1,1,11/26/2024 10:27,11/26/2024 10:27
+1606,Fluid Mechanics,ENSC26,NULL,2,1,1,11/26/2024 10:36,11/26/2024 10:36
+1607,Engineering Economy,ENSC31,NULL,3,0,1,11/26/2024 10:41,11/26/2024 10:41
+1608,Competency Appraisal I,ABEN196,NULL,1,1,1,11/26/2024 10:52,11/26/2024 10:52
+1609,Technopreneurship,ENSC35,NULL,3,0,1,11/26/2024 10:55,11/26/2024 10:55
+1610,Analytic Geometry,MATH21c,NULL,2,0,1,11/26/2024 11:12,11/26/2024 11:12
+1612,Differential & Integral Calculus,MATH8a,NULL,3,0,1,11/26/2024 11:18,11/26/2024 11:18
+1613,Mechanics of Deformable Bodies,ENSC24b,NULL,3,0,1,11/26/2024 11:34,11/26/2024 11:34
+1615,Chemistry for Engineers,CHME14,NULL,3,1,1,11/26/2024 13:28,11/26/2024 13:28
+1616,Computer Hardware Fundamentals,CPEN55,NULL,0,1,1,11/26/2024 13:42,11/26/2024 13:42
+1617,Discrete Mathematics,DCEE21,NULL,3,0,1,11/26/2024 13:43,11/26/2024 13:43
+1618,Engineering Economics,ENGS31,NULL,3,0,1,11/26/2024 13:53,11/26/2024 13:53
+1619,Operating Systems,CPEN95,NULL,2,1,1,11/26/2024 14:11,11/26/2024 14:11
+1620,Kontekstwalisadong Komunikasyon sa Filipino,GNED10,NULL,3,0,1,11/26/2024 14:27,11/26/2024 14:27
+1621,Object Oriented Programming,DCIT50,NULL,2,1,1,11/26/2024 14:41,11/26/2024 14:41
+1622,Linear Algebra,MATH3,NULL,3,0,1,11/26/2024 14:52,11/26/2024 14:52
+1623,Methods of Research,DCIT60,NULL,3,0,1,11/26/2024 15:01,11/26/2024 15:01
+1624,Practicum,COSC199,NULL,3,0,1,11/26/2024 15:07,11/26/2024 15:07
+1625,General Zoology,ZOOL1,NULL,2,1,1,11/26/2024 15:10,11/26/2024 15:10
+1626,Undergraduate Thesis I,COSC200A,NULL,3,0,1,11/26/2024 15:21,11/26/2024 15:21
+1627,Undergraduate Thesis II,COSC200B,NULL,3,0,1,11/26/2024 15:22,11/26/2024 15:22
+1628,Human Anatomy and Physiology,BMED105,NULL,3,2,1,11/27/2024 9:23,11/27/2024 9:23
+1629,Introduction to Communication,JOUR55,NULL,3,0,1,11/27/2024 11:52,11/27/2024 11:52
+1630,Communication Thoery,JOUR60,NULL,3,0,1,11/28/2024 10:26,11/28/2024 10:26
+1631,Cognate 1 (3 lec),COGNATE1,NULL,3,0,1,11/28/2024 14:58,11/28/2024 14:58
+1632,Cognate 2 (3 lec),COGNATE2,NULL,3,0,1,11/28/2024 15:12,11/28/2024 15:12
+1633,Cognate 3 (3 lec),COGNATE3,NULL,3,0,1,11/28/2024 15:20,11/28/2024 15:20
+1634,Undergraduate Thesis,JOUR200,NULL,3,0,1,11/28/2024 15:43,11/28/2024 15:43
+1635,Cognate 4 (3 lec),COGNATE4,NULL,3,0,1,11/28/2024 15:44,11/28/2024 15:44
+1636,Cognate 5 (3 lec),COGNATE5,NULL,3,0,1,11/28/2024 15:44,11/28/2024 15:44
+1637,Cognate 6 (3 lec),COGNATE6,NULL,3,0,1,11/28/2024 15:47,11/28/2024 15:47
+1638,Panitikang Panlipunan,GNED11,NULL,3,0,1,11/28/2024 17:24,11/28/2024 17:24
+1639,Technology for Teaching and Learning 2,BSEF40,NULL,3,0,1,12/3/2024 17:24,12/3/2024 17:24
+1640,Linear Algebra,BSEM33,NULL,3,0,1,12/3/2024 17:44,12/3/2024 17:44
+1641,Calculus 2,BSEM28,NULL,4,0,1,12/4/2024 9:27,12/4/2024 9:27
+1642,Calculus 3,BSEM29,NULL,3,0,1,12/4/2024 9:30,12/4/2024 9:30
+1643,Mathematics of Investment,BSEM31,NULL,3,0,1,12/4/2024 9:30,12/4/2024 9:30
+1644,Cell and Molecular Biology,BSES22,NULL,3,1,1,12/4/2024 10:03,12/4/2024 10:03
+1645,Quantitative Techniques in Business,BADM21,NULL,3,0,1,12/4/2024 13:48,12/4/2024 13:48
+1646,Human Resource Management,BADM22,NULL,3,0,1,12/4/2024 13:49,12/4/2024 13:49
+1647,Business Law (Obligations and Contracts),BADM23,NULL,3,0,1,12/4/2024 13:50,12/4/2024 13:50
+1648,Good Governance and Social Responsibility,BADM25,NULL,3,0,1,12/4/2024 14:08,12/4/2024 14:08
+1649,Taxation (Income and Taxation),TAXN21,NULL,3,0,1,12/4/2024 14:09,12/4/2024 14:54
+1650,Business Research,BADM26,NULL,3,0,1,12/4/2024 14:13,12/4/2024 14:13
+1651,Undergraduate Thesis/EDP (Proposal),BADM200A,NULL,1,0,1,12/4/2024 14:17,12/4/2024 14:17
+1652,Research/EDP (Final Manuscript),BADM200B,NULL,2,0,1,12/4/2024 14:22,12/4/2024 14:22
+1653,Practicum Integrated Learning 2 (600 hours),BADM199,NULL,6,0,1,12/4/2024 14:22,12/4/2024 14:22
+1654,Business Communication,SMGT55,NULL,3,0,1,12/10/2024 8:43,12/10/2024 8:43
+1655,Service Marketing,SMGT75,NULL,3,0,1,12/10/2024 8:48,12/10/2024 8:48
+1656,Project Management,SMGT60,NULL,3,0,1,12/10/2024 8:56,12/10/2024 8:56
+1657,Administrative Office Management,HRMT50,NULL,3,0,1,12/10/2024 10:46,12/10/2024 10:46
+1658,Advertising,MKTG70,NULL,3,0,1,12/11/2024 9:23,12/11/2024 9:23
+1659,Quantitative Techniques in Business,BMGT60,NULL,2,1,1,12/11/2024 14:14,12/11/2024 14:14
+1661,Special Topics,AECP90,NULL,2,0,1,12/16/2024 14:30,12/16/2024 14:30
+1662,Seminar,AECP190,NULL,1,0,1,12/16/2024 14:32,12/16/2024 14:32
+1663,Enterprise Development Project 1,AECP199A,NULL,3,0,1,12/16/2024 14:33,12/16/2024 14:33
+1664,Enterprise Development Project 2,AECP199B,NULL,12,0,1,12/16/2024 14:33,12/16/2024 14:33
+1665,Basic Occupational Health and Safety,INDT21,NULL,2,0,1,1/15/2025 10:40,1/15/2025 10:40
+1666,Environmental Science,ENGS33,NULL,3,0,1,1/15/2025 13:16,1/15/2025 13:16
+1667,Intellectual Property Rights,INDT25,NULL,3,0,1,1/15/2025 13:17,1/15/2025 13:17
+1668,Electronics Principle (Active and Passive Components),ELEC55,NULL,2,1,1,1/15/2025 13:56,1/15/2025 13:56
+1669,Supervised Industrial Training 1,ELEC199A,NULL,0,3,1,1/15/2025 14:08,1/15/2025 14:08
+1670,Instrumentation and Controls,ELEC100,NULL,2,3,1,1/15/2025 14:59,1/15/2025 14:59
+1671,Supervised Industrial Training 2,ELEC199B,NULL,0,8,1,1/15/2025 15:05,1/15/2025 15:05
+1672,Supervised Industrial Training 3,ELEC199C,NULL,0,8,1,1/15/2025 15:06,1/15/2025 15:06
+1673,Supervised Industrial Training 1,ELEX199a,NULL,0,3,0,1/15/2025 16:24,1/22/2025 9:27
+1674,Operations Management,IENG105,NULL,3,1,1,1/20/2025 13:05,1/20/2025 13:05
+1675,Microbiology and Parasitology,MICR21,NULL,3,1,1,1/20/2025 14:25,1/20/2025 14:25
+1676,Biostatistics,STAT3,NULL,2,1,1,1/20/2025 15:40,1/20/2025 15:40
+1677,CP MAJOR (Select 1 from any Midwifery Majors),MDWYElec1,NULL,3,0,1,1/20/2025 16:47,1/20/2025 16:47
+1678,Basic Thermodynamics,ENSC28a,NULL,2,0,1,1/21/2025 9:00,1/21/2025 9:00
+1679,Electrical Circuits 1,EENG55,NULL,3,1,1,1/21/2025 9:02,1/21/2025 9:02
+1680,Electrical Circuits 2,EENG65,NULL,3,1,1,1/21/2025 9:12,1/21/2025 9:12
+1681,Engineering Management,ENSC31a,NULL,2,0,1,1/21/2025 9:40,1/21/2025 9:40
+1682,Competency Appraisal 1,ECEN196,NULL,2,1,1,1/21/2025 13:16,1/21/2025 13:16
+1683,Competency Appraisal 2,ECEN197,NULL,2,0,1,1/21/2025 13:25,1/21/2025 13:25
+1684,Elective 6 (3 lec),ELECTIVE6,NULL,3,0,0,1/21/2025 14:37,1/21/2025 14:39
+1685,Thesis,DMGT200B,NULL,3,0,1,1/21/2025 14:49,1/21/2025 14:49
+1686,Practicum,DMGT199,NULL,6,0,1,1/21/2025 14:50,1/21/2025 14:50
+1687,Introduction to Comparative Politics,ISEA24,NULL,3,0,1,1/22/2025 8:28,1/22/2025 8:28
+1688,Diplomatic and Consular Practices,ISEA26,NULL,3,0,1,1/22/2025 8:32,1/22/2025 8:32
+1689,Industrial Electronics,ELEX95,NULL,2,1,1,1/22/2025 9:13,1/22/2025 9:13
+1690,Supervised Industrial Training 2,ELEX199b,NULL,0,8,1,1/22/2025 9:23,1/22/2025 9:23
+1691,Supervised Industrial Training 3,ELEX199c,NULL,0,8,1,1/22/2025 9:24,1/22/2025 9:24
+1692,On-the-Job Training -240 Hours,CENG199,NULL,0,3,1,1/22/2025 11:07,1/22/2025 11:07
+1693,Foreign T rade of Asia,ISAS70,NULL,3,0,1,1/23/2025 8:35,1/23/2025 8:35
+1694,Political G eography of Asia,ISAS75,NULL,3,0,1,1/23/2025 8:35,1/23/2025 8:35
+1695,International Economics,ISEA35,NULL,3,0,1,1/23/2025 8:36,4/30/2025 9:52
+1696,Undergraduate Thesis 1,ISAS200A,NULL,3,0,1,1/23/2025 8:38,1/23/2025 8:38
+1697,Undergraduate Seminar,ISAS99,NULL,3,0,1,1/23/2025 8:40,1/23/2025 8:40
+1698,Undergraduate Thesis 2,ISAS200B,NULL,3,0,1,1/23/2025 8:40,1/23/2025 8:40
+1699,On-the-Job Training,ISAS199,NULL,6,0,0,1/23/2025 8:41,1/23/2025 8:42
+1700,Undergraduate Thesis 1,ISES200A,NULL,3,0,1,1/23/2025 9:03,1/23/2025 9:03
+1701,Undergraduate Seminar,ISES99,NULL,3,0,1,1/23/2025 9:05,1/23/2025 9:05
+1702,Undergraduate Thesis 2,ISES200B,NULL,3,0,1,1/23/2025 9:05,1/23/2025 9:05
+1703,On-the-Job Training,ISES199,NULL,6,0,1,1/23/2025 9:06,1/23/2025 9:06
+1704,Anatomy & Physiology,MCON01,NULL,3,2,1,1/23/2025 10:36,1/23/2025 10:36
+1705,Biochemistry,CHEM14,NULL,3,2,1,1/23/2025 10:40,1/23/2025 10:40
+1706,Competency Appraisal I,NURS24,NULL,3,0,1,1/23/2025 10:58,1/23/2025 10:58
+1707,Competency Appraisal 2,NURS26,NULL,3,0,1,1/23/2025 11:03,1/23/2025 11:03
+1708,Specialization Course 1 (3 lec),MAJOR1,NULL,3,0,1,1/23/2025 13:28,1/23/2025 13:31
+1709,Specialization Course 1 (2 lec/1 lab),MAJOR1,NULL,2,1,1,1/23/2025 13:29,1/23/2025 13:29
+1710,Specialization Course 1 (3 lec/2 lab),MAJOR1,NULL,3,2,1,1/23/2025 13:30,1/23/2025 13:30
+1711,Specialization Course 2 (2 lec/1 lab),MAJOR2,NULL,2,1,1,1/23/2025 13:32,1/23/2025 13:32
+1712,Specialization Course 2 (3 lec),MAJOR2,NULL,3,0,1,1/23/2025 13:33,1/23/2025 13:33
+1713,Specialization Course 2 (3 lec/ 2 lab),MAJOR2,NULL,3,2,1,1/23/2025 13:33,1/23/2025 13:33
+1714,Specialization Course 3 (2 lec/1 lab),MAJOR3,NULL,2,1,1,1/23/2025 13:34,1/23/2025 13:34
+1715,Specialization Course 3 (3 lec),MAJOR3,NULL,3,0,1,1/23/2025 13:34,1/23/2025 13:34
+1716,Specialization Course 3 (3 lec/2 lab),MAJOR3,NULL,3,2,1,1/23/2025 13:34,1/23/2025 13:34
+1717,Specialization Course 4 (2 lec/1 lab),MAJOR4,NULL,2,1,1,1/23/2025 13:35,1/23/2025 13:35
+1718,Specialization Course 4 (3 lec),MAJOR4,NULL,3,0,1,1/23/2025 13:35,1/23/2025 13:35
+1719,Specialization Course 4 (3 lec/2 lab),MAJOR4,NULL,3,2,1,1/23/2025 13:36,1/23/2025 13:36
+1720,Specialization Course 5 (2 lec/1 lab),MAJOR5,NULL,2,1,1,1/23/2025 13:36,1/23/2025 13:36
+1721,Specialization Course 5 (3 lec),MAJOR5,NULL,3,0,1,1/23/2025 13:37,1/23/2025 13:37
+1722,Specialization Course 5 (3 lec/2 lab),MAJOR5,NULL,3,2,1,1/23/2025 13:37,1/23/2025 13:37
+1723,Specialization Course 6 (2 lec/1 lab),MAJOR6,NULL,2,1,1,1/23/2025 13:38,1/23/2025 13:38
+1724,Specialization Course 6 (3 lec),MAJOR6,NULL,3,0,1,1/23/2025 13:38,1/23/2025 13:38
+1725,Specialization Course 6 (3 lec/2 lab),MAJOR6,NULL,3,2,1,1/23/2025 13:39,1/23/2025 13:39
+1726,Specialization Course 7 (2 ec/1 lab),MAJOR7,NULL,2,1,1,1/23/2025 13:39,1/23/2025 13:39
+1727,Specialization Course 7 (3 lec),MAJOR7,NULL,3,0,1,1/23/2025 13:40,1/23/2025 13:40
+1728,Specialization Course 7 (3 lec/2 lab),MAJOR7,NULL,3,2,1,1/23/2025 13:40,1/23/2025 13:40
+1729,Genetics,GBIO70,NULL,3,2,1,1/23/2025 14:04,1/23/2025 14:04
+1730,Cell and Molecular Biology,GBIO75,NULL,3,2,1,1/23/2025 14:08,1/23/2025 14:08
+1731,Undergraduate Thesis 1,BIOL200a,NULL,2,0,1,1/23/2025 14:16,1/23/2025 14:16
+1732,Undergraduate Thesis 2,BIOL200B,NULL,2,0,1,1/23/2025 14:20,1/23/2025 14:20
+1733,Botany,BOTA 1,NULL,2,1,1,1/23/2025 17:16,1/23/2025 17:16
+1734,Inorganic and Analytical Chemistry,CHEM1,NULL,3,2,1,1/23/2025 17:23,1/23/2025 17:23
+1735,Kontekstwalisadong Komunikasyon sa Filipino,GE Elect1,NULL,3,0,1,1/28/2025 10:22,1/28/2025 10:22
+1736,Technical Drafting I,DRAF50,NULL,2,3,1,3/11/2025 8:42,3/11/2025 8:42
+1737,Basic Architectural Plan Drawing,DRAF55,NULL,2,1,1,3/11/2025 8:43,3/11/2025 8:43
+1738,Mechanical Drafting,DRAF60,NULL,2,3,1,3/11/2025 8:52,3/11/2025 8:52
+1739,Introduction to AUTOCAD,DRAF65,NULL,2,1,1,3/11/2025 8:53,3/11/2025 8:53
+1740,Architectural Drafting - Residential,DRAF70,NULL,2,3,1,3/11/2025 9:12,3/11/2025 9:12
+1741,Basic AUTOCAD (2D Application),DRAF75,NULL,2,1,1,3/11/2025 9:13,3/11/2025 9:13
+1742,Technoprenuership 101,ENCS35,NULL,3,0,1,3/11/2025 9:14,3/11/2025 9:14
+1743,Supervised Industrial Training 1,DRAF199a,NULL,3,0,0,3/11/2025 9:17,3/11/2025 15:56
+1744,Architectural Drafting - Commercial,DRAF80,NULL,2,3,1,3/11/2025 9:24,3/11/2025 9:24
+1745,Intermediate CAD (3D),DRAF85,NULL,2,1,1,3/11/2025 9:25,3/11/2025 9:25
+1746,Machine Drafting,DRAF90,NULL,2,3,1,3/11/2025 13:57,3/11/2025 13:57
+1747,Advanced Computer Aided Drafting,DRAF95,NULL,2,1,1,3/11/2025 13:57,3/11/2025 13:57
+1748,DRAF Design Project 1,DRAF200a,NULL,0,1,1,3/11/2025 13:58,3/11/2025 13:58
+1749,Environmental Science,ENCS33,NULL,3,0,1,3/11/2025 14:59,3/11/2025 14:59
+1750,Supervised Industrial Training 2,DRAF199b,NULL,0,8,1,3/11/2025 15:55,3/11/2025 15:55
+1751,Supervised Industrial Training 3,DRAF199c,NULL,0,8,1,3/11/2025 15:55,3/11/2025 15:55
+1752,"Bench Work, Drillpress and Lathe Work",MECH50,NULL,2,3,1,3/11/2025 16:38,3/11/2025 16:38
+1753,Introduction to MachineShop(OHASP)&Metrology,MECH55,NULL,2,1,1,3/11/2025 16:39,3/11/2025 16:39
+1754,Microeconomics,BMGT21,NULL,3,0,1,3/12/2025 16:30,3/12/2025 16:30
+1755,Entrepreneurial Behavior,ETRP50,NULL,3,0,1,3/12/2025 16:30,3/12/2025 16:30
+1756,Opportunity Seeking,ETRP55,NULL,3,0,1,3/12/2025 16:31,3/12/2025 16:31
+1757,Innovation Management,ETRP60,NULL,3,0,1,3/12/2025 16:31,3/12/2025 16:31
+1758,Pricing and Costing,ETRP65,NULL,3,0,1,3/12/2025 16:42,3/12/2025 16:42
+1759,Human Resource Management,ETRP70,NULL,3,0,1,3/12/2025 16:42,3/12/2025 16:42
+1760,Market Research and Consumer Behavior,ETRP75,NULL,3,0,1,3/12/2025 16:43,3/12/2025 16:43
+1761,"Service, Trading, Manufacturing and Agribusiness",ETRP TRCK 1,NULL,3,0,1,3/12/2025 16:44,3/12/2025 16:44
+1762,Production and Operations Management,BMGT22,NULL,3,0,1,3/12/2025 16:44,3/12/2025 16:44
+1763,International Business and Trade,ETRP80,NULL,3,0,1,3/12/2025 16:45,3/12/2025 16:45
+1764,Program and Policies on Entrepreneurial Development,ETRP85,NULL,3,0,1,3/12/2025 16:47,3/12/2025 16:47
+1765,Financial Management,ETRP90,NULL,3,0,1,3/12/2025 16:47,3/12/2025 16:47
+1766,Business Law and Taxation,ENTRP95,NULL,3,0,1,3/12/2025 16:48,3/12/2025 16:48
+1767,Family Enterprise Management,ETRP TRCK 2,NULL,3,0,1,3/12/2025 16:49,3/12/2025 16:49
+1768,Business Plan Preparation,ETRP100,NULL,3,0,1,3/12/2025 16:58,3/12/2025 16:58
+1769,Elective 1,ETRP ELEC 1,NULL,3,0,1,3/12/2025 16:58,3/12/2025 16:58
+1770,Elective 2,ETRP ELEC 2,NULL,3,0,1,3/12/2025 16:59,3/12/2025 16:59
+1771,Wholesale and Retail Sales Management,ETRP TRCK 3,NULL,3,0,1,3/12/2025 17:00,3/12/2025 17:00
+1772,Social Entrepreneurship,ETRP110,NULL,3,0,1,3/12/2025 17:00,3/12/2025 17:00
+1773,Elective 3,ETRP ELEC 3,NULL,3,0,1,3/12/2025 17:01,3/12/2025 17:01
+1775,ETRP TRCK 3,Wholesale and Retail Sales Management,NULL,3,0,1,3/12/2025 17:03,3/12/2025 17:03
+1776,Electric Arc Welding and Milling Work,MECH60,NULL,2,3,1,3/13/2025 7:55,3/13/2025 7:55
+1777,Elementary Metallurgy and Heat Treatment,MECH65,NULL,2,1,1,3/13/2025 7:55,3/13/2025 7:55
+1778,Supervised Industrial Training 1,MECH199a,NULL,3,0,0,3/13/2025 8:13,3/13/2025 8:14
+1779,Advanced Lathe Work and Sheet Metal Work,MECH70,NULL,2,3,1,3/13/2025 8:29,3/13/2025 8:29
+1780,Advanced Heat Treatment and  Machine Shop Bench Work,MECH75,NULL,2,1,1,3/13/2025 8:31,3/13/2025 8:31
+1781,Advanced Milling Work  and Grinding Abrasive Machinning,MECH80,NULL,2,3,1,3/13/2025 8:39,3/13/2025 8:39
+1783,Principles of Tool and Die,MECH85,NULL,2,1,0,3/13/2025 9:05,3/13/2025 9:05
+1784,Elective 4,ETRP ELEC 4,NULL,3,0,1,3/13/2025 9:05,4/8/2025 9:37
+1785,Entrepreneurial Marketing Strategies,ETRP TRCK 4,NULL,3,0,1,3/13/2025 9:06,3/13/2025 9:06
+1786,Business Plan Implementation 1,ETRP115,NULL,5,0,1,3/13/2025 9:06,3/25/2025 8:58
+1787,Business Plan Implementation 2,ETRP120,NULL,5,0,1,3/13/2025 9:06,3/13/2025 9:06
+1788,Auto CAD Designing and 3D Printing,MECH90,NULL,2,3,1,3/13/2025 9:44,3/13/2025 9:44
+1789,"Industrial Planning and Maintenance, Elements of Industrial Design",MECH95,NULL,2,1,1,3/13/2025 9:44,3/13/2025 9:44
+1790,MECH Design Project 1,MECH200a,NULL,0,1,1,3/13/2025 9:45,3/13/2025 9:45
+1791,CNC Programming and Operation (Lathe Milling),MECH100,NULL,2,3,1,3/13/2025 9:48,3/13/2025 9:48
+1792,Project Study,MECH105,NULL,2,1,1,3/13/2025 9:48,3/13/2025 9:48
+1793,MECH Design Project 2,MECH200b,NULL,0,2,1,3/13/2025 9:49,3/13/2025 9:49
+1794,Business Law and Taxation,ETRP95,NULL,3,0,1,3/13/2025 9:50,3/13/2025 9:50
+1795,Applied Thermodynamics,ENCS29,NULL,1,1,1,3/13/2025 9:50,3/13/2025 9:50
+1796,Supervised Industrial Training 2,MECH199b,NULL,0,8,1,3/13/2025 9:55,3/13/2025 9:55
+1797,Supervised Industrial Training 3,MECH199c,NULL,0,8,1,3/13/2025 9:55,3/13/2025 9:55
+1798,MACHINE SHOP I /Engineering Materials,SMTE50,NULL,2,3,0,3/13/2025 10:51,3/13/2025 10:53
+1799,Manual Arc Welding (SMAW),SMTE55,NULL,2,1,1,3/13/2025 10:52,3/13/2025 10:52
+1800,Internal Combustion Engine (Diesel Engine),SMTE60,NULL,2,3,1,3/13/2025 10:57,3/13/2025 10:57
+1801,Engine Maintenance & Auxillary machinery,SMTE65,NULL,2,1,1,3/13/2025 10:58,3/13/2025 10:58
+1802,Marine Automation Mechanics and Hydromechanism,SMTE70,NULL,2,3,1,3/13/2025 11:05,3/13/2025 11:05
+1803,Instrumentation and Control,SMTE75,NULL,2,1,1,3/13/2025 11:09,3/13/2025 11:09
+1804,Supervised Industrial Training 1,SMTE199a,NULL,3,0,1,3/13/2025 11:12,3/13/2025 11:12
+1805,Marine Refrigeration and HVAC,SMTE80,NULL,2,3,1,3/13/2025 11:15,3/13/2025 11:15
+1806,Electro Technology,SMTE85,NULL,2,1,1,3/13/2025 11:15,3/13/2025 11:15
+1807,MACHINE SHOP 2 (Engine Lathe Processes),SMTE90,NULL,2,3,1,3/13/2025 11:21,3/13/2025 11:21
+1808,MACHINE SHOP3 (Milling Machine Operation),SMTE95,NULL,2,1,1,3/13/2025 11:21,3/13/2025 11:21
+1809,SMTE Design Project 1,SMTE200a,NULL,0,1,1,3/13/2025 11:22,3/13/2025 11:22
+1810,Marine Power Plant,SMTE100,NULL,2,3,1,3/13/2025 11:22,3/13/2025 11:22
+1811,Inspection and Quality Control,SMTE105,NULL,2,1,1,3/13/2025 11:23,3/13/2025 11:23
+1812,SMTE Design Project 2,SMTE200b,NULL,0,2,1,3/13/2025 11:44,3/13/2025 11:44
+1813,Supervised Industrial Training 2,SMTE199b,NULL,0,8,1,3/13/2025 11:52,3/13/2025 11:52
+1814,Supervised Industrial Training 3,SMTE199c,NULL,0,8,1,3/13/2025 11:52,3/13/2025 11:52
+1815,Intermediate Welding Processes and Light Metal Fabrication,WAFT50,NULL,2,3,0,3/13/2025 16:40,3/13/2025 16:42
+1816,Metallurgy and Heat Treatment,WAFT55,NULL,2,1,0,3/13/2025 16:40,3/13/2025 16:43
+1817,Advanced Welding Processes (SMAW),WAFT60,NULL,2,3,0,3/13/2025 16:41,3/13/2025 16:43
+1818,Inspection And Quality Control,WAFT65,NULL,2,1,0,3/13/2025 16:42,3/13/2025 16:43
+1819,Supervised Industrial Training 1,WAFT199a,NULL,3,0,1,3/13/2025 16:44,3/13/2025 16:44
+1820,Advanced Welding Processes (GMAW-FCAW),WAFT70,NULL,2,3,1,3/13/2025 16:44,3/13/2025 16:44
+1821,"Welding Design, Fabrication and Welders Qualification",WAFT75,NULL,2,1,1,3/13/2025 16:45,3/13/2025 16:45
+1822,Advanced Welding Processes(GTAW),WAFT80,NULL,2,3,1,3/13/2025 16:45,3/13/2025 16:45
+1823,"Welding Codes, Rules and Specifications",WAFT85,NULL,2,1,1,3/13/2025 16:46,3/13/2025 16:46
+1824,"Project Design, Construction Method and Fabrication",WAFT90,NULL,2,3,1,3/25/2025 15:20,3/25/2025 15:20
+1825,Pattern Development,WAFT95,NULL,3,2,1,3/25/2025 15:21,3/25/2025 15:21
+1826,WAFT Design Project 1,WAFT200a,NULL,0,1,1,3/25/2025 15:21,3/25/2025 15:21
+1827,Welding Plant Supervision and Management,WAFT100,NULL,2,3,1,3/25/2025 15:21,3/25/2025 15:21
+1828,Planning and Costing,WAFT105,NULL,2,1,1,3/25/2025 15:21,3/25/2025 15:21
+1829,WAFT Design Project 2,WAFT200b,NULL,0,2,1,3/25/2025 15:22,3/25/2025 15:22
+1830,Supervised Industrial Training 2,WAFT199b,NULL,0,8,1,3/25/2025 15:22,3/25/2025 15:22
+1831,Supervised Industrial Training 3,WAFT199c,NULL,0,8,1,3/25/2025 15:23,3/25/2025 15:23
+1832,"Pattern Drafting, Casual Dress Designing and Construction",FAT111,NULL,4,4,1,3/26/2025 10:45,3/26/2025 10:45
+1833,Advance Dress Designing & Construction of Formal Dress,FAT121,NULL,4,4,1,3/26/2025 10:45,3/26/2025 10:45
+1834,Supervised Industrial Training 1,FAT199a,NULL,3,0,1,3/26/2025 10:45,3/26/2025 10:45
+1835,"Dress Accessories, Trimmings, Decoration & Construction of Filipino Costumes",FAT211,NULL,4,4,1,3/26/2025 10:46,3/26/2025 10:46
+1836,Tailoring & Construction of Unisex Garment,FAT212,NULL,4,4,1,3/26/2025 10:46,3/26/2025 10:46
+1837,Fitting Problems & Garments Alterations,FAT311,NULL,4,4,1,3/26/2025 10:47,3/26/2025 10:47
+1838,FAT Design Project 1,FAT200a,NULL,0,1,1,3/26/2025 10:47,3/26/2025 10:47
+1839,Mass Production & Techniques of RTW Garments,FAT312,NULL,4,4,1,3/26/2025 10:47,3/26/2025 10:47
+1840,FAT Design Project 2,FAT200b,NULL,0,2,1,3/26/2025 10:47,3/26/2025 10:47
+1841,Supervised Industrial Training 2,FAT199b,NULL,0,8,1,3/26/2025 10:48,3/26/2025 10:48
+1842,Supervised Industrial Training 3,FAT199c,NULL,0,8,1,3/26/2025 10:48,3/26/2025 10:48
+1843,Refrigeration Principles,RAC50,NULL,2,3,1,4/8/2025 8:23,4/8/2025 8:23
+1844,"Basic Electricity , Welding, Brazing and Soldering",RAC55,NULL,2,1,1,4/8/2025 8:25,4/8/2025 8:25
+1845,DomRAC Components and Circuitry Design,RAC60,NULL,2,3,1,4/8/2025 8:34,4/8/2025 8:34
+1846,DomRAC System Troubleshooting and Maintenance,RAC65,NULL,2,1,1,4/8/2025 8:34,4/8/2025 8:34
+1847,Supervised Industrial Training 1,RAC199a,NULL,3,0,1,4/8/2025 8:34,4/8/2025 8:34
+1848,PACU System Design and Installation,RAC70,NULL,2,3,1,4/8/2025 8:34,4/8/2025 8:34
+1849,PACU System Troubleshooting and Maintenance,RAC75,NULL,2,1,1,4/8/2025 8:35,4/8/2025 8:35
+1850,MOBILE Airconditioning System,RAC80,NULL,2,1,1,4/8/2025 8:36,4/8/2025 8:36
+1851,MOBILE System Trouble shooting and Maintenance,RAC85,NULL,2,1,1,4/8/2025 8:36,4/8/2025 8:36
+1852,"CRE Operation, Absorption System and Principles",RAC90,NULL,1,1,1,4/8/2025 8:36,4/8/2025 8:36
+1853,Special Refrigeration and Transport Refrigeration System,RAC95,NULL,2,3,1,4/8/2025 8:36,4/8/2025 8:36
+1854,Introduction to Marine HVAC-R System Design,RAC100,NULL,2,1,1,4/8/2025 8:37,4/8/2025 8:37
+1855,RAC Design Project 1,RAC200a,NULL,0,1,1,4/8/2025 8:37,4/8/2025 8:37
+1856,Special Refrigeration System Application and Retrofitting,RAC105,NULL,2,3,1,4/8/2025 8:37,4/8/2025 8:37
+1857,"Body Repair, Painting and Air Distribution and Fabrication",RAC110,NULL,2,1,1,4/8/2025 8:38,4/8/2025 8:38
+1858,RAC Design Project 2,RAC200b,NULL,0,2,1,4/8/2025 8:38,4/8/2025 8:38
+1859,Supervised Industrial Training 2,RAC199b,NULL,0,8,1,4/8/2025 8:38,4/8/2025 8:38
+1860,Supervised Industrial Training 3,RAC199c,NULL,0,8,1,4/8/2025 8:39,4/8/2025 8:39
+1861,Fundamentals of Zoology,ZOOL1,NULL,3,2,1,4/8/2025 11:06,4/8/2025 11:06
+1862,Product Development and Value Addition,FISH ELEC 1,NULL,2,1,1,4/8/2025 14:46,4/8/2025 14:46
+1863,Postharvest Handling & Low Temperature Preservation,FISH ELEC 2,NULL,2,1,1,4/8/2025 14:47,4/8/2025 14:47
+1864,GIS and remote sensing for Fisheries,FISH ELEC 3,NULL,2,1,1,4/8/2025 14:48,4/8/2025 14:48
+1865,Fishing Systems,FISH ELEC 4,NULL,3,0,1,4/8/2025 14:48,4/8/2025 14:48
+1866,Fish Stock Assessment,FISH ELEC 5,NULL,3,0,1,4/8/2025 14:49,4/8/2025 14:49
+1867,Aquatic Invertebrates,FISH ELEC 6,NULL,3,0,1,4/8/2025 14:50,4/8/2025 14:50
+1868,Organic Chemistry,CHEM 2,NULL,3,2,1,4/8/2025 14:53,4/8/2025 14:53
+1869,Ichthyology,FISH 11,NULL,3,2,1,4/8/2025 14:55,4/8/2025 14:55
+1870,Aquaculture,FISH 65,NULL,3,2,1,4/8/2025 14:56,4/8/2025 14:56
+1871,Aquatic Resources and Ecology,FISH 70,NULL,3,2,1,4/8/2025 14:57,4/8/2025 14:57
+1872,Biochemistry,CHEM3,NULL,2,1,0,4/8/2025 15:04,4/8/2025 15:12
+1873,Microbiology,MICRO1,NULL,2,1,0,4/8/2025 15:05,4/8/2025 15:11
+1874,Fisheries Meteorology,FISH80,NULL,3,0,0,4/8/2025 15:06,4/8/2025 15:11
+1875,Oceanography,FISH90,NULL,3,2,0,4/8/2025 15:06,4/8/2025 15:11
+1876,Capture Fisheries,FISH95,NULL,3,2,0,4/8/2025 15:08,4/8/2025 15:10
+1877,Aquaculture Engineering,FISH100,NULL,2,1,0,4/8/2025 15:09,4/8/2025 15:10
+1878,Fish Genetics and Breeding,FISH105,NULL,2,1,1,4/8/2025 15:16,4/8/2025 15:16
+1879,Fish Nutrition,FISH110,NULL,2,1,1,4/8/2025 15:17,4/8/2025 15:17
+1880,"Fisheries Laws, Policies, and Institution",FISH115,NULL,3,0,1,4/8/2025 15:17,4/8/2025 15:17
+1881,Postharvest Fisheries,FISH120,NULL,3,2,1,4/8/2025 15:18,4/8/2025 15:18
+1882,"Fishery Product, Safety and Quality",FISH125,NULL,2,1,1,4/8/2025 15:18,4/8/2025 15:18
+1883,Research Design and Methodologies,FISH130,NULL,2,1,1,4/8/2025 15:19,4/8/2025 15:19
+1884,Physiology of Aquatic Organisms,FISH135,NULL,3,0,1,4/8/2025 15:19,4/8/2025 15:19
+1885,Fish Health Management,FISH140,NULL,2,1,1,4/8/2025 15:20,4/8/2025 15:20
+1886,On-The-Job Training,FISH150,NULL,3,0,1,4/8/2025 15:20,4/8/2025 15:20
+1887,Project Development and Management,FISH155,NULL,3,0,1,4/8/2025 15:21,4/8/2025 15:21
+1888,Fisheries Entrepreneurship,FISH160,NULL,3,0,1,4/8/2025 15:22,4/8/2025 15:22
+1889,Fisheries Management,FISH165,NULL,3,2,1,4/8/2025 15:22,4/8/2025 15:22
+1890,Competency Appraisal 1,FISH170,NULL,3,0,1,4/8/2025 15:23,4/8/2025 15:23
+1891,Undergraduate Thesis (Proposal),FISH200A,NULL,1,0,1,4/8/2025 15:23,4/8/2025 15:23
+1892,Competency Appraisal 2,FISH175,NULL,3,0,1,4/8/2025 15:24,4/8/2025 15:24
+1893,Coastal Resource Management,FISH180,NULL,3,0,1,4/8/2025 15:24,4/8/2025 15:24
+1894,Fisheries Extension,FISH185,NULL,3,0,1,4/8/2025 15:25,4/8/2025 15:25
+1895,Seminar,FISH190,NULL,1,0,1,4/8/2025 15:25,4/8/2025 15:25
+1896,Undergraduate Thesis (Conduct & Oral Defense),FISH200B,NULL,2,0,1,4/8/2025 15:26,4/8/2025 15:26
