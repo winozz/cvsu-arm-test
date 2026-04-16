@@ -24,12 +24,8 @@ final class UsersTable extends PowerGridComponent
 
     public string $tableName = 'usersTable';
 
-    /**
-     * Override the bood method of PowerGridComponent
-     */
     public function boot(): void
     {
-        // Place filters outside the table header
         config(['livewire-powergrid.filter' => 'outside']);
     }
 

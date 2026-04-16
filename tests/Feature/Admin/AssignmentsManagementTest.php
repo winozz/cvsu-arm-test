@@ -5,48 +5,49 @@ use App\Models\Role;
 use App\Models\User;
 use Livewire\Livewire;
 
-beforeEach(function () {
-    Role::findOrCreate('superAdmin', 'web');
-});
+describe('assignments management', function () {
+    beforeEach(function () {
+        Role::findOrCreate('superAdmin', 'web');
+    });
 
-test('super admin can sync direct permissions from the assignments page', function () {
-    $actingUser = User::factory()->create();
-    $actingUser->assignRole('superAdmin');
+    it('super admin can sync direct permissions from the assignments page', function () {
+        $actingUser = User::factory()->create();
+        $actingUser->assignRole('superAdmin');
 
-    $managedUser = User::factory()->create();
+        $managedUser = User::factory()->create();
 
-    $role = Role::findOrCreate('deptAdmin', 'web');
-    $permission = Permission::findOrCreate('assignments.manage', 'web');
+        $role = Role::findOrCreate('deptAdmin', 'web');
+        $permission = Permission::findOrCreate('assignments.manage', 'web');
 
-    Livewire::actingAs($actingUser)
-        ->test('pages::admin.assignments.index')
-        ->set('selectedUserId', $managedUser->id)
-        ->call('updatedSelectedUserId')
-        ->set('userRoles', [$role->name])
-        ->set('userPermissions', [$permission->name])
-        ->call('saveUserAssignments')
-        ->assertHasNoErrors();
+        Livewire::actingAs($actingUser)
+            ->test('pages::admin.assignments.index')
+            ->set('selectedUserId', $managedUser->id)
+            ->set('userRoles', [$role->name])
+            ->set('userPermissions', [$permission->name])
+            ->call('saveUserAssignments')
+            ->assertHasNoErrors();
 
-    expect($managedUser->fresh()->hasRole($role->name))->toBeTrue()
-        ->and($managedUser->fresh()->hasDirectPermission($permission->name))->toBeTrue();
-});
+        expect($managedUser->fresh()->hasRole($role->name))->toBeTrue()
+            ->and($managedUser->fresh()->hasDirectPermission($permission->name))->toBeTrue();
+    });
 
-test('user edit page syncs direct permissions when saving', function () {
-    $actingUser = User::factory()->create();
-    $actingUser->assignRole('superAdmin');
+    it('user edit page syncs direct permissions when saving', function () {
+        $actingUser = User::factory()->create();
+        $actingUser->assignRole('superAdmin');
 
-    $managedUser = User::factory()->create();
-    Role::findOrCreate('faculty', 'web');
-    $managedUser->assignRole('faculty');
+        $managedUser = User::factory()->create();
+        Role::findOrCreate('faculty', 'web');
+        $managedUser->assignRole('faculty');
 
-    $permission = Permission::findOrCreate('permissions.view', 'web');
+        $permission = Permission::findOrCreate('permissions.view', 'web');
 
-    Livewire::actingAs($actingUser)
-        ->test('pages::admin.users.show', ['user' => $managedUser])
-        ->call('enableEditing')
-        ->set('form.direct_permissions', [$permission->name])
-        ->call('save')
-        ->assertHasNoErrors();
+        Livewire::actingAs($actingUser)
+            ->test('pages::admin.users.show', ['user' => $managedUser])
+            ->call('enableEditing')
+            ->set('form.direct_permissions', [$permission->name])
+            ->call('save')
+            ->assertHasNoErrors();
 
-    expect($managedUser->fresh()->hasDirectPermission($permission->name))->toBeTrue();
+        expect($managedUser->fresh()->hasDirectPermission($permission->name))->toBeTrue();
+    });
 });
