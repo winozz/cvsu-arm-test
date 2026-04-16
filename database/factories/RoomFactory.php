@@ -21,7 +21,7 @@ class RoomFactory extends Factory
         $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
         $floorNo = (string) fake()->numberBetween(1, 5);
         $roomNo = (int) ((int) $floorNo * 100 + fake()->numberBetween(1, 30));
-        $type = fake()->randomElement(['LECTURE', 'LABORATORY']);
+        $type = fake()->randomElement(array_keys(Room::TYPES));
 
         return [
             'campus_id' => $department->campus_id,
@@ -34,7 +34,7 @@ class RoomFactory extends Factory
             'description' => fake()->optional()->sentence(),
             'location' => sprintf('Building %d, Floor %s', $department->college_id, $floorNo),
             'is_active' => true,
-            'status' => fake()->randomElement(['USEABLE', 'NOT_USEABLE', 'UNDER_RENOVATION', 'UNDER_CONSTRUCTION']),
+            'status' => fake()->randomElement(array_keys(Room::STATUSES)),
         ];
     }
 

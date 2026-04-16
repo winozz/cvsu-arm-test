@@ -32,4 +32,19 @@ class Campus extends Model
     {
         return $this->hasMany(Department::class);
     }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function facultyProfiles(): HasMany
+    {
+        return $this->hasMany(FacultyProfile::class);
+    }
+
+    public function employeeProfiles(): HasMany
+    {
+        return $this->hasMany(EmployeeProfile::class);
+    }
 }

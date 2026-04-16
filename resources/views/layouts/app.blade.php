@@ -124,7 +124,7 @@
                         <x-side-bar.item text="Subjects" icon="book-open" />
 
                         @can('rooms.view')
-                            <x-side-bar.item text="Rooms" icon="building-office" />
+                            <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('department-admin.rooms', 'department-admin.rooms.*')" :route="route('department-admin.rooms')" />
                         @endcan
 
                     </x-side-bar.item>

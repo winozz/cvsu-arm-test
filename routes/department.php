@@ -19,4 +19,8 @@ Route::middleware(['auth'])
             ->middleware('permission:faculty_profiles.view')
             ->name('faculty-profiles.show');
 
+        // Rooms Routes
+        Route::livewire('/rooms', 'pages::dept-admin.rooms.index')
+            ->middleware('permission:rooms.view')
+            ->name('rooms');
     });

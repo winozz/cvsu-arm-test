@@ -25,7 +25,7 @@ class RoomSeeder extends Seeder
                 $generatedRoomNo = (int) ($department->id * 1000 + $template['room_no']);
                 $baseName = $template['type'] === 'LABORATORY' ? 'Laboratory' : 'Lecture Room';
 
-                Room::query()->updateOrCreate(
+                $room = Room::withTrashed()->updateOrCreate(
                     [
                         'department_id' => $department->id,
                         'room_no' => $generatedRoomNo,
@@ -42,6 +42,10 @@ class RoomSeeder extends Seeder
                         'status' => $template['status'],
                     ]
                 );
+
+                if ($room->trashed()) {
+                    $room->restore();
+                }
             }
         });
     }

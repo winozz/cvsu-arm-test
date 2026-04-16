@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,6 +72,11 @@ class User extends Authenticatable
     public function employeeProfile(): HasOne
     {
         return $this->hasOne(EmployeeProfile::class, 'user_id', 'id');
+    }
+
+    public function updatedFacultyProfiles(): HasMany
+    {
+        return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
     }
 
     /**

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->boolean('is_active')->default(true);
             $table->enum('status', ['USEABLE', 'NOT_USEABLE', 'UNDER_RENOVATION', 'UNDER_CONSTRUCTION'])->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
