@@ -6,7 +6,6 @@ use App\Support\TallStackUiSetup;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -25,13 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Intercept all Gate/Policy checks
-        Gate::before(function ($user, $ability) {
-            // If they are a super admin, grant access immediately.
-            // Returning null allows standard Policy checks to run for other roles.
-            return $user->hasRole('superAdmin') ? true : null;
-        });
-
         $this->configureDefaults();
 
         TallStackUiSetup::configure();

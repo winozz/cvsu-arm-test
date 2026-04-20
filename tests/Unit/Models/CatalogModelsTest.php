@@ -25,6 +25,16 @@ describe('Program model', function () {
             'is_active',
         ]);
     });
+
+    it('exposes human readable level and duration labels', function () {
+        $program = Program::factory()->make([
+            'level' => 'UNDERGRADUATE',
+            'no_of_years' => 4,
+        ]);
+
+        expect($program->level_label)->toBe('Undergraduate')
+            ->and($program->duration_label)->toBe('4 years');
+    });
 });
 
 describe('Room model', function () {

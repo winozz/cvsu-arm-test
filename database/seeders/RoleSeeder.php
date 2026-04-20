@@ -37,9 +37,24 @@ class RoleSeeder extends Seeder
                 PermissionEnum::FACULTY_PROFILE_UPDATE->value,
                 PermissionEnum::COLLEGE_VIEW->value,
                 PermissionEnum::COLLEGE_UPDATE->value,
+
+                PermissionEnum::PROGRAM_CREATE->value,
                 PermissionEnum::PROGRAM_VIEW->value,
+                PermissionEnum::PROGRAM_UPDATE->value,
+                PermissionEnum::PROGRAM_DELETE->value,
+                PermissionEnum::PROGRAM_RESTORE->value,
+
+                PermissionEnum::SUBJECT_CREATE->value,
                 PermissionEnum::SUBJECT_VIEW->value,
+                PermissionEnum::SUBJECT_UPDATE->value,
+                PermissionEnum::SUBJECT_DELETE->value,
+                PermissionEnum::SUBJECT_RESTORE->value,
+
+                PermissionEnum::ROOM_CREATE->value,
                 PermissionEnum::ROOM_VIEW->value,
+                PermissionEnum::ROOM_UPDATE->value,
+                PermissionEnum::ROOM_DELETE->value,
+                PermissionEnum::ROOM_RESTORE->value,
             ],
 
             'deptAdmin' => [

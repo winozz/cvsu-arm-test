@@ -64,6 +64,22 @@ class CvsuSeedData
     }
 
     /**
+     * @return Collection<int, array{legacy_id: int, college_legacy_id: int, program_legacy_id: int, created_at: ?string, updated_at: ?string}>
+     */
+    public static function collegePrograms(): Collection
+    {
+        return self::readCsv('college_programs.csv')->map(
+            fn (array $row): array => [
+                'legacy_id' => (int) $row['id'],
+                'college_legacy_id' => (int) $row['college_id'],
+                'program_legacy_id' => (int) $row['program_id'],
+                'created_at' => self::nullable($row['created_at'] ?? null),
+                'updated_at' => self::nullable($row['updated_at'] ?? null),
+            ]
+        );
+    }
+
+    /**
      * @return Collection<int, array{legacy_id: int, title: string, code: string, description: ?string, lecture_units: int, laboratory_units: int, is_credit: bool}>
      */
     public static function subjects(): Collection

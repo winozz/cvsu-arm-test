@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -33,14 +34,14 @@ class Program extends Model
     protected function levelLabel(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => self::LEVELS[$value] ?? ($value ?: '-'),
+            get: fn () => self::LEVELS[$this->level] ?? ($this->level ?: '-'),
         );
     }
 
     protected function durationLabel(): Attribute
     {
         return Attribute::make(
-            get: fn (?int $value) => filled($value) ? $value.' '.Str::plural('year', $value) : '-',
+            get: fn () => filled($this->no_of_years) ? $this->no_of_years.' '.Str::plural('year', $this->no_of_years) : '-',
         );
     }
 
@@ -49,5 +50,11 @@ class Program extends Model
         return Attribute::make(
             get: fn (): string => trim($this->code.' - '.$this->title, ' -'),
         );
+    }
+
+    public function colleges(): BelongsToMany
+    {
+        return $this->belongsToMany(College::class, 'college_programs')
+            ->withTimestamps();
     }
 }
