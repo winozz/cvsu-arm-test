@@ -13,10 +13,11 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ProgramsTable extends PowerGridComponent
 {
-    use CanManage;
+    use CanManage, WithExport;
 
     public int $collegeId;
 
@@ -49,10 +50,7 @@ final class ProgramsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Program::query()
-            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId))
-            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
-            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+        return $this->baseProgramQuery();
     }
 
     public function relationSearch(): array
@@ -110,8 +108,58 @@ final class ProgramsTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datetimepicker('created_at'),
+            Filter::select('level', 'level')
+                ->dataSource($this->levelFilterOptions())
+                ->optionLabel('name')
+                ->optionValue('id')
+                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('level', $value) : $query),
+
+            Filter::select('is_active')
+                ->dataSource($this->availabilityFilterOptions())
+                ->optionLabel('name')
+                ->optionValue('id')
+                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('is_active', (int) $value) : $query),
         ];
+    }
+
+    protected function baseProgramQuery(): Builder
+    {
+        return Program::query()
+            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId))
+            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
+            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+    }
+
+    protected function levelFilterOptions(): array
+    {
+        return $this->baseProgramQuery()
+            ->whereNotNull('level')
+            ->where('level', '!=', '')
+            ->distinct()
+            ->orderBy('level')
+            ->pluck('level')
+            ->map(fn (string $level) => [
+                'id' => $level,
+                'name' => Program::LEVELS[$level] ?? $level,
+            ])
+            ->values()
+            ->all();
+    }
+
+    protected function availabilityFilterOptions(): array
+    {
+        return $this->baseProgramQuery()
+            ->distinct()
+            ->orderByDesc('is_active')
+            ->pluck('is_active')
+            ->map(fn ($isActive) => (int) $isActive)
+            ->unique()
+            ->map(fn (int $isActive) => [
+                'id' => $isActive,
+                'name' => $isActive === 1 ? 'Active' : 'Inactive',
+            ])
+            ->values()
+            ->all();
     }
 
     public function actions(Program $row): array

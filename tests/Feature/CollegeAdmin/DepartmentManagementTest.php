@@ -74,6 +74,35 @@ describe('college admin department management', function () {
             ->assertSet('departmentModal', false);
     });
 
+    it('college admin can still create a duplicate department after confirming the warning', function () {
+        $campus = Campus::factory()->create();
+        $college = College::factory()->forCampus($campus)->create([
+            'code' => 'CEIT',
+        ]);
+
+        Department::factory()->forCollege($college)->create([
+            'code' => 'CEIT-ACAD',
+            'name' => 'Academic Programs Department',
+        ]);
+
+        Livewire::actingAs(User::factory()->collegeAdmin()->create())
+            ->test('pages::college-admin.departments.index')
+            ->call('openCreateDepartmentModal')
+            ->set('departmentForm.code', 'CEIT-ACAD')
+            ->set('departmentForm.name', 'Academic Programs Department')
+            ->set('departmentForm.description', 'Confirmed duplicate entry.')
+            ->call('confirmSaveDepartment')
+            ->assertSet('departmentDuplicateConflictDetected', true)
+            ->call('proceedWithDuplicateDepartmentSave')
+            ->assertHasNoErrors();
+
+        expect(Department::query()
+            ->where('college_id', $college->id)
+            ->where('code', 'CEIT-ACAD')
+            ->where('name', 'Academic Programs Department')
+            ->count())->toBe(2);
+    });
+
     it('college admin can update a department in their current college using the modal form', function () {
         $campus = Campus::factory()->create();
         $college = College::factory()->forCampus($campus)->create();

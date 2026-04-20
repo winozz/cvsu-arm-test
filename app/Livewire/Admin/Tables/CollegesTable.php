@@ -12,11 +12,12 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use TallStackUi\Traits\Interactions;
 
 final class CollegesTable extends PowerGridComponent
 {
-    use CanManage, Interactions;
+    use CanManage, Interactions, WithExport;
 
     public int $campusId;
 

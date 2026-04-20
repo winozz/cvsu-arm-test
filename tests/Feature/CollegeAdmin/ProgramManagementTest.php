@@ -53,28 +53,78 @@ describe('college admin program management', function () {
             ->and($college->fresh()->programs->modelKeys())->toContain($program->id);
     });
 
-    it('duplicate program codes are rejected', function () {
+    it('exact duplicate programs are blocked and listed before creation', function () {
         [, $college, , $user] = collegeAdminProgramContext();
-        $otherCollege = College::factory()->forCampus($college->campus)->create();
-        $existingProgram = Program::factory()->create([
+        $otherCollege = College::factory()->forCampus($college->campus)->create([
+            'code' => 'COE',
+            'name' => 'College of Engineering',
+        ]);
+        $sameCodeProgram = Program::factory()->create([
             'code' => 'BSE',
+            'title' => 'Bachelor of Secondary Education',
+        ]);
+        $sameTitleProgram = Program::factory()->create([
+            'code' => 'ENGR',
             'title' => 'Bachelor of Science in Engineering',
+        ]);
+        $otherCollege->programs()->attach([$sameCodeProgram->id, $sameTitleProgram->id]);
+
+        Livewire::actingAs($user)
+            ->test('pages::college-admin.programs.index')
+            ->call('openCreateProgramModal')
+            ->set('programForm.code', 'BSE')
+            ->set('programForm.title', 'Bachelor of Science in Engineering')
+            ->set('programForm.description', 'Potential duplicate')
+            ->set('programForm.no_of_years', 4)
+            ->set('programForm.level', 'UNDERGRADUATE')
+            ->set('programForm.is_active', true)
+            ->call('confirmSaveProgram')
+            ->assertHasNoErrors()
+            ->assertSet('programDuplicateConflictType', 'exact')
+            ->assertSet('programExactDuplicateConflicts', [
+                'BSE - Bachelor of Secondary Education | Colleges: COE',
+                'ENGR - Bachelor of Science in Engineering | Colleges: COE',
+            ])
+            ->assertSet('programModal', false);
+
+        expect(Program::query()->where('code', 'BSE')->count())->toBe(1);
+    });
+
+    it('similar program matches are shown for confirmation before creation', function () {
+        [, $college, , $user] = collegeAdminProgramContext();
+        $otherCollege = College::factory()->forCampus($college->campus)->create([
+            'code' => 'COE',
+            'name' => 'College of Engineering',
+        ]);
+        $existingProgram = Program::factory()->create([
+            'code' => 'BSCS',
+            'title' => 'Bachelor of Science in Computer Science',
         ]);
         $otherCollege->programs()->attach($existingProgram->id);
 
         Livewire::actingAs($user)
             ->test('pages::college-admin.programs.index')
             ->call('openCreateProgramModal')
-            ->set('programForm.code', 'BSE')
-            ->set('programForm.title', 'Another Engineering Program')
-            ->set('programForm.description', 'Potential duplicate')
+            ->set('programForm.code', 'BSCSA')
+            ->set('programForm.title', 'Bachelor of Science in Computer Sciences')
+            ->set('programForm.description', 'Potential similar duplicate')
             ->set('programForm.no_of_years', 4)
             ->set('programForm.level', 'UNDERGRADUATE')
             ->set('programForm.is_active', true)
-            ->call('saveProgram')
-            ->assertHasErrors(['programForm.code']);
+            ->call('confirmSaveProgram')
+            ->assertHasNoErrors()
+            ->assertSet('programDuplicateConflictType', 'similar')
+            ->assertSet('programSimilarDuplicateConflicts', [
+                'BSCS - Bachelor of Science in Computer Science | Colleges: COE',
+            ])
+            ->assertSet('programModal', false)
+            ->call('proceedWithSimilarProgramCreation')
+            ->assertHasNoErrors();
 
-        expect(Program::query()->where('code', 'BSE')->count())->toBe(1);
+        $program = Program::query()->where('code', 'BSCSA')->first();
+
+        expect($program)->not->toBeNull()
+            ->and($college->fresh()->programs->modelKeys())->toContain($program->id);
     });
 
     it('college admin can edit a shared program from their page', function () {

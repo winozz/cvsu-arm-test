@@ -66,4 +66,29 @@ describe('admin users pages', function () {
         expect($managedUser->fresh()->facultyProfile)->toBeNull()
             ->and($managedUser->fresh()->employeeProfile)->toBeNull();
     });
+
+    it('updates an existing faculty user assignment when campus changes', function () {
+        $newCampus = Campus::factory()->create();
+        $newCollege = College::factory()->forCampus($newCampus)->create();
+        $newDepartment = Department::factory()->forCollege($newCollege)->create();
+        $managedUser = User::factory()->faculty()->create();
+
+        Livewire::actingAs($this->user)
+            ->test('pages::admin.users.show', ['user' => $managedUser])
+            ->call('enableEditing')
+            ->set('form.campus_id', $newCampus->id)
+            ->set('form.college_id', $newCollege->id)
+            ->set('form.department_id', $newDepartment->id)
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSet('isEditing', false)
+            ->assertSet('form.campus_id', $newCampus->id)
+            ->assertSet('form.college_id', $newCollege->id)
+            ->assertSet('form.department_id', $newDepartment->id);
+
+        expect($managedUser->fresh()->facultyProfile)->not->toBeNull()
+            ->and($managedUser->fresh()->facultyProfile->campus_id)->toBe($newCampus->id)
+            ->and($managedUser->fresh()->facultyProfile->college_id)->toBe($newCollege->id)
+            ->and($managedUser->fresh()->facultyProfile->department_id)->toBe($newDepartment->id);
+    });
 });

@@ -12,7 +12,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public College $college;
@@ -26,6 +27,14 @@ new class extends Component {
     public bool $isEditingProgram = false;
 
     public int $sharedProgramCollegeCount = 0;
+
+    public ?string $programDuplicateConflictType = null;
+
+    public array $programExactDuplicateConflicts = [];
+
+    public array $programSimilarDuplicateConflicts = [];
+
+    public bool $programSimilarityConfirmed = false;
 
     public function mount(): void
     {
@@ -58,6 +67,7 @@ new class extends Component {
         $this->programForm->resetForm();
         $this->isEditingProgram = false;
         $this->sharedProgramCollegeCount = 0;
+        $this->resetProgramDuplicateState();
         $this->programModal = true;
     }
 
@@ -72,6 +82,7 @@ new class extends Component {
         $this->programForm->setProgram($program);
         $this->isEditingProgram = true;
         $this->sharedProgramCollegeCount = $program->colleges()->count();
+        $this->resetProgramDuplicateState();
         $this->programModal = true;
     }
 
@@ -80,6 +91,7 @@ new class extends Component {
         $this->programModal = false;
         $this->isEditingProgram = false;
         $this->sharedProgramCollegeCount = 0;
+        $this->resetProgramDuplicateState();
         $this->resetValidation();
         $this->programForm->resetForm();
     }
@@ -95,11 +107,25 @@ new class extends Component {
 
         $this->programForm->validateForm();
 
-        if (! $this->isEditingProgram && $this->hasDuplicateProgramCode()) {
-            return;
-        }
-
         $this->programModal = false;
+
+        if (! $this->isEditingProgram) {
+            $conflicts = $this->findPotentialProgramConflicts();
+
+            if ($conflicts['exact'] !== []) {
+                $this->openExactProgramDuplicateDialog($conflicts['exact'], $conflicts['similar']);
+
+                return;
+            }
+
+            if ($conflicts['similar'] !== []) {
+                $this->openSimilarProgramDuplicateDialog($conflicts['similar']);
+
+                return;
+            }
+
+            $this->resetProgramDuplicateState();
+        }
 
         if ($this->isEditingProgram && $this->sharedProgramCollegeCount > 1) {
             $this->dialog()
@@ -127,14 +153,32 @@ new class extends Component {
             ->send();
     }
 
+    public function proceedWithSimilarProgramCreation(): void
+    {
+        $this->programSimilarityConfirmed = true;
+
+        $this->saveProgram();
+    }
+
     public function saveProgram(): void
     {
         $this->ensureCanManage($this->isEditingProgram ? 'programs.update' : 'programs.create');
 
         try {
             if (! $this->isEditingProgram) {
-                if ($this->hasDuplicateProgramCode()) {
-                    $this->reopenProgramModal();
+                $conflicts = $this->findPotentialProgramConflicts();
+
+                if ($conflicts['exact'] !== []) {
+                    $this->programModal = false;
+                    $this->openExactProgramDuplicateDialog($conflicts['exact'], $conflicts['similar']);
+
+                    return;
+                }
+
+                if (! $this->programSimilarityConfirmed && $conflicts['similar'] !== []) {
+                    $this->programModal = false;
+                    $this->openSimilarProgramDuplicateDialog($conflicts['similar']);
+
                     return;
                 }
 
@@ -152,7 +196,7 @@ new class extends Component {
         } catch (ValidationException $e) {
             $this->reopenProgramModal();
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->reopenProgramModal();
             Log::error('Program Save Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the program.')->send();
@@ -229,36 +273,186 @@ new class extends Component {
         $this->college = $fallbackCollege;
     }
 
-    protected function hasDuplicateProgramCode(): bool
+    protected function resetProgramDuplicateState(): void
     {
-        $duplicate = $this->findDuplicateProgramByCode($this->programForm->code);
+        $this->programDuplicateConflictType = null;
+        $this->programExactDuplicateConflicts = [];
+        $this->programSimilarDuplicateConflicts = [];
+        $this->programSimilarityConfirmed = false;
+    }
 
-        if (! $duplicate) {
+    protected function openExactProgramDuplicateDialog(array $exactConflicts, array $similarConflicts = []): void
+    {
+        $this->programDuplicateConflictType = 'exact';
+        $this->programExactDuplicateConflicts = $exactConflicts;
+        $this->programSimilarDuplicateConflicts = $similarConflicts;
+        $this->programSimilarityConfirmed = false;
+
+        $this->dialog()
+            ->warning('Exact Duplicate Program Found', $this->exactProgramDuplicateWarningMessage($exactConflicts, $similarConflicts))
+            ->confirm('Go Back', 'reopenProgramModal')
+            ->send();
+    }
+
+    protected function openSimilarProgramDuplicateDialog(array $similarConflicts): void
+    {
+        $this->programDuplicateConflictType = 'similar';
+        $this->programExactDuplicateConflicts = [];
+        $this->programSimilarDuplicateConflicts = $similarConflicts;
+        $this->programSimilarityConfirmed = false;
+
+        $this->dialog()
+            ->warning('Possible Duplicate Program', $this->similarProgramDuplicateWarningMessage($similarConflicts))
+            ->confirm('Proceed anyway', 'proceedWithSimilarProgramCreation')
+            ->cancel('Go Back', 'reopenProgramModal')
+            ->send();
+    }
+
+    protected function findPotentialProgramConflicts(): array
+    {
+        $exact = [];
+        $similar = [];
+
+        Program::query()
+            ->withTrashed()
+            ->with(['colleges' => fn ($query) => $query->orderBy('code')])
+            ->when($this->isEditingProgram && $this->programForm->program, fn ($query) => $query->whereKeyNot($this->programForm->program->id))
+            ->get()
+            ->each(function (Program $program) use (&$exact, &$similar): void {
+                $reasons = $this->programConflictReasons($program);
+
+                if ($reasons['exact'] !== []) {
+                    $exact[] = $this->formatProgramConflict($program);
+
+                    return;
+                }
+
+                if ($reasons['similar'] !== []) {
+                    $similar[] = $this->formatProgramConflict($program);
+                }
+            });
+
+        sort($exact);
+        sort($similar);
+
+        return [
+            'exact' => $exact,
+            'similar' => $similar,
+        ];
+    }
+
+    protected function programConflictReasons(Program $program): array
+    {
+        $enteredCode = $this->normalizeProgramCode($this->programForm->code);
+        $existingCode = $this->normalizeProgramCode($program->code);
+        $enteredTitle = $this->normalizeProgramTitle($this->programForm->title);
+        $existingTitle = $this->normalizeProgramTitle($program->title);
+
+        $exact = [];
+        $similar = [];
+
+        if ($this->valuesMatchExactly($enteredCode, $existingCode)) {
+            $exact[] = 'exact code';
+        } elseif ($this->codesLookSimilar($enteredCode, $existingCode)) {
+            $similar[] = 'similar code';
+        }
+
+        if ($this->valuesMatchExactly($enteredTitle, $existingTitle)) {
+            $exact[] = 'exact title';
+        } elseif ($this->titlesLookSimilar($enteredTitle, $existingTitle)) {
+            $similar[] = 'similar title';
+        }
+
+        return [
+            'exact' => $exact,
+            'similar' => $similar,
+        ];
+    }
+
+    protected function valuesMatchExactly(string $left, string $right): bool
+    {
+        return $left !== '' && $left === $right;
+    }
+
+    protected function codesLookSimilar(string $left, string $right): bool
+    {
+        if ($left === '' || $right === '') {
             return false;
         }
 
-        $this->addError('programForm.code', 'A program with this code already exists.');
-        $this->toast()->warning('Duplicate Program Code', 'Use a different program code before saving.')->send();
-
-        return true;
-    }
-
-    protected function findDuplicateProgramByCode(?string $code): ?Program
-    {
-        $normalizedCode = Str::lower(trim((string) $code));
-
-        if ($normalizedCode === '') {
-            return null;
+        if (str_contains($left, $right) || str_contains($right, $left)) {
+            return true;
         }
 
-        return Program::query()
-            ->withTrashed()
-            ->when(
-                $this->isEditingProgram && $this->programForm->program,
-                fn ($query) => $query->whereKeyNot($this->programForm->program->id)
-            )
-            ->whereRaw('LOWER(code) = ?', [$normalizedCode])
-            ->first();
+        if (levenshtein($left, $right) <= 2) {
+            return true;
+        }
+
+        similar_text($left, $right, $percent);
+
+        return $percent / 100 >= 0.8;
+    }
+
+    protected function titlesLookSimilar(string $left, string $right): bool
+    {
+        if ($left === '' || $right === '') {
+            return false;
+        }
+
+        if (str_contains($left, $right) || str_contains($right, $left)) {
+            return true;
+        }
+
+        similar_text($left, $right, $percent);
+
+        return $percent / 100 >= 0.9;
+    }
+
+    protected function normalizeProgramCode(?string $value): string
+    {
+        return preg_replace('/[^a-z0-9]+/', '', Str::lower(trim((string) $value))) ?? '';
+    }
+
+    protected function normalizeProgramTitle(?string $value): string
+    {
+        return preg_replace('/[^a-z0-9]+/', ' ', Str::lower(Str::squish((string) $value))) ?? '';
+    }
+
+    protected function formatProgramConflict(Program $program): string
+    {
+        $collegeList = $program->colleges
+            ->map(fn (College $college) => e($college->code))
+            ->values()
+            ->implode(', ');
+
+        $suffix = $program->trashed() ? ' [Trashed]' : '';
+
+        return '<b>'.e($program->code).'</b> - '.e($program->title)
+            .' | <b>Colleges: </b>'.($collegeList !== '' ? $collegeList : 'Not assigned.')
+            .$suffix;
+    }
+
+    protected function exactProgramDuplicateWarningMessage(array $exactConflicts, array $similarConflicts = []): string
+    {
+        $exactItems = collect($exactConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+        $message = 'A program with the exact same code or title already exists in the catalog. Creation was stopped to avoid duplicate shared records.<br><br>'
+            .'<b>Possible exact duplicates:</b><br>'.$exactItems;
+
+        if ($similarConflicts !== []) {
+            $similarItems = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+            $message .= '<br><br><b>Other similar matches:</b><br>'.$similarItems;
+        }
+
+        return $message.'<br><br>Review the existing records before trying again.';
+    }
+
+    protected function similarProgramDuplicateWarningMessage(array $similarConflicts): string
+    {
+        $items = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+
+        return 'There are existing programs with similar code or title across colleges. Please review these possible duplicates before creating a new shared program.<br><br>'
+            .$items
+            .'<br><br>Do you want to continue creating this program anyway?';
     }
 
     protected function findManagedProgram(int $id, bool $includeTrashed = false): Program

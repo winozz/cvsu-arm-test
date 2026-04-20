@@ -13,7 +13,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public College $college;
@@ -33,6 +34,8 @@ new class extends Component {
     public bool $departmentDuplicateConflictDetected = false;
 
     public array $departmentDuplicateConflicts = [];
+
+    public bool $departmentDuplicateConfirmed = false;
 
     public function mount(): void
     {
@@ -104,7 +107,7 @@ new class extends Component {
             throw $e;
         } catch (Exception $e) {
             $this->reopenCollegeModal();
-            Log::error('College Save Failed: ' . $e->getMessage());
+            Log::error('College Save Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the college.')->send();
         }
     }
@@ -168,13 +171,20 @@ new class extends Component {
             $this->departmentDuplicateConflictDetected = true;
             $this->departmentDuplicateConflicts = $conflicts;
 
-            $this->dialog()->warning('Possible Duplicate Department', $this->duplicateDepartmentWarningMessage($conflicts))->confirm('Proceed anyway', 'saveDepartment')->cancel('Go Back', 'reopenDepartmentModal')->send();
+            $this->dialog()->warning('Possible Duplicate Department', $this->duplicateDepartmentWarningMessage($conflicts))->confirm('Proceed anyway', 'proceedWithDuplicateDepartmentSave')->cancel('Go Back', 'reopenDepartmentModal')->send();
 
             return;
         }
 
         $this->resetDepartmentDuplicateState();
         $this->openDepartmentSaveDialog();
+    }
+
+    public function proceedWithDuplicateDepartmentSave(): void
+    {
+        $this->departmentDuplicateConfirmed = true;
+
+        $this->saveDepartment();
     }
 
     public function saveDepartment(): void
@@ -189,6 +199,20 @@ new class extends Component {
                 return;
             }
 
+            if (! $this->departmentDuplicateConfirmed) {
+                $conflicts = $this->findPotentialDepartmentConflicts();
+
+                if ($conflicts !== []) {
+                    $this->departmentModal = false;
+                    $this->departmentDuplicateConflictDetected = true;
+                    $this->departmentDuplicateConflicts = $conflicts;
+
+                    $this->dialog()->warning('Possible Duplicate Department', $this->duplicateDepartmentWarningMessage($conflicts))->confirm('Proceed anyway', 'proceedWithDuplicateDepartmentSave')->cancel('Go Back', 'reopenDepartmentModal')->send();
+
+                    return;
+                }
+            }
+
             $this->departmentForm->store();
             $this->finalizeDepartmentSave('Department created successfully.');
         } catch (ValidationException $e) {
@@ -196,7 +220,7 @@ new class extends Component {
             throw $e;
         } catch (Exception $e) {
             $this->reopenDepartmentModal();
-            Log::error('Department Save Failed: ' . $e->getMessage());
+            Log::error('Department Save Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the department.')->send();
         }
     }
@@ -221,6 +245,7 @@ new class extends Component {
     {
         $this->departmentDuplicateConflictDetected = false;
         $this->departmentDuplicateConflicts = [];
+        $this->departmentDuplicateConfirmed = false;
     }
 
     protected function openDepartmentSaveDialog(): void
@@ -249,7 +274,7 @@ new class extends Component {
         $department = $this->findManagedDepartment($id);
 
         $this->dialog()
-            ->question('Warning!', 'Are you sure you want to delete ' . e($department->code) . ' - ' . e($department->name) . '?')
+            ->question('Warning!', 'Are you sure you want to delete '.e($department->code).' - '.e($department->name).'?')
             ->confirm('Yes, delete', 'deleteDepartment', $department->id)
             ->cancel('Cancel')
             ->send();
@@ -269,7 +294,7 @@ new class extends Component {
             $this->dispatch('pg:eventRefresh-departmentsTable');
             $this->toast()->success('Deleted', 'Department moved to trash.')->send();
         } catch (Exception $e) {
-            Log::error('Department Deletion Failed: ' . $e->getMessage());
+            Log::error('Department Deletion Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'Failed to delete department. Please try again or contact support.')->send();
         }
     }
@@ -282,7 +307,7 @@ new class extends Component {
         $department = $this->findManagedDepartment($id, true);
 
         $this->dialog()
-            ->question('Restore?', 'Are you sure you want to restore ' . e($department->code) . ' - ' . e($department->name) . '?')
+            ->question('Restore?', 'Are you sure you want to restore '.e($department->code).' - '.e($department->name).'?')
             ->confirm('Yes, restore', 'restoreDepartment', $department->id)
             ->cancel('Cancel')
             ->send();
@@ -302,14 +327,14 @@ new class extends Component {
             $this->dispatch('pg:eventRefresh-departmentsTable');
             $this->toast()->success('Restored', 'Department has been restored.')->send();
         } catch (Exception $e) {
-            Log::error('Department Restoration Failed: ' . $e->getMessage());
+            Log::error('Department Restoration Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'Failed to restore department. Please try again or contact support.')->send();
         }
     }
 
     protected function findPotentialDepartmentConflicts(): array
     {
-        return Department::query()->where('college_id', $this->college->id)->whereNull('deleted_at')->get()->filter(fn(Department $department) => $this->departmentLooksSimilar($department))->sortBy(fn(Department $department) => $department->code)->map(fn(Department $department) => e($department->code) . ' - ' . e($department->name))->values()->all();
+        return Department::query()->where('college_id', $this->college->id)->whereNull('deleted_at')->get()->filter(fn (Department $department) => $this->departmentLooksSimilar($department))->sortBy(fn (Department $department) => $department->code)->map(fn (Department $department) => e($department->code).' - '.e($department->name))->values()->all();
     }
 
     protected function departmentLooksSimilar(Department $department): bool
@@ -376,9 +401,9 @@ new class extends Component {
 
     protected function duplicateDepartmentWarningMessage(array $conflicts): string
     {
-        $items = collect($conflicts)->map(fn(string $conflict) => '&bull; ' . $conflict)->implode('<br>');
+        $items = collect($conflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
 
-        return 'There are already existing departments under this college with the same or similar code/name. ' . 'This may cause a conflict or duplicate record.<br><br>' . $items . '<br><br>Do you want to continue creating this department anyway?';
+        return 'There are already existing departments under this college with the same or similar code/name. '.'This may cause a conflict or duplicate record.<br><br>'.$items.'<br><br>Do you want to continue creating this department anyway?';
     }
 
     protected function findManagedDepartment(int $id, bool $includeTrashed = false): Department

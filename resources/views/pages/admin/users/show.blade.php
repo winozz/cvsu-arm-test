@@ -8,22 +8,28 @@ use App\Models\Permission;
 use App\Models\User;
 use App\Traits\CanManage;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public User $user;
+
     public UsersForm $form;
+
     public bool $isEditing = false;
 
     public Collection $campuses;
+
     public Collection $colleges;
+
     public Collection $departments;
+
     public Collection $availableRoles;
+
     public Collection $availablePermissions;
 
     public function mount(User $user)
@@ -36,14 +42,12 @@ new class extends Component {
         $this->campuses = Campus::where('is_active', true)->orderBy('name')->get();
         $this->availableRoles = Role::all();
         $this->availablePermissions = Permission::query()->orderBy('name')->get();
-
-        $this->colleges = $this->form->campus_id ? College::where('campus_id', $this->form->campus_id)->where('is_active', true)->orderBy('name')->get() : collect();
-        $this->departments = $this->form->college_id ? Department::where('college_id', $this->form->college_id)->where('is_active', true)->orderBy('name')->get() : collect();
+        $this->refreshAssignmentOptions();
     }
 
     public function updatedFormCampusId($value)
     {
-        $this->colleges = filled($value) ? College::where('campus_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
+        $this->colleges = $this->loadCollegesForCampus($value);
         $this->departments = collect();
         $this->form->college_id = null;
         $this->form->department_id = null;
@@ -51,7 +55,7 @@ new class extends Component {
 
     public function updatedFormCollegeId($value)
     {
-        $this->departments = filled($value) ? Department::where('college_id', $value)->where('is_active', true)->orderBy('name')->get() : collect();
+        $this->departments = $this->loadDepartmentsForCollege($value);
         $this->form->department_id = null;
     }
 
@@ -71,7 +75,7 @@ new class extends Component {
     {
         $this->ensureCanManage('users.update');
 
-        if (!$this->isEditing) {
+        if (! $this->isEditing) {
             $this->dialog()->question('Enable Editing?', 'Do you want to modify this user?')->confirm('Yes', 'enableEditing')->send();
 
             return;
@@ -94,6 +98,7 @@ new class extends Component {
         // Add a warning if they are downgrading a user to "Standard"
         if ($this->form->type === 'standard' && ($this->user->facultyProfile || $this->user->employeeProfile)) {
             $this->dialog()->warning('Warning!', 'Switching to "Standard" will permanently delete their specific Faculty or Employee records. Continue?')->confirm('Yes, Save Changes', 'save')->send();
+
             return;
         }
 
@@ -106,8 +111,30 @@ new class extends Component {
 
         $this->form->update();
         $this->user->refresh()->load(['facultyProfile', 'employeeProfile', 'roles']);
+        $this->form->setValues($this->user);
+        $this->refreshAssignmentOptions();
         $this->isEditing = false;
         $this->toast()->success('Success', 'User profile updated successfully.')->send();
+    }
+
+    protected function refreshAssignmentOptions(): void
+    {
+        $this->colleges = $this->loadCollegesForCampus($this->form->campus_id);
+        $this->departments = $this->loadDepartmentsForCollege($this->form->college_id);
+    }
+
+    protected function loadCollegesForCampus(?int $campusId): Collection
+    {
+        return filled($campusId)
+            ? College::where('campus_id', $campusId)->where('is_active', true)->orderBy('name')->get()
+            : collect();
+    }
+
+    protected function loadDepartmentsForCollege(?int $collegeId): Collection
+    {
+        return filled($collegeId)
+            ? Department::where('college_id', $collegeId)->where('is_active', true)->orderBy('name')->get()
+            : collect();
     }
 }; ?>
 

@@ -11,11 +11,12 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use TallStackUi\Traits\Interactions;
 
 final class CampusesTable extends PowerGridComponent
 {
-    use CanManage, Interactions;
+    use CanManage, Interactions, WithExport;
 
     public string $tableName = 'campusesTable';
 

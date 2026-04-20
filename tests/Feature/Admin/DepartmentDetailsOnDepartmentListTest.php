@@ -77,7 +77,7 @@ describe('admin department list page', function () {
             ->exists())->toBeFalse();
 
         $component
-            ->call('saveDepartment')
+            ->call('proceedWithDuplicateDepartmentSave')
             ->assertHasNoErrors();
 
         expect(Department::query()
@@ -125,6 +125,38 @@ describe('admin department list page', function () {
                 'CEIT-ACAE - Academic Extension Department',
             ])
             ->assertSet('departmentModal', false);
+    });
+
+    it('department list allows duplicate creation after the duplicate warning is confirmed', function () {
+        $user = User::factory()->create();
+        $user->assignRole('superAdmin');
+
+        $campus = Campus::factory()->create();
+        $college = College::factory()->forCampus($campus)->create([
+            'code' => 'CEIT',
+        ]);
+
+        Department::factory()->forCollege($college)->create([
+            'code' => 'CEIT-ACAD',
+            'name' => 'Academic Programs Department',
+        ]);
+
+        Livewire::actingAs($user)
+            ->test('pages::admin.departments.index', ['campus' => $campus, 'college' => $college])
+            ->call('openCreateDepartmentModal')
+            ->set('departmentForm.code', 'CEIT-ACAD')
+            ->set('departmentForm.name', 'Academic Programs Department')
+            ->set('departmentForm.description', 'Confirmed duplicate entry.')
+            ->call('confirmSaveDepartment')
+            ->assertSet('departmentDuplicateConflictDetected', true)
+            ->call('proceedWithDuplicateDepartmentSave')
+            ->assertHasNoErrors();
+
+        expect(Department::query()
+            ->where('college_id', $college->id)
+            ->where('code', 'CEIT-ACAD')
+            ->where('name', 'Academic Programs Department')
+            ->count())->toBe(2);
     });
 
     it('department list can update a department using the modal form', function () {

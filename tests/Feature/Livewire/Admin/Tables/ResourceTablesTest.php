@@ -223,6 +223,47 @@ describe('ProgramsTable', function () {
             ->not->toContain($programOutsideCollege->id);
     });
 
+    it('builds unique level and availability filter options for the current college', function () {
+        $undergraduateActive = Program::factory()->create([
+            'level' => 'UNDERGRADUATE',
+            'is_active' => true,
+        ]);
+        $undergraduateInactive = Program::factory()->inactive()->create([
+            'level' => 'UNDERGRADUATE',
+        ]);
+        $graduateProgram = Program::factory()->create([
+            'level' => 'GRADUATE',
+            'is_active' => true,
+        ]);
+        $otherCollege = College::factory()->forCampus($this->campus)->create();
+        $outsideProgram = Program::factory()->inactive()->create([
+            'level' => 'POST-BACCALAUREATE',
+        ]);
+
+        $this->college->programs()->attach([
+            $undergraduateActive->id,
+            $undergraduateInactive->id,
+            $graduateProgram->id,
+        ]);
+        $otherCollege->programs()->attach($outsideProgram->id);
+
+        $filters = Livewire::actingAs($this->user)
+            ->test(ProgramsTable::class, ['collegeId' => $this->college->id])
+            ->instance()
+            ->filters();
+
+        expect($filters[0]->field)->toBe('level')
+            ->and($filters[0]->dataSource)->toBe([
+                ['id' => 'GRADUATE', 'name' => 'Graduate'],
+                ['id' => 'UNDERGRADUATE', 'name' => 'Undergraduate'],
+            ])
+            ->and($filters[1]->field)->toBe('is_active')
+            ->and($filters[1]->dataSource)->toBe([
+                ['id' => 1, 'name' => 'Active'],
+                ['id' => 0, 'name' => 'Inactive'],
+            ]);
+    });
+
     it('builds edit, delete, and restore actions with the expected events', function () {
         $program = Program::factory()->create();
         $this->college->programs()->attach($program->id);
