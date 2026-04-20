@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Tables;
 
 use App\Models\FacultyProfile;
+use App\Models\EmployeeProfile;
 use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -43,9 +44,15 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $profile = $this->employeeProfile();
+
         return FacultyProfile::query()
             ->with(['user', 'campus', 'college', 'department'])
-            ->where('department_id', $this->departmentId())
+            ->when(
+                filled($profile->department_id),
+                fn ($query) => $query->where('department_id', $profile->department_id),
+                fn ($query) => $query->where('college_id', $profile->college_id)
+            )
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
@@ -178,20 +185,26 @@ final class FacultyProfilesTable extends PowerGridComponent
         $this->dispatch('pg:eventRefresh-'.$this->tableName);
     }
 
-    protected function departmentId(): int
+    protected function employeeProfile(): EmployeeProfile
     {
-        $departmentId = Auth::user()?->employeeProfile?->department_id;
+        $profile = Auth::user()?->employeeProfile;
 
-        abort_unless(filled($departmentId), 403);
+        abort_unless($profile && filled($profile->college_id), 403);
 
-        return (int) $departmentId;
+        return $profile;
     }
 
     protected function findManagedProfile(int $id, bool $includeTrashed = false): FacultyProfile
     {
+        $profile = $this->employeeProfile();
+
         $query = FacultyProfile::query()
             ->where('id', $id)
-            ->where('department_id', $this->departmentId());
+            ->when(
+                filled($profile->department_id),
+                fn ($query) => $query->where('department_id', $profile->department_id),
+                fn ($query) => $query->where('college_id', $profile->college_id)
+            );
 
         if ($includeTrashed) {
             $query->withTrashed();
