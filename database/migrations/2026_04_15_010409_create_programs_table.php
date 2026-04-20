@@ -22,6 +22,14 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('college_programs', function (Blueprint $table) {
+            $table->foreignId('college_id')->constrained('colleges')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('program_id')->constrained('programs')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->unique(['college_id', 'program_id']);
+        });
     }
 
     /**
@@ -29,6 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('college_programs');
         Schema::dropIfExists('programs');
     }
 };

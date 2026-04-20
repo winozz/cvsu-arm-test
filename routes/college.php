@@ -15,4 +15,9 @@ Route::middleware(['auth'])
         Route::livewire('/departments', 'pages::college-admin.departments.index')
             ->middleware('permission:departments.view')
             ->name('departments');
+
+        // Programs Management Routes
+        Route::livewire('/programs', 'pages::college-admin.programs.index')
+            ->middleware('permission:programs.view')
+            ->name('programs');
     });

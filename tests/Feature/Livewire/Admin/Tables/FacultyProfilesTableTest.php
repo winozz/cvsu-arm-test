@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\Tables\FacultyProfilesTable;
 use App\Models\Department;
+use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use Livewire\Livewire;
 
@@ -13,6 +14,10 @@ describe('FacultyProfilesTable', function () {
             'faculty_profiles.restore',
         ], ['deptAdmin']);
         $this->department = Department::factory()->create();
+
+        EmployeeProfile::factory()->forDepartment($this->department)->create([
+            'user_id' => $this->user->id,
+        ]);
     });
 
     it('exposes relation search mappings and computed field values', function () {
@@ -72,5 +77,31 @@ describe('FacultyProfilesTable', function () {
             ->assertDispatched('pg:eventRefresh-facultyProfilesTable');
 
         expect($profile->fresh()->trashed())->toBeFalse();
+    });
+
+    it('falls back to college scoped faculty when the employee has no department assignment', function () {
+        $college = $this->department->college;
+        $otherDepartmentInCollege = Department::factory()->forCollege($college)->create();
+        $otherCollege = \App\Models\College::factory()->forCampus($college->campus)->create();
+        $departmentOutsideCollege = Department::factory()->forCollege($otherCollege)->create();
+
+        $facultyInPrimaryDepartment = FacultyProfile::factory()->forDepartment($this->department)->create();
+        $facultyInSameCollege = FacultyProfile::factory()->forDepartment($otherDepartmentInCollege)->create();
+        $facultyOutsideCollege = FacultyProfile::factory()->forDepartment($departmentOutsideCollege)->create();
+
+        $this->user->employeeProfile()->update([
+            'college_id' => $college->id,
+            'department_id' => null,
+        ]);
+
+        $ids = Livewire::actingAs($this->user)
+            ->test(FacultyProfilesTable::class)
+            ->instance()
+            ->datasource()
+            ->pluck('id')
+            ->all();
+
+        expect($ids)->toContain($facultyInPrimaryDepartment->id, $facultyInSameCollege->id)
+            ->not->toContain($facultyOutsideCollege->id);
     });
 });

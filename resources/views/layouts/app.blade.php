@@ -95,6 +95,15 @@
                 @if (auth()->user()?->can('departments.view') && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="College" opened>
                         <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
+
+
+                        @can('programs.view')
+                            <x-side-bar.item text="Programs" icon="academic-cap" :current="request()->routeIs('college-admin.programs', 'college-admin.programs.*')" :route="route('college-admin.programs')" />
+                        @endcan
+
+                        @can('subjects.view')
+                            <x-side-bar.item text="Subjects" icon="book-open" />
+                        @endcan
                     </x-side-bar.item>
                 @endif
 
@@ -102,7 +111,8 @@
                 {{-- @canany(['schedules.view', 'faculty_profiles.view']) --}}
 
                 @if (auth()->user()
-                        ?->can(['schedules.view', 'faculty_profiles.view']) && auth()->user()?->employeeProfile()->exists())
+                        ?->can(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
+                        auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="Department" opened>
 
                         @can('schedules.view')
@@ -117,13 +127,7 @@
                             )" :route="route('department-admin.faculty-profiles')" />
                         @endcan
 
-                        @can('programs.view')
-                            <x-side-bar.item text="Programs" icon="academic-cap" />
-                        @endcan
-
-                        <x-side-bar.item text="Subjects" icon="book-open" />
-
-                        @can('rooms.view')
+                        @can('rooms.menu')
                             <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('department-admin.rooms', 'department-admin.rooms.*')" :route="route('department-admin.rooms')" />
                         @endcan
 

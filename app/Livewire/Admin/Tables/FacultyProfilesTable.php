@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Tables;
 
 use App\Models\FacultyProfile;
+use App\Models\EmployeeProfile;
 use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
@@ -42,8 +44,15 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $profile = $this->employeeProfile();
+
         return FacultyProfile::query()
             ->with(['user', 'campus', 'college', 'department'])
+            ->when(
+                filled($profile->department_id),
+                fn ($query) => $query->where('department_id', $profile->department_id),
+                fn ($query) => $query->where('college_id', $profile->college_id)
+            )
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
@@ -154,7 +163,7 @@ final class FacultyProfilesTable extends PowerGridComponent
     {
         $this->ensureCanManage('faculty_profiles.delete');
 
-        FacultyProfile::findOrFail($id)->delete();
+        $this->findManagedProfile((int) $id)->delete();
         $this->toast()->success('Deleted', 'Faculty Profile moved to trash.')->send();
         $this->dispatch('pg:eventRefresh-'.$this->tableName);
     }
@@ -171,8 +180,36 @@ final class FacultyProfilesTable extends PowerGridComponent
     {
         $this->ensureCanManage('faculty_profiles.restore');
 
-        FacultyProfile::withTrashed()->findOrFail($id)->restore();
+        $this->findManagedProfile((int) $id, true)->restore();
         $this->toast()->success('Restored', 'Faculty Profile has been restored.')->send();
         $this->dispatch('pg:eventRefresh-'.$this->tableName);
+    }
+
+    protected function employeeProfile(): EmployeeProfile
+    {
+        $profile = Auth::user()?->employeeProfile;
+
+        abort_unless($profile && filled($profile->college_id), 403);
+
+        return $profile;
+    }
+
+    protected function findManagedProfile(int $id, bool $includeTrashed = false): FacultyProfile
+    {
+        $profile = $this->employeeProfile();
+
+        $query = FacultyProfile::query()
+            ->where('id', $id)
+            ->when(
+                filled($profile->department_id),
+                fn ($query) => $query->where('department_id', $profile->department_id),
+                fn ($query) => $query->where('college_id', $profile->college_id)
+            );
+
+        if ($includeTrashed) {
+            $query->withTrashed();
+        }
+
+        return $query->firstOrFail();
     }
 }
