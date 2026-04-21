@@ -2,79 +2,92 @@
 
 namespace App\Livewire\Forms\Admin;
 
-use App\Models\FacultyProfile;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Livewire\Attributes\Validate;
+use App\Models\Department;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class FacultyProfileForm extends Form
 {
-    #[Validate('required|string|max:255')]
     public string $first_name = '';
 
-    #[Validate('nullable|string|max:255')]
     public string $middle_name = '';
 
-    #[Validate('required|string|max:255')]
     public string $last_name = '';
 
-    #[Validate('required|email|unique:users,email|unique:faculty_profiles,email')]
     public string $email = '';
 
-    #[Validate('required|exists:branches,id')]
-    public $branch_id = null;
+    public ?int $campus_id = null;
 
-    #[Validate('required|exists:departments,id')]
-    public $department_id = null;
+    public ?int $college_id = null;
 
-    #[Validate('nullable|string|max:255')]
+    public ?int $department_id = null;
+
     public string $academic_rank = '';
 
-    #[Validate('nullable|string|max:50')]
     public string $contactno = '';
 
-    #[Validate('nullable|in:Male,Female')]
     public string $sex = '';
 
-    #[Validate('nullable|date')]
     public string $birthday = '';
 
-    #[Validate('nullable|string')]
     public string $address = '';
 
-    public function store()
+    public function rules(): array
     {
-        $this->validate();
+        return [
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->whereNull('deleted_at'),
+                Rule::unique('faculty_profiles', 'email')->whereNull('deleted_at'),
+            ],
+            'campus_id' => 'required|exists:campuses,id',
+            'college_id' => [
+                'required',
+                Rule::exists('colleges', 'id')->where(
+                    fn ($query) => $query->where('campus_id', $this->campus_id)
+                ),
+            ],
+            'department_id' => [
+                'required',
+                Rule::exists('departments', 'id')->where(
+                    fn ($query) => $query->where('college_id', $this->college_id)
+                ),
+            ],
+            'academic_rank' => 'nullable|string|max:255',
+            'contactno' => 'nullable|string|max:50',
+            'sex' => 'nullable|in:Male,Female',
+            'birthday' => 'nullable|date',
+            'address' => 'nullable|string',
+        ];
+    }
 
-        $fullName = trim($this->first_name . ' ' . ($this->middle_name ? $this->middle_name . ' ' : '') . $this->last_name);
+    public function validateForm(): array
+    {
+        return $this->validate($this->rules());
+    }
 
-        // Create the linked User account
-        $user = User::create([
-            'name' => $fullName,
-            'email' => $this->email,
-            'password' => Hash::make('password123'), // Default password
-        ]);
+    public function fullName(): string
+    {
+        return trim($this->first_name.' '.($this->middle_name ? $this->middle_name.' ' : '').$this->last_name);
+    }
 
-        // Assign default faculty role
-        $user->assignRole('faculty');
-
-        // Create the Faculty Profile
-        FacultyProfile::create([
-            'user_id' => $user->id,
-            'first_name' => $this->first_name,
-            'middle_name' => $this->middle_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'branch_id' => $this->branch_id,
-            'department_id' => $this->department_id,
-            'academic_rank' => $this->academic_rank,
-            'contactno' => $this->contactno,
-            'sex' => $this->sex,
-            'birthday' => $this->birthday,
-            'address' => $this->address,
-        ]);
-
+    public function resetForm(): void
+    {
         $this->reset();
+    }
+
+    public function resolveAcademicAssignment(): array
+    {
+        $department = Department::query()->findOrFail($this->department_id);
+
+        return [
+            'campus_id' => $department->campus_id,
+            'college_id' => $department->college_id,
+            'department_id' => $department->id,
+        ];
     }
 }

@@ -1,10 +1,15 @@
 <?php
 
+use App\Traits\CanManage;
 use Livewire\Component;
 
-new class extends Component
-{
-    //
+new class extends Component {
+    use CanManage;
+
+    public function mount(): void
+    {
+        $this->ensureCanManage('departments.view');
+    }
 };
 ?>
 

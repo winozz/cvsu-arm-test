@@ -10,4 +10,9 @@ trait CanManage
     {
         return (bool) Auth::user()?->can($ability);
     }
+
+    public function ensureCanManage(string $ability): void
+    {
+        abort_unless($this->canManage($ability), 403);
+    }
 }

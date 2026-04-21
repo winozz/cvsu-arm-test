@@ -2,17 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Department;
 use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\Role;
 use App\Models\User;
+use Database\Factories\Concerns\ResolvesAcademicContext;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    use ResolvesAcademicContext;
+
     protected static ?string $password;
 
     public function definition(): array
@@ -21,7 +23,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password123'),
             'is_active' => true,
             'remember_token' => Str::random(10),
         ];
@@ -29,100 +31,111 @@ class UserFactory extends Factory
 
     public function faculty(): static
     {
-        return $this->afterCreating(function (User $user) {
-            $this->ensureRoleExists('faculty');
-            $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
+        return $this->afterCreating(function (User $user): void {
+            $department = $this->resolveDepartment();
             $nameParts = $this->nameParts($user);
 
-            $user->assignRole('faculty');
-            FacultyProfile::factory()->create([
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'first_name' => $nameParts['first_name'],
-                'middle_name' => $nameParts['middle_name'],
-                'last_name' => $nameParts['last_name'],
-                'branch_id' => $department->branch_id,
-                'department_id' => $department->id,
-            ]);
+            $this->ensureRoleExists('faculty');
+            $user->syncRoles(['faculty']);
+
+            FacultyProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                array_merge($this->academicContext($department), [
+                    'employee_no' => 'FAC-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+                    'first_name' => $nameParts['first_name'],
+                    'middle_name' => $nameParts['middle_name'],
+                    'last_name' => $nameParts['last_name'],
+                    'academic_rank' => 'Instructor I',
+                    'email' => $user->email,
+                ])
+            );
         });
     }
 
     public function superAdmin(): static
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->afterCreating(function (User $user): void {
             $this->ensureRoleExists('superAdmin');
-            $user->assignRole('superAdmin');
+            $user->syncRoles(['superAdmin']);
         });
     }
 
     public function collegeAdmin(): static
     {
-        return $this->afterCreating(function (User $user) {
-            $this->ensureRoleExists('collegeAdmin');
-            $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
+        return $this->afterCreating(function (User $user): void {
+            $department = $this->resolveDepartment();
             $nameParts = $this->nameParts($user);
 
-            $user->assignRole('collegeAdmin');
-            EmployeeProfile::factory()->create([
-                'user_id' => $user->id,
-                'first_name' => $nameParts['first_name'],
-                'middle_name' => $nameParts['middle_name'],
-                'last_name' => $nameParts['last_name'],
-                'position' => 'College Administrator',
-                'branch_id' => $department->branch_id,
-                'department_id' => $department->id,
-            ]);
+            $this->ensureRoleExists('collegeAdmin');
+            $user->syncRoles(['collegeAdmin']);
+
+            EmployeeProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                array_merge($this->academicContext($department), [
+                    'employee_no' => 'EMP-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+                    'first_name' => $nameParts['first_name'],
+                    'middle_name' => $nameParts['middle_name'],
+                    'last_name' => $nameParts['last_name'],
+                    'position' => 'College Administrator',
+                ])
+            );
         });
     }
 
     public function deptAdmin(): static
     {
-        return $this->afterCreating(function (User $user) {
-            $this->ensureRoleExists('deptAdmin');
-            $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
+        return $this->afterCreating(function (User $user): void {
+            $department = $this->resolveDepartment();
             $nameParts = $this->nameParts($user);
 
-            $user->assignRole('deptAdmin');
+            $this->ensureRoleExists('deptAdmin');
+            $user->syncRoles(['deptAdmin']);
 
-            EmployeeProfile::factory()->create([
-                'user_id' => $user->id,
-                'first_name' => $nameParts['first_name'],
-                'middle_name' => $nameParts['middle_name'],
-                'last_name' => $nameParts['last_name'],
-                'position' => 'Department Administrator',
-                'branch_id' => $department->branch_id,
-                'department_id' => $department->id,
-            ]);
+            EmployeeProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                array_merge($this->academicContext($department), [
+                    'employee_no' => 'EMP-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+                    'first_name' => $nameParts['first_name'],
+                    'middle_name' => $nameParts['middle_name'],
+                    'last_name' => $nameParts['last_name'],
+                    'position' => 'Department Administrator',
+                ])
+            );
         });
     }
 
     public function dualRole(): static
     {
-        return $this->afterCreating(function (User $user) {
-            $this->ensureRoleExists('faculty');
-            $this->ensureRoleExists('deptAdmin');
-            $department = Department::query()->inRandomOrder()->first() ?? Department::factory()->create();
+        return $this->afterCreating(function (User $user): void {
+            $department = $this->resolveDepartment();
             $nameParts = $this->nameParts($user);
 
-            $user->assignRole(['faculty', 'deptAdmin']);
-            FacultyProfile::factory()->create([
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'first_name' => $nameParts['first_name'],
-                'middle_name' => $nameParts['middle_name'],
-                'last_name' => $nameParts['last_name'],
-                'branch_id' => $department->branch_id,
-                'department_id' => $department->id,
-            ]);
-            EmployeeProfile::factory()->create([
-                'user_id' => $user->id,
-                'first_name' => $nameParts['first_name'],
-                'middle_name' => $nameParts['middle_name'],
-                'last_name' => $nameParts['last_name'],
-                'position' => 'Department Administrator',
-                'branch_id' => $department->branch_id,
-                'department_id' => $department->id,
-            ]);
+            $this->ensureRoleExists('faculty');
+            $this->ensureRoleExists('deptAdmin');
+            $user->syncRoles(['faculty', 'deptAdmin']);
+
+            FacultyProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                array_merge($this->academicContext($department), [
+                    'employee_no' => 'FAC-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+                    'first_name' => $nameParts['first_name'],
+                    'middle_name' => $nameParts['middle_name'],
+                    'last_name' => $nameParts['last_name'],
+                    'academic_rank' => 'Instructor I',
+                    'email' => $user->email,
+                ])
+            );
+
+            EmployeeProfile::query()->updateOrCreate(
+                ['user_id' => $user->id],
+                array_merge($this->academicContext($department), [
+                    'employee_no' => 'EMP-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
+                    'first_name' => $nameParts['first_name'],
+                    'middle_name' => $nameParts['middle_name'],
+                    'last_name' => $nameParts['last_name'],
+                    'position' => 'Department Administrator',
+                ])
+            );
         });
     }
 
@@ -142,16 +155,14 @@ class UserFactory extends Factory
     }
 
     /**
-     * Keep generated profile names aligned with the owning user.
-     *
-     * @return array{first_name: string, middle_name: string, last_name: string}
+     * @return array{first_name: string, middle_name: string|null, last_name: string}
      */
     protected function nameParts(User $user): array
     {
         $parts = preg_split('/\s+/', trim($user->name)) ?: [];
         $firstName = $parts[0] ?? 'User';
         $lastName = count($parts) > 1 ? array_pop($parts) : 'Account';
-        $middleName = count($parts) > 1 ? implode(' ', array_slice($parts, 1)) : '';
+        $middleName = count($parts) > 1 ? implode(' ', array_slice($parts, 1)) : null;
 
         return [
             'first_name' => $firstName,

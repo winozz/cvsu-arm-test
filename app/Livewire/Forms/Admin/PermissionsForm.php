@@ -4,17 +4,14 @@ namespace App\Livewire\Forms\Admin;
 
 use App\Models\Permission;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PermissionsForm extends Form
 {
     public ?Permission $permission = null;
 
-    #[Validate('required|string|max:255')]
     public string $name = '';
 
-    #[Validate('required|string|max:255')]
     public string $guard_name = 'web';
 
     public function setPermission(Permission $permission): void
@@ -24,33 +21,18 @@ class PermissionsForm extends Form
         $this->guard_name = $permission->guard_name;
     }
 
-    public function store(): Permission
+    public function resetForm(): void
     {
-        $validated = $this->validate($this->rules());
-
-        $permission = Permission::create([
-            'name' => $validated['name'],
-            'guard_name' => $validated['guard_name'],
-        ]);
-
-        $this->resetForm();
-
-        return $permission;
+        $this->reset(['permission', 'name']);
+        $this->guard_name = 'web';
     }
 
-    public function update(): void
+    public function validateForm(): array
     {
-        $validated = $this->validate($this->rules());
-
-        $this->permission?->update([
-            'name' => $validated['name'],
-            'guard_name' => $validated['guard_name'],
-        ]);
-
-        $this->resetForm();
+        return $this->validate($this->rules());
     }
 
-    protected function rules(): array
+    public function rules(): array
     {
         $permissionId = $this->permission?->id;
 
@@ -65,11 +47,5 @@ class PermissionsForm extends Form
             ],
             'guard_name' => ['required', 'string', 'max:255'],
         ];
-    }
-
-    public function resetForm(): void
-    {
-        $this->reset(['permission', 'name']);
-        $this->guard_name = 'web';
     }
 }

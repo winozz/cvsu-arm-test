@@ -13,13 +13,25 @@ use RuntimeException;
 class UserSeeder extends Seeder
 {
     /**
-     * Seed deterministic demo users that match the current admin workflows.
+     * Seed deterministic demo users that match the requested role structure.
      */
     public function run(): void
     {
-        $ceitPrimaryDepartment = $this->findDepartmentForBranch('CEIT');
-        $ceitSecondaryDepartment = $this->findDepartmentForBranch('CEIT', 1);
-        $casPrimaryDepartment = $this->findDepartmentForBranch('CAS');
+        $departments = Department::query()
+            ->where('is_active', true)
+            ->with(['campus', 'college'])
+            ->orderBy('campus_id')
+            ->orderBy('college_id')
+            ->orderBy('name')
+            ->get();
+
+        if ($departments->isEmpty()) {
+            throw new RuntimeException('Unable to seed users because no active departments are available.');
+        }
+
+        $ceitPrimaryDepartment = $this->findDepartmentForCollege('CEIT');
+        $ceitSecondaryDepartment = $this->findDepartmentForCollege('CEIT', 1);
+        $casPrimaryDepartment = $this->findDepartmentForCollege('CAS');
 
         $namedSuperAdmin = $this->upsertUser(
             'tristan.sangangbayan@cvsu.edu.ph',
@@ -35,16 +47,15 @@ class UserSeeder extends Seeder
             ['collegeAdmin']
         );
 
-        $this->upsertEmployeeProfile($legacyCollegeAdmin->id, [
+        $this->upsertEmployeeProfile($legacyCollegeAdmin, $ceitPrimaryDepartment, [
+            'employee_no' => 'CADM-0001',
             'first_name' => 'College',
-            'middle_name' => '',
+            'middle_name' => null,
             'last_name' => 'Admin',
             'position' => 'College Administrator',
-            'branch_id' => $ceitPrimaryDepartment->branch_id,
-            'department_id' => $ceitPrimaryDepartment->id,
         ]);
 
-        FacultyProfile::withTrashed()->where('user_id', $legacyCollegeAdmin->id)->delete();
+        $this->deleteFacultyProfile($legacyCollegeAdmin->id);
 
         $legacyDepartmentAdmin = $this->upsertUser(
             'sky.shira7@gmail.com',
@@ -52,66 +63,49 @@ class UserSeeder extends Seeder
             ['deptAdmin']
         );
 
-        $this->upsertEmployeeProfile($legacyDepartmentAdmin->id, [
+        $this->upsertEmployeeProfile($legacyDepartmentAdmin, $casPrimaryDepartment, [
+            'employee_no' => 'DADM-0001',
             'first_name' => 'Department',
-            'middle_name' => '',
+            'middle_name' => null,
             'last_name' => 'Admin',
             'position' => 'Department Administrator',
-            'branch_id' => $casPrimaryDepartment->branch_id,
-            'department_id' => $casPrimaryDepartment->id,
         ]);
 
-        FacultyProfile::withTrashed()->where('user_id', $legacyDepartmentAdmin->id)->delete();
+        $this->deleteFacultyProfile($legacyDepartmentAdmin->id);
 
         $legacyFaculty = $this->upsertUser(
             'sangangbayant@gmail.com',
             'Faculty Account',
-            ['faculty', 'collegeAdmin']
+            ['faculty']
         );
 
-        $this->upsertFacultyProfile($legacyFaculty->id, [
+        $this->upsertFacultyProfile($legacyFaculty, $ceitSecondaryDepartment, $namedSuperAdmin, [
+            'employee_no' => 'FAC-0001',
             'first_name' => 'Faculty',
-            'middle_name' => '',
+            'middle_name' => null,
             'last_name' => 'Account',
             'email' => $legacyFaculty->email,
-            'branch_id' => $ceitSecondaryDepartment->branch_id,
-            'department_id' => $ceitSecondaryDepartment->id,
             'academic_rank' => 'Instructor I',
             'contactno' => '09179876543',
             'address' => 'Indang, Cavite',
             'sex' => 'Male',
             'birthday' => '1994-10-12',
-            'updated_by' => $namedSuperAdmin->id,
         ]);
 
-        EmployeeProfile::withTrashed()->where('user_id', $legacyFaculty->id)->delete();
+        $this->deleteEmployeeProfile($legacyFaculty->id);
 
-        $facultyDepartments = Department::query()
-            ->where('is_active', true)
-            ->orderBy('branch_id')
-            ->orderBy('name')
-            ->get();
+        $collegeAdminDepartments = $departments
+            ->unique('college_id')
+            ->reject(fn (Department $department): bool => $department->id === $ceitPrimaryDepartment->id)
+            ->values();
 
-        if ($facultyDepartments->isEmpty()) {
-            throw new RuntimeException('Unable to seed faculty demo users because no active departments are available.');
-        }
+        $deptAdminDepartments = $departments
+            ->reject(fn (Department $department): bool => $department->id === $casPrimaryDepartment->id)
+            ->values();
 
-        User::factory()
-            ->count(4)
-            ->superAdmin()
-            ->create();
-
-        User::factory()
-            ->count(4)
-            ->collegeAdmin()
-            ->create();
-
-        User::factory()
-            ->count(4)
-            ->deptAdmin()
-            ->create();
-
-        $this->seedFacultyBatch($facultyDepartments, 99, $namedSuperAdmin);
+        $this->seedCollegeAdminBatch($collegeAdminDepartments, 5);
+        $this->seedDeptAdminBatch($deptAdminDepartments, 5);
+        $this->seedFacultyBatch($departments, 100, $namedSuperAdmin);
     }
 
     protected function upsertUser(string $email, string $name, array $roles): User
@@ -137,11 +131,14 @@ class UserSeeder extends Seeder
         return $user->fresh();
     }
 
-    protected function upsertFacultyProfile(int $userId, array $attributes): void
+    protected function upsertFacultyProfile(User $user, Department $department, User $updatedBy, array $attributes): void
     {
         $profile = FacultyProfile::withTrashed()->updateOrCreate(
-            ['user_id' => $userId],
-            $attributes
+            ['user_id' => $user->id],
+            array_merge($this->academicContext($department), $attributes, [
+                'email' => $attributes['email'] ?? $user->email,
+                'updated_by' => $updatedBy->id,
+            ])
         );
 
         if ($profile->trashed()) {
@@ -149,11 +146,11 @@ class UserSeeder extends Seeder
         }
     }
 
-    protected function upsertEmployeeProfile(int $userId, array $attributes): void
+    protected function upsertEmployeeProfile(User $user, Department $department, array $attributes): void
     {
         $profile = EmployeeProfile::withTrashed()->updateOrCreate(
-            ['user_id' => $userId],
-            $attributes
+            ['user_id' => $user->id],
+            array_merge($this->academicContext($department), $attributes)
         );
 
         if ($profile->trashed()) {
@@ -163,40 +160,129 @@ class UserSeeder extends Seeder
 
     protected function deleteProfiles(int $userId): void
     {
-        FacultyProfile::withTrashed()->where('user_id', $userId)->delete();
-        EmployeeProfile::withTrashed()->where('user_id', $userId)->delete();
+        $this->deleteFacultyProfile($userId);
+        $this->deleteEmployeeProfile($userId);
     }
 
-    protected function findDepartmentForBranch(string $branchCode, int $offset = 0): Department
+    protected function deleteFacultyProfile(int $userId): void
+    {
+        FacultyProfile::withTrashed()->where('user_id', $userId)->get()->each->delete();
+    }
+
+    protected function deleteEmployeeProfile(int $userId): void
+    {
+        EmployeeProfile::withTrashed()->where('user_id', $userId)->get()->each->delete();
+    }
+
+    protected function findDepartmentForCollege(string $collegeCode, int $offset = 0): Department
     {
         $department = Department::query()
-            ->whereHas('branch', fn ($query) => $query->where('code', $branchCode))
+            ->whereHas('college', fn ($query) => $query->where('code', $collegeCode))
             ->orderBy('id')
             ->skip($offset)
             ->first();
 
         if (! $department) {
-            throw new RuntimeException("Unable to locate department offset [{$offset}] for branch [{$branchCode}].");
+            throw new RuntimeException("Unable to locate department offset [{$offset}] for college [{$collegeCode}].");
         }
 
         return $department;
     }
 
+    protected function seedCollegeAdminBatch(Collection $departments, int $count): void
+    {
+        if ($departments->count() < 1) {
+            throw new RuntimeException('Unable to seed college admins because no departments are available.');
+        }
+
+        foreach (range(1, $count) as $index) {
+            /** @var Department $department */
+            $department = $departments[($index - 1) % $departments->count()];
+            $user = $this->upsertUser(
+                sprintf('college.admin%02d@cvsu-arm.test', $index),
+                sprintf('College Admin %02d', $index),
+                ['collegeAdmin']
+            );
+
+            $this->upsertEmployeeProfile($user, $department, [
+                'employee_no' => sprintf('CADM-%04d', $index + 1),
+                'first_name' => 'College',
+                'middle_name' => 'Admin',
+                'last_name' => sprintf('%02d', $index),
+                'position' => 'College Administrator',
+            ]);
+
+            $this->deleteFacultyProfile($user->id);
+        }
+    }
+
+    protected function seedDeptAdminBatch(Collection $departments, int $count): void
+    {
+        if ($departments->count() < 1) {
+            throw new RuntimeException('Unable to seed department admins because no departments are available.');
+        }
+
+        foreach (range(1, $count) as $index) {
+            /** @var Department $department */
+            $department = $departments[($index - 1) % $departments->count()];
+            $user = $this->upsertUser(
+                sprintf('dept.admin%02d@cvsu-arm.test', $index),
+                sprintf('Department Admin %02d', $index),
+                ['deptAdmin']
+            );
+
+            $this->upsertEmployeeProfile($user, $department, [
+                'employee_no' => sprintf('DADM-%04d', $index + 1),
+                'first_name' => 'Department',
+                'middle_name' => 'Admin',
+                'last_name' => sprintf('%02d', $index),
+                'position' => 'Department Administrator',
+            ]);
+
+            $this->deleteFacultyProfile($user->id);
+        }
+    }
+
     protected function seedFacultyBatch(Collection $departments, int $count, User $updatedBy): void
     {
-        User::factory()
-            ->count($count)
-            ->faculty()
-            ->create()
-            ->each(function (User $user, int $index) use ($departments, $updatedBy): void {
-                $department = $departments[$index % $departments->count()];
+        if ($departments->count() < 1) {
+            throw new RuntimeException('Unable to seed faculty users because no departments are available.');
+        }
 
-                $user->facultyProfile?->update([
-                    'email' => $user->email,
-                    'branch_id' => $department->branch_id,
-                    'department_id' => $department->id,
-                    'updated_by' => $updatedBy->id,
-                ]);
-            });
+        foreach (range(1, $count) as $index) {
+            /** @var Department $department */
+            $department = $departments[($index - 1) % $departments->count()];
+            $user = $this->upsertUser(
+                sprintf('faculty.%03d@cvsu-arm.test', $index),
+                sprintf('Faculty %03d', $index),
+                ['faculty']
+            );
+
+            $this->upsertFacultyProfile($user, $department, $updatedBy, [
+                'employee_no' => sprintf('FAC-%04d', $index + 1),
+                'first_name' => 'Faculty',
+                'middle_name' => 'Seed',
+                'last_name' => sprintf('%03d', $index),
+                'academic_rank' => 'Instructor I',
+                'contactno' => sprintf('09%09d', $index),
+                'address' => 'Indang, Cavite',
+                'sex' => $index % 2 === 0 ? 'Female' : 'Male',
+                'birthday' => now()->subYears(25 + ($index % 20))->toDateString(),
+            ]);
+
+            $this->deleteEmployeeProfile($user->id);
+        }
+    }
+
+    /**
+     * @return array{campus_id: int, college_id: int, department_id: int}
+     */
+    protected function academicContext(Department $department): array
+    {
+        return [
+            'campus_id' => $department->campus_id,
+            'college_id' => $department->college_id,
+            'department_id' => $department->id,
+        ];
     }
 }

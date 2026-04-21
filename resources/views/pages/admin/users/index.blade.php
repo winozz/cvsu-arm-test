@@ -1,163 +1,169 @@
 <?php
 
 use App\Imports\UsersImport;
-use App\Livewire\Forms\Admin\UsersForm;
-use App\Models\Branch;
-use App\Models\Department;
-use Illuminate\Support\Collection;
+use App\Livewire\Forms\Admin\UserForm;
+use App\Support\UserManagement\UserAccountWriter;
+use App\Traits\CanManage;
+use App\Traits\HasCascadingLocationSelects;
+use App\Traits\ResolvesUserFormOptions;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
-use Spatie\Permission\Models\Role;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
-    use Interactions, WithFileUploads;
+new #[Layout('layouts.app')] class extends Component
+{
+    use CanManage;
+    use HasCascadingLocationSelects;
+    use Interactions;
+    use ResolvesUserFormOptions;
+    use WithFileUploads;
 
-    public UsersForm $form;
+    public UserForm $form;
 
     public bool $createModal = false;
 
     public bool $importModal = false;
 
-    public $importFile;
+    public mixed $importFile = null;
 
-    public Collection $branches;
+    public array $colleges = [];
 
-    public Collection $departments;
+    public array $departments = [];
 
-    public Collection $roles;
-
-    public function mount()
+    public function mount(): void
     {
-        $this->branches = Branch::where('is_active', true)->get();
-        $this->departments = collect();
-        $this->roles = Role::all();
+        $this->ensureCanManage('users.view');
+        $this->form->resetForm();
     }
 
-    public function updatedFormBranchId($branchId)
+    public function openCreateModal(): void
     {
-        $this->departments = Department::where('branch_id', $branchId)->where('is_active', true)->get();
-        $this->form->department_id = null;
+        $this->ensureCanManage('users.create');
+
+        $this->resetValidation();
+        $this->form->resetForm();
+        $this->colleges = [];
+        $this->departments = [];
+        $this->createModal = true;
     }
 
-    public function updatedFormType($value)
+    public function updatedFormType(string $value): void
     {
-        if ($value === 'standard') {
-            $this->form->branch_id = null;
-            $this->form->department_id = null;
+        if ($value !== 'standard') {
+            return;
+        }
+
+        $this->form->clearAssignment();
+        $this->colleges = [];
+        $this->departments = [];
+    }
+
+    public function save(): void
+    {
+        $this->ensureCanManage('users.create');
+
+        try {
+            $this->form->validateForm();
+            app(UserAccountWriter::class)->save($this->form);
+
+            $this->createModal = false;
+            $this->form->resetForm();
+            $this->colleges = [];
+            $this->departments = [];
+
+            $this->dispatch('pg:eventRefresh-usersTable');
+            $this->toast()->success('Success', 'User created successfully.')->send();
+        } catch (ValidationException $exception) {
+            throw $exception;
+        } catch (Throwable $exception) {
+            Log::error('User creation failed', [
+                'error' => $exception->getMessage(),
+            ]);
+
+            $this->toast()->error('Error', 'Unable to create the user right now.')->send();
         }
     }
 
-    public function save()
+    public function import(): void
     {
-        $this->form->store();
+        $this->ensureCanManage('users.create');
 
-        $this->createModal = false;
-        $this->toast()->success('Success', 'User created successfully.')->send();
-        $this->dispatch('pg:eventRefresh-usersTable');
+        $this->validate([
+            'importFile' => ['required', 'file', 'mimes:csv,xlsx,xls'],
+        ]);
+
+        try {
+            Excel::import(new UsersImport, $this->importFile);
+
+            $this->importModal = false;
+            $this->importFile = null;
+
+            $this->dispatch('pg:eventRefresh-usersTable');
+            $this->toast()->success('Imported', 'Users imported successfully.')->send();
+        } catch (Throwable $exception) {
+            Log::error('User import failed', [
+                'error' => $exception->getMessage(),
+            ]);
+
+            $this->toast()->error('Error', 'Unable to import the file right now.')->send();
+        }
     }
+};
+?>
 
-    public function import()
-    {
-        $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
-
-        // Excel::import(new UsersImport, $this->importFile);
-        $this->importModal = false;
-        $this->importFile = null;
-        $this->toast()->success('Imported', 'Users have been successfully imported.')->send();
-        $this->dispatch('pg:eventRefresh-usersTable');
-    }
-}; ?>
-
-<div>
-    <div class="flex justify-between items-center w-full">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-200">
-            {{ __('User Management') }}
-        </h2>
-        <div class="flex gap-2">
-            <x-button color="slate" text="Import" icon="arrow-up-tray" wire:click="$set('importModal', true)" sm
-                outline />
-            <x-button color="primary" text="New User" icon="plus" wire:click="$set('createModal', true)" sm />
+<div class="space-y-6 py-8">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="space-y-1">
+            <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">User Management</h1>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                Manage account access, profile types, and academic assignments from one place.
+            </p>
         </div>
-    </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-card>
-                <livewire:admin.users-table />
-            </x-card>
-        </div>
-    </div>
-
-    {{-- Create User Modal --}}
-    <x-modal wire="createModal" title="Create New User" size="4xl">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="md:col-span-3">
-                <h4
-                    class="text-sm font-semibold text-gray-600 border-b pb-1 mb-2 dark:text-zinc-300 dark:border-zinc-700">
-                    Account Details</h4>
+        @can('users.create')
+            <div class="flex gap-2">
+                <x-button color="slate" text="Import" icon="arrow-up-tray" wire:click="$set('importModal', true)" sm
+                    outline />
+                <x-button color="primary" text="New User" icon="plus" wire:click="openCreateModal" sm />
             </div>
+        @endcan
+    </div>
 
-            <x-input label="First Name" wire:model="form.first_name" placeholder="Juan" />
-            <x-input label="Middle Name" wire:model="form.middle_name" placeholder="Dela" />
-            <x-input label="Last Name" wire:model="form.last_name" placeholder="Cruz" />
+    <x-card>
+        <livewire:admin.tables.users-table />
+    </x-card>
 
-            <x-input label="Email Address" type="email" wire:model="form.email" placeholder="juan@example.com" />
-
-            <x-select.styled label="Roles" wire:model="form.roles" multiple :options="$roles->map(fn($r) => ['label' => Str::headline($r->name), 'value' => $r->name])->toArray()"
-                select="label:label|value:value" />
-
-            <x-select.styled label="Profile Type" wire:model.live="form.type" :options="[
-                ['label' => 'Standard User', 'value' => 'standard'],
-                ['label' => 'Faculty', 'value' => 'faculty'],
-                ['label' => 'Employee', 'value' => 'employee'],
-            ]"
-                select="label:label|value:value" />
-
-            {{-- Only show these fields if they are NOT a Standard User --}}
-            @if ($form->type !== 'standard')
-                <div class="md:col-span-3 mt-4">
-                    <h4
-                        class="text-sm font-semibold text-gray-600 border-b pb-1 mb-2 dark:text-zinc-300 dark:border-zinc-700">
-                        Assignment & Profile</h4>
-                </div>
-
-                <x-select.styled label="Campus / Branch" wire:model.live="form.branch_id" :options="$branches->map(fn($b) => ['label' => $b->name, 'value' => $b->id])->toArray()"
-                    select="label:label|value:value" />
-
-                <x-select.styled :label="$form->type === 'employee' ? 'Department (Optional)' : 'Department'" :hint="$form->type === 'employee' ? 'Leave this blank if the employee is not assigned to a department.' : null" :placeholder="$form->type === 'employee' ? 'Select a department if applicable' : 'Select a department'"
-                    wire:model="form.department_id" :options="$departments->map(fn($d) => ['label' => $d->name, 'value' => $d->id])->toArray()" select="label:label|value:value"
-                    :disabled="$departments->isEmpty()" :required="$form->type === 'faculty'" />
-
-                @if ($form->type === 'faculty')
-                    <x-input label="Academic Rank" wire:model="form.academic_rank" />
-                    <x-input label="Contact No." wire:model="form.contactno" />
-                    <x-select.styled label="Sex" wire:model="form.sex" :options="['Male', 'Female']" />
-                    <x-input label="Birthday" type="date" wire:model="form.birthday" />
-                    <div class="md:col-span-2">
-                        <x-input label="Full Address" wire:model="form.address" />
-                    </div>
-                @elseif ($form->type === 'employee')
-                    <x-input label="Job Position" wire:model="form.position" />
-                @endif
-            @endif
-        </div>
+    <x-modal wire="createModal" title="Create User" size="4xl">
+        @include('pages.admin.users.partials.form-fields')
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
-            <x-button color="primary" text="Save User" wire:click="save" sm />
+            @can('users.create')
+                <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
+                <x-button color="primary" text="Create User" wire:click="save" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 
-    {{-- Import Modal --}}
     <x-modal wire="importModal" title="Import Users">
         <div class="space-y-4">
             <x-upload wire:model="importFile" label="Select Excel/CSV File" hint="Supported files: .xlsx, .csv" />
+
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">
+                Recommended headers: first_name, middle_name, last_name, email, type, roles, direct_permissions,
+                is_active, campus_id, college_id, department_id, academic_rank, position, contactno, sex, birthday,
+                address, password
+            </p>
         </div>
+
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />
-            <x-button color="green" text="Run Import" wire:click="import" sm />
+            @can('users.create')
+                <x-button flat text="Cancel" wire:click="$set('importModal', false)" sm />
+                <x-button color="green" text="Import Users" wire:click="import" sm />
+            @endcan
         </x-slot:footer>
     </x-modal>
 </div>

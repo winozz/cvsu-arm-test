@@ -2,17 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Branch;
+use App\Models\College;
 use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Department>
+ * @extends Factory<Department>
  */
 class DepartmentFactory extends Factory
 {
-    protected $model = Department::class;
-
     /**
      * Define the model's default state.
      *
@@ -20,29 +18,29 @@ class DepartmentFactory extends Factory
      */
     public function definition(): array
     {
-        $branch = Branch::query()->inRandomOrder()->first() ?? Branch::factory()->create();
+        $college = College::query()->inRandomOrder()->first() ?? College::factory()->create();
+        $departmentName = str(fake()->unique()->words(2, true))->title()->append(' Department')->toString();
 
         return [
-            'branch_id' => $branch->id,
-            'code' => strtoupper(fake()->unique()->bothify('DEP-###')),
-            'name' => fake()->randomElement([
-                'Academic Programs Office',
-                'Applied Sciences Department',
-                'Information Technology Department',
-                'Management Studies Department',
-                'Student Services Office',
-            ]),
+            'campus_id' => $college->campus_id,
+            'college_id' => $college->id,
+            'name' => $departmentName,
+            'code' => fake()->unique()->bothify('DEPT-###'),
+            'description' => "Generated seed data for {$departmentName}.",
             'is_active' => true,
         ];
     }
 
-    public function forBranch(Branch $branch): static
+    public function forCollege(College $college): static
     {
-        return $this->state(fn () => ['branch_id' => $branch->id]);
+        return $this->state(fn (): array => [
+            'campus_id' => $college->campus_id,
+            'college_id' => $college->id,
+        ]);
     }
 
     public function inactive(): static
     {
-        return $this->state(fn () => ['is_active' => false]);
+        return $this->state(fn (): array => ['is_active' => false]);
     }
 }

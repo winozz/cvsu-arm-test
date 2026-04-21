@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -25,6 +26,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'password',
+        'email_verified_at',
         'google_id',
         'avatar',
         'is_active',
@@ -51,6 +54,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_active' => 'boolean',
             'password' => 'hashed',
         ];
     }
@@ -71,6 +75,11 @@ class User extends Authenticatable
         return $this->hasOne(EmployeeProfile::class, 'user_id', 'id');
     }
 
+    public function updatedFacultyProfiles(): HasMany
+    {
+        return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
+    }
+
     /**
      * Get the user's initials
      */
@@ -88,25 +97,28 @@ class User extends Authenticatable
      */
     public function canUseGoogleSignIn(): bool
     {
-        return $this->is_active && ! $this->trashed();
+        if (! $this->is_active || $this->trashed()) {
+            return false;
+        }
 
-        return true;
+        return collect(array_keys(self::DASHBOARD_ACCESS))
+            ->contains(fn (string $route): bool => $this->hasAccessibleDashboardRoute($route));
     }
 
     /**
      * Resolve the highest priority dashboard route for this user.
      */
-    public const DASHBOARD_ROUTES = [
-        'superAdmin' => 'admin.dashboard',
-        'collegeAdmin' => 'college-admin.dashboard',
-        'deptAdmin' => 'department-admin.dashboard',
-        'faculty' => 'faculty.dashboard',
+    public const DASHBOARD_ACCESS = [
+        'admin.dashboard' => 'campuses.view',
+        'college-admin.dashboard' => 'departments.view',
+        'department-admin.dashboard' => 'schedules.assign',
+        'faculty.dashboard' => 'faculty_schedules.view',
     ];
 
     public function dashboardRoute(): ?string
     {
-        foreach (self::DASHBOARD_ROUTES as $role => $route) {
-            if ($this->hasRole($role)) {
+        foreach (array_keys(self::DASHBOARD_ACCESS) as $route) {
+            if ($this->hasAccessibleDashboardRoute($route)) {
                 return $route;
             }
         }
@@ -124,5 +136,29 @@ class User extends Authenticatable
             'avatar' => $avatar,
             'email_verified_at' => $this->email_verified_at ?? now(),
         ])->save();
+    }
+
+    protected function hasAccessibleDashboardRoute(string $route): bool
+    {
+        $permission = self::DASHBOARD_ACCESS[$route] ?? null;
+
+        if (! $permission || ! $this->can($permission)) {
+            return false;
+        }
+
+        return match ($route) {
+            'admin.dashboard' => true,
+            'college-admin.dashboard', 'department-admin.dashboard' => $this->employeeProfile()->exists(),
+            'faculty.dashboard' => $this->hasFacultySignInProfile(),
+            default => false,
+        };
+    }
+
+    protected function hasFacultySignInProfile(): bool
+    {
+        $profile = $this->facultyProfile;
+
+        return $profile !== null
+            && Str::lower((string) $profile->email) === Str::lower($this->email);
     }
 }

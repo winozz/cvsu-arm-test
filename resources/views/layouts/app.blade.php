@@ -33,7 +33,6 @@
         <x-slot:header>
             <x-layout.header>
                 <x-slot:left>
-                    <x-theme-switch />
                 </x-slot:left>
                 <x-slot:right>
                     <x-dropdown>
@@ -49,13 +48,12 @@
                                 {{-- The Avatar serves as the visual trigger --}}
                                 <x-avatar sm background="3aa13a " color="fff" :model="auth()->user()"
                                     class="cursor-pointer border-2 border-emerald-600" />
-
-                                {{--
-                                <x-icon name="chevron-down" class="w-4 h-4 text-zinc-400" /> --}}
                             </button>
                         </x-slot:action>
-
-                        <x-dropdown.items icon="user-circle" text="My Profile" />
+                        <x-slot:header>
+                            <x-theme-switch block />
+                        </x-slot:header>
+                        {{-- <x-dropdown.items icon="user-circle" text="My Profile" /> --}}
 
                         {{-- Logout Button --}}
                         <form method="POST" action="{{ route('logout') }}">
@@ -72,7 +70,7 @@
         <x-slot:menu>
             <x-side-bar>
                 <x-slot:brand>
-                    <div class="mt-8 flex items-center justify-center">
+                    <div class="my-4 flex items-center justify-center">
                         <img src="{{ asset('/images/cvsu-logo.png') }}" class="w-10" />
                     </div>
                 </x-slot:brand>
@@ -86,52 +84,91 @@
                 )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
-                @hasanyrole(['superAdmin', 'faculty'])
+                @if (auth()->user()?->can('faculty_schedules.view') && auth()->user()?->employeeProfile()->exists())
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
                         <x-side-bar.item text="Schedules & Subjects" icon="clipboard-document-list" />
-                        {{-- <x-side-bar.item text="Grades" icon="check-badge" />
-                        <x-side-bar.item text="Teaching History" icon="academic-cap" /> --}}
                     </x-side-bar.item>
-                @endhasanyrole
+                @endif
 
                 {{-- COLLEGE ADMIN LINKS --}}
-                @hasanyrole(['superAdmin', 'collegeAdmin'])
+                @if (auth()->user()?->can('departments.view') && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="College" opened>
-                        <x-side-bar.item text="Departments" icon="briefcase" />
+                        <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
+
+
+                        @can('programs.view')
+                            <x-side-bar.item text="Programs" icon="academic-cap" :current="request()->routeIs('college-admin.programs', 'college-admin.programs.*')" :route="route('college-admin.programs')" />
+                        @endcan
+
+                        @can('subjects.view')
+                            <x-side-bar.item text="Subjects" icon="book-open" />
+                        @endcan
                     </x-side-bar.item>
-                @endhasanyrole
+                @endif
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                @hasanyrole(['superAdmin', 'deptAdmin'])
+                {{-- @canany(['schedules.view', 'faculty_profiles.view']) --}}
+
+                @if (auth()->user()
+                        ?->can(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
+                        auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="Department" opened>
-                        <x-side-bar.item text="Schedules" icon="calendar-days" />
-                        <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('admin.faculty-profiles', 'admin.faculty-profiles.*')" :route="route('admin.faculty-profiles')" />
-                        <x-side-bar.item text="Courses" icon="academic-cap" />
-                        <x-side-bar.item text="Rooms" icon="building-office" />
+
+                        @can('schedules.view')
+                            <x-side-bar.item text="Schedules" icon="calendar-days" />
+                        @endcan
+
+
+                        @can('faculty_profiles.view')
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
+                                'department-admin.faculty-profiles',
+                                'department-admin.faculty-profiles.*',
+                            )" :route="route('department-admin.faculty-profiles')" />
+                        @endcan
+
+                        @can('rooms.menu')
+                            <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('department-admin.rooms', 'department-admin.rooms.*')" :route="route('department-admin.rooms')" />
+                        @endcan
+
                     </x-side-bar.item>
-                @endhasanyrole
+                @endif
+                {{-- @endcanany --}}
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
-                @hasanyrole(['superAdmin'])
-                    {{-- Campus Management --}}
-                    <x-side-bar.item text="Campus" opened>
-                        <x-side-bar.item text="Campuses / Colleges" icon="building-library" :current="request()->routeIs('admin.branches', 'admin.branches.*')"
-                            :route="route('admin.branches')" />
-                    </x-side-bar.item>
+                @canany(['campuses.view', 'users.view', 'roles.view', 'permissions.view', 'assignments.manage'])
+                    {{-- Campuses Links --}}
+                    @can('campuses.view')
+                        <x-side-bar.item text="Campuses/Colleges" opened>
+                            <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('admin.campuses', 'admin.campuses.*')" :route="route('admin.campuses')" />
+                        </x-side-bar.item>
+                    @endcan
 
                     {{-- User Management Links --}}
-                    <x-side-bar.item text="System Management" opened>
-                        <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
-                        <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('admin.roles', 'admin.roles.*')" :route="route('admin.roles')" />
-                        <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('admin.permissions', 'admin.permissions.*')" :route="route('admin.permissions')" />
-                    </x-side-bar.item>
-                @endhasrole
+                    @canany(['users.view', 'roles.view', 'permissions.view', 'assignments.manage'])
+                        <x-side-bar.item text="System Management" opened>
+                            @can('users.view')
+                                <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
+                            @endcan
+                            @can('roles.view')
+                                <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('admin.roles', 'admin.roles.*')" :route="route('admin.roles')" />
+                            @endcan
+                            @can('permissions.view')
+                                <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('admin.permissions', 'admin.permissions.*')" :route="route('admin.permissions')" />
+                            @endcan
+                            @can('assignments.manage')
+                                <x-side-bar.item text="Assignments" icon="link" :current="request()->routeIs('admin.assignments', 'admin.assignments.*')" :route="route('admin.assignments')" />
+                            @endcan
+                        </x-side-bar.item>
+                    @endcanany
+                @endcanany
             </x-side-bar>
         </x-slot:menu>
 
         {{-- MAIN CONTENTS --}}
-        {{ $slot }}
+        <main class="max-w-7xl mx-auto">
+            {{ $slot }}
+        </main>
     </x-layout>
 
     @livewireScripts

@@ -3,6 +3,7 @@
 use App\Livewire\Forms\Admin\RolesForm;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Traits\CanManage;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -10,9 +11,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
-    use Interactions;
+new class extends Component {
+    use CanManage, Interactions;
 
     public RolesForm $form;
 
@@ -24,11 +24,15 @@ new class extends Component
 
     public function mount(): void
     {
+        $this->ensureCanManage('roles.view');
+
         $this->availablePermissions = Permission::query()->orderBy('name')->get();
     }
 
     public function openCreateModal(): void
     {
+        $this->ensureCanManage('roles.create');
+
         $this->form->resetForm();
         $this->isEditing = false;
         $this->roleModal = true;
@@ -37,6 +41,8 @@ new class extends Component
     #[On('openEditModal')]
     public function openEditModal(Role $role): void
     {
+        $this->ensureCanManage('roles.update');
+
         $this->form->setRole($role->load('permissions'));
         $this->isEditing = true;
         $this->roleModal = true;
@@ -44,22 +50,39 @@ new class extends Component
 
     public function save(): void
     {
+        $this->ensureCanManage($this->isEditing ? 'roles.update' : 'roles.create');
+
         try {
+            $validated = $this->form->validateForm();
+            $resolvedPermissions = Permission::query()
+                ->whereIn('id', $validated['permissions'] ?? [])
+                ->get();
+
             if ($this->isEditing) {
-                $this->form->update();
-                $message = 'Role updated successfully.';
-            } else {
-                $this->form->store();
-                $message = 'Role created successfully.';
+                $this->form->role->update([
+                    'name' => $validated['name'],
+                    'guard_name' => $validated['guard_name'],
+                ]);
+                $this->form->role->syncPermissions($resolvedPermissions);
+                $this->roleModal = false;
+                $this->dispatch('pg:eventRefresh-rolesTable');
+                $this->toast()->success('Success', 'Role updated successfully.')->send();
+
+                return;
             }
 
+            $role = Role::create([
+                'name' => $validated['name'],
+                'guard_name' => $validated['guard_name'],
+            ]);
+            $role->syncPermissions($resolvedPermissions);
             $this->roleModal = false;
             $this->dispatch('pg:eventRefresh-rolesTable');
-            $this->toast()->success('Success', $message)->send();
+            $this->toast()->success('Success', 'Role created successfully.')->send();
         } catch (ValidationException $e) {
             throw $e;
-        } catch (Exception $e) {
-            Log::error('Role Save Failed: '.$e->getMessage());
+        } catch (\Exception $e) {
+            Log::error('Role Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the role.')->send();
         }
     }
@@ -70,12 +93,14 @@ new class extends Component
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-xl font-bold dark:text-white">Roles</h1>
         <div class="flex gap-2">
-            <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
+            @can('roles.create')
+                <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
+            @endcan
         </div>
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
-        <livewire:admin.roles-table />
+        <livewire:admin.tables.roles-table />
     </div>
 
     <x-modal wire="roleModal" title="{{ $isEditing ? 'Edit Role' : 'New Role' }}">
@@ -98,8 +123,10 @@ new class extends Component
         </div>
 
         <x-slot:footer>
-            <x-button flat text="Cancel" wire:click="$set('roleModal', false)" sm />
-            <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Role'" wire:click="save" sm />
+            @canany(['roles.update', 'roles.create'])
+                <x-button flat text="Cancel" wire:click="$set('roleModal', false)" sm />
+                <x-button color="primary" :text="$isEditing ? 'Save Changes' : 'Save Role'" wire:click="save" sm />
+            @endcanany
         </x-slot:footer>
     </x-modal>
 </div>

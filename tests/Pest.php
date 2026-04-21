@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -44,4 +48,22 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function ensureRoles(array $roles): void
+{
+    collect($roles)->each(fn (string $role) => Role::findOrCreate($role, 'web'));
+}
+
+function actingUserWithPermissions(array $abilities, array $roles = ['superAdmin']): User
+{
+    ensureRoles($roles);
+
+    $user = User::factory()->create();
+    $user->syncRoles($roles);
+
+    collect($abilities)->each(fn (string $ability) => Permission::findOrCreate($ability, 'web'));
+    $user->givePermissionTo($abilities);
+
+    return $user->fresh();
 }

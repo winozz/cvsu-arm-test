@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Permission;
+use App\Enums\PermissionEnum;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\PermissionRegistrar;
@@ -13,22 +13,92 @@ class RoleSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
+        $allPermissions = array_map(
+            fn (PermissionEnum $permission): string => $permission->value,
+            PermissionEnum::cases()
+        );
+
         $rolePermissions = [
-            'superAdmin' => Permission::query()->pluck('name')->all(),
+            'superAdmin' => $allPermissions,
+
             'collegeAdmin' => [
-                'view.dashboard',
-                'manage.users',
-                'manage.branches',
-                'manage.departments',
-                'manage.faculty_profiles',
+                PermissionEnum::DASHBOARD_VIEW->value,
+                PermissionEnum::PROFILE_VIEW->value,
+                PermissionEnum::PROFILE_UPDATE->value,
+
+                PermissionEnum::DEPARTMENT_CREATE->value,
+                PermissionEnum::DEPARTMENT_VIEW->value,
+                PermissionEnum::DEPARTMENT_UPDATE->value,
+                PermissionEnum::DEPARTMENT_DELETE->value,
+                PermissionEnum::DEPARTMENT_RESTORE->value,
+
+                PermissionEnum::SCHEDULE_VIEW->value,
+                PermissionEnum::FACULTY_PROFILE_VIEW->value,
+                PermissionEnum::FACULTY_PROFILE_UPDATE->value,
+                PermissionEnum::COLLEGE_VIEW->value,
+                PermissionEnum::COLLEGE_UPDATE->value,
+
+                PermissionEnum::PROGRAM_CREATE->value,
+                PermissionEnum::PROGRAM_VIEW->value,
+                PermissionEnum::PROGRAM_UPDATE->value,
+                PermissionEnum::PROGRAM_DELETE->value,
+                PermissionEnum::PROGRAM_RESTORE->value,
+
+                PermissionEnum::SUBJECT_CREATE->value,
+                PermissionEnum::SUBJECT_VIEW->value,
+                PermissionEnum::SUBJECT_UPDATE->value,
+                PermissionEnum::SUBJECT_DELETE->value,
+                PermissionEnum::SUBJECT_RESTORE->value,
+
+                PermissionEnum::ROOM_CREATE->value,
+                PermissionEnum::ROOM_VIEW->value,
+                PermissionEnum::ROOM_UPDATE->value,
+                PermissionEnum::ROOM_DELETE->value,
+                PermissionEnum::ROOM_RESTORE->value,
             ],
+
             'deptAdmin' => [
-                'view.dashboard',
-                'manage.users',
-                'manage.faculty_profiles',
+                PermissionEnum::DASHBOARD_VIEW->value,
+                PermissionEnum::PROFILE_VIEW->value,
+                PermissionEnum::PROFILE_UPDATE->value,
+
+                PermissionEnum::SCHEDULE_CREATE->value,
+                PermissionEnum::SCHEDULE_VIEW->value,
+                PermissionEnum::SCHEDULE_UPDATE->value,
+                PermissionEnum::SCHEDULE_DELETE->value,
+                PermissionEnum::SCHEDULE_RESTORE->value,
+                PermissionEnum::SCHEDULE_ASSIGN->value,
+
+                PermissionEnum::FACULTY_PROFILE_CREATE->value,
+                PermissionEnum::FACULTY_PROFILE_VIEW->value,
+                PermissionEnum::FACULTY_PROFILE_UPDATE->value,
+                PermissionEnum::FACULTY_PROFILE_DELETE->value,
+                PermissionEnum::FACULTY_PROFILE_RESTORE->value,
+
+                PermissionEnum::PROGRAM_CREATE->value,
+                PermissionEnum::PROGRAM_VIEW->value,
+                PermissionEnum::PROGRAM_UPDATE->value,
+                PermissionEnum::PROGRAM_DELETE->value,
+                PermissionEnum::PROGRAM_RESTORE->value,
+
+                PermissionEnum::SUBJECT_CREATE->value,
+                PermissionEnum::SUBJECT_VIEW->value,
+                PermissionEnum::SUBJECT_UPDATE->value,
+                PermissionEnum::SUBJECT_DELETE->value,
+                PermissionEnum::SUBJECT_RESTORE->value,
+
+                PermissionEnum::ROOM_CREATE->value,
+                PermissionEnum::ROOM_VIEW->value,
+                PermissionEnum::ROOM_UPDATE->value,
+                PermissionEnum::ROOM_DELETE->value,
+                PermissionEnum::ROOM_RESTORE->value,
             ],
+
             'faculty' => [
-                'view.dashboard',
+                PermissionEnum::DASHBOARD_VIEW->value,
+                PermissionEnum::PROFILE_VIEW->value,
+                PermissionEnum::PROFILE_UPDATE->value,
+                PermissionEnum::FACULTY_SCHEDULE_VIEW->value,
             ],
         ];
 

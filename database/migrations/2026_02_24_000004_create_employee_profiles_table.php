@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('position')->nullable();
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->cascadeOnUpdate();
+            $table->foreignId('campus_id')->constrained('campuses')->cascadeOnUpdate();
+            $table->foreignId('college_id')->constrained('colleges')->cascadeOnUpdate();
             $table->foreignId('department_id')->nullable()->constrained('departments')->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();

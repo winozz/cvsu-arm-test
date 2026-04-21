@@ -59,7 +59,7 @@
             <a @if ($route || $href) href="{{ $route ?? $href }}" @endif @class([
                 $customization['item.state.base'],
                 $customization['item.state.normal'] =>
-                    !$current || (!$smart && !$matches()),
+                    ! ($current || ($smart && $matches())),
                 \Illuminate\Support\Arr::toCssClasses([
                     'ts-ui-group-opened',
                     $customization['item.state.current'],
