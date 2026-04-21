@@ -77,17 +77,17 @@ describe('User model', function () {
             'user_id' => $user->id,
         ]);
 
-        expect($user->fresh()->dashboardRoute())->toBe('department-admin.dashboard');
+        expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
 
         $user->assignRole('collegeAdmin');
         $user->givePermissionTo('departments.view');
 
-        expect($user->fresh()->dashboardRoute())->toBe('college-admin.dashboard');
+        expect($user->fresh()->dashboardRoute())->toBe('dashboard.college');
 
         $user->assignRole('superAdmin');
         $user->givePermissionTo('campuses.view');
 
-        expect($user->fresh()->dashboardRoute())->toBe('admin.dashboard');
+        expect($user->fresh()->dashboardRoute())->toBe('dashboard.admin');
     });
 
     it('syncs google profile data onto the user record', function () {

@@ -106,7 +106,7 @@ final class CollegesTable extends PowerGridComponent
                 ->slot('View')
                 ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700 dark:group-hover:text-primary-400'])
                 ->class('group flex items-center gap-1 text-xs font-bold text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 dark:hover:bg-primary-800 dark:hover:text-primary-400 transition-all duration-300 cursor-pointer')
-                ->route('admin.campuses.college.show', ['campus' => $this->campusId, 'college' => $row->id]);
+                ->route('campuses.college.show', ['campus' => $this->campusId, 'college' => $row->id]);
         }
 
         return $actions;

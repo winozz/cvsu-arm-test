@@ -25,9 +25,10 @@ new class extends Component {
     #[Computed]
     public function campuses()
     {
-        return Campus::where('is_active', true)->orderBy('name')
+        return Campus::where('is_active', true)
+            ->orderBy('name')
             ->get(['id', 'name'])
-            ->map(fn ($c) => ['label' => $c->name, 'value' => $c->id])
+            ->map(fn($c) => ['label' => $c->name, 'value' => $c->id])
             ->toArray();
     }
 
@@ -125,8 +126,7 @@ new class extends Component {
                 <x-button wire:click="confirmEdit" sm :color="$isEditing ? 'red' : 'primary'" :text="$isEditing ? 'Cancel' : 'Edit Profile'" :icon="$isEditing ? 'x-mark' : 'pencil'" />
             @endcan
             @can('faculty_profiles.view')
-                <x-button tag="a" href="{{ route('department-admin.faculty-profiles') }}" sm outline
-                    text="Back to List" />
+                <x-button tag="a" href="{{ route('faculty-profiles.index') }}" sm outline text="Back to List" />
             @endcan
         </div>
     </div>

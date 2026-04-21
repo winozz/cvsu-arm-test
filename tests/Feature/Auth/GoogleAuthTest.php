@@ -38,7 +38,7 @@ describe('google authentication', function () {
 
         $response = $this->get(route('google.callback'));
 
-        $response->assertRedirect(route('admin.dashboard'));
+        $response->assertRedirect(route('dashboard.admin'));
         $response->assertSessionHasNoErrors();
         $this->assertAuthenticatedAs($user->fresh());
     });

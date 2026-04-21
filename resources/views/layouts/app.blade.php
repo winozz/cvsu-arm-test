@@ -77,10 +77,10 @@
 
                 {{-- Dashboard Menu --}}
                 <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs(
-                    'admin.dashboard',
-                    'faculty.dashboard',
-                    'college-admin.dashboard',
-                    'department-admin.dashboard',
+                    'dashboard.admin',
+                    'dashboard.faculty',
+                    'dashboard.college',
+                    'dashboard.department',
                 )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
@@ -95,11 +95,11 @@
                 {{-- COLLEGE ADMIN LINKS --}}
                 @if (auth()->user()?->can('departments.view') && auth()->user()?->employeeProfile()->exists())
                     <x-side-bar.item text="College" opened>
-                        <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('college-admin.departments', 'college-admin.departments.*')" :route="route('college-admin.departments')" />
+                        <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('departments.index', 'departments.*')" :route="route('departments.index')" />
 
 
                         @can('programs.view')
-                            <x-side-bar.item text="Programs" icon="academic-cap" :current="request()->routeIs('college-admin.programs', 'college-admin.programs.*')" :route="route('college-admin.programs')" />
+                            <x-side-bar.item text="Programs" icon="academic-cap" :current="request()->routeIs('programs.index', 'programs.*')" :route="route('programs.index')" />
                         @endcan
 
                         @can('subjects.view')
@@ -122,14 +122,11 @@
 
 
                         @can('faculty_profiles.view')
-                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
-                                'department-admin.faculty-profiles',
-                                'department-admin.faculty-profiles.*',
-                            )" :route="route('department-admin.faculty-profiles')" />
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')" :route="route('faculty-profiles.index')" />
                         @endcan
 
                         @can('rooms.menu')
-                            <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('department-admin.rooms', 'department-admin.rooms.*')" :route="route('department-admin.rooms')" />
+                            <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('rooms.index', 'rooms.*')" :route="route('rooms.index')" />
                         @endcan
 
                     </x-side-bar.item>
@@ -141,7 +138,7 @@
                     {{-- Campuses Links --}}
                     @can('campuses.view')
                         <x-side-bar.item text="Campuses/Colleges" opened>
-                            <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('admin.campuses', 'admin.campuses.*')" :route="route('admin.campuses')" />
+                            <x-side-bar.item text="Campuses" icon="building-library" :current="request()->routeIs('campuses.index', 'campuses.*')" :route="route('campuses.index')" />
                         </x-side-bar.item>
                     @endcan
 
@@ -149,16 +146,16 @@
                     @canany(['users.view', 'roles.view', 'permissions.view', 'assignments.manage'])
                         <x-side-bar.item text="System Management" opened>
                             @can('users.view')
-                                <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('admin.users', 'admin.users.*')" :route="route('admin.users')" />
+                                <x-side-bar.item text="User Accounts" icon="users" :current="request()->routeIs('users.index', 'users.*')" :route="route('users.index')" />
                             @endcan
                             @can('roles.view')
-                                <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('admin.roles', 'admin.roles.*')" :route="route('admin.roles')" />
+                                <x-side-bar.item text="Roles" icon="shield-check" :current="request()->routeIs('roles.index', 'roles.*')" :route="route('roles.index')" />
                             @endcan
                             @can('permissions.view')
-                                <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('admin.permissions', 'admin.permissions.*')" :route="route('admin.permissions')" />
+                                <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('permissions.index', 'permissions.*')" :route="route('permissions.index')" />
                             @endcan
                             @can('assignments.manage')
-                                <x-side-bar.item text="Assignments" icon="link" :current="request()->routeIs('admin.assignments', 'admin.assignments.*')" :route="route('admin.assignments')" />
+                                <x-side-bar.item text="Assignments" icon="link" :current="request()->routeIs('assignments.index', 'assignments.*')" :route="route('assignments.index')" />
                             @endcan
                         </x-side-bar.item>
                     @endcanany

@@ -59,7 +59,7 @@ describe('CampusesTable', function () {
         expect($button->action)->toBe('view-campus')
             ->and($button->slot)->toBe('View')
             ->and($button->tag)->toBe('a')
-            ->and($button->attributes['href'])->toBe(route('admin.campuses.show', ['campus' => $campus->id]));
+            ->and($button->attributes['href'])->toBe(route('campuses.show', ['campus' => $campus->id]));
     });
 });
 
@@ -107,7 +107,7 @@ describe('CollegesTable', function () {
             ->actions($college)[0];
 
         expect($button->action)->toBe('view-college')
-            ->and($button->attributes['href'])->toBe(route('admin.campuses.college.show', [
+            ->and($button->attributes['href'])->toBe(route('campuses.college.show', [
                 'campus' => $this->campus->id,
                 'college' => $college->id,
             ]));

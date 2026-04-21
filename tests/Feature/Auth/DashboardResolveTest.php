@@ -40,7 +40,7 @@ describe('dashboard resolver', function () {
 
         $this->actingAs($user)
             ->get(route('dashboard.resolve'))
-            ->assertRedirect(route('department-admin.dashboard'));
+            ->assertRedirect(route('dashboard.department'));
     });
 
     it('dashboard resolver returns forbidden for users without valid dashboard', function () {

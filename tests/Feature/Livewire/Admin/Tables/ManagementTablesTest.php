@@ -178,7 +178,7 @@ describe('UsersTable', function () {
         $trashedActions = $component->actions($trashedUser->fresh());
 
         expect(collect($activeActions)->pluck('action')->all())->toBe(['manage', 'delete'])
-            ->and($activeActions[0]->attributes['href'])->toBe(route('admin.users.show', ['user' => $activeUser->id]))
+            ->and($activeActions[0]->attributes['href'])->toBe(route('users.show', ['user' => $activeUser->id]))
             ->and($activeActions[1]->attributes['wire:click'])->toContain('confirmDelete')
             ->and(collect($trashedActions)->pluck('action')->all())->toBe(['restore'])
             ->and($trashedActions[0]->attributes['wire:click'])->toContain('confirmRestore');

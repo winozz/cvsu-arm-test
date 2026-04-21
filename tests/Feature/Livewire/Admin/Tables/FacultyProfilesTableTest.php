@@ -55,7 +55,7 @@ describe('FacultyProfilesTable', function () {
             'view-faculty',
             'delete-faculty',
             'restore-faculty',
-        ])->and($actions[0]->attributes['href'])->toBe(route('department-admin.faculty-profiles.show', [
+        ])->and($actions[0]->attributes['href'])->toBe(route('faculty-profiles.show', [
             'facultyProfile' => $profile->id,
         ]))
             ->and($actions[1]->attributes['wire:click'])->toContain('confirmDeleteFaculty')

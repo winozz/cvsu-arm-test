@@ -99,7 +99,7 @@ new class extends Component {
                 <x-button wire:click="editCampus" sm color="primary" icon="pencil" text="Edit Details" />
             @endcan
             @can('campuses.view')
-                <x-button tag="a" href="{{ route('admin.campuses') }}" sm outline text="Back to Campuses" />
+                <x-button tag="a" href="{{ route('campuses.index') }}" sm outline text="Back to Campuses" />
             @endcan
         </div>
     </div>

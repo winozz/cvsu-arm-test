@@ -109,10 +109,10 @@ class User extends Authenticatable
      * Resolve the highest priority dashboard route for this user.
      */
     public const DASHBOARD_ACCESS = [
-        'admin.dashboard' => 'campuses.view',
-        'college-admin.dashboard' => 'departments.view',
-        'department-admin.dashboard' => 'schedules.assign',
-        'faculty.dashboard' => 'faculty_schedules.view',
+        'dashboard.admin' => 'campuses.view',
+        'dashboard.college' => 'departments.view',
+        'dashboard.department' => 'schedules.assign',
+        'dashboard.faculty' => 'faculty_schedules.view',
     ];
 
     public function dashboardRoute(): ?string
@@ -147,9 +147,9 @@ class User extends Authenticatable
         }
 
         return match ($route) {
-            'admin.dashboard' => true,
-            'college-admin.dashboard', 'department-admin.dashboard' => $this->employeeProfile()->exists(),
-            'faculty.dashboard' => $this->hasFacultySignInProfile(),
+            'dashboard.admin' => true,
+            'dashboard.college', 'dashboard.department' => $this->employeeProfile()->exists(),
+            'dashboard.faculty' => $this->hasFacultySignInProfile(),
             default => false,
         };
     }

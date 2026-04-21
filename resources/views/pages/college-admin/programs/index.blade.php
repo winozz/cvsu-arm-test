@@ -262,7 +262,7 @@ new class extends Component {
         </div>
         <div class="flex gap-2">
             @can('programs.view')
-                <x-button tag="a" href="{{ route('college-admin.dashboard') }}" sm outline text="Back to Dashboard" />
+                <x-button tag="a" href="{{ route('dashboard.resolve') }}" sm outline text="Back to Dashboard" />
             @endcan
         </div>
     </div>

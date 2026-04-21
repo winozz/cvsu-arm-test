@@ -135,7 +135,7 @@ final class UsersTable extends PowerGridComponent
                     ->slot('Manage')
                     ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
                     ->class('group flex items-center gap-1 rounded border border-primary-500 px-2 py-1 text-xs font-bold text-primary-500 transition-all duration-300 hover:bg-zinc-100 hover:text-primary-700');
-                // ->route('admin.users.show', ['user' => $row->id]);
+                // ->route('users.show', ['user' => $row->id]);
             }
 
             if ($this->canManage('users.delete') && Auth::id() !== $row->id) {
