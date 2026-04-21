@@ -158,7 +158,7 @@ new class extends Component {
         <span class="font-medium text-zinc-700 dark:text-zinc-200">{{ $form->first_name }} {{ $form->last_name }}</span>
     </nav>
 
-    <div class="flex flex-col items-start justify-between gap-4 rounded-lg bg-white p-6 shadow dark:bg-gray-800 md:flex-row md:items-center">
+    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
         <div class="flex items-start gap-4">
             <div
                 class="flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-xl font-bold text-primary-700 dark:bg-zinc-700 dark:text-zinc-200">
@@ -181,21 +181,21 @@ new class extends Component {
                 <x-button tag="a" href="{{ route($this->facultyIndexRouteName()) }}" sm outline text="Back to List" />
             @endcan
         </div>
-    </div>
+    </x-card>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Campus</p>
             <p class="mt-1 text-lg font-semibold text-zinc-900 dark:text-white">{{ $facultyProfile->campus?->name ?? 'Not assigned' }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">College</p>
             <p class="mt-1 text-lg font-semibold text-zinc-900 dark:text-white">{{ $facultyProfile->college?->name ?? 'Not assigned' }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Department</p>
             <p class="mt-1 text-lg font-semibold text-zinc-900 dark:text-white">{{ $facultyProfile->department?->name ?? 'Not assigned' }}</p>
-        </div>
+        </x-card>
     </div>
 
     <x-card>
@@ -272,5 +272,5 @@ new class extends Component {
                 </div>
             @endif
         </div>
-    </div>
+    </x-card>
 </div>

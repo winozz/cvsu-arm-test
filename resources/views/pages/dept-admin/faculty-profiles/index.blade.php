@@ -85,7 +85,7 @@ new class extends Component {
                     $user->restore();
                 }
 
-                if (! $user->hasRole('faculty')) {
+                if (!$user->hasRole('faculty')) {
                     $user->assignRole('faculty');
                 }
 
@@ -93,18 +93,20 @@ new class extends Component {
                     'user_id' => $user->id,
                 ]);
 
-                $facultyProfile->fill(array_merge($assignment, [
-                    'first_name' => $this->form->first_name,
-                    'middle_name' => $this->form->middle_name,
-                    'last_name' => $this->form->last_name,
-                    'email' => $this->form->email,
-                    'academic_rank' => $this->form->academic_rank,
-                    'contactno' => $this->form->contactno,
-                    'sex' => $this->form->sex,
-                    'birthday' => $this->form->birthday ?: null,
-                    'address' => $this->form->address,
-                    'updated_by' => Auth::id(),
-                ]));
+                $facultyProfile->fill(
+                    array_merge($assignment, [
+                        'first_name' => $this->form->first_name,
+                        'middle_name' => $this->form->middle_name,
+                        'last_name' => $this->form->last_name,
+                        'email' => $this->form->email,
+                        'academic_rank' => $this->form->academic_rank,
+                        'contactno' => $this->form->contactno,
+                        'sex' => $this->form->sex,
+                        'birthday' => $this->form->birthday ?: null,
+                        'address' => $this->form->address,
+                        'updated_by' => Auth::id(),
+                    ]),
+                );
                 $facultyProfile->user_id = $user->id;
                 $facultyProfile->save();
 
@@ -227,21 +229,21 @@ new class extends Component {
     </div>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Faculty</p>
-            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">With Rank</p>
-            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['ranked'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
-            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Departments</p>
-            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['departments'] }}</p>
-        </div>
+        <x-card>
+            <h3 class="">Total Faculty</h3>
+            <span class="font-bold text-2xl">{{ $this->stats['total'] }}</span>
+        </x-card>
+        <x-card>
+            <h3 class="">With Rank</h3>
+            <span class="font-bold text-2xl">{{ $this->stats['ranked'] }}</span>
+        </x-card>
+        <x-card>
+            <h3 class="">Departments</h3>
+            <span class="font-bold text-2xl">{{ $this->stats['departments'] }}</span>
+        </x-card>
     </div>
 
-    <div class="flex flex-col items-start justify-between gap-4 rounded-lg bg-white px-6 py-4 shadow dark:bg-gray-800 md:flex-row md:items-center">
+    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
         <div class="space-y-1">
             <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Faculty List</h2>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">
@@ -249,7 +251,7 @@ new class extends Component {
             </p>
         </div>
         <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $this->managementContext['scope_label'] }}</span>
-    </div>
+    </x-card>
 
     <x-card>
         <livewire:tables.admin.faculty-profiles-table :context="$this->facultyRouteContext()" />
@@ -257,7 +259,8 @@ new class extends Component {
 
     <x-modal wire="createModal" title="New Faculty" size="4xl">
         <div class="space-y-4">
-            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100">
+            <div
+                class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100">
                 Saving this faculty profile also creates the linked user account automatically and assigns the
                 `faculty` role.
             </div>
@@ -277,12 +280,10 @@ new class extends Component {
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$this->campuses"
-                    :disabled="true"
+                <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$this->campuses" :disabled="true"
                     select="label:label|value:value" />
 
-                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges"
-                    :disabled="true"
+                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges" :disabled="true"
                     select="label:label|value:value" />
 
                 <x-select.styled label="Department" wire:model="form.department_id" :options="$departments"

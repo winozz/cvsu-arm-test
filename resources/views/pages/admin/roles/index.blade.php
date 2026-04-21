@@ -89,8 +89,8 @@ new class extends Component {
 };
 ?>
 
-<div class="py-8">
-    <div class="mb-6 flex justify-between items-center">
+<div class="space-y-6 py-8">
+    <div class="flex items-center justify-between">
         <h1 class="text-xl font-bold dark:text-white">Roles</h1>
         <div class="flex gap-2">
             @can('roles.create')
@@ -99,9 +99,9 @@ new class extends Component {
         </div>
     </div>
 
-    <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
+    <x-card>
         <livewire:tables.admin.roles-table />
-    </div>
+    </x-card>
 
     <x-modal wire="roleModal" title="{{ $isEditing ? 'Edit Role' : 'New Role' }}">
         <div class="space-y-4">

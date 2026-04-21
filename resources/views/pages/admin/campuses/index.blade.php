@@ -102,18 +102,18 @@ new class extends Component
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Campuses</p>
             <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active</p>
             <p class="mt-1 text-2xl font-bold text-green-600">{{ $this->stats['active'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Inactive</p>
             <p class="mt-1 text-2xl font-bold text-red-500">{{ $this->stats['inactive'] }}</p>
-        </div>
+        </x-card>
     </div>
 
     {{-- Campus Table --}}

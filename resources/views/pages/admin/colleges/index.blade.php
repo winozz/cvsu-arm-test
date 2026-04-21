@@ -164,7 +164,7 @@ new class extends Component
     </nav>
 
     {{-- Campus Info Card --}}
-    <div class="flex flex-col items-start justify-between gap-4 p-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
         <div>
             <h1 class="text-xl font-bold dark:text-white">{{ $campus->code }}</h1>
             <p class="italic text-zinc-600 dark:text-zinc-200">{{ $campus->name }}</p>
@@ -185,26 +185,26 @@ new class extends Component
                 <x-button tag="a" href="{{ route('campuses.index') }}" sm outline text="Back to Campuses" />
             @endcan
         </div>
-    </div>
+    </x-card>
 
     {{-- College Stats --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Colleges</p>
             <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->collegeStats['total'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active</p>
             <p class="mt-1 text-2xl font-bold text-green-600">{{ $this->collegeStats['active'] }}</p>
-        </div>
-        <div class="rounded-lg bg-white p-5 shadow dark:bg-gray-800">
+        </x-card>
+        <x-card>
             <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Inactive</p>
             <p class="mt-1 text-2xl font-bold text-red-500">{{ $this->collegeStats['inactive'] }}</p>
-        </div>
+        </x-card>
     </div>
 
     {{-- College List Header --}}
-    <div class="flex flex-col items-start justify-between gap-4 px-6 py-4 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
         <div class="space-y-1">
             <h2 class="text-lg font-semibold dark:text-white">College List</h2>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">Colleges under {{ $campus->name }}.</p>
@@ -212,7 +212,7 @@ new class extends Component
         @can('colleges.create')
             <x-button wire:click="openCreateCollegeModal" sm color="primary" icon="plus" text="New College" />
         @endcan
-    </div>
+    </x-card>
 
     {{-- Colleges Table --}}
     <x-card>

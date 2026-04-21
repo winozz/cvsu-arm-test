@@ -115,7 +115,8 @@
                 @endif
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                @if (auth()->user()?->canAny(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
+                @if (auth()->user()
+                        ?->canAny(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
                         auth()->user()?->departmentManagementProfile())
                     <x-side-bar.item text="Department" opened>
 
@@ -124,7 +125,11 @@
                         @endcan
 
                         @can('faculty_profiles.view')
-                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')" :route="route('faculty-profiles.index')" />
+                            @if (auth()->user()
+                                    ?->canAny(['faculty_profiles.view']) && auth()->user()?->facultyProfile()->exists())
+                                <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')"
+                                    :route="route('faculty-profiles.index')" />
+                            @endif
                         @endcan
 
                         @can('rooms.menu')

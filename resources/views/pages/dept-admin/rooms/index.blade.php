@@ -11,7 +11,8 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions, WithFileUploads;
 
     public RoomForm $form;
@@ -120,7 +121,7 @@ new class extends Component {
 
     protected function currentDepartment(): Department
     {
-        $departmentId = auth()->user()?->departmentManagementProfile()?->department_id;
+        $departmentId = auth()->guard()->user()?->departmentManagementProfile()?->department_id;
 
         abort_unless(filled($departmentId), 403);
 
@@ -131,8 +132,8 @@ new class extends Component {
 };
 ?>
 
-<div>
-    <div class="mb-6 flex items-start justify-between gap-4">
+<div class="space-y-6">
+    <div class="flex items-start justify-between gap-4">
         <div>
             <h1 class="text-xl font-bold dark:text-white">Rooms</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">
@@ -148,9 +149,9 @@ new class extends Component {
         </div>
     </div>
 
-    <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
+    <x-card>
         <livewire:tables.admin.rooms-table :department-id="$departmentId" />
-    </div>
+    </x-card>
 
     <x-modal wire="roomModal" title="{{ $isEditing ? 'Edit Room' : 'New Room' }}" size="3xl">
         <div class="space-y-4">

@@ -12,7 +12,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public College $college;
@@ -40,6 +41,7 @@ new class extends Component {
         $this->ensureCanManage('programs.view');
 
         $user = auth()
+            ->guard()
             ->user()
             ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college']);
         $profile = $user?->employeeProfile;
@@ -108,7 +110,7 @@ new class extends Component {
 
         $this->programModal = false;
 
-        if (!$this->isEditingProgram) {
+        if (! $this->isEditingProgram) {
             $conflicts = ProgramDuplicateDetector::findConflicts(null, $this->programForm->code, $this->programForm->title);
 
             if ($conflicts['exact'] !== []) {
@@ -128,7 +130,7 @@ new class extends Component {
 
         if ($this->isEditingProgram && $this->sharedProgramCollegeCount > 1) {
             $this->dialog()
-                ->warning('Shared Program Update', 'This program is currently assigned to ' . $this->sharedProgramCollegeCount . ' colleges. Saving changes here will update the shared record for all assigned colleges.')
+                ->warning('Shared Program Update', 'This program is currently assigned to '.$this->sharedProgramCollegeCount.' colleges. Saving changes here will update the shared record for all assigned colleges.')
                 ->confirm('Continue', 'saveProgram')
                 ->cancel('Go Back', 'reopenProgramModal')
                 ->send();
@@ -155,7 +157,7 @@ new class extends Component {
         $this->ensureCanManage($this->isEditingProgram ? 'programs.update' : 'programs.create');
 
         try {
-            if (!$this->isEditingProgram) {
+            if (! $this->isEditingProgram) {
                 $conflicts = ProgramDuplicateDetector::findConflicts(null, $this->programForm->code, $this->programForm->title);
 
                 if ($conflicts['exact'] !== []) {
@@ -165,7 +167,7 @@ new class extends Component {
                     return;
                 }
 
-                if (!$this->programSimilarityConfirmed && $conflicts['similar'] !== []) {
+                if (! $this->programSimilarityConfirmed && $conflicts['similar'] !== []) {
                     $this->programModal = false;
                     $this->openSimilarProgramDuplicateDialog($conflicts['similar']);
 
@@ -190,7 +192,7 @@ new class extends Component {
             throw $e;
         } catch (Throwable $e) {
             $this->reopenProgramModal();
-            Log::error('Program Save Failed: ' . $e->getMessage());
+            Log::error('Program Save Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the program.')->send();
         }
     }
@@ -235,7 +237,7 @@ new class extends Component {
 
     protected function findManagedProgram(int $id, bool $includeTrashed = false): Program
     {
-        $query = Program::query()->whereKey($id)->whereHas('colleges', fn($query) => $query->whereKey($this->college->id));
+        $query = Program::query()->whereKey($id)->whereHas('colleges', fn ($query) => $query->whereKey($this->college->id));
 
         if ($includeTrashed) {
             $query->withTrashed();
@@ -246,9 +248,8 @@ new class extends Component {
 };
 ?>
 
-<div>
-    <div
-        class="flex flex-col items-start justify-between gap-4 p-6 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+<div class="space-y-6">
+    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
         <div>
             <h3 class="text-xl font-medium dark:text-white">{{ $college->code }}</h3>
             <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
@@ -265,21 +266,20 @@ new class extends Component {
                 <x-button tag="a" href="{{ route('dashboard.resolve') }}" sm outline text="Back to Dashboard" />
             @endcan
         </div>
-    </div>
+    </x-card>
 
-    <div
-        class="flex flex-col items-start justify-between gap-4 px-6 py-4 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
         <h1 class="text-2xl font-bold dark:text-white">Program List</h1>
         <div class="flex gap-2">
             @can('programs.create')
                 <x-button wire:click="openCreateProgramModal" sm color="primary" icon="plus" text="New Program" />
             @endcan
         </div>
-    </div>
+    </x-card>
 
-    <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
+    <x-card>
         <livewire:tables.admin.programs-table :college-id="$college->id" />
-    </div>
+    </x-card>
 
     <x-modal wire="programModal" title="{{ $isEditingProgram ? 'Edit Program Details' : 'New Program' }}"
         size="3xl">

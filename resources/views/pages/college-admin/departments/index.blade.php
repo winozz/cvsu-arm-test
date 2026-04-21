@@ -9,8 +9,9 @@ use App\Traits\HasDepartmentManagement;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
-    use CanManage, Interactions, HasDepartmentManagement;
+new class extends Component
+{
+    use CanManage, HasDepartmentManagement, Interactions;
 
     public College $college;
 
@@ -25,6 +26,7 @@ new class extends Component {
         $this->ensureCanManage('departments.view');
 
         $user = auth()
+            ->guard()
             ->user()
             ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college']);
         $profile = $user?->employeeProfile;
@@ -48,9 +50,8 @@ new class extends Component {
 
 ?>
 
-<div>
-    <div
-        class="flex flex-col items-start justify-between gap-4 p-6 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+<div class="space-y-6">
+    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
         <div>
             <h3 class="text-xl font-medium dark:text-white">{{ $college->code }}</h3>
             <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
@@ -71,19 +72,18 @@ new class extends Component {
                 <x-button tag="a" href="{{ route('dashboard.resolve') }}" sm outline text="Back to Dashboard" />
             @endcan
         </div>
-    </div>
+    </x-card>
 
-    <div
-        class="flex flex-col items-start justify-between gap-4 px-6 py-4 mb-6 bg-white rounded-lg shadow md:flex-row md:items-center dark:bg-gray-800">
+    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
         <h1 class="text-2xl font-bold dark:text-white">Department List</h1>
         @can('departments.create')
             <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
         @endcan
-    </div>
+    </x-card>
 
-    <div class="bg-white p-6 rounded-lg shadow dark:bg-zinc-800">
+    <x-card>
         <livewire:tables.admin.departments-table :college-id="$college->id" />
-    </div>
+    </x-card>
 
     <x-modal wire="collegeModal" title="Edit College Details" size="3xl">
         <div class="space-y-4">

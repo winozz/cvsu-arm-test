@@ -136,8 +136,7 @@ new class extends Component {
         <p class="text-sm text-zinc-600 dark:text-zinc-300">Manage direct user assignment of roles and permissions.</p>
     </div>
 
-    <div
-        class="space-y-6 rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <x-card class="space-y-6 p-6">
         <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">User Assignments</h2>
 
         <div>
@@ -197,5 +196,5 @@ new class extends Component {
                 Please select a user from the dropdown above to manage assignments.
             </div>
         @endif
-    </div>
+    </x-card>
 </div>
