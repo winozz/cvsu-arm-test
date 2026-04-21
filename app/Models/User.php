@@ -80,6 +80,19 @@ class User extends Authenticatable
         return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
     }
 
+    public function departmentManagementProfile(): FacultyProfile|EmployeeProfile|null
+    {
+        if ($this->employeeProfile) {
+            return $this->employeeProfile;
+        }
+
+        if ($this->hasRole('deptAdmin') && $this->facultyProfile) {
+            return $this->facultyProfile;
+        }
+
+        return null;
+    }
+
     /**
      * Get the user's initials
      */
@@ -148,7 +161,8 @@ class User extends Authenticatable
 
         return match ($route) {
             'dashboard.admin' => true,
-            'dashboard.college', 'dashboard.department' => $this->employeeProfile()->exists(),
+            'dashboard.college' => $this->employeeProfile()->exists(),
+            'dashboard.department' => $this->departmentManagementProfile() !== null,
             'dashboard.faculty' => $this->hasFacultySignInProfile(),
             default => false,
         };

@@ -17,9 +17,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('rooms.menu', function ($user) {
+            $profile = $user->departmentManagementProfile();
+
             return $user->can('rooms.view')
-                && filled($user->employeeProfile?->college_id)
-                && filled($user->employeeProfile?->department_id);
+                && filled($profile?->college_id)
+                && filled($profile?->department_id);
         });
     }
 }

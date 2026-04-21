@@ -90,6 +90,19 @@ describe('User model', function () {
         expect($user->fresh()->dashboardRoute())->toBe('dashboard.admin');
     });
 
+    it('allows dept admin dashboard routing with only a faculty profile', function () {
+        $user = User::factory()->create();
+        $user->assignRole(['faculty', 'deptAdmin']);
+        $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
+
+        FacultyProfile::factory()->create([
+            'user_id' => $user->id,
+            'email' => $user->email,
+        ]);
+
+        expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
+    });
+
     it('syncs google profile data onto the user record', function () {
         $user = User::factory()->create();
 

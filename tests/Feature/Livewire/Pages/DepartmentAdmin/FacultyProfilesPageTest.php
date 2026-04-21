@@ -3,6 +3,8 @@
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
+use App\Models\EmployeeProfile;
+use App\Models\FacultyProfile;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -18,6 +20,10 @@ describe('department admin faculty profiles page', function () {
         $this->campus = Campus::factory()->create();
         $this->college = College::factory()->forCampus($this->campus)->create();
         $this->department = Department::factory()->forCollege($this->college)->create();
+
+        EmployeeProfile::factory()->forDepartment($this->department)->create([
+            'user_id' => $this->user->id,
+        ]);
     });
 
     it('loads dependent colleges and departments when the academic assignment changes', function () {
@@ -60,5 +66,32 @@ describe('department admin faculty profiles page', function () {
             ->and($createdUser->facultyProfile)->not->toBeNull()
             ->and($createdUser->facultyProfile->department_id)->toBe($this->department->id)
             ->and($createdUser->facultyProfile->academic_rank)->toBe('Assistant Professor I');
+    });
+
+    it('supports dept admins who only have a faculty profile', function () {
+        $facultyOnlyAdmin = actingUserWithPermissions([
+            'faculty_profiles.view',
+            'faculty_profiles.create',
+        ], ['deptAdmin']);
+
+        FacultyProfile::factory()->forDepartment($this->department)->create([
+            'user_id' => $facultyOnlyAdmin->id,
+            'email' => $facultyOnlyAdmin->email,
+        ]);
+
+        Livewire::actingAs($facultyOnlyAdmin)
+            ->test('pages::dept-admin.faculty-profiles.index')
+            ->call('create')
+            ->set('form.first_name', 'Lara')
+            ->set('form.last_name', 'Cruz')
+            ->set('form.email', 'lara.cruz@example.test')
+            ->set('form.campus_id', $this->campus->id)
+            ->set('form.college_id', $this->college->id)
+            ->set('form.department_id', $this->department->id)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        expect(User::query()->where('email', 'lara.cruz@example.test')->first()?->facultyProfile?->department_id)
+            ->toBe($this->department->id);
     });
 });

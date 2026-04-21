@@ -4,21 +4,31 @@ namespace App\Imports;
 
 use App\Models\College;
 use App\Models\Department;
+use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class FacultyProfilesImport implements ToCollection, WithHeadingRow
 {
+    public function __construct(
+        protected EmployeeProfile|FacultyProfile $managerProfile,
+        protected ?int $updatedBy = null,
+    ) {}
+
     public function collection(Collection $rows): void
     {
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if (empty($row['email'])) {
                 continue;
             }
+
+            $assignment = $this->resolveAcademicAssignment($row);
+            $this->ensureAssignmentIsManaged($assignment, $index + 2);
 
             $fullName = trim(($row['first_name'] ?? '').' '.($row['middle_name'] ?? '').' '.($row['last_name'] ?? ''));
 
@@ -44,7 +54,7 @@ class FacultyProfilesImport implements ToCollection, WithHeadingRow
 
             $facultyProfile = FacultyProfile::withTrashed()->updateOrCreate(
                 ['user_id' => $user->id],
-                array_merge($this->resolveAcademicAssignment($row), [
+                array_merge($assignment, [
                     'first_name' => $row['first_name'] ?? '',
                     'middle_name' => $row['middle_name'] ?? '',
                     'last_name' => $row['last_name'] ?? '',
@@ -54,6 +64,7 @@ class FacultyProfilesImport implements ToCollection, WithHeadingRow
                     'sex' => filled($row['sex'] ?? null) ? ucfirst(strtolower((string) $row['sex'])) : null,
                     'birthday' => $row['birthday'] ?? null,
                     'address' => $row['address'] ?? null,
+                    'updated_by' => $this->updatedBy,
                 ])
             );
 
@@ -101,5 +112,40 @@ class FacultyProfilesImport implements ToCollection, WithHeadingRow
             'college_id' => null,
             'department_id' => null,
         ];
+    }
+
+    /**
+     * @param  array{campus_id: int|null, college_id: int|null, department_id: int|null}  $assignment
+     */
+    protected function ensureAssignmentIsManaged(array $assignment, int $rowNumber): void
+    {
+        $message = filled($this->managerProfile->department_id)
+            ? "Row {$rowNumber} must belong to your assigned department."
+            : "Row {$rowNumber} must belong to your assigned college.";
+
+        if (! filled($assignment['department_id'])) {
+            throw ValidationException::withMessages([
+                'importFile' => "Row {$rowNumber} must include a valid department within your allowed scope.",
+            ]);
+        }
+
+        if ((int) $assignment['campus_id'] !== (int) $this->managerProfile->campus_id) {
+            throw ValidationException::withMessages([
+                'importFile' => $message,
+            ]);
+        }
+
+        if ((int) $assignment['college_id'] !== (int) $this->managerProfile->college_id) {
+            throw ValidationException::withMessages([
+                'importFile' => $message,
+            ]);
+        }
+
+        if (filled($this->managerProfile->department_id)
+            && (int) $assignment['department_id'] !== (int) $this->managerProfile->department_id) {
+            throw ValidationException::withMessages([
+                'importFile' => $message,
+            ]);
+        }
     }
 }

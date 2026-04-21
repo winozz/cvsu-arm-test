@@ -97,9 +97,15 @@
                     <x-side-bar.item text="College" opened>
                         <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('departments.index', 'departments.*')" :route="route('departments.index')" />
 
-
                         @can('programs.view')
                             <x-side-bar.item text="Programs" icon="academic-cap" :current="request()->routeIs('programs.index', 'programs.*')" :route="route('programs.index')" />
+                        @endcan
+
+                        @can('faculty_profiles.view')
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
+                                'college-faculty-profiles.index',
+                                'college-faculty-profiles.*',
+                            )" :route="route('college-faculty-profiles.index')" />
                         @endcan
 
                         @can('subjects.view')
@@ -109,17 +115,13 @@
                 @endif
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                {{-- @canany(['schedules.view', 'faculty_profiles.view']) --}}
-
-                @if (auth()->user()
-                        ?->can(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
-                        auth()->user()?->employeeProfile()->exists())
+                @if (auth()->user()?->canAny(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
+                        auth()->user()?->departmentManagementProfile())
                     <x-side-bar.item text="Department" opened>
 
                         @can('schedules.view')
                             <x-side-bar.item text="Schedules" icon="calendar-days" />
                         @endcan
-
 
                         @can('faculty_profiles.view')
                             <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')" :route="route('faculty-profiles.index')" />

@@ -33,6 +33,7 @@ class RoleSeeder extends Seeder
                 PermissionEnum::DEPARTMENT_RESTORE->value,
 
                 PermissionEnum::SCHEDULE_VIEW->value,
+                PermissionEnum::FACULTY_PROFILE_CREATE->value,
                 PermissionEnum::FACULTY_PROFILE_VIEW->value,
                 PermissionEnum::FACULTY_PROFILE_UPDATE->value,
                 PermissionEnum::COLLEGE_VIEW->value,

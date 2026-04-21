@@ -51,19 +51,12 @@ class FacultyProfileUpdateForm extends Form
                     ->ignore($this->profile?->user_id)
                     ->whereNull('deleted_at'),
             ],
-            'campus_id' => ['required', 'exists:campuses,id'],
-            'college_id' => [
-                'required',
-                Rule::exists('colleges', 'id')->where(
-                    fn ($query) => $query->where('campus_id', $this->campus_id)
-                ),
-            ],
-            'department_id' => [
-                'required',
-                Rule::exists('departments', 'id')->where(
-                    fn ($query) => $query->where('college_id', $this->college_id)
-                ),
-            ],
+            'campus_id' => ['required', Rule::in(array_filter([$this->profile?->campus_id]))],
+            'college_id' => ['required', Rule::in(array_filter([$this->profile?->college_id]))],
+            'department_id' => ['required', Rule::in(array_filter([$this->profile?->department_id]))],
+            'academic_rank' => ['nullable', 'string', 'max:255'],
+            'contactno' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string'],
             'sex' => ['nullable', 'in:Male,Female'],
             'birthday' => ['nullable', 'date'],
         ];
@@ -102,6 +95,14 @@ class FacultyProfileUpdateForm extends Form
 
     public function resolveAcademicAssignment(): array
     {
+        if ($this->profile) {
+            return [
+                'campus_id' => $this->profile->campus_id,
+                'college_id' => $this->profile->college_id,
+                'department_id' => $this->profile->department_id,
+            ];
+        }
+
         $department = Department::query()->findOrFail($this->department_id);
 
         return [

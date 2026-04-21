@@ -2,15 +2,15 @@
 
 namespace App\Livewire\Tables\Admin;
 
-use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Traits\CanManage;
+use App\Traits\HasManagedFacultyProfiles;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Responsive;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -20,7 +20,9 @@ use TallStackUi\Traits\Interactions;
 
 final class FacultyProfilesTable extends PowerGridComponent
 {
-    use CanManage, Interactions, WithExport;
+    use CanManage, HasManagedFacultyProfiles, Interactions, WithExport;
+
+    public string $context = 'department';
 
     public string $tableName = 'facultyProfilesTable';
 
@@ -40,20 +42,16 @@ final class FacultyProfilesTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+
+            PowerGrid::responsive()
+                ->fixedColumns('name', Responsive::ACTIONS_COLUMN_NAME),
         ];
     }
 
     public function datasource(): Builder
     {
-        $profile = $this->employeeProfile();
-
-        return FacultyProfile::query()
+        return $this->managedFacultyProfileQuery()
             ->with(['user', 'campus', 'college', 'department'])
-            ->when(
-                filled($profile->department_id),
-                fn ($query) => $query->where('department_id', $profile->department_id),
-                fn ($query) => $query->where('college_id', $profile->college_id)
-            )
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
@@ -72,7 +70,6 @@ final class FacultyProfilesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('deleted_at')
             ->add('full_name', fn (FacultyProfile $model) => trim($model->first_name.' '.$model->last_name))
             ->add('email')
             ->add('academic_rank', fn (FacultyProfile $model) => $model->academic_rank ?: '-')
@@ -84,10 +81,12 @@ final class FacultyProfilesTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
+            Column::make('Id', 'id')
+                ->searchable()
+                ->hidden(isHidden: true, isForceHidden: false),
             Column::make('Name', 'full_name')->sortable()->searchable(),
             Column::make('Email', 'email')->sortable()->searchable(),
-            Column::make('Academic Rank', 'academic_rank')->sortable()->searchable(),
+            Column::make('Academic Rank', 'academic_rank')->sortable()->searchable()->hidden(isHidden: true, isForceHidden: false),
             Column::make('Campus', 'campus_name')->searchable(),
             Column::make('College', 'college_name')->searchable(),
             Column::make('Department', 'department_name')->searchable(),
@@ -114,7 +113,7 @@ final class FacultyProfilesTable extends PowerGridComponent
                     ->slot('View')
                     ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
                     ->class('group flex items-center gap-1 text-xs text-primary-500 rounded border border-primary-500 px-2 py-1 hover:text-primary-700 hover:bg-zinc-100 transition-all duration-300 cursor-pointer')
-                    ->route('faculty-profiles.show', ['facultyProfile' => $row->id]);
+                    ->route($this->facultyShowRouteName(), ['facultyProfile' => $row->id]);
             }
 
             if ($this->canManage('faculty_profiles.delete')) {
@@ -191,29 +190,13 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     protected function findManagedProfile(int $id, bool $includeTrashed = false): FacultyProfile
     {
-        $profile = $this->employeeProfile();
-
-        $query = FacultyProfile::query()
-            ->where('id', $id)
-            ->when(
-                filled($profile->department_id),
-                fn ($q) => $q->where('department_id', $profile->department_id),
-                fn ($q) => $q->where('college_id', $profile->college_id)
-            );
-
-        if ($includeTrashed) {
-            $query->withTrashed();
-        }
-
-        return $query->firstOrFail();
+        return $this->findManagedFacultyProfile($id, $includeTrashed);
     }
 
-    protected function employeeProfile(): EmployeeProfile
+    protected function facultyShowRouteName(): string
     {
-        $profile = Auth::user()?->employeeProfile;
-
-        abort_unless($profile && filled($profile->college_id), 403);
-
-        return $profile;
+        return $this->context === 'college'
+            ? 'college-faculty-profiles.show'
+            : 'faculty-profiles.show';
     }
 }

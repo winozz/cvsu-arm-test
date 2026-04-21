@@ -4,6 +4,7 @@ use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\EmployeeProfile;
+use App\Models\FacultyProfile;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ describe('AuthServiceProvider gates', function () {
 
     it('allows rooms.menu for super admins through gate before', function () {
         $user = User::factory()->superAdmin()->create();
+
+        expect(Gate::forUser($user)->allows('rooms.menu'))->toBeTrue();
+    });
+
+    it('allows rooms.menu for dept admins with a faculty profile assignment', function () {
+        $campus = Campus::factory()->create();
+        $college = College::factory()->forCampus($campus)->create();
+        $department = Department::factory()->forCollege($college)->create();
+        $user = User::factory()->create();
+        $user->assignRole('deptAdmin');
+        $user->givePermissionTo('rooms.view');
+
+        FacultyProfile::factory()->forDepartment($department)->create([
+            'user_id' => $user->id,
+            'email' => $user->email,
+        ]);
 
         expect(Gate::forUser($user)->allows('rooms.menu'))->toBeTrue();
     });

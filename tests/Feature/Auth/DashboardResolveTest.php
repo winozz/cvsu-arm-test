@@ -43,6 +43,21 @@ describe('dashboard resolver', function () {
             ->assertRedirect(route('dashboard.department'));
     });
 
+    it('dashboard resolver allows dept admins with only a faculty profile', function () {
+        $user = User::factory()->create();
+        $user->assignRole(['faculty', 'deptAdmin']);
+        $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
+
+        FacultyProfile::factory()->create([
+            'user_id' => $user->id,
+            'email' => $user->email,
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('dashboard.resolve'))
+            ->assertRedirect(route('dashboard.department'));
+    });
+
     it('dashboard resolver returns forbidden for users without valid dashboard', function () {
         $user = User::factory()->create();
 

@@ -18,4 +18,11 @@ Route::middleware(['auth'])
         Route::livewire('/programs', 'pages::college-admin.programs.index')
             ->middleware('permission:programs.view')
             ->name('programs.index');
+
+        Route::livewire('/college/faculty-profiles', 'pages::dept-admin.faculty-profiles.index')
+            ->middleware('permission:faculty_profiles.view')
+            ->name('college-faculty-profiles.index');
+        Route::livewire('/college/faculty-profiles/{facultyProfile}', 'pages::dept-admin.faculty-profiles.show')
+            ->middleware('permission:faculty_profiles.view')
+            ->name('college-faculty-profiles.show');
     });

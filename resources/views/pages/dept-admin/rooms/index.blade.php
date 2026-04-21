@@ -120,7 +120,7 @@ new class extends Component {
 
     protected function currentDepartment(): Department
     {
-        $departmentId = auth()->user()?->employeeProfile?->department_id;
+        $departmentId = auth()->user()?->departmentManagementProfile()?->department_id;
 
         abort_unless(filled($departmentId), 403);
 

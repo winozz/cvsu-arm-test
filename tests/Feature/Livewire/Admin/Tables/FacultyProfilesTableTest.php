@@ -54,12 +54,20 @@ describe('FacultyProfilesTable', function () {
         expect(collect($actions)->pluck('action')->all())->toBe([
             'view-faculty',
             'delete-faculty',
-            'restore-faculty',
         ])->and($actions[0]->attributes['href'])->toBe(route('faculty-profiles.show', [
             'facultyProfile' => $profile->id,
         ]))
-            ->and($actions[1]->attributes['wire:click'])->toContain('confirmDeleteFaculty')
-            ->and($actions[2]->attributes['wire:click'])->toContain('confirmRestoreFaculty');
+            ->and($actions[1]->attributes['wire:click'])->toContain('confirmDeleteFaculty');
+
+        $profile->delete();
+
+        $restoreActions = Livewire::actingAs($this->user)
+            ->test(FacultyProfilesTable::class)
+            ->instance()
+            ->actions($profile->fresh());
+
+        expect(collect($restoreActions)->pluck('action')->all())->toBe(['restore-faculty'])
+            ->and($restoreActions[0]->attributes['wire:click'])->toContain('confirmRestoreFaculty');
     });
 
     it('soft deletes and restores faculty profiles through table actions', function () {
@@ -67,14 +75,14 @@ describe('FacultyProfilesTable', function () {
 
         Livewire::actingAs($this->user)
             ->test(FacultyProfilesTable::class)
-            ->call('deleteProfile', $profile->id)
+            ->call('deleteFaculty', $profile->id)
             ->assertDispatched('pg:eventRefresh-facultyProfilesTable');
 
         expect($profile->fresh()->trashed())->toBeTrue();
 
         Livewire::actingAs($this->user)
             ->test(FacultyProfilesTable::class)
-            ->call('restoreProfile', $profile->id)
+            ->call('restoreFaculty', $profile->id)
             ->assertDispatched('pg:eventRefresh-facultyProfilesTable');
 
         expect($profile->fresh()->trashed())->toBeFalse();
