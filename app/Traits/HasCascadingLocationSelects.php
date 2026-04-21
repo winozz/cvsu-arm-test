@@ -69,6 +69,11 @@ trait HasCascadingLocationSelects
 
     protected function normalizeAcademicSelectId(mixed $value): ?int
     {
+        // TallStack/Livewire can emit arrays or value-wrapper payloads for selects.
+        if (is_array($value)) {
+            $value = $value['value'] ?? null;
+        }
+
         if ($value === null) {
             return null;
         }
@@ -84,7 +89,9 @@ trait HasCascadingLocationSelects
                 return null;
             }
 
-            return (int) $value;
+            $value = (int) $value;
+
+            return $value > 0 ? $value : null;
         }
 
         if (is_numeric($value)) {

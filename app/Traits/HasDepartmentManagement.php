@@ -192,28 +192,6 @@ trait HasDepartmentManagement
                 return;
             }
 
-            if (! $this->departmentDuplicateConfirmed) {
-                $conflicts = DepartmentDuplicateDetector::findPotentialConflicts(
-                    $this->college->id,
-                    $this->departmentForm->code,
-                    $this->departmentForm->name
-                );
-
-                if ($conflicts !== []) {
-                    $this->departmentModal = false;
-                    $this->departmentDuplicateConflictDetected = true;
-                    $this->departmentDuplicateConflicts = $conflicts;
-
-                    $this->dialog()
-                        ->warning('Possible Duplicate Department', DepartmentDuplicateDetector::warningMessage($conflicts))
-                        ->confirm('Proceed anyway', 'proceedWithDuplicateDepartmentSave')
-                        ->cancel('Go Back', 'reopenDepartmentModal')
-                        ->send();
-
-                    return;
-                }
-            }
-
             $validated = $this->departmentForm->validateForm();
             Department::create($this->departmentForm->payload($validated));
             $this->finalizeDepartmentSave('Department created successfully.');

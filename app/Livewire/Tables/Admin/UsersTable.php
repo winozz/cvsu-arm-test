@@ -4,9 +4,12 @@ namespace App\Livewire\Tables\Admin;
 
 use App\Models\User;
 use App\Traits\CanManage;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
@@ -134,23 +137,23 @@ final class UsersTable extends PowerGridComponent
                 $actions[] = Button::add('manage')
                     ->slot('Manage')
                     ->icon('default-eye', ['class' => 'w-4 h-4 text-primary-500 group-hover:text-primary-700'])
-                    ->class('group flex items-center gap-1 rounded border border-primary-500 px-2 py-1 text-xs font-bold text-primary-500 transition-all duration-300 hover:bg-zinc-100 hover:text-primary-700');
-                // ->route('users.show', ['user' => $row->id]);
+                    ->class('group flex items-center gap-1 rounded border border-primary-500 px-2 py-1 text-xs font-bold text-primary-500 transition-all duration-300 hover:bg-zinc-100 hover:text-primary-700')
+                    ->route('users.show', ['user' => $row->id]);
             }
 
             if ($this->canManage('users.delete') && Auth::id() !== $row->id) {
                 $actions[] = Button::add('delete')
                     ->slot('Delete')
                     ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700'])
-                    ->class('group flex items-center gap-1 rounded border border-red-500 px-2 py-1 text-xs font-bold text-red-500 transition-all duration-300 hover:bg-zinc-100 hover:text-red-700');
-                // ->call('confirmDelete', ['id' => $row->id]);
+                    ->class('group flex items-center gap-1 rounded border border-red-500 px-2 py-1 text-xs font-bold text-red-500 transition-all duration-300 hover:bg-zinc-100 hover:text-red-700')
+                    ->call('confirmDelete', ['id' => $row->id]);
             }
         } elseif ($this->canManage('users.restore')) {
             $actions[] = Button::add('restore')
                 ->slot('Restore')
                 ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700'])
-                ->class('group flex items-center gap-1 rounded border border-amber-500 px-2 py-1 text-xs font-bold text-amber-500 transition-all duration-300 hover:bg-zinc-100 hover:text-amber-700');
-            // ->call('confirmRestore', ['id' => $row->id]);
+                ->class('group flex items-center gap-1 rounded border border-amber-500 px-2 py-1 text-xs font-bold text-amber-500 transition-all duration-300 hover:bg-zinc-100 hover:text-amber-700')
+                ->call('confirmRestore', ['id' => $row->id]);
         }
 
         return $actions;
@@ -159,6 +162,67 @@ final class UsersTable extends PowerGridComponent
     /**
      * Action Methods
      */
+    #[On('confirmDelete')]
+    public function confirmDelete(array $params): void
+    {
+        $this->ensureCanManage('users.delete');
+
+        $user = User::query()->findOrFail((int) $params['id']);
+        abort_if(Auth::id() === $user->id, 403);
+
+        $this->dialog()
+            ->question('Delete user?', 'Are you sure you want to move '.e($user->name).' to trash?')
+            ->confirm('Yes, delete', 'deleteUser', $user->id)
+            ->cancel('Cancel')
+            ->send();
+    }
+
+    #[On('deleteUser')]
+    public function deleteUser(int $id): void
+    {
+        $this->ensureCanManage('users.delete');
+
+        $user = User::query()->findOrFail($id);
+        abort_if(Auth::id() === $user->id, 403);
+
+        try {
+            $user->delete();
+            $this->toast()->success('Deleted', 'User moved to trash.')->send();
+            $this->dispatch('pg:eventRefresh-'.$this->tableName);
+        } catch (Exception $e) {
+            Log::error('User Deletion Failed: '.$e->getMessage());
+            $this->toast()->error('Error', 'Failed to delete user. Please try again or contact support.')->send();
+        }
+    }
+
+    #[On('confirmRestore')]
+    public function confirmRestore(array $params): void
+    {
+        $this->ensureCanManage('users.restore');
+
+        $user = User::withTrashed()->findOrFail((int) $params['id']);
+
+        $this->dialog()
+            ->question('Restore user?', 'Are you sure you want to restore '.e($user->name).'?')
+            ->confirm('Yes, restore', 'restoreUser', $user->id)
+            ->cancel('Cancel')
+            ->send();
+    }
+
+    #[On('restoreUser')]
+    public function restoreUser(int $id): void
+    {
+        $this->ensureCanManage('users.restore');
+
+        try {
+            User::withTrashed()->findOrFail($id)->restore();
+            $this->toast()->success('Restored', 'User has been restored.')->send();
+            $this->dispatch('pg:eventRefresh-'.$this->tableName);
+        } catch (Exception $e) {
+            Log::error('User Restoration Failed: '.$e->getMessage());
+            $this->toast()->error('Error', 'Failed to restore user. Please try again or contact support.')->send();
+        }
+    }
 
     /**
      * Helper Methods

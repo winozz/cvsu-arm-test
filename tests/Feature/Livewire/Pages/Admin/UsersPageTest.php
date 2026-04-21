@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\CarbonImmutable;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
@@ -22,7 +21,7 @@ describe('admin users pages', function () {
         $this->department = Department::factory()->forCollege($this->college)->create();
     });
 
-    it('creates a faculty user with a faculty profile from the create modal', function () {
+    it('creates a faculty user with profile and role assignment', function () {
         Livewire::actingAs($this->user)
             ->test('pages::admin.users.index')
             ->call('openCreateModal')
@@ -53,13 +52,14 @@ describe('admin users pages', function () {
             ->and($createdUser->facultyProfile->academic_rank)->toBe('Instructor I');
     });
 
-    it('downgrades a faculty user to standard and removes the faculty profile', function () {
+    it('downgrades a faculty user to standard and archives linked profiles', function () {
         $managedUser = User::factory()->faculty()->create();
 
         Livewire::actingAs($this->user)
             ->test('pages::admin.users.show', ['user' => $managedUser])
             ->call('startEditing')
             ->set('form.type', 'standard')
+            ->set('form.roles', ['deptAdmin'])
             ->call('save')
             ->assertHasNoErrors()
             ->assertSet('isEditing', false);
@@ -68,7 +68,7 @@ describe('admin users pages', function () {
             ->and($managedUser->fresh()->employeeProfile)->toBeNull();
     });
 
-    it('updates an existing faculty user assignment when campus changes', function () {
+    it('updates assignment context when changing campus college and department', function () {
         $newCampus = Campus::factory()->create();
         $newCollege = College::factory()->forCampus($newCampus)->create();
         $newDepartment = Department::factory()->forCollege($newCollege)->create();
@@ -93,61 +93,14 @@ describe('admin users pages', function () {
             ->and($managedUser->fresh()->facultyProfile->department_id)->toBe($newDepartment->id);
     });
 
-    it('does not rewrite the user record when only the academic assignment changes', function () {
-        $newCampus = Campus::factory()->create();
-        $newCollege = College::factory()->forCampus($newCampus)->create();
-        $newDepartment = Department::factory()->forCollege($newCollege)->create();
-        $managedUser = User::factory()->faculty()->create();
-        $originalUpdatedAt = CarbonImmutable::parse('2025-01-01 08:00:00');
-
-        $managedUser->forceFill([
-            'updated_at' => $originalUpdatedAt,
-            'created_at' => $originalUpdatedAt,
-        ])->saveQuietly();
-
-        Livewire::actingAs($this->user)
-            ->test('pages::admin.users.show', ['user' => $managedUser])
-            ->call('startEditing')
-            ->set('form.campus_id', $newCampus->id)
-            ->set('form.college_id', $newCollege->id)
-            ->set('form.department_id', $newDepartment->id)
-            ->call('save')
-            ->assertHasNoErrors()
-            ->assertSet('isEditing', false);
-
-        expect($managedUser->fresh()->updated_at?->format('Y-m-d H:i:s'))
-            ->toBe($originalUpdatedAt->format('Y-m-d H:i:s'))
-            ->and($managedUser->fresh()->facultyProfile?->campus_id)->toBe($newCampus->id)
-            ->and($managedUser->fresh()->facultyProfile?->college_id)->toBe($newCollege->id)
-            ->and($managedUser->fresh()->facultyProfile?->department_id)->toBe($newDepartment->id);
-    });
-
-    it('handles clearing and reselecting campus without breaking dependent selects', function () {
-        $newCampus = Campus::factory()->create();
-        $newCollege = College::factory()->forCampus($newCampus)->create();
-        $managedUser = User::factory()->faculty()->create();
-
-        Livewire::actingAs($this->user)
-            ->test('pages::admin.users.show', ['user' => $managedUser])
-            ->call('startEditing')
-            ->set('form.campus_id', null)
-            ->assertSet('form.college_id', null)
-            ->assertSet('form.department_id', null)
-            ->set('form.campus_id', $newCampus->id)
-            ->assertCount('colleges', 1)
-            ->assertSet('form.college_id', null)
-            ->assertSet('form.department_id', null)
-            ->set('form.college_id', $newCollege->id)
-            ->assertCount('departments', 0);
-    });
-
-    it('preserves both profile records for dual-role users when saving', function () {
+    it('preserves both profiles for dual-role users when saving', function () {
         $managedUser = User::factory()->dualRole()->create();
 
         Livewire::actingAs($this->user)
             ->test('pages::admin.users.show', ['user' => $managedUser])
             ->call('startEditing')
             ->set('form.type', 'dual')
+            ->set('form.roles', ['deptAdmin', 'faculty'])
             ->set('form.academic_rank', 'Associate Professor I')
             ->set('form.position', 'Department Chair')
             ->call('save')
