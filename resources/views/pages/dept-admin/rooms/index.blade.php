@@ -1,11 +1,13 @@
 <?php
 
 use App\Imports\RoomsImport;
+use App\Enums\RoomStatusEnum;
 use App\Livewire\Forms\Admin\RoomForm;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\Room;
 use App\Traits\CanManage;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -75,6 +77,23 @@ new class extends Component
         $this->isEditing = false;
         $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
         $this->roomModal = true;
+    }
+
+    #[Computed]
+    public function stats(): array
+    {
+        $baseQuery = Room::query()
+            ->when(
+                $this->scope === 'college',
+                fn ($query) => $query->where('college_id', $this->collegeId),
+                fn ($query) => $query->where('department_id', $this->departmentId)
+            );
+
+        return [
+            'total' => (clone $baseQuery)->count(),
+            'active' => (clone $baseQuery)->where('is_active', true)->count(),
+            'useable' => (clone $baseQuery)->where('status', Room::toDatabaseStatusValue(RoomStatusEnum::USEABLE->value))->count(),
+        ];
     }
 
     #[On('openEditRoomModal')]
@@ -257,10 +276,17 @@ new class extends Component
 ?>
 
 <div class="space-y-6">
-    <div class="flex items-start justify-between gap-4">
+    <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-            <h1 class="text-xl font-bold dark:text-white">Rooms</h1>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">
+                    {{ $scope === 'college' ? $collegeName : $departmentName }}
+                </h1>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    {{ $scope === 'college' ? 'College Scope' : 'Department Scope' }}
+                </span>
+            </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">
                 @if ($scope === 'college')
                     Managing rooms under {{ $collegeName }}, {{ $campusName }}.
                 @else
@@ -268,20 +294,46 @@ new class extends Component
                 @endif
             </p>
         </div>
+    </div>
 
-        <div class="flex gap-2">
-            @can('rooms.create')
-                <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Rooms" />
-                <x-button wire:click="create" sm color="primary" icon="plus" text="New Room" />
-            @endcan
-        </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Rooms</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active</p>
+            <p class="mt-1 text-2xl font-bold text-green-600">{{ $this->stats['active'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Useable</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['useable'] }}</p>
+        </x-card>
     </div>
 
     <x-card>
-        <livewire:tables.admin.rooms-table
-            :scope="$scope"
-            :college-id="$collegeId"
-            :department-id="$departmentId" />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Room List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Review available rooms and update assignments for the current scope.
+                </p>
+            </div>
+
+            <div class="flex gap-2">
+                @can('rooms.create')
+                    <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Rooms" />
+                    <x-button wire:click="create" sm color="primary" icon="plus" text="New Room" />
+                @endcan
+            </div>
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.rooms-table
+                :scope="$scope"
+                :college-id="$collegeId"
+                :department-id="$departmentId" />
+        </div>
     </x-card>
 
     <x-modal wire="roomModal" title="{{ $isEditing ? 'Edit Room' : 'New Room' }}" size="3xl">

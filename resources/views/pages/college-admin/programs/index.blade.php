@@ -8,6 +8,7 @@ use App\Support\ProgramDuplicateDetector;
 use App\Traits\CanManage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
@@ -71,6 +72,19 @@ new class extends Component
         $this->sharedProgramCollegeCount = 0;
         $this->resetProgramDuplicateState();
         $this->programModal = true;
+    }
+
+    #[Computed]
+    public function stats(): array
+    {
+        $baseQuery = Program::query()
+            ->whereHas('colleges', fn ($query) => $query->whereKey($this->college->id));
+
+        return [
+            'total' => (clone $baseQuery)->count(),
+            'active' => (clone $baseQuery)->where('is_active', true)->count(),
+            'inactive' => (clone $baseQuery)->where('is_active', false)->count(),
+        ];
     }
 
     #[On('openEditProgramModal')]
@@ -250,36 +264,56 @@ new class extends Component
 ?>
 
 <div class="space-y-6">
-    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
+    <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-            <h3 class="text-xl font-medium dark:text-white">{{ $college->code }}</h3>
-            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
-
-            <div class="mt-2">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">{{ $college->code }}</h1>
                 <span
                     class="px-2 py-1 text-xs font-semibold rounded-full {{ $college->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $college->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
         </div>
         <div class="flex gap-2">
             @can('programs.view')
                 <x-button tag="a" href="{{ route('dashboard.resolve') }}" sm outline text="Back to Dashboard" />
             @endcan
         </div>
-    </x-card>
+    </div>
 
-    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
-        <h1 class="text-2xl font-bold dark:text-white">Program List</h1>
-        <div class="flex gap-2">
-            @can('programs.create')
-                <x-button wire:click="openCreateProgramModal" sm color="primary" icon="plus" text="New Program" />
-            @endcan
-        </div>
-    </x-card>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Programs</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active</p>
+            <p class="mt-1 text-2xl font-bold text-green-600">{{ $this->stats['active'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Inactive</p>
+            <p class="mt-1 text-2xl font-bold text-red-500">{{ $this->stats['inactive'] }}</p>
+        </x-card>
+    </div>
 
     <x-card>
-        <livewire:tables.admin.programs-table :college-id="$college->id" />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Program List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Programs offered under {{ $college->name }}.</p>
+            </div>
+
+            <div class="flex gap-2">
+                @can('programs.create')
+                    <x-button wire:click="openCreateProgramModal" sm color="primary" icon="plus" text="New Program" />
+                @endcan
+            </div>
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.programs-table :college-id="$college->id" />
+        </div>
     </x-card>
 
     <x-modal wire="programModal" title="{{ $isEditingProgram ? 'Edit Program Details' : 'New Program' }}"

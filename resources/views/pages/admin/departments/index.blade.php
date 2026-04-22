@@ -11,8 +11,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, HasDepartmentManagement, Interactions;
 
     public College $college;
@@ -46,7 +45,7 @@ new class extends Component
 };
 ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
 
     {{-- Breadcrumb --}}
     <nav class="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
@@ -59,17 +58,16 @@ new class extends Component
     </nav>
 
     {{-- College Info Card --}}
-    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
+    <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-            <h3 class="text-xl font-medium dark:text-white">{{ $college->code }}</h3>
-            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
-
-            <div class="mt-2">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">{{ $college->code }}</h1>
                 <span
                     class="px-2 py-1 text-xs font-semibold rounded-full {{ $college->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $college->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
         </div>
         <div class="flex gap-2">
             @can('colleges.update')
@@ -80,17 +78,7 @@ new class extends Component
                     text="Back to Colleges" />
             @endcan
         </div>
-    </x-card>
-
-    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
-        <div class="space-y-1">
-            <h2 class="text-lg font-semibold dark:text-white">Department List</h2>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">Departments under {{ $college->name }}.</p>
-        </div>
-        @can('departments.create')
-            <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
-        @endcan
-    </x-card>
+    </div>
 
     {{-- Department Stats --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -108,8 +96,22 @@ new class extends Component
         </x-card>
     </div>
 
+    {{-- Main Department Body --}}
     <x-card>
-        <livewire:tables.admin.departments-table :college-id="$college->id" />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Department List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Departments under {{ $college->name }}.</p>
+            </div>
+
+            @can('departments.create')
+                <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+            @endcan
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.departments-table :college-id="$college->id" />
+        </div>
     </x-card>
 
     <x-modal wire="collegeModal" title="Edit College Details" size="3xl">

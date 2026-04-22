@@ -89,18 +89,33 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6 py-8">
-    <div class="flex items-center justify-between">
-        <h1 class="text-xl font-bold dark:text-white">Roles</h1>
-        <div class="flex gap-2">
-            @can('roles.create')
-                <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
-            @endcan
+<div class="space-y-6">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="space-y-1">
+            <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">Role Management</h1>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                Manage system roles and the permission sets assigned to each access profile.
+            </p>
         </div>
     </div>
 
     <x-card>
-        <livewire:tables.admin.roles-table />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Role List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Review existing roles and maintain the permission bundles used across the system.
+                </p>
+            </div>
+
+            @can('roles.create')
+                <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Role" />
+            @endcan
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.roles-table />
+        </div>
     </x-card>
 
     <x-modal wire="roleModal" title="{{ $isEditing ? 'Edit Role' : 'New Role' }}">

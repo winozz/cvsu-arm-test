@@ -20,8 +20,7 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
@@ -56,7 +55,7 @@ new class extends Component
         return Campus::where('is_active', true)
             ->orderBy('name')
             ->get(['id', 'name'])
-            ->map(fn ($c) => ['label' => $c->name, 'value' => $c->id])
+            ->map(fn($c) => ['label' => $c->name, 'value' => $c->id])
             ->toArray();
     }
 
@@ -76,8 +75,7 @@ new class extends Component
 
             $this->departments = $this->departmentOptionsForCollege($this->collegeId);
             $this->departmentId = (int) ($this->departments[0]['value'] ?? 0) ?: null;
-            $this->departmentName = collect($this->departments)
-                ->firstWhere('value', $this->departmentId)['label'] ?? '-';
+            $this->departmentName = collect($this->departments)->firstWhere('value', $this->departmentId)['label'] ?? '-';
         } else {
             $department = $this->currentDepartment();
 
@@ -88,10 +86,12 @@ new class extends Component
             $this->collegeName = $department->college?->name ?? '-';
             $this->departmentName = $department->name;
 
-            $this->departments = [[
-                'label' => $this->departmentName,
-                'value' => $this->departmentId,
-            ]];
+            $this->departments = [
+                [
+                    'label' => $this->departmentName,
+                    'value' => $this->departmentId,
+                ],
+            ];
         }
 
         $this->setScopedFormDefaults();
@@ -115,9 +115,7 @@ new class extends Component
             $this->setScopedFormDefaults();
 
             if ($this->scope === 'college') {
-                $selectedDepartment = Department::query()
-                    ->where('college_id', $this->collegeId)
-                    ->findOrFail((int) $this->form->department_id);
+                $selectedDepartment = Department::query()->where('college_id', $this->collegeId)->findOrFail((int) $this->form->department_id);
 
                 $this->form->campus_id = (int) $selectedDepartment->campus_id;
                 $this->form->college_id = (int) $selectedDepartment->college_id;
@@ -148,7 +146,7 @@ new class extends Component
                     $user->restore();
                 }
 
-                if (! $user->hasRole('faculty')) {
+                if (!$user->hasRole('faculty')) {
                     $user->assignRole('faculty');
                 }
 
@@ -222,30 +220,16 @@ new class extends Component
             return;
         }
 
-        $departmentId = is_array($value)
-            ? (int) ($value['value'] ?? 0)
-            : (int) $value;
+        $departmentId = is_array($value) ? (int) ($value['value'] ?? 0) : (int) $value;
 
-        $department = Department::query()
-            ->where('college_id', $this->collegeId)
-            ->find($departmentId);
+        $department = Department::query()->where('college_id', $this->collegeId)->find($departmentId);
 
-        if (! $department) {
+        if (!$department) {
             return;
         }
 
         $this->departmentId = (int) $department->id;
         $this->departmentName = $department->name;
-    }
-
-    #[Computed]
-    public function pageContext(): array
-    {
-        return [
-            'campuses' => Campus::query()->count(),
-            'colleges' => College::query()->count(),
-            'departments' => Department::query()->count(),
-        ];
     }
 
     #[Computed]
@@ -270,9 +254,12 @@ new class extends Component
             return 'department';
         }
 
-        $user = auth()->guard()->user()?->loadMissing(['employeeProfile', 'facultyProfile']);
+        $user = auth()
+            ->guard()
+            ->user()
+            ?->loadMissing(['employeeProfile', 'facultyProfile']);
 
-        if ($user?->canAccessCollegeFacultyProfiles() && ! $user?->canAccessDepartmentFacultyProfiles()) {
+        if ($user?->canAccessCollegeFacultyProfiles() && !$user?->canAccessDepartmentFacultyProfiles()) {
             return 'college';
         }
 
@@ -290,19 +277,17 @@ new class extends Component
             return;
         }
 
-        if (! filled($this->form->department_id) && filled($this->departmentId)) {
+        if (!filled($this->form->department_id) && filled($this->departmentId)) {
             $this->form->department_id = $this->departmentId;
         }
     }
 
     protected function currentCollege(): College
     {
-        $user = auth()->guard()->user()?->loadMissing([
-            'employeeProfile.college',
-            'employeeProfile.campus',
-            'facultyProfile.college',
-            'facultyProfile.campus',
-        ]);
+        $user = auth()
+            ->guard()
+            ->user()
+            ?->loadMissing(['employeeProfile.college', 'employeeProfile.campus', 'facultyProfile.college', 'facultyProfile.campus']);
 
         abort_unless($user?->canAccessCollegeFacultyProfiles(), 403);
 
@@ -310,21 +295,15 @@ new class extends Component
 
         abort_unless(filled($profile?->college_id), 403);
 
-        return College::query()
-            ->with('campus')
-            ->findOrFail((int) $profile->college_id);
+        return College::query()->with('campus')->findOrFail((int) $profile->college_id);
     }
 
     protected function currentDepartment(): Department
     {
-        $user = auth()->guard()->user()?->loadMissing([
-            'employeeProfile.department',
-            'employeeProfile.college',
-            'employeeProfile.campus',
-            'facultyProfile.department',
-            'facultyProfile.college',
-            'facultyProfile.campus',
-        ]);
+        $user = auth()
+            ->guard()
+            ->user()
+            ?->loadMissing(['employeeProfile.department', 'employeeProfile.college', 'employeeProfile.campus', 'facultyProfile.department', 'facultyProfile.college', 'facultyProfile.campus']);
 
         abort_unless($user?->canAccessDepartmentFacultyProfiles(), 403);
 
@@ -344,10 +323,12 @@ new class extends Component
             ->where('is_active', true)
             ->orderBy('name')
             ->get(['id', 'name'])
-            ->map(fn (Department $department) => [
-                'label' => $department->name,
-                'value' => (int) $department->id,
-            ])
+            ->map(
+                fn(Department $department) => [
+                    'label' => $department->name,
+                    'value' => (int) $department->id,
+                ],
+            )
             ->values()
             ->toArray();
     }
@@ -369,11 +350,18 @@ new class extends Component
 };
 ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
     <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div class="space-y-1">
-            <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">Faculty Profiles</h1>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        <div>
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">
+                    {{ $scope === 'college' ? $collegeName : $departmentName }}
+                </h1>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    {{ $scope === 'college' ? 'College Scope' : 'Department Scope' }}
+                </span>
+            </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">
                 @if ($scope === 'college')
                     Managing faculty profiles under {{ $collegeName }}, {{ $campusName }}.
                 @else
@@ -382,46 +370,46 @@ new class extends Component
             </p>
         </div>
 
-        <div class="flex flex-wrap gap-2">
-            @can('faculty_profiles.create')
-                <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray" text="Import Faculty" />
-                <x-button wire:click="create" sm color="primary" icon="plus" text="New Faculty" />
-            @endcan
-        </div>
     </div>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <x-card>
-            <h3 class="">Total Faculty</h3>
-            <span class="font-bold text-2xl">{{ $this->stats['total'] }}</span>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Faculty</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
         </x-card>
         <x-card>
-            <h3 class="">With Rank</h3>
-            <span class="font-bold text-2xl">{{ $this->stats['ranked'] }}</span>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">With Rank</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['ranked'] }}</p>
         </x-card>
         <x-card>
-            <h3 class="">Departments</h3>
-            <span class="font-bold text-2xl">{{ $this->stats['departments'] }}</span>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Departments</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['departments'] }}</p>
         </x-card>
     </div>
 
-    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
-        <div class="space-y-1">
-            <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Faculty List</h2>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                Search profiles, review assignments, and open a detailed record for edits.
-            </p>
-        </div>
-        <span class="text-sm text-zinc-500 dark:text-zinc-400">
-            {{ $this->pageContext['campuses'] }} campuses, {{ $this->pageContext['colleges'] }} colleges, {{ $this->pageContext['departments'] }} departments
-        </span>
-    </x-card>
-
     <x-card>
-        <livewire:tables.admin.faculty-profiles-table
-            :context="$scope"
-            :college-id="$collegeId"
-            :department-id="$departmentId" />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Faculty List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Search profiles, review assignments, and open a detailed record for edits.
+                </p>
+            </div>
+
+            <div class="flex flex-col items-start gap-2 md:items-end">
+                <div class="flex flex-wrap gap-2">
+                    @can('faculty_profiles.create')
+                        <x-button wire:click="$set('importModal', true)" sm outline icon="arrow-up-tray"
+                            text="Import Faculty" />
+                        <x-button wire:click="create" sm color="primary" icon="plus" text="New Faculty" />
+                    @endcan
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.faculty-profiles-table :context="$scope" :college-id="$collegeId" :department-id="$departmentId" />
+        </div>
     </x-card>
 
     <x-modal wire="createModal" title="New Faculty" size="4xl">

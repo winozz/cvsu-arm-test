@@ -4,8 +4,10 @@ use App\Livewire\Forms\Admin\CollegeForm;
 use App\Livewire\Forms\Admin\DepartmentForm;
 use App\Models\Campus;
 use App\Models\College;
+use App\Models\Department;
 use App\Traits\CanManage;
 use App\Traits\HasDepartmentManagement;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
@@ -47,22 +49,31 @@ new class extends Component
         $this->resolveFallbackCollegeContext();
         $this->syncDepartmentContextForms();
     }
+
+    #[Computed]
+    public function stats(): array
+    {
+        return [
+            'total' => Department::query()->where('college_id', $this->college->id)->count(),
+            'active' => Department::query()->where('college_id', $this->college->id)->where('is_active', true)->count(),
+            'inactive' => Department::query()->where('college_id', $this->college->id)->where('is_active', false)->count(),
+        ];
+    }
 };
 
 ?>
 
 <div class="space-y-6">
-    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
+    <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-            <h3 class="text-xl font-medium dark:text-white">{{ $college->code }}</h3>
-            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
-
-            <div class="mt-2">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">{{ $college->code }}</h1>
                 <span
                     class="px-2 py-1 text-xs font-semibold rounded-full {{ $college->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $college->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
         </div>
         <div class="flex gap-2">
             @can('colleges.update')
@@ -73,17 +84,38 @@ new class extends Component
                 <x-button tag="a" href="{{ route('dashboard.resolve') }}" sm outline text="Back to Dashboard" />
             @endcan
         </div>
-    </x-card>
+    </div>
 
-    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
-        <h1 class="text-2xl font-bold dark:text-white">Department List</h1>
-        @can('departments.create')
-            <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
-        @endcan
-    </x-card>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Departments</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active</p>
+            <p class="mt-1 text-2xl font-bold text-green-600">{{ $this->stats['active'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Inactive</p>
+            <p class="mt-1 text-2xl font-bold text-red-500">{{ $this->stats['inactive'] }}</p>
+        </x-card>
+    </div>
 
     <x-card>
-        <livewire:tables.admin.departments-table :college-id="$college->id" />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Department List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Departments under {{ $college->name }}.</p>
+            </div>
+
+            @can('departments.create')
+                <x-button wire:click="openCreateDepartmentModal" sm color="primary" icon="plus" text="New Department" />
+            @endcan
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.departments-table :college-id="$college->id" />
+        </div>
     </x-card>
 
     <x-modal wire="collegeModal" title="Edit College Details" size="3xl">

@@ -9,8 +9,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions;
 
     public CampusForm $form;
@@ -78,14 +77,14 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenCreateModal();
-            Log::error('Campus creation failed: '.$e->getMessage());
+            Log::error('Campus creation failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while creating the campus.')->send();
         }
     }
 };
 ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
 
     {{-- Page Header --}}
     <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -95,9 +94,6 @@ new class extends Component
                 Manage all CvSU campuses, their details, and associated colleges.
             </p>
         </div>
-        @can('campuses.create')
-            <x-button color="primary" text="New Campus" icon="plus" wire:click="openCreateModal" sm />
-        @endcan
     </div>
 
     {{-- Stats Cards --}}
@@ -116,9 +112,24 @@ new class extends Component
         </x-card>
     </div>
 
-    {{-- Campus Table --}}
+    {{-- Main Campus Body --}}
     <x-card>
-        <livewire:tables.admin.campuses-table />
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Campus List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Review all campuses and open a campus record to manage its colleges.
+                </p>
+            </div>
+
+            @can('campuses.create')
+                <x-button color="primary" text="New Campus" icon="plus" wire:click="openCreateModal" sm />
+            @endcan
+        </div>
+
+        <div class="p-6">
+            <livewire:tables.admin.campuses-table />
+        </div>
     </x-card>
 
     {{-- Create Campus Modal --}}

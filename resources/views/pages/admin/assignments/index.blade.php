@@ -130,7 +130,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6 py-8 max-w-5xl">
+<div class="space-y-6 max-w-5xl mx-auto">
     <div>
         <h1 class="text-xl font-bold dark:text-white">Assignments Center</h1>
         <p class="text-sm text-zinc-600 dark:text-zinc-300">Manage direct user assignment of roles and permissions.</p>

@@ -17,8 +17,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, HasCascadingLocationSelects, Interactions;
 
     public User $user;
@@ -44,7 +43,7 @@ new class extends Component
             ->where('is_active', true)
             ->orderBy('name')
             ->get(['id', 'name'])
-            ->map(fn (Campus $campus) => ['label' => $campus->name, 'value' => $campus->id])
+            ->map(fn(Campus $campus) => ['label' => $campus->name, 'value' => $campus->id])
             ->toArray();
     }
 
@@ -55,7 +54,7 @@ new class extends Component
             ->whereNull('deleted_at')
             ->orderBy('name')
             ->get(['name'])
-            ->map(fn (Role $role) => ['label' => $role->display_name, 'value' => $role->name])
+            ->map(fn(Role $role) => ['label' => $role->display_name, 'value' => $role->name])
             ->toArray();
     }
 
@@ -66,7 +65,7 @@ new class extends Component
             ->whereNull('deleted_at')
             ->orderBy('name')
             ->get(['name'])
-            ->map(fn (Permission $permission) => ['label' => $permission->display_name, 'value' => $permission->name])
+            ->map(fn(Permission $permission) => ['label' => $permission->display_name, 'value' => $permission->name])
             ->toArray();
     }
 
@@ -141,18 +140,14 @@ new class extends Component
 
         $this->form->validateForm();
 
-        $this->dialog()
-            ->question('Save changes?', 'Apply the updates to this user account now?')
-            ->confirm('Yes, save changes', 'save')
-            ->cancel('Cancel')
-            ->send();
+        $this->dialog()->question('Save changes?', 'Apply the updates to this user account now?')->confirm('Yes, save changes', 'save')->cancel('Cancel')->send();
     }
 
     public function assignmentPath(): string
     {
         $profile = $this->user->facultyProfile ?? $this->user->employeeProfile;
 
-        if (! $profile) {
+        if (!$profile) {
             return 'Not assigned';
         }
 
@@ -205,7 +200,7 @@ new class extends Component
 };
 ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
     <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div class="flex items-start gap-4">
             @if ($user->avatar)

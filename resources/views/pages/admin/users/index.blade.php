@@ -199,7 +199,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
     <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div class="space-y-1">
             <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">User Management</h1>

@@ -5,6 +5,7 @@ use App\Models\Permission;
 use App\Traits\CanManage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
@@ -22,6 +23,16 @@ new class extends Component {
     public bool $permissionModal = false;
 
     public bool $isEditing = false;
+
+    #[Computed]
+    public function stats(): array
+    {
+        return [
+            'total' => Permission::query()->count(),
+            'assigned' => Permission::query()->whereHas('roles')->count(),
+            'guards' => Permission::query()->distinct('guard_name')->count('guard_name'),
+        ];
+    }
 
     public function openCreateModal()
     {
@@ -78,18 +89,48 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6 py-8">
-    <div class="flex items-center justify-between">
-        <h1 class="text-xl font-bold dark:text-white">Permissions</h1>
-        <div class="flex gap-2">
+<div class="space-y-6">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="space-y-1">
+            <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">Permission Management</h1>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                Manage system permissions that control access across dashboards, records, and workflows.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Permissions</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['total'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Assigned to Roles</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['assigned'] }}</p>
+        </x-card>
+        <x-card>
+            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Guards</p>
+            <p class="mt-1 text-2xl font-bold text-zinc-900 dark:text-white">{{ $this->stats['guards'] }}</p>
+        </x-card>
+    </div>
+
+    <x-card>
+        <div class="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">Permission List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Review available permission keys and update access controls when needed.
+                </p>
+            </div>
+
             @can('permissions.create')
                 <x-button wire:click="openCreateModal" sm color="primary" icon="plus" text="New Permission" />
             @endcan
         </div>
-    </div>
 
-    <x-card>
-        <livewire:tables.admin.permissions-table />
+        <div class="p-6">
+            <livewire:tables.admin.permissions-table />
+        </div>
     </x-card>
 
     <x-modal wire="permissionModal" title="{{ $isEditing ? 'Edit Permission' : 'New Permission' }}">

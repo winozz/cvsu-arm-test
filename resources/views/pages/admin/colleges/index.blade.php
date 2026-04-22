@@ -11,8 +11,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component
-{
+new class extends Component {
     use CanManage, Interactions;
 
     public Campus $campus;
@@ -71,11 +70,7 @@ new class extends Component
         $this->collegeForm->validateForm();
         $this->createCollegeModal = false;
 
-        $this->dialog()
-            ->question('Create College?', 'Are you sure you want to add this new college?')
-            ->confirm('Yes, create', 'createCollege')
-            ->cancel('Cancel', 'reopenCreateCollegeModal')
-            ->send();
+        $this->dialog()->question('Create College?', 'Are you sure you want to add this new college?')->confirm('Yes, create', 'createCollege')->cancel('Cancel', 'reopenCreateCollegeModal')->send();
     }
 
     public function createCollege(): void
@@ -95,7 +90,7 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenCreateCollegeModal();
-            Log::error('College creation failed: '.$e->getMessage());
+            Log::error('College creation failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while creating the college.')->send();
         }
     }
@@ -147,15 +142,14 @@ new class extends Component
             throw $e;
         } catch (Exception $e) {
             $this->reopenCampusModal();
-            Log::error('Campus Save Failed: '.$e->getMessage());
+            Log::error('Campus Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the campus.')->send();
         }
     }
 };
 ?>
 
-<div class="space-y-6 py-8">
-
+<div class="space-y-6">
     {{-- Breadcrumb --}}
     <nav class="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
         <a href="{{ route('campuses.index') }}" class="hover:text-primary-600 dark:hover:text-primary-400">Campuses</a>
@@ -164,17 +158,16 @@ new class extends Component
     </nav>
 
     {{-- Campus Info Card --}}
-    <x-card class="flex flex-col items-start justify-between gap-4 p-6 md:flex-row md:items-center">
+    <div class="flex flex-col items-start justify-between gap-4  md:flex-row md:items-center">
         <div>
-            <h1 class="text-xl font-bold dark:text-white">{{ $campus->code }}</h1>
-            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $campus->name }}</p>
-
-            <div class="mt-2">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold dark:text-white">{{ $campus->code }}</h1>
                 <span
                     class="px-2 py-1 text-xs font-semibold rounded-full {{ $campus->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $campus->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
+            <p class="italic text-zinc-600 dark:text-zinc-200">{{ $campus->name }}</p>
         </div>
 
         <div class="flex gap-2">
@@ -185,7 +178,7 @@ new class extends Component
                 <x-button tag="a" href="{{ route('campuses.index') }}" sm outline text="Back to Campuses" />
             @endcan
         </div>
-    </x-card>
+    </div>
 
     {{-- College Stats --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -203,20 +196,24 @@ new class extends Component
         </x-card>
     </div>
 
-    {{-- College List Header --}}
-    <x-card class="flex flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center">
-        <div class="space-y-1">
-            <h2 class="text-lg font-semibold dark:text-white">College List</h2>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">Colleges under {{ $campus->name }}.</p>
-        </div>
-        @can('colleges.create')
-            <x-button wire:click="openCreateCollegeModal" sm color="primary" icon="plus" text="New College" />
-        @endcan
-    </x-card>
-
-    {{-- Colleges Table --}}
+    {{-- Main College Body --}}
     <x-card>
-        <livewire:tables.admin.colleges-table :campus-id="$campus->id" />
+        {{-- College List Header --}}
+        <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between pb-4 border-b border-zinc-200">
+            <div class="space-y-1">
+                <h2 class="text-lg font-semibold dark:text-white">College List</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Colleges under {{ $campus->name }}.</p>
+            </div>
+
+            @can('colleges.create')
+                <x-button wire:click="openCreateCollegeModal" sm color="primary" icon="plus" text="New College" />
+            @endcan
+        </div>
+
+        {{-- Colleges Table --}}
+        <div class="p-6">
+            <livewire:tables.admin.colleges-table :campus-id="$campus->id" />
+        </div>
     </x-card>
 
     {{-- Edit Campus Modal --}}

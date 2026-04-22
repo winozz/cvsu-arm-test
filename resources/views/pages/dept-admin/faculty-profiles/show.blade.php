@@ -277,7 +277,7 @@ new class extends Component
     }
 }; ?>
 
-<div class="space-y-6 py-8">
+<div class="space-y-6">
     <x-toast />
     <x-dialog />
 
