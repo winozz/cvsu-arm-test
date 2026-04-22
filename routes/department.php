@@ -19,6 +19,6 @@ Route::middleware(['auth'])
 
         // Rooms Routes
         Route::livewire('/rooms', 'pages::dept-admin.rooms.index')
-            ->middleware('permission:rooms.view')
+            ->middleware(['permission:rooms.view', 'room_scope:department'])
             ->name('rooms.index');
     });

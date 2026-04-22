@@ -31,4 +31,9 @@ Route::middleware(['auth'])
         Route::livewire('/subjects', 'pages::college-admin.subjects.index')
             ->middleware('permission:subjects.view')
             ->name('subjects.index');
+
+        // Rooms Management Routes
+        Route::livewire('/college/rooms', 'pages::dept-admin.rooms.index')
+            ->middleware(['permission:rooms.view', 'room_scope:college'])
+            ->name('college-rooms.index');
     });

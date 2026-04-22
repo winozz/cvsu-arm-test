@@ -22,7 +22,11 @@ final class RoomsTable extends PowerGridComponent
 {
     use CanManage, Interactions, WithExport;
 
-    public int $departmentId;
+    public string $scope = 'department';
+
+    public ?int $collegeId = null;
+
+    public ?int $departmentId = null;
 
     public string $tableName = 'roomsTable';
 
@@ -56,9 +60,10 @@ final class RoomsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Room::query()
-            ->with(['campus', 'college', 'department'])
-            ->where('department_id', $this->departmentId)
+        return $this->applyManagedScope(
+            Room::query()
+                ->with(['campus', 'college', 'department'])
+        )
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
@@ -251,15 +256,39 @@ final class RoomsTable extends PowerGridComponent
      */
     protected function findManagedRoom(int $id, bool $includeTrashed = false): Room
     {
-        $query = Room::query()
-            ->where('id', $id)
-            ->where('department_id', $this->departmentId);
+        $query = $this->applyManagedScope(
+            Room::query()->whereKey($id)
+        );
 
         if ($includeTrashed) {
             $query->withTrashed();
         }
 
         return $query->firstOrFail();
+    }
+
+    protected function applyManagedScope(Builder $query): Builder
+    {
+        if ($this->scope === 'college' && filled($this->collegeId)) {
+            return $query->where('college_id', $this->collegeId);
+        }
+
+        if ($this->scope === 'department' && filled($this->departmentId)) {
+            return $query->where('department_id', $this->departmentId);
+        }
+
+        $user = auth()->guard()->user()?->loadMissing(['employeeProfile', 'facultyProfile']);
+        $profile = $user?->employeeProfile ?? $user?->facultyProfile;
+
+        if ($user?->hasRole('collegeAdmin') && filled($profile?->college_id)) {
+            return $query->where('college_id', $profile->college_id);
+        }
+
+        if ($user?->hasRole('deptAdmin') && filled($profile?->department_id)) {
+            return $query->where('department_id', $profile->department_id);
+        }
+
+        return $query->where('department_id', $this->departmentId);
     }
 
     protected function roomStatusBadge(Room $room): string

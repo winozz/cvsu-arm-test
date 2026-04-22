@@ -4,10 +4,14 @@ use App\Livewire\Tables\Admin\CampusesTable;
 use App\Livewire\Tables\Admin\CollegesTable;
 use App\Livewire\Tables\Admin\DepartmentsTable;
 use App\Livewire\Tables\Admin\ProgramsTable;
+use App\Livewire\Tables\Admin\RoomsTable;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
+use App\Models\Permission;
 use App\Models\Program;
+use App\Models\Room;
+use App\Models\User;
 use Livewire\Livewire;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 
@@ -303,5 +307,110 @@ describe('ProgramsTable', function () {
             'delete' => true,
             'restore' => false,
         ]);
+    });
+});
+
+describe('RoomsTable', function () {
+    beforeEach(function () {
+        ensureRoles(['collegeAdmin', 'deptAdmin']);
+        collect(['rooms.view', 'rooms.update', 'rooms.delete', 'rooms.restore'])
+            ->each(fn (string $ability) => Permission::findOrCreate($ability, 'web'));
+
+        $this->campus = Campus::factory()->create();
+        $this->college = College::factory()->forCampus($this->campus)->create();
+        $this->department = Department::factory()->forCollege($this->college)->create();
+    });
+
+    it('limits dept admins to rooms in their department', function () {
+        $otherDepartmentInCollege = Department::factory()->forCollege($this->college)->create();
+        $outsideCollege = College::factory()->forCampus($this->campus)->create();
+        $outsideDepartment = Department::factory()->forCollege($outsideCollege)->create();
+
+        $roomInDepartment = Room::factory()->create([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => $this->department->id,
+            'type' => 'LECTURE',
+        ]);
+        $roomInSameCollege = Room::factory()->create([
+            'campus_id' => $otherDepartmentInCollege->campus_id,
+            'college_id' => $otherDepartmentInCollege->college_id,
+            'department_id' => $otherDepartmentInCollege->id,
+            'type' => 'LECTURE',
+        ]);
+        $roomOutsideCollege = Room::factory()->create([
+            'campus_id' => $outsideDepartment->campus_id,
+            'college_id' => $outsideDepartment->college_id,
+            'department_id' => $outsideDepartment->id,
+            'type' => 'LECTURE',
+        ]);
+
+        $user = User::factory()->deptAdmin()->create();
+        $user->givePermissionTo(['rooms.view', 'rooms.update', 'rooms.delete', 'rooms.restore']);
+        $user->employeeProfile->update([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => $this->department->id,
+        ]);
+
+        $ids = Livewire::actingAs($user)
+            ->test(RoomsTable::class, [
+                'scope' => 'department',
+                'departmentId' => $this->department->id,
+            ])
+            ->instance()
+            ->datasource()
+            ->pluck('id')
+            ->all();
+
+        expect($ids)->toContain($roomInDepartment->id)
+            ->not->toContain($roomInSameCollege->id, $roomOutsideCollege->id);
+    });
+
+    it('shows college admins rooms from all departments in their college', function () {
+        $otherDepartmentInCollege = Department::factory()->forCollege($this->college)->create();
+        $outsideCollege = College::factory()->forCampus($this->campus)->create();
+        $outsideDepartment = Department::factory()->forCollege($outsideCollege)->create();
+
+        $roomInPrimaryDepartment = Room::factory()->create([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => $this->department->id,
+            'type' => 'LECTURE',
+        ]);
+        $roomInSameCollege = Room::factory()->create([
+            'campus_id' => $otherDepartmentInCollege->campus_id,
+            'college_id' => $otherDepartmentInCollege->college_id,
+            'department_id' => $otherDepartmentInCollege->id,
+            'type' => 'LECTURE',
+        ]);
+        $roomOutsideCollege = Room::factory()->create([
+            'campus_id' => $outsideDepartment->campus_id,
+            'college_id' => $outsideDepartment->college_id,
+            'department_id' => $outsideDepartment->id,
+            'type' => 'LECTURE',
+        ]);
+
+        $user = User::factory()->collegeAdmin()->create();
+        $user->givePermissionTo(['rooms.view', 'rooms.update', 'rooms.delete', 'rooms.restore']);
+        $user->employeeProfile->update([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => $this->department->id,
+        ]);
+
+        $ids = Livewire::actingAs($user)
+            ->test(RoomsTable::class, [
+                'scope' => 'college',
+                'collegeId' => $this->college->id,
+                'departmentId' => $this->department->id,
+            ])
+            ->instance()
+            ->datasource()
+            ->pluck('id')
+            ->all();
+
+        expect($ids)->toContain($roomInPrimaryDepartment->id, $roomInSameCollege->id)
+            ->not->toContain($roomOutsideCollege->id);
     });
 });

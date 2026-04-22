@@ -75,6 +75,47 @@ class User extends Authenticatable
         return $this->hasOne(EmployeeProfile::class, 'user_id', 'id');
     }
 
+    public function assignedAcademicProfile(): EmployeeProfile|FacultyProfile|null
+    {
+        return $this->employeeProfile ?? $this->facultyProfile;
+    }
+
+    public function hasCollegeAssignment(): bool
+    {
+        return filled($this->assignedAcademicProfile()?->college_id);
+    }
+
+    public function hasDepartmentAssignment(): bool
+    {
+        return filled($this->assignedAcademicProfile()?->department_id);
+    }
+
+    public function canAccessCollegeRooms(): bool
+    {
+        if (! $this->can('rooms.view') || ! $this->hasCollegeAssignment()) {
+            return false;
+        }
+
+        if ($this->hasRole('collegeAdmin')) {
+            return true;
+        }
+
+        return $this->hasDirectPermission('rooms.view') && ! $this->hasRole('deptAdmin');
+    }
+
+    public function canAccessDepartmentRooms(): bool
+    {
+        if (! $this->can('rooms.view') || ! $this->hasDepartmentAssignment()) {
+            return false;
+        }
+
+        if ($this->hasRole('deptAdmin') || $this->hasRole('collegeAdmin')) {
+            return true;
+        }
+
+        return $this->hasDirectPermission('rooms.view') && ! $this->hasRole('collegeAdmin');
+    }
+
     public function updatedFacultyProfiles(): HasMany
     {
         return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
@@ -136,5 +177,4 @@ class User extends Authenticatable
             'email_verified_at' => $this->email_verified_at ?? now(),
         ])->save();
     }
-
 }

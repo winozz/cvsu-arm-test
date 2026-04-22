@@ -2,6 +2,7 @@
 
 use App\Imports\RoomsImport;
 use App\Livewire\Forms\Admin\RoomForm;
+use App\Models\College;
 use App\Models\Department;
 use App\Models\Room;
 use App\Traits\CanManage;
@@ -31,24 +32,37 @@ new class extends Component
 
     public int $departmentId;
 
+    public string $scope = 'department';
+
     public string $campusName = '';
 
     public string $collegeName = '';
 
     public string $departmentName = '';
 
+    public array $departmentOptions = [];
+
     public function mount(): void
     {
         $this->ensureCanManage('rooms.view');
 
+        $this->scope = request()->routeIs('college-rooms.*')
+            ? 'college'
+            : 'department';
+
         $department = $this->currentDepartment();
 
-        $this->campusId = (int) $department->campus_id;
-        $this->collegeId = (int) $department->college_id;
-        $this->departmentId = (int) $department->id;
-        $this->campusName = $department->campus?->name ?? '-';
-        $this->collegeName = $department->college?->name ?? '-';
-        $this->departmentName = $department->name;
+        $this->syncContextFromDepartment($department);
+
+        if ($this->scope === 'college') {
+            $college = $this->currentCollege();
+            $this->collegeId = (int) $college->id;
+            $this->collegeName = $college->name;
+            $this->campusId = (int) $college->campus_id;
+            $this->campusName = $college->campus?->name ?? '-';
+
+            $this->setDepartmentOptions();
+        }
 
         $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
     }
@@ -68,10 +82,12 @@ new class extends Component
     {
         $this->ensureCanManage('rooms.update');
 
-        abort_unless((int) $room->department_id === $this->departmentId, 404);
+        abort_unless($this->canManageRoom($room), 404);
 
         $this->resetValidation();
         $this->isEditing = true;
+        $room->loadMissing(['campus', 'college', 'department']);
+        $this->syncContextFromDepartment($room->department);
         $this->form->setRoom($room);
         $this->roomModal = true;
     }
@@ -81,6 +97,7 @@ new class extends Component
         $this->roomModal = false;
         $this->isEditing = false;
         $this->resetValidation();
+        $this->syncContextFromDepartment($this->currentDepartment());
         $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
     }
 
@@ -89,6 +106,24 @@ new class extends Component
         $this->ensureCanManage($this->isEditing ? 'rooms.update' : 'rooms.create');
 
         $validated = $this->form->validateForm();
+
+        if ($this->scope === 'department') {
+            $validated['campus_id'] = $this->campusId;
+            $validated['college_id'] = $this->collegeId;
+            $validated['department_id'] = $this->departmentId;
+        } else {
+            $selectedDepartment = Department::query()
+                ->with(['campus', 'college'])
+                ->where('college_id', $this->collegeId)
+                ->findOrFail((int) ($validated['department_id'] ?? $this->departmentId));
+
+            $validated['campus_id'] = (int) $selectedDepartment->campus_id;
+            $validated['college_id'] = (int) $selectedDepartment->college_id;
+            $validated['department_id'] = (int) $selectedDepartment->id;
+
+            $this->syncContextFromDepartment($selectedDepartment);
+            $this->form->setContext($this->campusId, $this->collegeId, $this->departmentId);
+        }
 
         if ($this->isEditing) {
             $this->form->room->update($this->form->payload($validated));
@@ -121,18 +156,102 @@ new class extends Component
 
     protected function currentDepartment(): Department
     {
-        $user = auth()->guard()->user()?->loadMissing(['employeeProfile', 'facultyProfile']);
+        $user = auth()
+            ->guard()
+            ->user()
+            ?->loadMissing(['employeeProfile', 'facultyProfile']);
         $departmentId = $user?->employeeProfile?->department_id ?? $user?->facultyProfile?->department_id;
 
-        $query = Department::query()
-            ->with(['campus', 'college'])
-            ->orderBy('name');
-
         if (filled($departmentId)) {
-            return $query->findOrFail($departmentId);
+            return Department::query()
+                ->with(['campus', 'college'])
+                ->findOrFail($departmentId);
         }
 
-        return $query->firstOrFail();
+        abort_unless($this->scope === 'college', 403);
+
+        return Department::query()
+            ->with(['campus', 'college'])
+            ->where('college_id', $this->currentCollege()->id)
+            ->orderBy('name')
+            ->firstOrFail();
+    }
+
+    protected function currentCollege(): College
+    {
+        $user = auth()
+            ->guard()
+            ->user()
+            ?->loadMissing([
+                'employeeProfile.college',
+                'employeeProfile.campus',
+                'facultyProfile.college',
+                'facultyProfile.campus',
+            ]);
+        $profile = $user?->employeeProfile ?? $user?->facultyProfile;
+
+        $query = College::query()
+            ->with('campus')
+            ->orderBy('name');
+
+        if (filled($profile?->college_id)) {
+            return $query->findOrFail($profile->college_id);
+        }
+
+        abort(403);
+    }
+
+    protected function setDepartmentOptions(): void
+    {
+        $this->departmentOptions = Department::query()
+            ->where('college_id', $this->collegeId)
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn (Department $department) => [
+                'label' => $department->name,
+                'value' => (int) $department->id,
+            ])
+            ->values()
+            ->toArray();
+    }
+
+    protected function syncContextFromSelectedDepartment(int $departmentId): void
+    {
+        $department = Department::query()
+            ->with(['campus', 'college'])
+            ->where('college_id', $this->collegeId)
+            ->findOrFail($departmentId);
+
+        $this->syncContextFromDepartment($department);
+        $this->form->setContext($this->campusId, $this->collegeId, $this->departmentId);
+    }
+
+    public function updatedFormDepartmentId($value): void
+    {
+        if ($this->scope === 'college' && filled($value)) {
+            $this->syncContextFromSelectedDepartment((int) $value);
+        }
+    }
+
+    protected function syncContextFromDepartment(Department $department): void
+    {
+        $department->loadMissing(['campus', 'college']);
+
+        $this->campusId = (int) $department->campus_id;
+        $this->collegeId = (int) $department->college_id;
+        $this->departmentId = (int) $department->id;
+        $this->campusName = $department->campus?->name ?? '-';
+        $this->collegeName = $department->college?->name ?? '-';
+        $this->departmentName = $department->name;
+    }
+
+    protected function canManageRoom(Room $room): bool
+    {
+        if ($this->scope === 'college') {
+            return (int) $room->college_id === (int) $this->collegeId;
+        }
+
+        return (int) $room->department_id === $this->departmentId;
     }
 };
 ?>
@@ -142,7 +261,11 @@ new class extends Component
         <div>
             <h1 class="text-xl font-bold dark:text-white">Rooms</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                Managing rooms for {{ $departmentName }} under {{ $collegeName }}, {{ $campusName }}.
+                @if ($scope === 'college')
+                    Managing rooms under {{ $collegeName }}, {{ $campusName }}.
+                @else
+                    Managing rooms for {{ $departmentName }} under {{ $collegeName }}, {{ $campusName }}.
+                @endif
             </p>
         </div>
 
@@ -155,7 +278,10 @@ new class extends Component
     </div>
 
     <x-card>
-        <livewire:tables.admin.rooms-table :department-id="$departmentId" />
+        <livewire:tables.admin.rooms-table
+            :scope="$scope"
+            :college-id="$collegeId"
+            :department-id="$departmentId" />
     </x-card>
 
     <x-modal wire="roomModal" title="{{ $isEditing ? 'Edit Room' : 'New Room' }}" size="3xl">
@@ -163,7 +289,15 @@ new class extends Component
             <div class="grid gap-4 md:grid-cols-2">
                 <x-input label="Campus" :value="$campusName" disabled />
                 <x-input label="College" :value="$collegeName" disabled />
-                <x-input label="Department" :value="$departmentName" disabled />
+                @if ($scope === 'college')
+                    <x-select.styled
+                        label="Department"
+                        wire:model="form.department_id"
+                        :options="$departmentOptions"
+                        select="label:label|value:value" />
+                @else
+                    <x-input label="Department" :value="$departmentName" disabled />
+                @endif
                 <x-input label="Room Name" wire:model="form.name" />
                 <x-input label="Floor No." wire:model="form.floor_no" />
                 <x-input label="Room No." type="number" wire:model="form.room_no" />
