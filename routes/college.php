@@ -19,10 +19,16 @@ Route::middleware(['auth'])
             ->middleware('permission:programs.view')
             ->name('programs.index');
 
+        // Faculty Profiles Management Routes
         Route::livewire('/college/faculty-profiles', 'pages::dept-admin.faculty-profiles.index')
             ->middleware('permission:faculty_profiles.view')
             ->name('college-faculty-profiles.index');
         Route::livewire('/college/faculty-profiles/{facultyProfile}', 'pages::dept-admin.faculty-profiles.show')
             ->middleware('permission:faculty_profiles.view')
             ->name('college-faculty-profiles.show');
+
+        // Subjects Management Routes
+        Route::livewire('/subjects', 'pages::college-admin.subjects.index')
+            ->middleware('permission:subjects.view')
+            ->name('subjects.index');
     });

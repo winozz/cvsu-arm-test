@@ -105,16 +105,14 @@
                         @endcan
 
                         @can('faculty_profiles.view')
-                            @if (auth()->user()?->collegeManagementProfile())
                                 <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
                                     'college-faculty-profiles.index',
                                     'college-faculty-profiles.*',
-                                )" :route="route('college-faculty-profiles.index')" />
-                            @endif
+                                )" :route="route('college-faculty-profiles.index')" /> 
                         @endcan
 
                         @can('subjects.view')
-                            <x-side-bar.item text="Subjects" icon="book-open" />
+                                <x-side-bar.item text="Subjects" icon="book-open" :current="request()->routeIs('subjects.index', 'subjects.*')" :route="route('subjects.index')" />
                         @endcan
                     </x-side-bar.item>
                 @endif

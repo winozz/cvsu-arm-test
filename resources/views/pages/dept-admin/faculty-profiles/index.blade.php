@@ -10,8 +10,8 @@ use App\Traits\HasCascadingLocationSelects;
 use App\Traits\HasManagedFacultyProfiles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -19,7 +19,8 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, HasCascadingLocationSelects, HasManagedFacultyProfiles, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
@@ -40,7 +41,7 @@ new class extends Component {
         return Campus::where('is_active', true)
             ->orderBy('name')
             ->get(['id', 'name'])
-            ->map(fn($c) => ['label' => $c->name, 'value' => $c->id])
+            ->map(fn ($c) => ['label' => $c->name, 'value' => $c->id])
             ->toArray();
     }
 
@@ -85,7 +86,7 @@ new class extends Component {
                     $user->restore();
                 }
 
-                if (!$user->hasRole('faculty')) {
+                if (! $user->hasRole('faculty')) {
                     $user->assignRole('faculty');
                 }
 
