@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tables\Admin;
+namespace App\Livewire\Tables\CollegeAdmin;
 
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Builder;

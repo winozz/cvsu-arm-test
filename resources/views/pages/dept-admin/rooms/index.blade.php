@@ -282,9 +282,7 @@ new class extends Component
                 <h1 class="text-xl font-bold dark:text-white">
                     {{ $scope === 'college' ? $collegeName : $departmentName }}
                 </h1>
-                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                    {{ $scope === 'college' ? 'College Scope' : 'Department Scope' }}
-                </span>
+                <x-badge :text="$scope === 'college' ? 'College Scope' : 'Department Scope'" color="blue" round />
             </div>
             <p class="italic text-zinc-600 dark:text-zinc-200">
                 @if ($scope === 'college')

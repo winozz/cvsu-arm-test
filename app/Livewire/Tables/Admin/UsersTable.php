@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
@@ -244,7 +245,7 @@ final class UsersTable extends PowerGridComponent
         }
 
         return $user->roles
-            ->map(fn ($role) => $this->badge(Str::headline((string) $role->name), 'border border-blue-200 bg-blue-100 text-blue-800 dark:border-blue-800 dark:bg-blue-900/50 dark:text-blue-200'))
+            ->map(fn ($role) => $this->badge(Str::headline((string) $role->name), 'blue'))
             ->implode(' ');
     }
 
@@ -257,14 +258,14 @@ final class UsersTable extends PowerGridComponent
             default => 'Standard',
         };
 
-        $classes = match ($label) {
-            'Faculty' => 'border border-indigo-200 bg-indigo-100 text-indigo-800 dark:border-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200',
-            'Employee' => 'border border-teal-200 bg-teal-100 text-teal-800 dark:border-teal-800 dark:bg-teal-900/50 dark:text-teal-200',
-            'Faculty + Employee' => 'border border-violet-200 bg-violet-100 text-violet-800 dark:border-violet-800 dark:bg-violet-900/50 dark:text-violet-200',
-            default => 'border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200',
+        $color = match ($label) {
+            'Faculty' => 'indigo',
+            'Employee' => 'teal',
+            'Faculty + Employee' => 'violet',
+            default => 'zinc',
         };
 
-        return $this->badge($label, $classes);
+        return $this->badge($label, $color);
     }
 
     protected function assignmentPath(User $user): string
@@ -290,18 +291,14 @@ final class UsersTable extends PowerGridComponent
 
     protected function statusBadge(bool $isActive): string
     {
-        return $this->badge(
-            $isActive ? 'Active' : 'Inactive',
-            $isActive
-                ? 'border border-emerald-200 bg-emerald-100 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200'
-                : 'border border-red-200 bg-red-100 text-red-800 dark:border-red-800 dark:bg-red-900/50 dark:text-red-200'
-        );
+        return $this->badge($isActive ? 'Active' : 'Inactive', $isActive ? 'primary' : 'red');
     }
 
-    protected function badge(string $label, string $classes): string
+    protected function badge(string $label, string $color): string
     {
-        return '<span class="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium '.$classes.'">'
-            .e($label)
-            .'</span>';
+        return trim(Blade::render(
+            '<x-badge :text="$text" :color="$color" round />',
+            ['text' => $label, 'color' => $color]
+        ));
     }
 }

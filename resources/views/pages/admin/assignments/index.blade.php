@@ -156,7 +156,7 @@ new class extends Component {
                             Roles:</span>
                         <div class="flex flex-wrap gap-2">
                             @forelse ($userRoles as $role)
-                                <x-badge :text="$role" color="primary" light sm />
+                                <x-badge :text="$role" color="amber" round xs />
                             @empty
                                 <span class="text-sm italic text-zinc-500">No roles assigned.</span>
                             @endforelse
@@ -176,7 +176,7 @@ new class extends Component {
                             Permissions:</span>
                         <div class="flex flex-wrap gap-2">
                             @forelse ($userPermissions as $permission)
-                                <x-badge :text="$permission" color="emerald" light />
+                                <x-badge :text="$permission" color="indigo" round xs />
                             @empty
                                 <span class="text-sm italic text-zinc-500">No direct permissions assigned.</span>
                             @endforelse

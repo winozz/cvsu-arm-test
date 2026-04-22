@@ -6,6 +6,7 @@ use App\Enums\RoomStatusEnum;
 use App\Models\Room;
 use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -295,30 +296,26 @@ final class RoomsTable extends PowerGridComponent
     {
         $status = Room::normalizeStatusValue($room->status);
 
-        $classes = match ($status) {
-            RoomStatusEnum::USEABLE->value => 'border border-blue-200 bg-blue-100 text-blue-800 dark:border-blue-800 dark:bg-blue-900/50 dark:text-blue-200',
-            RoomStatusEnum::NOT_USEABLE->value => 'border border-purple-200 bg-purple-100 text-purple-800 dark:border-purple-800 dark:bg-purple-900/50 dark:text-purple-200',
-            RoomStatusEnum::UNDER_CONSTRUCTION->value, RoomStatusEnum::UNDER_RENOVATION->value => 'border border-amber-200 bg-amber-100 text-amber-800 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-200',
-            default => 'border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200',
+        $color = match ($status) {
+            RoomStatusEnum::USEABLE->value => 'blue',
+            RoomStatusEnum::NOT_USEABLE->value => 'purple',
+            RoomStatusEnum::UNDER_CONSTRUCTION->value, RoomStatusEnum::UNDER_RENOVATION->value => 'amber',
+            default => 'zinc',
         };
 
-        return $this->badge($room->status_label, $classes);
+        return $this->badge($room->status_label, $color);
     }
 
     protected function statusBadge(bool $isActive): string
     {
-        return $this->badge(
-            $isActive ? 'Active' : 'Inactive',
-            $isActive
-                ? 'border border-emerald-200 bg-emerald-100 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200'
-                : 'border border-red-200 bg-red-100 text-red-800 dark:border-red-800 dark:bg-red-900/50 dark:text-red-200'
-        );
+        return $this->badge($isActive ? 'Active' : 'Inactive', $isActive ? 'primary' : 'red');
     }
 
-    protected function badge(string $label, string $classes): string
+    protected function badge(string $label, string $color): string
     {
-        return '<span class="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium '.$classes.'">'
-            .e($label)
-            .'</span>';
+        return trim(Blade::render(
+            '<x-badge :text="$text" :color="$color" round xs />',
+            ['text' => $label, 'color' => $color]
+        ));
     }
 }

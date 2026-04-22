@@ -62,10 +62,7 @@ new class extends Component {
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold dark:text-white">{{ $college->code }}</h1>
-                <span
-                    class="px-2 py-1 text-xs font-semibold rounded-full {{ $college->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                    {{ $college->is_active ? 'Active' : 'Inactive' }}
-                </span>
+                <x-badge :text="$college->is_active ? 'Active' : 'Inactive'" :color="$college->is_active ? 'emerald' : 'red'" light round />
             </div>
             <p class="italic text-zinc-600 dark:text-zinc-200">{{ $college->name }}</p>
         </div>

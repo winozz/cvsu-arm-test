@@ -72,10 +72,7 @@ new class extends Component {
                 <span>{{ $campus->code }} Campus</span>
                 <span aria-hidden="true">&bull;</span>
                 <span>{{ $college->code }}</span>
-                <span
-                    class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $college->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200' : 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-200' }}">
-                    {{ $college->is_active ? 'Active' : 'Inactive' }}
-                </span>
+                <x-badge :text="$college->is_active ? 'Active' : 'Inactive'" :color="$college->is_active ? 'emerald' : 'red'" light round />
             </div>
 
             <p class="max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">

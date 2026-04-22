@@ -215,19 +215,12 @@ new class extends Component {
             <div class="space-y-2">
                 <div class="flex flex-wrap items-center gap-2">
                     <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">{{ $user->name }}</h1>
-                    <x-badge :text="$form->profileTypeLabel()" color="slate" light />
-                    <x-badge :text="$user->is_active ? 'Active' : 'Inactive'" :color="$user->is_active ? 'emerald' : 'red'" light />
+                    <x-badge :text="$form->profileTypeLabel()" color="slate" round />
+                    <x-badge :text="$user->is_active ? 'Active' : 'Inactive'" :color="$user->is_active ? 'primary' : 'red'" round />
                 </div>
 
                 <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ $user->email }}</p>
 
-                <div class="flex flex-wrap gap-2">
-                    @forelse ($user->roles as $role)
-                        <x-badge :text="Str::headline($role->name)" color="primary" light />
-                    @empty
-                        <span class="text-sm text-zinc-500 dark:text-zinc-400">No roles assigned.</span>
-                    @endforelse
-                </div>
             </div>
         </div>
 
@@ -385,7 +378,7 @@ new class extends Component {
 
                         <div class="flex flex-wrap gap-2">
                             @forelse ($user->roles as $role)
-                                <x-badge :text="Str::headline($role->name)" color="primary" light />
+                                <x-badge :text="Str::headline($role->name)" color="amber" round />
                             @empty
                                 <span class="text-sm text-zinc-500 dark:text-zinc-400">No roles assigned.</span>
                             @endforelse
@@ -404,7 +397,7 @@ new class extends Component {
 
                         <div class="flex flex-wrap gap-2">
                             @forelse ($user->getDirectPermissions() as $permission)
-                                <x-badge :text="Str::headline(str_replace(['.', '_'], ' ', $permission->name))" color="emerald" light />
+                                <x-badge :text="Str::headline(str_replace(['.', '_'], ' ', $permission->name))" color="indigo" round />
                             @empty
                                 <span class="text-sm text-zinc-500 dark:text-zinc-400">No direct permissions
                                     assigned.</span>
