@@ -121,13 +121,18 @@ new class extends Component
 
     protected function currentDepartment(): Department
     {
-        $departmentId = auth()->guard()->user()?->departmentManagementProfile()?->department_id;
+        $user = auth()->guard()->user()?->loadMissing(['employeeProfile', 'facultyProfile']);
+        $departmentId = $user?->employeeProfile?->department_id ?? $user?->facultyProfile?->department_id;
 
-        abort_unless(filled($departmentId), 403);
-
-        return Department::query()
+        $query = Department::query()
             ->with(['campus', 'college'])
-            ->findOrFail($departmentId);
+            ->orderBy('name');
+
+        if (filled($departmentId)) {
+            return $query->findOrFail($departmentId);
+        }
+
+        return $query->firstOrFail();
     }
 };
 ?>

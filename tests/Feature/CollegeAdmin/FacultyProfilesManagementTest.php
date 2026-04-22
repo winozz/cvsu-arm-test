@@ -6,7 +6,6 @@ use App\Models\Department;
 use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Livewire;
 
 describe('college admin faculty profiles management', function () {
@@ -71,7 +70,7 @@ describe('college admin faculty profiles management', function () {
             ->assertSee($profile->email);
     });
 
-    it('creates a faculty profile and linked user inside the managed college', function () {
+    it('creates a faculty profile and linked user for any selected department', function () {
         Livewire::actingAs($this->user)
             ->test('pages::dept-admin.faculty-profiles.index')
             ->call('create')
@@ -95,7 +94,7 @@ describe('college admin faculty profiles management', function () {
             ->and($createdUser->facultyProfile->department_id)->toBe($this->secondaryDepartment->id);
     });
 
-    it('rejects faculty creation outside the managed college scope', function () {
+    it('allows faculty creation outside the previous managed college scope when the department is valid', function () {
         $outsideCampus = Campus::factory()->create();
         $outsideCollege = College::factory()->forCampus($outsideCampus)->create();
         $outsideDepartment = Department::factory()->forCollege($outsideCollege)->create();
@@ -110,25 +109,21 @@ describe('college admin faculty profiles management', function () {
             ->set('form.college_id', $outsideCollege->id)
             ->set('form.department_id', $outsideDepartment->id)
             ->call('save')
-            ->assertHasErrors([
-                'form.campus_id',
-                'form.college_id',
-                'form.department_id',
-            ]);
+            ->assertHasNoErrors();
 
-        expect(User::query()->where('email', 'kris.tan@example.test')->exists())->toBeFalse();
+        expect(User::query()->where('email', 'kris.tan@example.test')->first()?->facultyProfile?->department_id)
+            ->toBe($outsideDepartment->id);
     });
 
-    it('blocks access to faculty profiles outside the managed college', function () {
+    it('allows access to faculty profiles outside the previous managed college scope', function () {
         $outsideCampus = Campus::factory()->create();
         $outsideCollege = College::factory()->forCampus($outsideCampus)->create();
         $outsideDepartment = Department::factory()->forCollege($outsideCollege)->create();
         $outsideProfile = FacultyProfile::factory()->forDepartment($outsideDepartment)->create();
 
-        $this->withoutExceptionHandling();
-
-        expect(fn () => $this->actingAs($this->user)
-            ->get(route('college-faculty-profiles.show', $outsideProfile)))
-            ->toThrow(ModelNotFoundException::class);
+        $this->actingAs($this->user)
+            ->get(route('college-faculty-profiles.show', $outsideProfile))
+            ->assertOk()
+            ->assertSee($outsideProfile->email);
     });
 });

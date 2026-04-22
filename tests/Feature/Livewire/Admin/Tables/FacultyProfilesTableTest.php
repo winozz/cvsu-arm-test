@@ -3,7 +3,6 @@
 use App\Livewire\Tables\Admin\FacultyProfilesTable;
 use App\Models\College;
 use App\Models\Department;
-use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use Livewire\Livewire;
 
@@ -15,10 +14,6 @@ describe('FacultyProfilesTable', function () {
             'faculty_profiles.restore',
         ], ['deptAdmin']);
         $this->department = Department::factory()->create();
-
-        EmployeeProfile::factory()->forDepartment($this->department)->create([
-            'user_id' => $this->user->id,
-        ]);
     });
 
     it('exposes relation search mappings and computed field values', function () {
@@ -88,7 +83,7 @@ describe('FacultyProfilesTable', function () {
         expect($profile->fresh()->trashed())->toBeFalse();
     });
 
-    it('falls back to college scoped faculty when the employee has no department assignment', function () {
+    it('lists faculty profiles from all departments when view permission is assigned', function () {
         $college = $this->department->college;
         $otherDepartmentInCollege = Department::factory()->forCollege($college)->create();
         $otherCollege = College::factory()->forCampus($college->campus)->create();
@@ -98,11 +93,6 @@ describe('FacultyProfilesTable', function () {
         $facultyInSameCollege = FacultyProfile::factory()->forDepartment($otherDepartmentInCollege)->create();
         $facultyOutsideCollege = FacultyProfile::factory()->forDepartment($departmentOutsideCollege)->create();
 
-        $this->user->employeeProfile()->update([
-            'college_id' => $college->id,
-            'department_id' => null,
-        ]);
-
         $ids = Livewire::actingAs($this->user)
             ->test(FacultyProfilesTable::class)
             ->instance()
@@ -111,6 +101,6 @@ describe('FacultyProfilesTable', function () {
             ->all();
 
         expect($ids)->toContain($facultyInPrimaryDepartment->id, $facultyInSameCollege->id)
-            ->not->toContain($facultyOutsideCollege->id);
+            ->toContain($facultyOutsideCollege->id);
     });
 });

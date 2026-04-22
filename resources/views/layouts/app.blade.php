@@ -84,17 +84,15 @@
                 )" :route="route('dashboard.resolve')" />
 
                 {{-- FACULTY LINKS --}}
-                @if (auth()->user()?->can('faculty_schedules.view') &&
-                        (auth()->user()?->employeeProfile()->exists() || auth()->user()?->facultyProfile()->exists()))
+                @can('faculty_schedules.view')
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
                         <x-side-bar.item text="My Schedules" icon="clipboard-document-list" />
                     </x-side-bar.item>
-                @endif
+                @endcan
 
                 {{-- COLLEGE ADMIN LINKS --}}
-                @if (auth()->user()
-                        ?->canAny(['departments.view', 'programs.view', 'faculty_profiles.view', 'subjects.view']))
+                @canany(['departments.view', 'programs.view', 'faculty_profiles.view', 'subjects.view'])
                     <x-side-bar.item text="College" opened>
                         @can('departments.view')
                             <x-side-bar.item text="Departments" icon="briefcase" :current="request()->routeIs('departments.index', 'departments.*')" :route="route('departments.index')" />
@@ -105,22 +103,20 @@
                         @endcan
 
                         @can('faculty_profiles.view')
-                                <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
-                                    'college-faculty-profiles.index',
-                                    'college-faculty-profiles.*',
-                                )" :route="route('college-faculty-profiles.index')" /> 
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
+                                'college-faculty-profiles.index',
+                                'college-faculty-profiles.*',
+                            )" :route="route('college-faculty-profiles.index')" />
                         @endcan
 
                         @can('subjects.view')
-                                <x-side-bar.item text="Subjects" icon="book-open" :current="request()->routeIs('subjects.index', 'subjects.*')" :route="route('subjects.index')" />
+                            <x-side-bar.item text="Subjects" icon="book-open" :current="request()->routeIs('subjects.index', 'subjects.*')" :route="route('subjects.index')" />
                         @endcan
                     </x-side-bar.item>
-                @endif
+                @endcanany
 
                 {{-- DEPARTMENT ADMIN LINKS --}}
-                @if (auth()->user()
-                        ?->canAny(['schedules.view', 'faculty_profiles.view', 'rooms.view']) &&
-                        auth()->user()?->departmentManagementProfile())
+                @canany(['schedules.view', 'faculty_profiles.view', 'rooms.view'])
                     <x-side-bar.item text="Department" opened>
 
                         @can('schedules.view')
@@ -128,20 +124,15 @@
                         @endcan
 
                         @can('faculty_profiles.view')
-                            @if (auth()->user()
-                                    ?->canAny(['faculty_profiles.view']) && auth()->user()?->facultyProfile()->exists())
-                                <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')"
-                                    :route="route('faculty-profiles.index')" />
-                            @endif
+                            <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs('faculty-profiles.index', 'faculty-profiles.*')" :route="route('faculty-profiles.index')" />
                         @endcan
 
-                        @can('rooms.menu')
+                        @can('rooms.view')
                             <x-side-bar.item text="Rooms" icon="building-office" :current="request()->routeIs('rooms.index', 'rooms.*')" :route="route('rooms.index')" />
                         @endcan
 
                     </x-side-bar.item>
-                @endif
-                {{-- @endcanany --}}
+                @endcanany
 
                 {{-- SUPERADMIN ADMIN LINKS --}}
                 @canany(['campuses.view', 'users.view', 'roles.view', 'permissions.view', 'assignments.manage'])

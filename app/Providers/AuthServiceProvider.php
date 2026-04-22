@@ -15,13 +15,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superAdmin') ? true : null;
         });
-
-        Gate::define('rooms.menu', function ($user) {
-            $profile = $user->departmentManagementProfile();
-
-            return $user->can('rooms.view')
-                && filled($profile?->college_id)
-                && filled($profile?->department_id);
-        });
     }
 }

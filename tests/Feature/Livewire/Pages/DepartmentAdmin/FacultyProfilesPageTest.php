@@ -3,7 +3,6 @@
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
-use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\User;
 use Livewire\Livewire;
@@ -20,10 +19,6 @@ describe('department admin faculty profiles page', function () {
         $this->campus = Campus::factory()->create();
         $this->college = College::factory()->forCampus($this->campus)->create();
         $this->department = Department::factory()->forCollege($this->college)->create();
-
-        EmployeeProfile::factory()->forDepartment($this->department)->create([
-            'user_id' => $this->user->id,
-        ]);
     });
 
     it('loads dependent colleges and departments when the academic assignment changes', function () {
@@ -68,16 +63,11 @@ describe('department admin faculty profiles page', function () {
             ->and($createdUser->facultyProfile->academic_rank)->toBe('Assistant Professor I');
     });
 
-    it('supports dept admins who only have a faculty profile', function () {
+    it('supports dept admins with permissions even without a management profile', function () {
         $facultyOnlyAdmin = actingUserWithPermissions([
             'faculty_profiles.view',
             'faculty_profiles.create',
         ], ['deptAdmin']);
-
-        FacultyProfile::factory()->forDepartment($this->department)->create([
-            'user_id' => $facultyOnlyAdmin->id,
-            'email' => $facultyOnlyAdmin->email,
-        ]);
 
         Livewire::actingAs($facultyOnlyAdmin)
             ->test('pages::dept-admin.faculty-profiles.index')

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\EmployeeProfile;
-use App\Models\FacultyProfile;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,34 +47,18 @@ describe('User model', function () {
         expect($user->canUseGoogleSignIn())->toBeFalse();
     });
 
-    it('requires a matching faculty profile email for faculty google sign in', function () {
+    it('allows google sign in when the user has at least one dashboard permission', function () {
         $user = User::factory()->create();
         $user->assignRole('faculty');
         $user->givePermissionTo('faculty_schedules.view');
 
-        expect($user->canUseGoogleSignIn())->toBeFalse();
-
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
-        expect($user->fresh()->canUseGoogleSignIn())->toBeTrue();
+        expect($user->canUseGoogleSignIn())->toBeTrue();
     });
 
     it('resolves dashboard routes using the configured priority order', function () {
         $user = User::factory()->create();
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
-
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
-        EmployeeProfile::factory()->create([
-            'user_id' => $user->id,
-        ]);
 
         expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
 
@@ -90,63 +73,20 @@ describe('User model', function () {
         expect($user->fresh()->dashboardRoute())->toBe('dashboard.admin');
     });
 
-    it('allows dept admin dashboard routing with only a faculty profile', function () {
+    it('allows dept admin dashboard routing with permission only', function () {
         $user = User::factory()->create();
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
         expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
     });
 
-    it('allows college dashboard routing with only a faculty profile', function () {
+    it('allows college dashboard routing with permission only', function () {
         $user = User::factory()->create();
         $user->assignRole('faculty');
         $user->givePermissionTo('departments.view');
 
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
         expect($user->fresh()->dashboardRoute())->toBe('dashboard.college');
-    });
-
-    it('prefers the employee profile for college management context when both profiles exist', function () {
-        $user = User::factory()->make();
-        $employeeProfile = EmployeeProfile::factory()->make();
-        $facultyProfile = FacultyProfile::factory()->make();
-
-        $user->setRelation('employeeProfile', $employeeProfile);
-        $user->setRelation('facultyProfile', $facultyProfile);
-
-        expect($user->collegeManagementProfile())->toBe($employeeProfile);
-    });
-
-    it('uses the faculty profile for college management context when no employee profile exists', function () {
-        $user = User::factory()->make();
-        $facultyProfile = FacultyProfile::factory()->make();
-
-        $user->setRelation('employeeProfile', null);
-        $user->setRelation('facultyProfile', $facultyProfile);
-
-        expect($user->collegeManagementProfile())->toBe($facultyProfile);
-    });
-
-    it('returns no college management context when the available profile lacks campus or college assignment', function () {
-        $user = User::factory()->make();
-
-        $user->setRelation('employeeProfile', EmployeeProfile::factory()->make([
-            'campus_id' => null,
-            'college_id' => null,
-        ]));
-        $user->setRelation('facultyProfile', null);
-
-        expect($user->collegeManagementProfile())->toBeNull();
     });
 
     it('syncs google profile data onto the user record', function () {

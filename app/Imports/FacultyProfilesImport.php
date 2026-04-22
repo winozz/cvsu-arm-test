@@ -2,9 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\College;
 use App\Models\Department;
-use App\Models\EmployeeProfile;
 use App\Models\FacultyProfile;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -16,7 +14,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class FacultyProfilesImport implements ToCollection, WithHeadingRow
 {
     public function __construct(
-        protected EmployeeProfile|FacultyProfile $managerProfile,
         protected ?int $updatedBy = null,
     ) {}
 
@@ -27,8 +24,7 @@ class FacultyProfilesImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
-            $assignment = $this->resolveAcademicAssignment($row);
-            $this->ensureAssignmentIsManaged($assignment, $index + 2);
+            $assignment = $this->resolveAcademicAssignment($row, $index + 2);
 
             $fullName = trim(($row['first_name'] ?? '').' '.($row['middle_name'] ?? '').' '.($row['last_name'] ?? ''));
 
@@ -75,77 +71,25 @@ class FacultyProfilesImport implements ToCollection, WithHeadingRow
     }
 
     /**
-     * @return array{campus_id: int|null, college_id: int|null, department_id: int|null}
+     * @return array{campus_id: int, college_id: int, department_id: int}
      */
-    protected function resolveAcademicAssignment(Collection $row): array
+    protected function resolveAcademicAssignment(Collection $row, int $rowNumber): array
     {
         $departmentId = $row['department_id'] ?? null;
-        $collegeId = $row['college_id'] ?? null;
-        $campusId = $row['campus_id'] ?? $row['branch_id'] ?? null;
+        $department = filled($departmentId)
+            ? Department::query()->find((int) $departmentId)
+            : null;
 
-        if (filled($departmentId)) {
-            $department = Department::query()->find($departmentId);
-
-            if ($department) {
-                return [
-                    'campus_id' => $department->campus_id,
-                    'college_id' => $department->college_id,
-                    'department_id' => $department->id,
-                ];
-            }
-        }
-
-        if (filled($collegeId)) {
-            $college = College::query()->find($collegeId);
-
-            if ($college) {
-                return [
-                    'campus_id' => $college->campus_id,
-                    'college_id' => $college->id,
-                    'department_id' => null,
-                ];
-            }
+        if (! $department) {
+            throw ValidationException::withMessages([
+                'importFile' => "Row {$rowNumber} must include a valid department_id.",
+            ]);
         }
 
         return [
-            'campus_id' => filled($campusId) ? (int) $campusId : null,
-            'college_id' => null,
-            'department_id' => null,
+            'campus_id' => (int) $department->campus_id,
+            'college_id' => (int) $department->college_id,
+            'department_id' => (int) $department->id,
         ];
-    }
-
-    /**
-     * @param  array{campus_id: int|null, college_id: int|null, department_id: int|null}  $assignment
-     */
-    protected function ensureAssignmentIsManaged(array $assignment, int $rowNumber): void
-    {
-        $message = filled($this->managerProfile->department_id)
-            ? "Row {$rowNumber} must belong to your assigned department."
-            : "Row {$rowNumber} must belong to your assigned college.";
-
-        if (! filled($assignment['department_id'])) {
-            throw ValidationException::withMessages([
-                'importFile' => "Row {$rowNumber} must include a valid department within your allowed scope.",
-            ]);
-        }
-
-        if ((int) $assignment['campus_id'] !== (int) $this->managerProfile->campus_id) {
-            throw ValidationException::withMessages([
-                'importFile' => $message,
-            ]);
-        }
-
-        if ((int) $assignment['college_id'] !== (int) $this->managerProfile->college_id) {
-            throw ValidationException::withMessages([
-                'importFile' => $message,
-            ]);
-        }
-
-        if (filled($this->managerProfile->department_id)
-            && (int) $assignment['department_id'] !== (int) $this->managerProfile->department_id) {
-            throw ValidationException::withMessages([
-                'importFile' => $message,
-            ]);
-        }
     }
 }

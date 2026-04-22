@@ -34,19 +34,15 @@ new class extends Component
                 'facultyProfile.campus',
                 'facultyProfile.college',
             ]);
-        $profile = $user?->collegeManagementProfile();
+        $profile = $user?->employeeProfile ?? $user?->facultyProfile;
 
-        if ($profile?->campus && $profile?->college) {
-            abort_unless((int) $profile->college->campus_id === (int) $profile->campus->id, 403);
-
+        if (filled($profile?->campus_id) && filled($profile?->college_id) && $profile?->campus && $profile?->college) {
             $this->campus = $profile->campus;
             $this->college = $profile->college;
             $this->syncDepartmentContextForms();
 
             return;
         }
-
-        abort_unless($user?->hasRole('superAdmin'), 403);
 
         $this->resolveFallbackCollegeContext();
         $this->syncDepartmentContextForms();

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\EmployeeProfile;
-use App\Models\FacultyProfile;
 use App\Models\Permission;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -29,44 +27,25 @@ describe('dashboard resolver', function () {
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
-        EmployeeProfile::factory()->create([
-            'user_id' => $user->id,
-        ]);
-
         $this->actingAs($user)
             ->get(route('dashboard.resolve'))
             ->assertRedirect(route('dashboard.department'));
     });
 
-    it('dashboard resolver allows dept admins with only a faculty profile', function () {
+    it('dashboard resolver allows dept admins with permission only', function () {
         $user = User::factory()->create();
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
-
         $this->actingAs($user)
             ->get(route('dashboard.resolve'))
             ->assertRedirect(route('dashboard.department'));
     });
 
-    it('dashboard resolver allows college access with only a faculty profile', function () {
+    it('dashboard resolver allows college access with permission only', function () {
         $user = User::factory()->create();
         $user->assignRole('faculty');
         $user->givePermissionTo('departments.view');
-
-        FacultyProfile::factory()->create([
-            'user_id' => $user->id,
-            'email' => $user->email,
-        ]);
 
         $this->actingAs($user)
             ->get(route('dashboard.resolve'))

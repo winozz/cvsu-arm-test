@@ -5,7 +5,6 @@ use App\Models\Campus;
 use App\Models\FacultyProfile;
 use App\Traits\CanManage;
 use App\Traits\HasCascadingLocationSelects;
-use App\Traits\HasManagedFacultyProfiles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +14,7 @@ use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 new class extends Component {
-    use CanManage, HasCascadingLocationSelects, HasManagedFacultyProfiles, Interactions;
+    use CanManage, HasCascadingLocationSelects, Interactions;
 
     public FacultyProfile $facultyProfile;
 
@@ -41,8 +40,7 @@ new class extends Component {
     {
         $this->ensureCanManage('faculty_profiles.view');
 
-        $this->facultyProfile = $this->findManagedFacultyProfile($facultyProfile->id)
-            ->load(['user', 'campus', 'college', 'department']);
+        $this->facultyProfile = $facultyProfile->load(['user', 'campus', 'college', 'department']);
         $this->form->setValues($this->facultyProfile);
         $this->refreshAssignmentOptions();
     }
@@ -107,8 +105,9 @@ new class extends Component {
                 }
             });
 
-            $this->facultyProfile = $this->findManagedFacultyProfile($this->facultyProfile->id)
-                ->load(['user', 'campus', 'college', 'department']);
+            $this->facultyProfile = FacultyProfile::query()
+                ->with(['user', 'campus', 'college', 'department'])
+                ->findOrFail($this->facultyProfile->id);
             $this->form->setValues($this->facultyProfile);
             $this->refreshAssignmentOptions();
             $this->isEditing = false;
@@ -223,6 +222,13 @@ new class extends Component {
                 <x-select.styled label="Sex" wire:model="form.sex" :disabled="!$isEditing" :options="['Male', 'Female']" />
                 <x-input label="Birthday" type="date" wire:model="form.birthday" :disabled="!$isEditing" />
 
+                <x-select.styled label="Campus" wire:model.live="form.campus_id" :disabled="!$isEditing"
+                    :options="$this->campuses" select="label:label|value:value" />
+                <x-select.styled label="College" wire:model.live="form.college_id" :disabled="!$isEditing"
+                    :options="$colleges" select="label:label|value:value" />
+                <x-select.styled label="Department" wire:model="form.department_id" :disabled="!$isEditing"
+                    :options="$departments" select="label:label|value:value" />
+
                 <div class="md:col-span-2">
                     <x-textarea label="Address" wire:model="form.address" :disabled="!$isEditing" />
                 </div>
@@ -261,8 +267,8 @@ new class extends Component {
 
             @if ($isEditing)
                 <div class="rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-300">
-                    Campus, college, and department are locked during edits to protect the assigned academic scope of
-                    this faculty profile.
+                    Update the academic assignment here if this faculty member needs to move campuses, colleges, or
+                    departments.
                 </div>
 
                 <div class="flex justify-end">

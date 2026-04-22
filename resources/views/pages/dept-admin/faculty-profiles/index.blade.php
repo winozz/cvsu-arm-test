@@ -3,11 +3,12 @@
 use App\Imports\FacultyProfilesImport;
 use App\Livewire\Forms\Admin\FacultyProfileForm;
 use App\Models\Campus;
+use App\Models\College;
+use App\Models\Department;
 use App\Models\FacultyProfile;
 use App\Models\User;
 use App\Traits\CanManage;
 use App\Traits\HasCascadingLocationSelects;
-use App\Traits\HasManagedFacultyProfiles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,7 @@ use TallStackUi\Traits\Interactions;
 
 new class extends Component
 {
-    use CanManage, HasCascadingLocationSelects, HasManagedFacultyProfiles, Interactions, WithFileUploads;
+    use CanManage, HasCascadingLocationSelects, Interactions, WithFileUploads;
 
     public FacultyProfileForm $form;
 
@@ -48,7 +49,6 @@ new class extends Component
     public function mount()
     {
         $this->ensureCanManage('faculty_profiles.view');
-        $this->primeManagedAssignment();
     }
 
     public function create()
@@ -57,7 +57,6 @@ new class extends Component
 
         $this->resetValidation();
         $this->form->resetForm();
-        $this->primeManagedAssignment();
         $this->createModal = true;
     }
 
@@ -118,7 +117,6 @@ new class extends Component
 
             $this->createModal = false;
             $this->form->resetForm();
-            $this->primeManagedAssignment();
             $this->toast()->success('Success', 'Faculty profile and user account created successfully.')->send();
             $this->dispatch('pg:eventRefresh-facultyProfilesTable');
         } catch (ValidationException $exception) {
@@ -138,7 +136,7 @@ new class extends Component
 
         try {
             $this->validate(['importFile' => 'required|mimes:csv,xlsx,xls']);
-            Excel::import(new FacultyProfilesImport($this->managedAcademicProfile(), Auth::id()), $this->importFile);
+            Excel::import(new FacultyProfilesImport(Auth::id()), $this->importFile);
 
             $this->importModal = false;
             $this->importFile = null;
@@ -156,22 +154,19 @@ new class extends Component
     }
 
     #[Computed]
-    public function managementContext(): array
+    public function pageContext(): array
     {
-        $profile = $this->managedAcademicProfile()->loadMissing(['campus', 'college', 'department']);
-
         return [
-            'campus' => $profile->campus?->name ?? 'Unassigned Campus',
-            'college' => $profile->college?->name ?? 'Unassigned College',
-            'department' => $profile->department?->name,
-            'scope_label' => filled($profile->department_id) ? 'Department scope' : 'College scope',
+            'campuses' => Campus::query()->count(),
+            'colleges' => College::query()->count(),
+            'departments' => Department::query()->count(),
         ];
     }
 
     #[Computed]
     public function stats(): array
     {
-        $baseQuery = $this->managedFacultyProfileQuery();
+        $baseQuery = FacultyProfile::query();
 
         return [
             'total' => (clone $baseQuery)->count(),
@@ -184,31 +179,6 @@ new class extends Component
     {
         return request()->routeIs('college-faculty-profiles.*') ? 'college' : 'department';
     }
-
-    public function allowsDepartmentSelection(): bool
-    {
-        return blank($this->managedAcademicProfile()->department_id);
-    }
-
-    public function assignmentSummary(): string
-    {
-        $context = $this->managementContext();
-
-        return collect([$context['campus'], $context['college'], $context['department']])
-            ->filter()
-            ->implode(' / ');
-    }
-
-    protected function primeManagedAssignment(): void
-    {
-        $profile = $this->managedAcademicProfile();
-
-        $this->form->constrainToManager($profile);
-        $this->form->campus_id = $profile->campus_id;
-        $this->form->college_id = $profile->college_id;
-        $this->form->department_id = $profile->department_id;
-        $this->refreshAssignmentOptions();
-    }
 };
 ?>
 
@@ -217,7 +187,7 @@ new class extends Component
         <div class="space-y-1">
             <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">Faculty Profiles</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                Manage faculty records for {{ $this->assignmentSummary() }}.
+                Manage all faculty records from one full list, with actions controlled only by assigned permissions.
             </p>
         </div>
 
@@ -251,7 +221,9 @@ new class extends Component
                 Search profiles, review assignments, and open a detailed record for edits.
             </p>
         </div>
-        <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $this->managementContext['scope_label'] }}</span>
+        <span class="text-sm text-zinc-500 dark:text-zinc-400">
+            {{ $this->pageContext['campuses'] }} campuses, {{ $this->pageContext['colleges'] }} colleges, {{ $this->pageContext['departments'] }} departments
+        </span>
     </x-card>
 
     <x-card>
@@ -281,14 +253,14 @@ new class extends Component
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$this->campuses" :disabled="true"
+                <x-select.styled label="Campus" wire:model.live="form.campus_id" :options="$this->campuses"
                     select="label:label|value:value" />
 
-                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges" :disabled="true"
+                <x-select.styled label="College" wire:model.live="form.college_id" :options="$colleges"
                     select="label:label|value:value" />
 
                 <x-select.styled label="Department" wire:model="form.department_id" :options="$departments"
-                    select="label:label|value:value" :disabled="!$this->allowsDepartmentSelection()" />
+                    select="label:label|value:value" />
             </div>
 
             <x-input label="Academic Rank" wire:model="form.academic_rank" />
@@ -306,8 +278,8 @@ new class extends Component
     <x-modal wire="importModal" title="Import Faculty Profiles">
         <div class="space-y-4">
             <x-upload wire:model="importFile" label="Select Excel/CSV File" hint="Supported files: .xlsx, .csv" />
-            <p class="text-xs text-zinc-500">Headers needed: first_name, middle_name, last_name, email, campus_id,
-                college_id, department_id, academic_rank, contactno, sex, birthday, address, password</p>
+            <p class="text-xs text-zinc-500">Headers needed: first_name, middle_name, last_name, email,
+                department_id, academic_rank, contactno, sex, birthday, address, password</p>
         </div>
         <x-slot:footer>
             @can('faculty_profiles.create')

@@ -4,7 +4,6 @@ namespace App\Livewire\Tables\Admin;
 
 use App\Models\FacultyProfile;
 use App\Traits\CanManage;
-use App\Traits\HasManagedFacultyProfiles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -20,7 +19,7 @@ use TallStackUi\Traits\Interactions;
 
 final class FacultyProfilesTable extends PowerGridComponent
 {
-    use CanManage, HasManagedFacultyProfiles, Interactions, WithExport;
+    use CanManage, Interactions, WithExport;
 
     public string $context = 'department';
 
@@ -50,7 +49,7 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return $this->managedFacultyProfileQuery()
+        return FacultyProfile::query()
             ->with(['user', 'campus', 'college', 'department'])
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
@@ -190,7 +189,13 @@ final class FacultyProfilesTable extends PowerGridComponent
 
     protected function findManagedProfile(int $id, bool $includeTrashed = false): FacultyProfile
     {
-        return $this->findManagedFacultyProfile($id, $includeTrashed);
+        $query = FacultyProfile::query()->whereKey($id);
+
+        if ($includeTrashed) {
+            $query->withTrashed();
+        }
+
+        return $query->firstOrFail();
     }
 
     protected function facultyShowRouteName(): string

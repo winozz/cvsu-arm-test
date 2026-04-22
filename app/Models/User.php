@@ -80,36 +80,6 @@ class User extends Authenticatable
         return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
     }
 
-    public function departmentManagementProfile(): FacultyProfile|EmployeeProfile|null
-    {
-        if ($this->employeeProfile) {
-            return $this->employeeProfile;
-        }
-
-        if ($this->hasRole('deptAdmin') && $this->facultyProfile) {
-            return $this->facultyProfile;
-        }
-
-        return null;
-    }
-
-    public function collegeManagementProfile(): FacultyProfile|EmployeeProfile|null
-    {
-        if ($this->employeeProfile) {
-            return filled($this->employeeProfile->campus_id) && filled($this->employeeProfile->college_id)
-                ? $this->employeeProfile
-                : null;
-        }
-
-        if ($this->facultyProfile) {
-            return filled($this->facultyProfile->campus_id) && filled($this->facultyProfile->college_id)
-                ? $this->facultyProfile
-                : null;
-        }
-
-        return null;
-    }
-
     /**
      * Get the user's initials
      */
@@ -131,8 +101,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return collect(array_keys(self::DASHBOARD_ACCESS))
-            ->contains(fn (string $route): bool => $this->hasAccessibleDashboardRoute($route));
+        return $this->dashboardRoute() !== null;
     }
 
     /**
@@ -147,8 +116,8 @@ class User extends Authenticatable
 
     public function dashboardRoute(): ?string
     {
-        foreach (array_keys(self::DASHBOARD_ACCESS) as $route) {
-            if ($this->hasAccessibleDashboardRoute($route)) {
+        foreach (self::DASHBOARD_ACCESS as $route => $permission) {
+            if ($this->can($permission)) {
                 return $route;
             }
         }
@@ -168,28 +137,4 @@ class User extends Authenticatable
         ])->save();
     }
 
-    protected function hasAccessibleDashboardRoute(string $route): bool
-    {
-        $permission = self::DASHBOARD_ACCESS[$route] ?? null;
-
-        if (! $permission || ! $this->can($permission)) {
-            return false;
-        }
-
-        return match ($route) {
-            'dashboard.admin' => true,
-            'dashboard.college' => $this->collegeManagementProfile() !== null,
-            'dashboard.department' => $this->departmentManagementProfile() !== null,
-            'dashboard.faculty' => $this->hasFacultySignInProfile(),
-            default => false,
-        };
-    }
-
-    protected function hasFacultySignInProfile(): bool
-    {
-        $profile = $this->facultyProfile;
-
-        return $profile !== null
-            && Str::lower((string) $profile->email) === Str::lower($this->email);
-    }
 }
