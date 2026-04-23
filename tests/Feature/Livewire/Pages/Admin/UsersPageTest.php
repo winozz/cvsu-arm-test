@@ -53,36 +53,6 @@ describe('admin users pages', function () {
             ->and($createdUser->facultyProfile->academic_rank)->toBe('Instructor I');
     });
 
-    it('restores a soft-deleted user when recreating the account from admin', function () {
-        $archivedUser = User::factory()->create([
-            'name' => 'Old Archived Name',
-            'email' => 'restored.user@example.test',
-        ]);
-
-        $archivedUser->delete();
-
-        Livewire::actingAs($this->user)
-            ->test('pages::admin.users.index')
-            ->call('openCreateModal')
-            ->set('form.first_name', 'Rina')
-            ->set('form.last_name', 'Lopez')
-            ->set('form.email', 'restored.user@example.test')
-            ->set('form.roles', ['deptAdmin'])
-            ->set('form.type', 'standard')
-            ->call('save')
-            ->assertHasNoErrors()
-            ->assertSet('createModal', false);
-
-        $restoredUser = User::query()->where('email', 'restored.user@example.test')->first();
-
-        expect($restoredUser)->not->toBeNull()
-            ->and($restoredUser->id)->toBe($archivedUser->id)
-            ->and($restoredUser->name)->toBe('Rina Lopez')
-            ->and($restoredUser->trashed())->toBeFalse()
-            ->and($restoredUser->hasRole('deptAdmin'))->toBeTrue()
-            ->and(User::withTrashed()->where('email', 'restored.user@example.test')->count())->toBe(1);
-    });
-
     it('downgrades a faculty user to standard and archives linked profiles', function () {
         $managedUser = User::factory()->faculty()->create();
 

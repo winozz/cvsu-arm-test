@@ -6,7 +6,6 @@ use App\Models\Department;
 use App\Models\Program;
 use App\Models\Room;
 use App\Traits\CanManage;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -21,7 +20,9 @@ new class extends Component {
     {
         $this->ensureCanManage('departments.view');
 
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college', 'facultyProfile.campus', 'facultyProfile.college']);
         $profile = $user?->employeeProfile ?? $user?->facultyProfile;
 

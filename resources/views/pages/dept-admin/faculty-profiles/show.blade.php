@@ -203,7 +203,9 @@ new class extends Component
 
     protected function resolveManagedScopeContext(): void
     {
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile.department', 'employeeProfile.college', 'employeeProfile.campus', 'facultyProfile.department', 'facultyProfile.college', 'facultyProfile.campus']);
         $profile = $user?->assignedAcademicProfile();
         $scope = $this->routeContext();

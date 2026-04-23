@@ -47,9 +47,4 @@ class Campus extends Model
     {
         return $this->hasMany(EmployeeProfile::class);
     }
-
-    public function subjectAssignments(): HasMany
-    {
-        return $this->hasMany(SubjectAssignment::class);
-    }
 }

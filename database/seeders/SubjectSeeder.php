@@ -26,8 +26,6 @@ class SubjectSeeder extends Seeder
                     'laboratory_units' => $subject['laboratory_units'],
                     'is_credit' => $subject['is_credit'],
                     'is_active' => true,
-                    'status' => Subject::STATUS_SUBMITTED,
-                    'submitted_at' => now(),
                 ]
             );
 

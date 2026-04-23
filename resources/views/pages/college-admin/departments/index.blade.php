@@ -7,7 +7,6 @@ use App\Models\College;
 use App\Models\Department;
 use App\Traits\CanManage;
 use App\Traits\HasDepartmentManagement;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
@@ -28,7 +27,9 @@ new class extends Component
     {
         $this->ensureCanManage('departments.view');
 
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college', 'facultyProfile.campus', 'facultyProfile.college']);
         $profile = $user?->employeeProfile ?? $user?->facultyProfile;
 

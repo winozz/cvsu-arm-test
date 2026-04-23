@@ -5,7 +5,6 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/storage/framework/views-test-*
 /vendor
 .env
 .env.backup

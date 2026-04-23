@@ -102,20 +102,6 @@ new class extends Component {
         $this->createModal = true;
     }
 
-    public function reopenCreateModal(): void
-    {
-        $this->createModal = true;
-    }
-
-    public function closeCreateModal(): void
-    {
-        $this->createModal = false;
-        $this->resetValidation();
-        $this->form->resetForm();
-        $this->colleges = [];
-        $this->departments = [];
-    }
-
     public function save(): void
     {
         $this->ensureCanManage('users.create');
@@ -124,21 +110,12 @@ new class extends Component {
             $this->form->validateForm();
 
             DB::transaction(function (): void {
-                $user = User::withTrashed()->firstOrNew([
-                    'email' => $this->form->email,
-                ]);
-
-                $user->fill(
+                $user = User::query()->create(
                     array_merge($this->form->userAttributes(), [
-                        'password' => $user->password,
-                        'email_verified_at' => $user->email_verified_at ?? now(),
+                        'password' => null,
+                        'email_verified_at' => now(),
                     ]),
                 );
-                $user->save();
-
-                if ($user->trashed()) {
-                    $user->restore();
-                }
 
                 $user->syncRoles($this->form->normalizedRoles());
                 $user->syncPermissions($this->form->resolvedDirectPermissions());
@@ -146,18 +123,19 @@ new class extends Component {
                 $this->syncProfiles($user);
             });
 
-            $this->closeCreateModal();
+            $this->createModal = false;
+            $this->form->resetForm();
+            $this->colleges = [];
+            $this->departments = [];
             $this->dispatch('pg:eventRefresh-usersTable');
             $this->toast()->success('Success', 'User created successfully.')->send();
         } catch (ValidationException $exception) {
-            $this->reopenCreateModal();
             throw $exception;
         } catch (Throwable $exception) {
             Log::error('User creation failed', [
                 'error' => $exception->getMessage(),
             ]);
 
-            $this->reopenCreateModal();
             $this->toast()->error('Error', 'Unable to create the user right now.')->send();
         }
     }
@@ -168,9 +146,7 @@ new class extends Component {
 
         $this->form->validateForm();
 
-        $this->createModal = false;
-
-        $this->dialog()->question('Create user?', 'Are you sure you want to create this user account?')->confirm('Yes, create user', 'save')->cancel('Cancel', 'reopenCreateModal')->send();
+        $this->dialog()->question('Create user?', 'Are you sure you want to create this user account?')->confirm('Yes, create user', 'save')->cancel('Cancel')->send();
     }
 
     public function import(): void
@@ -202,28 +178,20 @@ new class extends Component {
         $assignment = $this->form->resolveAcademicAssignment();
 
         if ($this->form->requiresFacultyProfile()) {
-            $profile = FacultyProfile::withTrashed()->firstOrNew(['user_id' => $user->id]);
+            $profile = FacultyProfile::query()->firstOrNew(['user_id' => $user->id]);
             $profile->fill($this->form->facultyProfileAttributes($assignment));
             $profile->user_id = $user->id;
             $profile->updated_by = Auth::id();
             $profile->save();
-
-            if ($profile->trashed()) {
-                $profile->restore();
-            }
         } else {
             FacultyProfile::query()->where('user_id', $user->id)->delete();
         }
 
         if ($this->form->requiresEmployeeProfile()) {
-            $profile = EmployeeProfile::withTrashed()->firstOrNew(['user_id' => $user->id]);
+            $profile = EmployeeProfile::query()->firstOrNew(['user_id' => $user->id]);
             $profile->fill($this->form->employeeProfileAttributes($assignment));
             $profile->user_id = $user->id;
             $profile->save();
-
-            if ($profile->trashed()) {
-                $profile->restore();
-            }
         } else {
             EmployeeProfile::query()->where('user_id', $user->id)->delete();
         }
@@ -261,7 +229,7 @@ new class extends Component {
 
         <x-slot:footer>
             @can('users.create')
-                <x-button flat text="Cancel" wire:click="closeCreateModal" sm />
+                <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
                 <x-button color="primary" text="Create User" wire:click="confirmSave" sm />
             @endcan
         </x-slot:footer>

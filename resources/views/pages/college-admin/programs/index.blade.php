@@ -6,7 +6,6 @@ use App\Models\College;
 use App\Models\Program;
 use App\Support\ProgramDuplicateDetector;
 use App\Traits\CanManage;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
@@ -41,7 +40,9 @@ new class extends Component {
     {
         $this->ensureCanManage('programs.view');
 
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile.campus', 'employeeProfile.college', 'facultyProfile.campus', 'facultyProfile.college']);
         $profile = $user?->employeeProfile ?? $user?->facultyProfile;
 

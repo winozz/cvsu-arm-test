@@ -7,7 +7,6 @@ use App\Models\College;
 use App\Models\Department;
 use App\Models\Room;
 use App\Traits\CanManage;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -173,7 +172,9 @@ new class extends Component {
 
     protected function currentDepartment(): Department
     {
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile', 'facultyProfile']);
         $departmentId = $user?->employeeProfile?->department_id ?? $user?->facultyProfile?->department_id;
 
@@ -194,7 +195,9 @@ new class extends Component {
 
     protected function currentCollege(): College
     {
-        $user = Auth::user()
+        $user = auth()
+            ->guard()
+            ->user()
             ?->loadMissing(['employeeProfile.college', 'employeeProfile.campus', 'facultyProfile.college', 'facultyProfile.campus']);
         $profile = $user?->employeeProfile ?? $user?->facultyProfile;
 
