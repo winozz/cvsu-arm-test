@@ -73,6 +73,10 @@ describe('Subject model', function () {
             'laboratory_units',
             'is_credit',
             'is_active',
+            'status',
+            'created_by',
+            'submitted_by',
+            'submitted_at',
         ]);
     });
 });

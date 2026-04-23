@@ -25,11 +25,24 @@ class SubjectFactory extends Factory
             'laboratory_units' => fake()->numberBetween(0, 3),
             'is_credit' => fake()->boolean(90),
             'is_active' => true,
+            'status' => Subject::STATUS_SUBMITTED,
+            'created_by' => null,
+            'submitted_by' => null,
+            'submitted_at' => now(),
         ];
     }
 
     public function inactive(): static
     {
         return $this->state(fn (): array => ['is_active' => false]);
+    }
+
+    public function draft(): static
+    {
+        return $this->state(fn (): array => [
+            'status' => Subject::STATUS_DRAFT,
+            'submitted_by' => null,
+            'submitted_at' => null,
+        ]);
     }
 }

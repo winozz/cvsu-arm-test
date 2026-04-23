@@ -147,6 +147,21 @@ class User extends Authenticatable
         return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
     }
 
+    public function createdSubjects(): HasMany
+    {
+        return $this->hasMany(Subject::class, 'created_by');
+    }
+
+    public function submittedSubjects(): HasMany
+    {
+        return $this->hasMany(Subject::class, 'submitted_by');
+    }
+
+    public function subjectUserActions(): HasMany
+    {
+        return $this->hasMany(SubjectUserAction::class);
+    }
+
     /**
      * Get the user's initials
      */
