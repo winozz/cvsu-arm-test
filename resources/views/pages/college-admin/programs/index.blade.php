@@ -198,7 +198,7 @@ new class extends Component {
         } catch (ValidationException $e) {
             $this->reopenProgramModal();
             throw $e;
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->reopenProgramModal();
             Log::error('Program Save Failed: ' . $e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the program.')->send();

@@ -135,7 +135,6 @@ class UserForm extends Form
     public function resetForm(): void
     {
         $this->reset();
-
         $this->user = null;
         $this->roles = [];
         $this->direct_permissions = [];
@@ -146,7 +145,6 @@ class UserForm extends Form
     public function setUser(User $user): void
     {
         $this->resetForm();
-
         $this->user = $user;
         $this->email = $user->email;
         $this->roles = $user->roles->pluck('name')->all();
@@ -174,7 +172,6 @@ class UserForm extends Form
             $this->department_id = $sourceProfile->department_id;
         } else {
             $parts = $this->splitDisplayName($user->name);
-
             $this->first_name = $parts['first_name'];
             $this->middle_name = $parts['middle_name'];
             $this->last_name = $parts['last_name'];

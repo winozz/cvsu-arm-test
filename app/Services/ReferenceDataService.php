@@ -32,7 +32,7 @@ class ReferenceDataService
         return cache()->remember('reference-data:roles', 3600, fn () => Role::query()
             ->whereNull('deleted_at')
             ->orderBy('name')
-            ->get(['name', 'display_name'])
+            ->get(['name'])
             ->map(fn ($role) => ['label' => $role->display_name, 'value' => $role->name])
             ->toArray()
         );
@@ -46,7 +46,7 @@ class ReferenceDataService
         return cache()->remember('reference-data:permissions', 3600, fn () => Permission::query()
             ->whereNull('deleted_at')
             ->orderBy('name')
-            ->get(['name', 'display_name'])
+            ->get(['name'])
             ->map(fn ($permission) => ['label' => $permission->display_name, 'value' => $permission->name])
             ->toArray()
         );
@@ -89,6 +89,7 @@ class ReferenceDataService
     public function rolesAsNames(): array
     {
         return cache()->remember('reference-data:roles-as-names', 3600, fn () => Role::query()
+            ->whereNull('deleted_at')
             ->orderBy('name')
             ->get(['name'])
             ->map(fn ($role) => ['label' => $role->name, 'value' => $role->name])
@@ -103,6 +104,7 @@ class ReferenceDataService
     public function permissionsAsNames(): array
     {
         return cache()->remember('reference-data:permissions-as-names', 3600, fn () => Permission::query()
+            ->whereNull('deleted_at')
             ->orderBy('name')
             ->get(['name'])
             ->map(fn ($permission) => ['label' => $permission->name, 'value' => $permission->name])

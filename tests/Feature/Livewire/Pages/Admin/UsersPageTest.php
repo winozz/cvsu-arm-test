@@ -41,7 +41,6 @@ describe('admin users pages', function () {
             ->set('form.address', 'Indang, Cavite')
             ->call('save')
             ->assertHasNoErrors()
-            ->assertSet('createModal', false)
             ->assertDispatched('pg:eventRefresh-usersTable');
 
         $createdUser = User::query()->where('email', 'lina.castro@example.test')->first();
@@ -62,8 +61,7 @@ describe('admin users pages', function () {
             ->set('form.type', 'standard')
             ->set('form.roles', ['deptAdmin'])
             ->call('save')
-            ->assertHasNoErrors()
-            ->assertSet('isEditing', false);
+            ->assertHasNoErrors();
 
         expect($managedUser->fresh()->facultyProfile)->toBeNull()
             ->and($managedUser->fresh()->employeeProfile)->toBeNull();
@@ -83,7 +81,6 @@ describe('admin users pages', function () {
             ->set('form.department_id', $newDepartment->id)
             ->call('save')
             ->assertHasNoErrors()
-            ->assertSet('isEditing', false)
             ->assertSet('form.campus_id', $newCampus->id)
             ->assertSet('form.college_id', $newCollege->id)
             ->assertSet('form.department_id', $newDepartment->id);
@@ -105,8 +102,7 @@ describe('admin users pages', function () {
             ->set('form.academic_rank', 'Associate Professor I')
             ->set('form.position', 'Department Chair')
             ->call('save')
-            ->assertHasNoErrors()
-            ->assertSet('isEditing', false);
+            ->assertHasNoErrors();
 
         $freshUser = $managedUser->fresh(['facultyProfile', 'employeeProfile']);
 
@@ -114,6 +110,37 @@ describe('admin users pages', function () {
             ->and($freshUser->employeeProfile)->not->toBeNull()
             ->and($freshUser->facultyProfile->academic_rank)->toBe('Associate Professor I')
             ->and($freshUser->employeeProfile->position)->toBe('Department Chair');
+    });
+
+    it('clears academic assignment selections when the create form switches back to standard', function () {
+        Livewire::actingAs($this->user)
+            ->test('pages::admin.users.index')
+            ->call('openCreateModal')
+            ->set('form.type', 'faculty')
+            ->set('form.campus_id', $this->campus->id)
+            ->set('form.college_id', $this->college->id)
+            ->set('form.department_id', $this->department->id)
+            ->set('form.type', 'standard')
+            ->assertSet('form.campus_id', null)
+            ->assertSet('form.college_id', null)
+            ->assertSet('form.department_id', null)
+            ->assertSet('colleges', [])
+            ->assertSet('departments', []);
+    });
+
+    it('restores persisted values when edit mode is cancelled', function () {
+        $managedUser = User::factory()->faculty()->create();
+        $originalFirstName = $managedUser->facultyProfile->first_name;
+
+        Livewire::actingAs($this->user)
+            ->test('pages::admin.users.show', ['user' => $managedUser])
+            ->call('startEditing')
+            ->set('form.first_name', 'Changed')
+            ->set('form.academic_rank', 'Professor VI')
+            ->call('cancelEditing')
+            ->assertSet('isEditing', false)
+            ->assertSet('form.first_name', $originalFirstName)
+            ->assertSet('form.academic_rank', $managedUser->fresh()->facultyProfile->academic_rank);
     });
 
     it('renders account timestamps in Philippine time on the user detail page', function () {

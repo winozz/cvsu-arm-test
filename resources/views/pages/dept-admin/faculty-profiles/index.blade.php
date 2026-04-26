@@ -196,7 +196,7 @@ new class extends Component {
             $this->dispatch('pg:eventRefresh-facultyProfilesTable');
         } catch (ValidationException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('Faculty profile creation failed', [
                 'error' => $exception->getMessage(),
             ]);
@@ -219,7 +219,7 @@ new class extends Component {
             $this->dispatch('pg:eventRefresh-facultyProfilesTable');
         } catch (ValidationException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('Faculty import failed', [
                 'error' => $exception->getMessage(),
             ]);

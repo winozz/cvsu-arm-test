@@ -15,7 +15,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, HasCascadingLocationSelects, Interactions;
 
     public User $user;
@@ -38,7 +39,6 @@ new class extends Component {
     {
         $this->ensureCanManage('users.view');
 
-        // Load reference data once using the service
         $referenceDataService = app(ReferenceDataService::class);
         $this->campuses = $referenceDataService->campuses();
         $this->roles = $referenceDataService->roles();
@@ -55,13 +55,11 @@ new class extends Component {
 
     public function updatedFormType(string $value): void
     {
-        if ($value !== 'standard') {
-            return;
+        if ($value === 'standard') {
+            $this->form->clearAssignment();
+            $this->colleges = [];
+            $this->departments = [];
         }
-
-        $this->form->clearAssignment();
-        $this->colleges = [];
-        $this->departments = [];
     }
 
     public function startEditing(): void
@@ -102,7 +100,7 @@ new class extends Component {
             $this->toast()->success('Success', 'User updated successfully.')->send();
         } catch (ValidationException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('User update failed', [
                 'user_id' => $this->user->id,
                 'error' => $exception->getMessage(),
@@ -112,20 +110,11 @@ new class extends Component {
         }
     }
 
-    public function confirmSave(): void
-    {
-        $this->ensureCanManage('users.update');
-
-        $this->form->validateForm();
-
-        $this->dialog()->question('Save changes?', 'Apply the updates to this user account now?')->confirm('Yes, save changes', 'save')->cancel('Cancel')->send();
-    }
-
     public function assignmentPath(): string
     {
         $profile = $this->user->facultyProfile ?? $this->user->employeeProfile;
 
-        if (!$profile) {
+        if (! $profile) {
             return 'Not assigned';
         }
 
@@ -206,7 +195,7 @@ new class extends Component {
             @can('users.update')
                 @if ($isEditing)
                     <x-button flat text="Cancel" wire:click="cancelEditing" sm />
-                    <x-button color="primary" text="Save Changes" wire:click="confirmSave" sm />
+                    <x-button color="primary" text="Save Changes" wire:click="save" sm />
                 @else
                     <x-button color="primary" text="Edit User" icon="pencil" wire:click="startEditing" sm />
                 @endif

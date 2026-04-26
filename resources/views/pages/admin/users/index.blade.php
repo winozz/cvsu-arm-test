@@ -43,13 +43,10 @@ new class extends Component {
     {
         $this->ensureCanManage('users.view');
 
-        // Load reference data once using the service
         $referenceDataService = app(ReferenceDataService::class);
         $this->campuses = $referenceDataService->campuses();
         $this->roles = $referenceDataService->roles();
         $this->permissions = $referenceDataService->permissions();
-
-        $this->form->resetForm();
     }
 
     #[Computed]
@@ -60,13 +57,11 @@ new class extends Component {
 
     public function updatedFormType(string $value): void
     {
-        if ($value !== 'standard') {
-            return;
+        if ($value === 'standard') {
+            $this->form->clearAssignment();
+            $this->colleges = [];
+            $this->departments = [];
         }
-
-        $this->form->clearAssignment();
-        $this->colleges = [];
-        $this->departments = [];
     }
 
     public function openCreateModal(): void
@@ -109,22 +104,13 @@ new class extends Component {
             $this->toast()->success('Success', 'User created successfully.')->send();
         } catch (ValidationException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('User creation failed', [
                 'error' => $exception->getMessage(),
             ]);
 
             $this->toast()->error('Error', 'Unable to create the user right now.')->send();
         }
-    }
-
-    public function confirmSave(): void
-    {
-        $this->ensureCanManage('users.create');
-
-        $this->form->validateForm();
-
-        $this->dialog()->question('Create user?', 'Are you sure you want to create this user account?')->confirm('Yes, create user', 'save')->cancel('Cancel')->send();
     }
 
     public function import(): void
@@ -142,7 +128,7 @@ new class extends Component {
             $this->importFile = null;
             $this->dispatch('pg:eventRefresh-usersTable');
             $this->toast()->success('Imported', 'Users imported successfully.')->send();
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('User import failed', [
                 'error' => $exception->getMessage(),
             ]);
@@ -208,7 +194,7 @@ new class extends Component {
         <x-slot:footer>
             @can('users.create')
                 <x-button flat text="Cancel" wire:click="$set('createModal', false)" sm />
-                <x-button color="primary" text="Create User" wire:click="confirmSave" sm />
+                <x-button color="primary" text="Create User" wire:click="save" sm />
             @endcan
         </x-slot:footer>
     </x-modal>

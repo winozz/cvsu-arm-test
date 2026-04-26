@@ -159,7 +159,7 @@ new class extends Component
             $this->toast()->success('Faculty Profile updated successfully.')->send();
         } catch (ValidationException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             Log::error('Faculty profile update failed', [
                 'faculty_profile_id' => $this->facultyProfile->id,
                 'error' => $exception->getMessage(),
