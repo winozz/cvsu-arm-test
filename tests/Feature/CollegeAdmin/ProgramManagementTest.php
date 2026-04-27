@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Tables\Admin\ProgramsTable;
 use App\Models\Campus;
 use App\Models\College;
 use App\Models\Department;
@@ -172,6 +173,42 @@ describe('college admin program management', function () {
             ->and($college->fresh()->programs->modelKeys())->toContain($program->id);
     });
 
+    it('program code punctuation variants are warned as similar but can still be created', function () {
+        [, $college, , $user] = collegeAdminProgramContext();
+        $otherCollege = College::factory()->forCampus($college->campus)->create([
+            'code' => 'COE',
+            'name' => 'College of Engineering',
+        ]);
+        $existingProgram = Program::factory()->create([
+            'code' => 'BSE-S',
+            'title' => 'Bachelor of Science in Environmental Science',
+        ]);
+        $otherCollege->programs()->attach($existingProgram->id);
+
+        Livewire::actingAs($user)
+            ->test('pages::college-admin.programs.index')
+            ->call('openCreateProgramModal')
+            ->set('programForm.code', 'BSES')
+            ->set('programForm.title', 'Bachelor of Science in Earth Science')
+            ->set('programForm.description', 'Similar code, different shared program.')
+            ->set('programForm.no_of_years', 4)
+            ->set('programForm.level', 'UNDERGRADUATE')
+            ->set('programForm.is_active', true)
+            ->call('confirmSaveProgram')
+            ->assertHasNoErrors()
+            ->assertSet('programDuplicateConflictType', 'similar')
+            ->assertSet('programSimilarDuplicateConflicts', [
+                'BSE-S - Bachelor of Science in Environmental Science | Colleges: COE',
+            ])
+            ->call('proceedWithSimilarProgramCreation')
+            ->assertHasNoErrors();
+
+        $program = Program::query()->where('code', 'BSES')->first();
+
+        expect($program)->not->toBeNull()
+            ->and($college->fresh()->programs->modelKeys())->toContain($program->id);
+    });
+
     it('college admin can edit a shared program from their page', function () {
         [, $college, , $user] = collegeAdminProgramContext();
         $otherCollege = College::factory()->forCampus($college->campus)->create();
@@ -196,7 +233,30 @@ describe('college admin program management', function () {
             ->and($otherCollege->fresh()->programs->modelKeys())->toContain($program->id);
     });
 
-    it('college admin can soft delete a program from the current college page', function () {
+    it('college admin can offer an existing shared program to their college', function () {
+        [, $college, , $user] = collegeAdminProgramContext();
+        $otherCollege = College::factory()->forCampus($college->campus)->create();
+        $program = Program::factory()->create([
+            'code' => 'BSIT',
+            'title' => 'Bachelor of Science in Information Technology',
+        ]);
+        $otherCollege->programs()->attach($program->id);
+
+        Livewire::actingAs($user)
+            ->test('pages::college-admin.programs.index')
+            ->call('openOfferProgramModal')
+            ->set('offeredProgramId', $program->id)
+            ->call('offerProgram')
+            ->assertHasNoErrors();
+
+        expect($college->fresh()->programs->modelKeys())->toContain($program->id)
+            ->and(DB::table('college_programs')->where([
+                'college_id' => $otherCollege->id,
+                'program_id' => $program->id,
+            ])->exists())->toBeTrue();
+    });
+
+    it('college admin can remove a program from their offered list without deleting the shared program', function () {
         [, $college, , $user] = collegeAdminProgramContext();
         $otherCollege = College::factory()->forCampus($college->campus)->create();
         $program = Program::factory()->create();
@@ -204,33 +264,19 @@ describe('college admin program management', function () {
         $otherCollege->programs()->attach($program->id);
 
         Livewire::actingAs($user)
-            ->test('pages::college-admin.programs.index')
+            ->test(ProgramsTable::class, ['collegeId' => $college->id])
             ->call('deleteProgram', $program->id)
             ->assertHasNoErrors();
 
-        expect($program->fresh()->trashed())->toBeTrue()
+        expect($program->fresh()->trashed())->toBeFalse()
             ->and(DB::table('college_programs')->where([
                 'college_id' => $college->id,
                 'program_id' => $program->id,
-            ])->exists())->toBeTrue()
+            ])->exists())->toBeFalse()
             ->and(DB::table('college_programs')->where([
                 'college_id' => $otherCollege->id,
                 'program_id' => $program->id,
             ])->exists())->toBeTrue()
-            ->and(Program::query()->whereKey($program->id)->exists())->toBeFalse();
-    });
-
-    it('college admin can restore a soft deleted program from the current college page', function () {
-        [, $college, , $user] = collegeAdminProgramContext();
-        $program = Program::factory()->create();
-        $college->programs()->attach($program->id);
-        $program->delete();
-
-        Livewire::actingAs($user)
-            ->test('pages::college-admin.programs.index')
-            ->call('restoreProgram', $program->id)
-            ->assertHasNoErrors();
-
-        expect($program->fresh()->trashed())->toBeFalse();
+            ->and(Program::query()->whereKey($program->id)->exists())->toBeTrue();
     });
 });

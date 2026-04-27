@@ -195,13 +195,12 @@ describe('ProgramsTable', function () {
         $this->user = actingUserWithPermissions([
             'programs.update',
             'programs.delete',
-            'programs.restore',
         ]);
         $this->campus = Campus::factory()->create();
         $this->college = College::factory()->forCampus($this->campus)->create();
     });
 
-    it('configures the programs export name and scopes the datasource to the current college', function () {
+    it('configures the programs export name and scopes the datasource to currently offered programs in the current college', function () {
         $programInCollege = Program::factory()->create();
         $otherCollege = College::factory()->forCampus($this->campus)->create();
         $programOutsideCollege = Program::factory()->create();
@@ -219,12 +218,6 @@ describe('ProgramsTable', function () {
             ->and($component->instance()->datasource()->pluck('id')->all())
             ->toContain($programInCollege->id)
             ->not->toContain($programOutsideCollege->id, $trashedProgram->id);
-
-        $component->set('softDeletes', 'withTrashed');
-
-        expect($component->instance()->datasource()->pluck('id')->all())
-            ->toContain($programInCollege->id, $trashedProgram->id)
-            ->not->toContain($programOutsideCollege->id);
     });
 
     it('builds unique level and availability filter options for the current college', function () {
@@ -268,7 +261,7 @@ describe('ProgramsTable', function () {
             ]);
     });
 
-    it('builds edit, delete, and restore actions with the expected events', function () {
+    it('builds edit and delete actions with the expected events', function () {
         $program = Program::factory()->create();
         $this->college->programs()->attach($program->id);
 
@@ -277,36 +270,9 @@ describe('ProgramsTable', function () {
             ->instance()
             ->actions($program);
 
-        expect(collect($actions)->pluck('action')->all())->toBe(['edit', 'delete', 'restore'])
+        expect(collect($actions)->pluck('action')->all())->toBe(['edit', 'delete'])
             ->and($actions[0]->attributes['wire:click'])->toContain('openEditProgramModal')
-            ->and($actions[1]->attributes['wire:click'])->toContain('confirmDeleteProgram')
-            ->and($actions[2]->attributes['wire:click'])->toContain('confirmRestoreProgram');
-    });
-
-    it('hides the correct action buttons based on trash state', function () {
-        $activeProgram = Program::factory()->create();
-        $trashedProgram = Program::factory()->create();
-        $this->college->programs()->attach($activeProgram->id);
-        $this->college->programs()->attach($trashedProgram->id);
-        $trashedProgram->delete();
-
-        $component = Livewire::actingAs($this->user)->test(ProgramsTable::class, ['collegeId' => $this->college->id])->instance();
-
-        $activeRules = collect($component->actionRules($activeProgram))
-            ->mapWithKeys(fn ($rule) => [$rule->forAction => ($rule->rule['when'])($activeProgram)]);
-
-        $trashedRules = collect($component->actionRules($trashedProgram))
-            ->mapWithKeys(fn ($rule) => [$rule->forAction => ($rule->rule['when'])($trashedProgram)]);
-
-        expect($activeRules->all())->toBe([
-            'edit' => false,
-            'delete' => false,
-            'restore' => true,
-        ])->and($trashedRules->all())->toBe([
-            'edit' => true,
-            'delete' => true,
-            'restore' => false,
-        ]);
+            ->and($actions[1]->attributes['wire:click'])->toContain('confirmDeleteProgram');
     });
 });
 

@@ -41,8 +41,7 @@ final class ProgramsTable extends PowerGridComponent
 
             PowerGrid::header()
                 ->showSearchInput()
-                ->showToggleColumns()
-                ->showSoftDeletes(showMessage: true),
+                ->showToggleColumns(),
 
             PowerGrid::footer()
                 ->showPerPage()
@@ -127,9 +126,7 @@ final class ProgramsTable extends PowerGridComponent
     protected function baseProgramQuery(): Builder
     {
         return Program::query()
-            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId))
-            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
-            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
+            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId));
     }
 
     protected function levelFilterOptions(): array
@@ -168,28 +165,20 @@ final class ProgramsTable extends PowerGridComponent
     {
         $actions = [];
 
-        if (! $row->trashed()) {
-            if ($this->canManage('programs.update')) {
-                $actions[] = Button::add('edit')
-                    ->slot('Edit')
-                    ->icon('default-pencil-square', ['class' => 'w-4 h-4 text-blue-500 group-hover:text-blue-700 dark:group-hover:text-blue-400'])
-                    ->class('group flex items-center gap-1 text-xs font-bold text-blue-500 rounded border border-blue-500 px-2 py-1 hover:text-blue-700 hover:bg-zinc-100 dark:hover:bg-blue-800 dark:hover:text-blue-400 transition-all duration-300 cursor-pointer')
-                    ->dispatch('openEditProgramModal', ['program' => $row->id]);
-            }
+        if ($this->canManage('programs.update')) {
+            $actions[] = Button::add('edit')
+                ->slot('Edit')
+                ->icon('default-pencil-square', ['class' => 'w-4 h-4 text-blue-500 group-hover:text-blue-700 dark:group-hover:text-blue-400'])
+                ->class('group flex items-center gap-1 text-xs font-bold text-blue-500 rounded border border-blue-500 px-2 py-1 hover:text-blue-700 hover:bg-zinc-100 dark:hover:bg-blue-800 dark:hover:text-blue-400 transition-all duration-300 cursor-pointer')
+                ->dispatch('openEditProgramModal', ['program' => $row->id]);
+        }
 
-            if ($this->canManage('programs.delete')) {
-                $actions[] = Button::add('delete')
-                    ->slot('Remove')
-                    ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700 dark:group-hover:text-red-400'])
-                    ->class('group flex items-center gap-1 text-xs font-bold text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 dark:hover:bg-red-800 dark:hover:text-red-400 transition-all duration-300 cursor-pointer')
-                    ->call('confirmDeleteProgram', ['id' => $row->id]);
-            }
-        } elseif ($this->canManage('programs.restore')) {
-            $actions[] = Button::add('restore')
-                ->slot('Restore')
-                ->icon('default-arrow-path', ['class' => 'w-4 h-4 text-amber-500 group-hover:text-amber-700 dark:group-hover:text-amber-400'])
-                ->class('group flex items-center gap-1 text-xs font-bold text-amber-500 rounded border border-amber-500 px-2 py-1 hover:text-amber-700 hover:bg-zinc-100 dark:hover:bg-amber-800 dark:hover:text-amber-400 transition-all duration-300 cursor-pointer')
-                ->call('confirmRestoreProgram', ['id' => $row->id]);
+        if ($this->canManage('programs.delete')) {
+            $actions[] = Button::add('delete')
+                ->slot('Remove')
+                ->icon('default-trash', ['class' => 'w-4 h-4 text-red-500 group-hover:text-red-700 dark:group-hover:text-red-400'])
+                ->class('group flex items-center gap-1 text-xs font-bold text-red-500 rounded border border-red-500 px-2 py-1 hover:text-red-700 hover:bg-zinc-100 dark:hover:bg-red-800 dark:hover:text-red-400 transition-all duration-300 cursor-pointer')
+                ->call('confirmDeleteProgram', ['id' => $row->id]);
         }
 
         return $actions;
@@ -201,12 +190,7 @@ final class ProgramsTable extends PowerGridComponent
         $this->ensureCanManage('programs.delete');
 
         $program = $this->findManagedProgram((int) $params['id']);
-        $collegeCount = $program->colleges()->count();
         $message = 'Are you sure you want to remove '.e($program->code).' - '.e($program->title).' from the offered programs?';
-
-        if ($collegeCount > 1) {
-            $message .= ' This shared program is offered by '.$collegeCount.' colleges and will be moved to trash for all of them.';
-        }
 
         $this->dialog()
             ->question('Remove Program?', $message)
@@ -220,52 +204,21 @@ final class ProgramsTable extends PowerGridComponent
         $this->ensureCanManage('programs.delete');
 
         try {
-            $this->findManagedProgram($id)->delete();
+            $program = $this->findManagedProgram($id);
+            $program->colleges()->detach($this->collegeId);
             $this->dispatch('pg:eventRefresh-'.$this->tableName);
-            $this->toast()->success('Deleted', 'Program moved to trash.')->send();
+            $this->toast()->success('Removed', 'Program removed from offered programs.')->send();
         } catch (\Exception $e) {
-            Log::error('Program Deletion Failed: '.$e->getMessage());
-            $this->toast()->error('Error', 'Failed to delete program. Please try again or contact support.')->send();
+            Log::error('Program Removal Failed: '.$e->getMessage());
+            $this->toast()->error('Error', 'Failed to remove program from offered programs. Please try again or contact support.')->send();
         }
     }
 
-    public function confirmRestoreProgram(array $params): void
+    protected function findManagedProgram(int $id): Program
     {
-        $this->ensureCanManage('programs.restore');
-
-        $program = $this->findManagedProgram((int) $params['id'], true);
-
-        $this->dialog()
-            ->question('Restore Program?', 'Are you sure you want to restore '.e($program->code).' - '.e($program->title).'?')
-            ->confirm('Yes, restore', 'restoreProgram', $program->id)
-            ->cancel('Cancel')
-            ->send();
-    }
-
-    public function restoreProgram(int $id): void
-    {
-        $this->ensureCanManage('programs.restore');
-
-        try {
-            $this->findManagedProgram($id, true)->restore();
-            $this->dispatch('pg:eventRefresh-'.$this->tableName);
-            $this->toast()->success('Restored', 'Program has been restored.')->send();
-        } catch (\Exception $e) {
-            Log::error('Program Restoration Failed: '.$e->getMessage());
-            $this->toast()->error('Error', 'Failed to restore program. Please try again or contact support.')->send();
-        }
-    }
-
-    protected function findManagedProgram(int $id, bool $includeTrashed = false): Program
-    {
-        $query = Program::query()
+        return Program::query()
             ->whereKey($id)
-            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId));
-
-        if ($includeTrashed) {
-            $query->withTrashed();
-        }
-
-        return $query->firstOrFail();
+            ->whereHas('colleges', fn ($query) => $query->whereKey($this->collegeId))
+            ->firstOrFail();
     }
 }

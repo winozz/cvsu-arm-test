@@ -6,7 +6,9 @@ use App\Models\College;
 use App\Models\Program;
 use App\Support\ProgramDuplicateDetector;
 use App\Traits\CanManage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -24,9 +26,13 @@ new class extends Component {
 
     public bool $programModal = false;
 
+    public bool $offerProgramModal = false;
+
     public bool $isEditingProgram = false;
 
     public int $sharedProgramCollegeCount = 0;
+
+    public ?int $offeredProgramId = null;
 
     public ?string $programDuplicateConflictType = null;
 
@@ -68,6 +74,15 @@ new class extends Component {
         $this->programModal = true;
     }
 
+    public function openOfferProgramModal(): void
+    {
+        $this->ensureCanManage('programs.create');
+
+        $this->resetValidation();
+        $this->offeredProgramId = null;
+        $this->offerProgramModal = true;
+    }
+
     #[Computed]
     public function stats(): array
     {
@@ -78,6 +93,21 @@ new class extends Component {
             'active' => (clone $baseQuery)->where('is_active', true)->count(),
             'inactive' => (clone $baseQuery)->where('is_active', false)->count(),
         ];
+    }
+
+    #[Computed]
+    public function offerProgramOptions(): array
+    {
+        return $this->offerableProgramsQuery()
+            ->get()
+            ->map(fn (Program $program) => [
+                'label' => $program->display_name
+                    .' | '.$program->level_label
+                    .($program->is_active ? '' : ' | Inactive'),
+                'value' => $program->id,
+            ])
+            ->values()
+            ->all();
     }
 
     #[On('openEditProgramModal')]
@@ -105,9 +135,21 @@ new class extends Component {
         $this->programForm->resetForm();
     }
 
+    public function closeOfferProgramModal(): void
+    {
+        $this->offerProgramModal = false;
+        $this->offeredProgramId = null;
+        $this->resetValidation();
+    }
+
     public function reopenProgramModal(): void
     {
         $this->programModal = true;
+    }
+
+    public function reopenOfferProgramModal(): void
+    {
+        $this->offerProgramModal = true;
     }
 
     public function confirmSaveProgram(): void
@@ -158,6 +200,45 @@ new class extends Component {
         $this->programSimilarityConfirmed = true;
 
         $this->saveProgram();
+    }
+
+    public function confirmOfferProgram(): void
+    {
+        $this->ensureCanManage('programs.create');
+
+        $this->validateOfferProgramSelection();
+
+        $program = $this->findOfferableProgram((int) $this->offeredProgramId);
+        $this->offerProgramModal = false;
+
+        $this->dialog()
+            ->question('Offer Program?', 'Are you sure you want to offer '.$program->display_name.' under '.$this->college->name.'?')
+            ->confirm('Yes, offer program', 'offerProgram')
+            ->cancel('Cancel', 'reopenOfferProgramModal')
+            ->send();
+    }
+
+    public function offerProgram(): void
+    {
+        $this->ensureCanManage('programs.create');
+
+        try {
+            $this->validateOfferProgramSelection();
+
+            $program = $this->findOfferableProgram((int) $this->offeredProgramId);
+            $this->college->programs()->syncWithoutDetaching([$program->id]);
+
+            $this->closeOfferProgramModal();
+            $this->dispatch('pg:eventRefresh-programsTable');
+            $this->toast()->success('Success', 'Program offered successfully.')->send();
+        } catch (ValidationException $e) {
+            $this->reopenOfferProgramModal();
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->reopenOfferProgramModal();
+            Log::error('Program Offer Failed: ' . $e->getMessage());
+            $this->toast()->error('Error', 'An unexpected error occurred while offering the program.')->send();
+        }
     }
 
     public function saveProgram(): void
@@ -223,6 +304,17 @@ new class extends Component {
         $this->programSimilarityConfirmed = false;
     }
 
+    protected function validateOfferProgramSelection(): array
+    {
+        return $this->validate([
+            'offeredProgramId' => [
+                'required',
+                'integer',
+                Rule::exists('programs', 'id')->where(fn ($query) => $query->whereNull('deleted_at')),
+            ],
+        ]);
+    }
+
     protected function openExactProgramDuplicateDialog(array $exactConflicts, array $similarConflicts = []): void
     {
         $this->programDuplicateConflictType = 'exact';
@@ -252,6 +344,21 @@ new class extends Component {
         }
 
         return $query->firstOrFail();
+    }
+
+    protected function offerableProgramsQuery(): Builder
+    {
+        return Program::query()
+            ->whereDoesntHave('colleges', fn ($query) => $query->whereKey($this->college->id))
+            ->orderBy('code')
+            ->orderBy('title');
+    }
+
+    protected function findOfferableProgram(int $id): Program
+    {
+        return $this->offerableProgramsQuery()
+            ->whereKey($id)
+            ->firstOrFail();
     }
 };
 ?>
@@ -315,6 +422,7 @@ new class extends Component {
 
             <div class="flex gap-2">
                 @can('programs.create')
+                    <x-button wire:click="openOfferProgramModal" sm flat icon="bookmark-square" text="Offer Program" />
                     <x-button wire:click="openCreateProgramModal" sm color="primary" icon="plus" text="New Program" />
                 @endcan
             </div>
@@ -324,6 +432,33 @@ new class extends Component {
             <livewire:tables.admin.programs-table :college-id="$college->id" />
         </div>
     </x-card>
+
+    <x-modal wire="offerProgramModal" title="Offer Existing Program" size="3xl">
+        <div class="space-y-4">
+            <x-select.styled label="Program" wire:model="offeredProgramId" placeholder="Choose a shared program"
+                searchable :options="$this->offerProgramOptions" select="label:label|value:value" />
+
+            @if ($this->offerProgramOptions === [])
+                <div
+                    class="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-300">
+                    All existing programs are already offered under {{ $college->name }}.
+                </div>
+            @else
+                <div
+                    class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-300">
+                    Select an existing shared program from the catalog and attach it to {{ $college->name }}.
+                </div>
+            @endif
+        </div>
+
+        <x-slot:footer>
+            @can('programs.create')
+                <x-button flat text="Cancel" wire:click="closeOfferProgramModal" sm />
+                <x-button color="primary" text="Offer Program" wire:click="confirmOfferProgram" sm
+                    :disabled="$this->offerProgramOptions === []" />
+            @endcan
+        </x-slot:footer>
+    </x-modal>
 
     <x-modal wire="programModal" title="{{ $isEditingProgram ? 'Edit Program Details' : 'New Program' }}"
         size="3xl">

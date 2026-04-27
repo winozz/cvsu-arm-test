@@ -40,23 +40,27 @@ class ProgramDuplicateDetector
 
     public static function conflictReasons(string $code, string $title, Program $program): array
     {
-        $enteredCode = self::normalizeCode($code);
-        $existingCode = self::normalizeCode($program->code);
-        $enteredTitle = self::normalizeTitle($title);
-        $existingTitle = self::normalizeTitle($program->title);
+        $enteredExactCode = self::normalizeExactValue($code);
+        $existingExactCode = self::normalizeExactValue($program->code);
+        $enteredSimilarCode = self::normalizeCode($code);
+        $existingSimilarCode = self::normalizeCode($program->code);
+        $enteredExactTitle = self::normalizeExactValue($title);
+        $existingExactTitle = self::normalizeExactValue($program->title);
+        $enteredSimilarTitle = self::normalizeTitle($title);
+        $existingSimilarTitle = self::normalizeTitle($program->title);
 
         $exact = [];
         $similar = [];
 
-        if (self::valuesMatchExactly($enteredCode, $existingCode)) {
+        if (self::valuesMatchExactly($enteredExactCode, $existingExactCode)) {
             $exact[] = 'exact code';
-        } elseif (self::codesLookSimilar($enteredCode, $existingCode)) {
+        } elseif (self::codesLookSimilar($enteredSimilarCode, $existingSimilarCode)) {
             $similar[] = 'similar code';
         }
 
-        if (self::valuesMatchExactly($enteredTitle, $existingTitle)) {
+        if (self::valuesMatchExactly($enteredExactTitle, $existingExactTitle)) {
             $exact[] = 'exact title';
-        } elseif (self::titlesLookSimilar($enteredTitle, $existingTitle)) {
+        } elseif (self::titlesLookSimilar($enteredSimilarTitle, $existingSimilarTitle)) {
             $similar[] = 'similar title';
         }
 
@@ -107,6 +111,11 @@ class ProgramDuplicateDetector
         return preg_replace('/[^a-z0-9]+/', '', Str::lower(trim((string) $value))) ?? '';
     }
 
+    public static function normalizeExactValue(?string $value): string
+    {
+        return Str::lower(Str::squish(trim((string) $value)));
+    }
+
     public static function normalizeTitle(?string $value): string
     {
         return preg_replace('/[^a-z0-9]+/', ' ', Str::lower(Str::squish((string) $value))) ?? '';
@@ -115,34 +124,34 @@ class ProgramDuplicateDetector
     public static function formatConflict(Program $program): string
     {
         $collegeList = $program->colleges
-            ->map(fn (College $college) => e($college->code))
+            ->map(fn (College $college) => $college->code)
             ->values()
             ->implode(', ');
 
         $suffix = $program->trashed() ? ' [Trashed]' : '';
 
-        return '<b>'.e($program->code).'</b> - '.e($program->title)
-            .' | <b>Colleges: </b>'.($collegeList !== '' ? $collegeList : 'Not assigned.')
+        return $program->code.' - '.$program->title
+            .' | Colleges: '.($collegeList !== '' ? $collegeList : 'Not assigned.')
             .$suffix;
     }
 
     public static function exactWarningMessage(array $exactConflicts, array $similarConflicts = []): string
     {
-        $exactItems = collect($exactConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+        $exactItems = collect($exactConflicts)->map(fn (string $conflict) => '&bull; '.e($conflict))->implode('<br>');
         $message = 'A program with the exact same code or title already exists in the catalog. Creation was stopped to avoid duplicate shared records.<br><br>'
             .'<b>Possible exact duplicates:</b><br>'.$exactItems;
 
         if ($similarConflicts !== []) {
-            $similarItems = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+            $similarItems = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.e($conflict))->implode('<br>');
             $message .= '<br><br><b>Other similar matches:</b><br>'.$similarItems;
         }
 
-        return $message.'<br><br>Review the existing records before trying again.';
+        return $message.'<br><br>If this is already the shared program you need, use <b>Offer Program</b> instead of creating another record.';
     }
 
     public static function similarWarningMessage(array $similarConflicts): string
     {
-        $items = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.$conflict)->implode('<br>');
+        $items = collect($similarConflicts)->map(fn (string $conflict) => '&bull; '.e($conflict))->implode('<br>');
 
         return 'There are existing programs with similar code or title across colleges. Please review these possible duplicates before creating a new shared program.<br><br>'
             .$items
