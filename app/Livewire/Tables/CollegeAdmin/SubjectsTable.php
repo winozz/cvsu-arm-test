@@ -4,16 +4,18 @@ namespace App\Livewire\Tables\CollegeAdmin;
 
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Builder;
-use Livewire\Attributes\On;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class SubjectsTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'subjectsTable';
 
     public function boot(): void
@@ -26,17 +28,29 @@ final class SubjectsTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable(fileName: 'subjects-list')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+
             PowerGrid::header()
-                ->showSearchInput(),
+                ->showSearchInput()
+                ->showToggleColumns()
+                ->showSoftDeletes(showMessage: true),
+
             PowerGrid::footer()
-                ->showPerPage()
+                ->showPerPage(25, [10, 25, 50, 100, 0])
                 ->showRecordCount(),
+
+            PowerGrid::responsive()
+                ->fixedColumns('code', 'title'),
         ];
     }
 
     public function datasource(): Builder
     {
-        return Subject::query();
+        return Subject::query()
+            ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
+            ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
     }
 
     public function relationSearch(): array
@@ -55,6 +69,9 @@ final class SubjectsTable extends PowerGridComponent
             ->add('laboratory_units')
             ->add('is_credit')
             ->add('is_active')
+            ->add('units_label', fn (Subject $model) => $model->units_label)
+            ->add('credit_label', fn (Subject $model) => $model->credit_label)
+            ->add('availability', fn (Subject $model) => $model->is_active ? 'Active' : 'Inactive')
             ->add(
                 'created_at_formatted',
                 fn (Subject $model) => $model->created_at?->timezone(config('app.timezone'))->format('d/m/Y H:i:s')
@@ -64,7 +81,9 @@ final class SubjectsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
+            Column::make('Id', 'id')
+                ->hidden(isHidden: true, isForceHidden: false),
+
             Column::make('Code', 'code')
                 ->sortable()
                 ->searchable(),
@@ -75,46 +94,47 @@ final class SubjectsTable extends PowerGridComponent
 
             Column::make('Description', 'description')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->hidden(isHidden: true, isForceHidden: false),
 
-            Column::make('Lecture units', 'lecture_units'),
-            Column::make('Laboratory units', 'laboratory_units'),
-            Column::make('Is credit', 'is_credit')
+            Column::make('Units', 'units_label'),
+
+            Column::make('Credit Type', 'credit_label', 'is_credit')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Is active', 'is_active')
+            Column::make('Availability', 'availability', 'is_active')
                 ->sortable()
                 ->searchable(),
 
             Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::action('Action'),
+                ->sortable()
+                ->hidden(isHidden: true, isForceHidden: false),
         ];
     }
 
     public function filters(): array
     {
         return [
+            Filter::select('is_credit')
+                ->dataSource([
+                    ['id' => 1, 'name' => 'Credit'],
+                    ['id' => 0, 'name' => 'Non-credit'],
+                ])
+                ->optionLabel('name')
+                ->optionValue('id')
+                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('is_credit', (int) $value) : $query),
+
+            Filter::select('is_active')
+                ->dataSource([
+                    ['id' => 1, 'name' => 'Active'],
+                    ['id' => 0, 'name' => 'Inactive'],
+                ])
+                ->optionLabel('name')
+                ->optionValue('id')
+                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('is_active', (int) $value) : $query),
+
             Filter::datetimepicker('created_at'),
-        ];
-    }
-
-    #[On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert('.$rowId.')');
-    }
-
-    public function actions(Subject $row): array
-    {
-        return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id]),
         ];
     }
 
