@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\RoomStatusEnum;
-use App\Enums\RoomTypesEnum;
 use Database\Factories\RoomFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,16 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-#[Fillable(['campus_id', 'college_id', 'department_id', 'name', 'floor_no', 'room_no', 'type', 'description', 'location', 'is_active', 'status'])]
+#[Fillable(['campus_id', 'college_id', 'department_id', 'name', 'floor_no', 'room_no', 'room_category_id', 'description', 'location', 'is_active', 'status'])]
 class Room extends Model
 {
     /** @use HasFactory<RoomFactory> */
     use HasFactory, SoftDeletes;
-
-    public const TYPES = [
-        RoomTypesEnum::LECTURE->value => 'Lecture',
-        RoomTypesEnum::LABORATORY->value => 'Laboratory',
-    ];
 
     public const STATUSES = [
         RoomStatusEnum::USEABLE->value => 'Useable',
@@ -41,7 +35,7 @@ class Room extends Model
     protected function typeLabel(): Attribute
     {
         return Attribute::make(
-            get: fn () => self::TYPES[$this->type] ?? ($this->type ?: '-'),
+            get: fn () => $this->roomCategory?->name ?? '-',
         );
     }
 
@@ -117,5 +111,10 @@ class Room extends Model
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function roomCategory(): BelongsTo
+    {
+        return $this->belongsTo(RoomCategory::class)->withTrashed();
     }
 }

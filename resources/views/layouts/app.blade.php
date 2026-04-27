@@ -159,6 +159,9 @@
                             @can('permissions.view')
                                 <x-side-bar.item text="Permissions" icon="key" :current="request()->routeIs('permissions.index', 'permissions.*')" :route="route('permissions.index')" />
                             @endcan
+                            @can('room_categories.view')
+                                <x-side-bar.item text="Room Categories" icon="squares-2x2" :current="request()->routeIs('room-categories.index', 'room-categories.*')" :route="route('room-categories.index')" />
+                            @endcan
                             @can('assignments.manage')
                                 <x-side-bar.item text="Assignments" icon="link" :current="request()->routeIs('assignments.index', 'assignments.*')" :route="route('assignments.index')" />
                             @endcan

@@ -63,6 +63,11 @@ enum PermissionEnum: string
     case ROOM_UPDATE = 'rooms.update';
     case ROOM_DELETE = 'rooms.delete';
     case ROOM_RESTORE = 'rooms.restore';
+    case ROOM_CATEGORY_VIEW = 'room_categories.view';
+    case ROOM_CATEGORY_CREATE = 'room_categories.create';
+    case ROOM_CATEGORY_UPDATE = 'room_categories.update';
+    case ROOM_CATEGORY_DELETE = 'room_categories.delete';
+    case ROOM_CATEGORY_RESTORE = 'room_categories.restore';
 
     /**
      * FACULTY ROLE PERMISSIONS

@@ -3,6 +3,7 @@
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -68,4 +69,14 @@ function actingUserWithPermissions(array $abilities, array $roles = ['superAdmin
     $user->givePermissionTo($abilities);
 
     return $user->fresh();
+}
+
+function bindRequestToRoute(string $url, string $method = 'GET'): void
+{
+    $request = Request::create($url, $method);
+    $route = app('router')->getRoutes()->match($request);
+
+    $request->setRouteResolver(fn () => $route);
+
+    app()->instance('request', $request);
 }

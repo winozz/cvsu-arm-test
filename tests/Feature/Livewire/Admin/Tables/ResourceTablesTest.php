@@ -296,19 +296,21 @@ describe('RoomsTable', function () {
             'campus_id' => $this->department->campus_id,
             'college_id' => $this->department->college_id,
             'department_id' => $this->department->id,
-            'type' => 'LECTURE',
         ]);
         $roomInSameCollege = Room::factory()->create([
             'campus_id' => $otherDepartmentInCollege->campus_id,
             'college_id' => $otherDepartmentInCollege->college_id,
             'department_id' => $otherDepartmentInCollege->id,
-            'type' => 'LECTURE',
         ]);
         $roomOutsideCollege = Room::factory()->create([
             'campus_id' => $outsideDepartment->campus_id,
             'college_id' => $outsideDepartment->college_id,
             'department_id' => $outsideDepartment->id,
-            'type' => 'LECTURE',
+        ]);
+        $collegeWideRoom = Room::factory()->create([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => null,
         ]);
 
         $user = User::factory()->deptAdmin()->create();
@@ -330,7 +332,7 @@ describe('RoomsTable', function () {
             ->all();
 
         expect($ids)->toContain($roomInDepartment->id)
-            ->not->toContain($roomInSameCollege->id, $roomOutsideCollege->id);
+            ->not->toContain($roomInSameCollege->id, $roomOutsideCollege->id, $collegeWideRoom->id);
     });
 
     it('shows college admins rooms from all departments in their college', function () {
@@ -342,19 +344,21 @@ describe('RoomsTable', function () {
             'campus_id' => $this->department->campus_id,
             'college_id' => $this->department->college_id,
             'department_id' => $this->department->id,
-            'type' => 'LECTURE',
         ]);
         $roomInSameCollege = Room::factory()->create([
             'campus_id' => $otherDepartmentInCollege->campus_id,
             'college_id' => $otherDepartmentInCollege->college_id,
             'department_id' => $otherDepartmentInCollege->id,
-            'type' => 'LECTURE',
         ]);
         $roomOutsideCollege = Room::factory()->create([
             'campus_id' => $outsideDepartment->campus_id,
             'college_id' => $outsideDepartment->college_id,
             'department_id' => $outsideDepartment->id,
-            'type' => 'LECTURE',
+        ]);
+        $collegeWideRoom = Room::factory()->create([
+            'campus_id' => $this->department->campus_id,
+            'college_id' => $this->department->college_id,
+            'department_id' => null,
         ]);
 
         $user = User::factory()->collegeAdmin()->create();
@@ -376,7 +380,7 @@ describe('RoomsTable', function () {
             ->pluck('id')
             ->all();
 
-        expect($ids)->toContain($roomInPrimaryDepartment->id, $roomInSameCollege->id)
+        expect($ids)->toContain($roomInPrimaryDepartment->id, $roomInSameCollege->id, $collegeWideRoom->id)
             ->not->toContain($roomOutsideCollege->id);
     });
 });

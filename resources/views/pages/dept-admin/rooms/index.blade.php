@@ -6,6 +6,7 @@ use App\Livewire\Forms\Admin\RoomForm;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\Room;
+use App\Models\RoomCategory;
 use App\Traits\CanManage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -31,7 +32,9 @@ new class extends Component {
 
     public int $collegeId;
 
-    public int $departmentId;
+    public ?int $departmentId = null;
+
+    public ?int $importDepartmentId = null;
 
     public string $scope = 'department';
 
@@ -68,7 +71,8 @@ new class extends Component {
             $this->setDepartmentOptions();
         }
 
-        $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
+        $this->importDepartmentId = $this->scope === 'department' ? $this->departmentId : null;
+        $this->form->resetForm($this->campusId, $this->collegeId, $this->defaultDepartmentId());
     }
 
     public function create(): void
@@ -77,8 +81,34 @@ new class extends Component {
 
         $this->resetValidation();
         $this->isEditing = false;
-        $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
+        if ($this->scope === 'college') {
+            $this->syncContextFromCollege($this->currentCollege());
+        } else {
+            $this->syncContextFromDepartment($this->currentDepartment());
+        }
+        $this->form->resetForm($this->campusId, $this->collegeId, $this->defaultDepartmentId());
         $this->roomModal = true;
+    }
+
+    #[Computed]
+    public function roomCategoryOptions(): array
+    {
+        return RoomCategory::query()
+            ->where(function ($query) {
+                $query->where('is_active', true);
+
+                if (filled($this->form->room_category_id)) {
+                    $query->orWhere('id', $this->form->room_category_id);
+                }
+            })
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn (RoomCategory $roomCategory) => [
+                'label' => $roomCategory->name,
+                'value' => (int) $roomCategory->id,
+            ])
+            ->values()
+            ->toArray();
     }
 
     #[Computed]
@@ -102,8 +132,8 @@ new class extends Component {
 
         $this->resetValidation();
         $this->isEditing = true;
-        $room->loadMissing(['campus', 'college', 'department']);
-        $this->syncContextFromDepartment($room->department);
+        $room->loadMissing(['campus', 'college', 'department', 'roomCategory']);
+        $this->syncContextFromRoom($room);
         $this->form->setRoom($room);
         $this->roomModal = true;
     }
@@ -114,7 +144,7 @@ new class extends Component {
         $this->isEditing = false;
         $this->resetValidation();
         $this->syncContextFromDepartment($this->currentDepartment());
-        $this->form->resetForm($this->campusId, $this->collegeId, $this->departmentId);
+        $this->form->resetForm($this->campusId, $this->collegeId, $this->defaultDepartmentId());
     }
 
     public function save(): void
@@ -128,17 +158,26 @@ new class extends Component {
             $validated['college_id'] = $this->collegeId;
             $validated['department_id'] = $this->departmentId;
         } else {
-            $selectedDepartment = Department::query()
-                ->with(['campus', 'college'])
-                ->where('college_id', $this->collegeId)
-                ->findOrFail((int) ($validated['department_id'] ?? $this->departmentId));
+            if (filled($validated['department_id'] ?? null)) {
+                $selectedDepartment = Department::query()
+                    ->with(['campus', 'college'])
+                    ->where('college_id', $this->collegeId)
+                    ->findOrFail((int) $validated['department_id']);
 
-            $validated['campus_id'] = (int) $selectedDepartment->campus_id;
-            $validated['college_id'] = (int) $selectedDepartment->college_id;
-            $validated['department_id'] = (int) $selectedDepartment->id;
+                $validated['campus_id'] = (int) $selectedDepartment->campus_id;
+                $validated['college_id'] = (int) $selectedDepartment->college_id;
+                $validated['department_id'] = (int) $selectedDepartment->id;
 
-            $this->syncContextFromDepartment($selectedDepartment);
-            $this->form->setContext($this->campusId, $this->collegeId, $this->departmentId);
+                $this->syncContextFromDepartment($selectedDepartment);
+                $this->form->setContext($this->campusId, $this->collegeId, $this->departmentId);
+            } else {
+                $college = $this->currentCollege();
+                $this->syncContextFromCollege($college);
+                $validated['campus_id'] = (int) $college->campus_id;
+                $validated['college_id'] = (int) $college->id;
+                $validated['department_id'] = null;
+                $this->form->setContext($this->campusId, $this->collegeId, null);
+            }
         }
 
         if ($this->isEditing) {
@@ -160,12 +199,22 @@ new class extends Component {
 
         $this->validate([
             'importFile' => ['required', 'mimes:csv,xlsx,xls'],
+            'importDepartmentId' => $this->scope === 'college'
+                ? ['nullable', 'exists:departments,id']
+                : ['required', 'exists:departments,id'],
         ]);
 
-        Excel::import(new RoomsImport($this->currentDepartment()), $this->importFile);
+        $selectedDepartment = $this->resolveImportDepartment();
+
+        if ($this->scope === 'college' && $selectedDepartment) {
+            abort_unless((int) $selectedDepartment->college_id === (int) $this->collegeId, 404);
+        }
+
+        Excel::import(new RoomsImport($this->currentCollege(), $selectedDepartment), $this->importFile);
 
         $this->importModal = false;
         $this->importFile = null;
+        $this->importDepartmentId = $this->scope === 'department' ? $this->departmentId : null;
         $this->toast()->success('Imported', 'Rooms imported successfully.')->send();
         $this->dispatch('pg:eventRefresh-roomsTable');
     }
@@ -222,6 +271,10 @@ new class extends Component {
                     'value' => (int) $department->id,
                 ],
             )
+            ->prepend([
+                'label' => 'College-wide / No department',
+                'value' => null,
+            ])
             ->values()
             ->toArray();
     }
@@ -239,9 +292,18 @@ new class extends Component {
 
     public function updatedFormDepartmentId($value): void
     {
-        if ($this->scope === 'college' && filled($value)) {
-            $this->syncContextFromSelectedDepartment((int) $value);
+        if ($this->scope !== 'college') {
+            return;
         }
+
+        if (filled($value)) {
+            $this->syncContextFromSelectedDepartment((int) $value);
+
+            return;
+        }
+
+        $this->syncContextFromCollege($this->currentCollege());
+        $this->form->setContext($this->campusId, $this->collegeId, null);
     }
 
     protected function syncContextFromDepartment(Department $department): void
@@ -258,6 +320,32 @@ new class extends Component {
         $this->departmentName = $department->name;
     }
 
+    protected function syncContextFromCollege(College $college): void
+    {
+        $college->loadMissing('campus');
+
+        $this->campusId = (int) $college->campus_id;
+        $this->collegeId = (int) $college->id;
+        $this->departmentId = null;
+        $this->campusName = $college->campus?->name ?? '-';
+        $this->collegeCode = $college->code ?? '-';
+        $this->collegeName = $college->name;
+        $this->departmentCode = '-';
+        $this->departmentName = 'College-wide';
+    }
+
+    protected function syncContextFromRoom(Room $room): void
+    {
+        if ($room->department) {
+            $this->syncContextFromDepartment($room->department);
+
+            return;
+        }
+
+        $room->loadMissing(['campus', 'college']);
+        $this->syncContextFromCollege($room->college);
+    }
+
     protected function canManageRoom(Room $room): bool
     {
         if ($this->scope === 'college') {
@@ -265,6 +353,26 @@ new class extends Component {
         }
 
         return (int) $room->department_id === $this->departmentId;
+    }
+
+    protected function defaultDepartmentId(): ?int
+    {
+        return $this->scope === 'department' ? $this->departmentId : null;
+    }
+
+    protected function resolveImportDepartment(): ?Department
+    {
+        if ($this->scope === 'department') {
+            return $this->currentDepartment();
+        }
+
+        if (! filled($this->importDepartmentId)) {
+            return null;
+        }
+
+        return Department::query()
+            ->with(['campus', 'college'])
+            ->findOrFail($this->importDepartmentId);
     }
 };
 ?>
@@ -361,13 +469,10 @@ new class extends Component {
                     <x-input label="Department" :value="filled($departmentCode) && $departmentCode !== '-' ? $departmentCode . ' - ' . $departmentName : $departmentName" disabled />
                 @endif
                 <x-input label="Room Name" wire:model="form.name" />
-                <x-input label="Floor No." wire:model="form.floor_no" />
-                <x-input label="Room No." type="number" wire:model="form.room_no" />
+                <x-input label="Floor No. (Optional)" wire:model="form.floor_no" />
+                <x-input label="Room No. (Optional)" type="number" wire:model="form.room_no" />
 
-                <x-select.styled label="Type" wire:model="form.type" :options="collect(Room::TYPES)
-                    ->map(fn($label, $value) => ['label' => $label, 'value' => $value])
-                    ->values()
-                    ->toArray()"
+                <x-select.styled label="Category" wire:model="form.room_category_id" :options="$this->roomCategoryOptions"
                     select="label:label|value:value" />
 
                 <x-select.styled label="Status" wire:model="form.status" :options="collect(Room::STATUSES)
@@ -399,11 +504,21 @@ new class extends Component {
     <x-modal wire="importModal" title="Import Rooms">
         <div class="space-y-4">
             <x-upload wire:model="importFile" label="Select Excel/CSV File" hint="Supported files: .xlsx, .csv" />
+            @if ($scope === 'college')
+                <x-select.styled label="Assign imported rooms to" wire:model="importDepartmentId" :options="$departmentOptions"
+                    select="label:label|value:value" />
+            @endif
             <p class="text-xs text-zinc-500">
                 Imported rooms will be assigned to
-                {{ filled($departmentCode) && $departmentCode !== '-' ? $departmentCode . ' - ' . $departmentName : $departmentName }}
+                @if ($scope === 'college' && ! filled($importDepartmentId))
+                    {{ $collegeName }} as college-wide rooms
+                @elseif ($scope === 'college')
+                    the selected department
+                @else
+                    {{ filled($departmentCode) && $departmentCode !== '-' ? $departmentCode . ' - ' . $departmentName : $departmentName }}
+                @endif
                 automatically.
-                Recommended headers: name, floor_no, room_no, type, description, location, is_active, status
+                Recommended headers: name, floor_no, room_no, room_category, description, location, is_active, status
             </p>
         </div>
 

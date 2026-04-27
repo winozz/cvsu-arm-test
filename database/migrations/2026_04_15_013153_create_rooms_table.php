@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('campus_id')->onUpdate('cascade');
             $table->foreignId('college_id')->onUpdate('cascade');
-            $table->foreignId('department_id')->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->onUpdate('cascade');
 
             $table->string('name');
-            $table->string('floor_no');
-            $table->bigInteger('room_no');
-            $table->enum('type', ['LECTURE', 'LABORATORY']);
+            $table->string('floor_no')->nullable();
+            $table->bigInteger('room_no')->nullable();
+            $table->foreignId('room_category_id')->nullable();
             $table->string('description')->nullable();
 
             $table->string('location')->nullable();

@@ -4,6 +4,7 @@ namespace App\Livewire\Tables\Admin;
 
 use App\Enums\RoomStatusEnum;
 use App\Models\Room;
+use App\Models\RoomCategory;
 use App\Traits\CanManage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -64,7 +65,7 @@ final class RoomsTable extends PowerGridComponent
     {
         return $this->applyManagedScope(
             Room::query()
-                ->with(['campus', 'college', 'department'])
+                ->with(['campus', 'college', 'department', 'roomCategory'])
         )
             ->when($this->softDeletes === 'withTrashed', fn ($query) => $query->withTrashed())
             ->when($this->softDeletes === 'onlyTrashed', fn ($query) => $query->onlyTrashed());
@@ -76,6 +77,7 @@ final class RoomsTable extends PowerGridComponent
             'campus' => ['name'],
             'college' => ['name'],
             'department' => ['name'],
+            'roomCategory' => ['name'],
         ];
     }
 
@@ -103,7 +105,7 @@ final class RoomsTable extends PowerGridComponent
             Column::make('Room', 'display_name', 'name')
                 ->sortable()
                 ->searchable(),
-            Column::make('Type', 'type_label', 'type')
+            Column::make('Type', 'type_label', 'room_category_id')
                 ->sortable()
                 ->searchable(),
             Column::make('Floor', 'floor_label', 'floor_no')
@@ -134,11 +136,11 @@ final class RoomsTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('type')
-                ->dataSource($this->enumOptions(Room::TYPES))
+            Filter::select('room_category_id')
+                ->dataSource($this->roomCategoryOptions())
                 ->optionValue('id')
                 ->optionLabel('name')
-                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('type', $value) : $query),
+                ->builder(fn (Builder $query, $value) => filled($value) ? $query->where('room_category_id', $value) : $query),
 
             Filter::select('status')
                 ->dataSource($this->enumOptions(Room::STATUSES))
@@ -167,6 +169,18 @@ final class RoomsTable extends PowerGridComponent
                 'name' => $name,
             ])
             ->values()
+            ->all();
+    }
+
+    protected function roomCategoryOptions(): array
+    {
+        return RoomCategory::query()
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn (RoomCategory $roomCategory) => [
+                'id' => $roomCategory->id,
+                'name' => $roomCategory->name,
+            ])
             ->all();
     }
 
