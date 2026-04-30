@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScheduleServiceRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])
@@ -36,4 +37,28 @@ Route::middleware(['auth'])
         Route::livewire('/college/rooms', 'pages::dept-admin.rooms.index')
             ->middleware(['permission:rooms.view', 'room_scope:college'])
             ->name('college-rooms.index');
+
+        // Service requests dashboard route
+        Route::livewire('/schedule-service-requests', 'pages::college-admin.schedule-service-requests.index')
+            ->middleware('permission:schedules.view')
+            ->name('schedule-service-requests.index');
+
+        // Inter-college service request workflow routes
+        Route::prefix('/api/schedule-service-requests')->group(function () {
+            Route::post('/', [ScheduleServiceRequestController::class, 'store'])
+                ->middleware('permission:schedules.view')
+                ->name('schedule-service-requests.store');
+
+            Route::get('/incoming', [ScheduleServiceRequestController::class, 'incoming'])
+                ->middleware('permission:schedules.view')
+                ->name('schedule-service-requests.incoming');
+
+            Route::post('/{serviceRequestId}/respond', [ScheduleServiceRequestController::class, 'respond'])
+                ->middleware('permission:schedules.view')
+                ->name('schedule-service-requests.respond');
+
+            Route::post('/{serviceRequestId}/assign-department', [ScheduleServiceRequestController::class, 'assignDepartment'])
+                ->middleware('permission:schedules.view')
+                ->name('schedule-service-requests.assign-department');
+        });
     });

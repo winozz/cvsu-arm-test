@@ -66,4 +66,9 @@ class Subject extends Model
     {
         return $this->hasMany(CurriculumEntry::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

@@ -92,7 +92,8 @@
                 @endcan
 
                 {{-- COLLEGE ADMIN LINKS --}}
-                @canany(['departments.view', 'programs.view', 'faculty_profiles.view', 'subjects.view'])
+                @canany(['departments.view', 'programs.view', 'faculty_profiles.view', 'subjects.view',
+                    'schedules.view'])
                     <x-side-bar.item text="College" opened>
                         @if (Auth::user()?->canAccessCollegeFacultyProfiles())
                             <x-side-bar.item text="Faculty" icon="identification" :current="request()->routeIs(
@@ -116,6 +117,13 @@
                         @can('subjects.view')
                             <x-side-bar.item text="Subjects" icon="book-open" :current="request()->routeIs('subjects.index', 'subjects.*')" :route="route('subjects.index')" />
                         @endcan
+
+                        @can('schedules.view')
+                            <x-side-bar.item text="Schedule Requests" icon="inbox" :current="request()->routeIs(
+                                'schedule-service-requests.index',
+                                'schedule-service-requests.*',
+                            )" :route="route('schedule-service-requests.index')" />
+                        @endcan
                     </x-side-bar.item>
                 @endcanany
 
@@ -124,7 +132,21 @@
                     <x-side-bar.item text="Department" opened>
 
                         @can('schedules.view')
-                            <x-side-bar.item text="Schedules" icon="calendar-days" />
+                            <x-side-bar.item text="Schedules" icon="calendar-days" :current="request()->routeIs('schedules.index')" :route="route('schedules.index')" />
+                        @endcan
+
+                        @can('schedules.create')
+                            <x-side-bar.item text="Bulk Generate" icon="squares-plus" :current="request()->routeIs('schedules.bulk-generate')" :route="route('schedules.bulk-generate')" />
+                            <x-side-bar.item text="Custom Section" icon="plus-circle" :current="request()->routeIs('schedules.custom-section')" :route="route('schedules.custom-section')" />
+                        @endcan
+
+                        @can('schedules.assign')
+                            <x-side-bar.item text="Plot" icon="pencil-square" :current="request()->routeIs('schedules.plot')" :route="route('schedules.plot')" />
+                        @endcan
+
+                        @can('schedules.view')
+                            <x-side-bar.item text="Schedule Assignments" icon="inbox-arrow-down" :current="request()->routeIs('schedules.service-requests')"
+                                :route="route('schedules.service-requests')" />
                         @endcan
 
                         @if (Auth::user()?->canAccessDepartmentFacultyProfiles())

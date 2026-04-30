@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -116,5 +117,10 @@ class Room extends Model
     public function roomCategory(): BelongsTo
     {
         return $this->belongsTo(RoomCategory::class)->withTrashed();
+    }
+
+    public function scheduleRoomTimes(): HasMany
+    {
+        return $this->hasMany(ScheduleRoomTime::class);
     }
 }

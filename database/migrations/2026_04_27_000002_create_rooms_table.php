@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campus_id')->onUpdate('cascade');
-            $table->foreignId('college_id')->onUpdate('cascade');
-            $table->foreignId('department_id')->nullable()->onUpdate('cascade');
+            $table->foreignId('campus_id')->constrained('campuses')->cascadeOnUpdate();
+            $table->foreignId('college_id')->constrained('colleges')->cascadeOnUpdate();
+            $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete()->cascadeOnUpdate();
 
             $table->string('name');
             $table->string('floor_no')->nullable();
             $table->bigInteger('room_no')->nullable();
-            $table->foreignId('room_category_id')->nullable();
+            $table->foreignId('room_category_id')->nullable()->constrained('room_categories')->nullOnDelete()->cascadeOnUpdate();
             $table->string('description')->nullable();
 
             $table->string('location')->nullable();

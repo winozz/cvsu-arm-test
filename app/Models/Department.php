@@ -48,4 +48,14 @@ class Department extends Model
     {
         return $this->hasMany(EmployeeProfile::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function assignedServiceRequests(): HasMany
+    {
+        return $this->hasMany(ScheduleServiceRequest::class, 'assigned_department_id');
+    }
 }

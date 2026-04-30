@@ -25,10 +25,11 @@ describe('user seeders', function () {
     it('keeps UserSeeder limited to legacy accounts', function () {
         $this->seed(UserSeeder::class);
 
-        expect(User::query()->count())->toBe(4)
+        expect(User::query()->count())->toBe(5)
             ->and(User::query()->pluck('email')->all())->toContain(
                 'tristan.sangangbayan@cvsu.edu.ph',
                 'dlxks.sangangbayan@gmail.com',
+                'ljohnmark9@gmail.com',
                 'sky.shira7@gmail.com',
                 'sangangbayant@gmail.com',
             )

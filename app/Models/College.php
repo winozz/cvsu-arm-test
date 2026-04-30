@@ -55,4 +55,19 @@ class College extends Model
     {
         return $this->hasMany(EmployeeProfile::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function outgoingServiceRequests(): HasMany
+    {
+        return $this->hasMany(ScheduleServiceRequest::class, 'requesting_college_id');
+    }
+
+    public function incomingServiceRequests(): HasMany
+    {
+        return $this->hasMany(ScheduleServiceRequest::class, 'servicing_college_id');
+    }
 }

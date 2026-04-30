@@ -147,6 +147,11 @@ class User extends Authenticatable
         return $this->hasMany(FacultyProfile::class, 'updated_by', 'id');
     }
 
+    public function scheduleFacultyAssignments(): HasMany
+    {
+        return $this->hasMany(ScheduleFaculty::class);
+    }
+
     /**
      * Get the user's initials
      */

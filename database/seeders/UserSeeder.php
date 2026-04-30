@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
         $ceitPrimaryDepartment = $this->findDepartmentForCollege('CEIT');
         $ceitSecondaryDepartment = $this->findDepartmentForCollege('CEIT', 1);
         $casPrimaryDepartment = $this->findDepartmentForCollege('CAS');
+        $cspearPrimaryDepartment = $this->findDepartmentForCollege('CSPEAR');
 
         $namedSuperAdmin = $this->upsertUser(
             'tristan.sangangbayan@cvsu.edu.ph',
@@ -43,6 +44,22 @@ class UserSeeder extends Seeder
         ]);
 
         $this->deleteFacultyProfile($legacyCollegeAdmin->id);
+
+        $legacyCspearCollegeAdmin = $this->upsertUser(
+            'ljohnmark9@gmail.com',
+            'CSPEAR College Admin',
+            ['collegeAdmin']
+        );
+
+        $this->upsertEmployeeProfile($legacyCspearCollegeAdmin, $cspearPrimaryDepartment, [
+            'employee_no' => 'CADM-0002',
+            'first_name' => 'CSPEAR',
+            'middle_name' => null,
+            'last_name' => 'Admin',
+            'position' => 'College Administrator',
+        ]);
+
+        $this->deleteFacultyProfile($legacyCspearCollegeAdmin->id);
 
         $legacyDepartmentAdmin = $this->upsertUser(
             'sky.shira7@gmail.com',

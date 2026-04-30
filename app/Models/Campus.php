@@ -47,4 +47,9 @@ class Campus extends Model
     {
         return $this->hasMany(EmployeeProfile::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
