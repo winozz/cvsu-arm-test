@@ -15,7 +15,8 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-new class extends Component {
+new class extends Component
+{
     use CanManage, Interactions;
 
     public College $college;
@@ -86,7 +87,7 @@ new class extends Component {
     #[Computed]
     public function stats(): array
     {
-        $baseQuery = Program::query()->whereHas('colleges', fn($query) => $query->whereKey($this->college->id));
+        $baseQuery = Program::query()->whereHas('colleges', fn ($query) => $query->whereKey($this->college->id));
 
         return [
             'total' => (clone $baseQuery)->count(),
@@ -158,19 +159,23 @@ new class extends Component {
 
         $this->programForm->validateForm();
 
-        $this->programModal = false;
-
-        if (!$this->isEditingProgram) {
+        if (! $this->isEditingProgram) {
             $conflicts = ProgramDuplicateDetector::findConflicts(null, $this->programForm->code, $this->programForm->title);
 
             if ($conflicts['exact'] !== []) {
-                $this->openExactProgramDuplicateDialog($conflicts['exact'], $conflicts['similar']);
+                $this->programDuplicateConflictType = 'exact';
+                $this->programExactDuplicateConflicts = $conflicts['exact'];
+                $this->programSimilarDuplicateConflicts = $conflicts['similar'];
+                $this->programSimilarityConfirmed = false;
 
                 return;
             }
 
             if ($conflicts['similar'] !== []) {
-                $this->openSimilarProgramDuplicateDialog($conflicts['similar']);
+                $this->programDuplicateConflictType = 'similar';
+                $this->programExactDuplicateConflicts = [];
+                $this->programSimilarDuplicateConflicts = $conflicts['similar'];
+                $this->programSimilarityConfirmed = false;
 
                 return;
             }
@@ -178,9 +183,11 @@ new class extends Component {
             $this->resetProgramDuplicateState();
         }
 
+        $this->programModal = false;
+
         if ($this->isEditingProgram && $this->sharedProgramCollegeCount > 1) {
             $this->dialog()
-                ->warning('Shared Program Update', 'This program is currently assigned to ' . $this->sharedProgramCollegeCount . ' colleges. Saving changes here will update the shared record for all assigned colleges.')
+                ->warning('Shared Program Update', 'This program is currently assigned to '.$this->sharedProgramCollegeCount.' colleges. Saving changes here will update the shared record for all assigned colleges.')
                 ->confirm('Continue', 'saveProgram')
                 ->cancel('Go Back', 'reopenProgramModal')
                 ->send();
@@ -198,6 +205,7 @@ new class extends Component {
     public function proceedWithSimilarProgramCreation(): void
     {
         $this->programSimilarityConfirmed = true;
+        $this->resetProgramDuplicateState();
 
         $this->saveProgram();
     }
@@ -234,9 +242,9 @@ new class extends Component {
         } catch (ValidationException $e) {
             $this->reopenOfferProgramModal();
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->reopenOfferProgramModal();
-            Log::error('Program Offer Failed: ' . $e->getMessage());
+            Log::error('Program Offer Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while offering the program.')->send();
         }
     }
@@ -246,23 +254,7 @@ new class extends Component {
         $this->ensureCanManage($this->isEditingProgram ? 'programs.update' : 'programs.create');
 
         try {
-            if (!$this->isEditingProgram) {
-                $conflicts = ProgramDuplicateDetector::findConflicts(null, $this->programForm->code, $this->programForm->title);
-
-                if ($conflicts['exact'] !== []) {
-                    $this->programModal = false;
-                    $this->openExactProgramDuplicateDialog($conflicts['exact'], $conflicts['similar']);
-
-                    return;
-                }
-
-                if (!$this->programSimilarityConfirmed && $conflicts['similar'] !== []) {
-                    $this->programModal = false;
-                    $this->openSimilarProgramDuplicateDialog($conflicts['similar']);
-
-                    return;
-                }
-
+            if (! $this->isEditingProgram) {
                 $validated = $this->programForm->validateForm();
                 $program = Program::create($this->programForm->payload($validated));
                 $this->college->programs()->syncWithoutDetaching([$program->id]);
@@ -279,9 +271,9 @@ new class extends Component {
         } catch (ValidationException $e) {
             $this->reopenProgramModal();
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->reopenProgramModal();
-            Log::error('Program Save Failed: ' . $e->getMessage());
+            Log::error('Program Save Failed: '.$e->getMessage());
             $this->toast()->error('Error', 'An unexpected error occurred while saving the program.')->send();
         }
     }
@@ -315,29 +307,14 @@ new class extends Component {
         ]);
     }
 
-    protected function openExactProgramDuplicateDialog(array $exactConflicts, array $similarConflicts = []): void
+    public function dismissProgramConflict(): void
     {
-        $this->programDuplicateConflictType = 'exact';
-        $this->programExactDuplicateConflicts = $exactConflicts;
-        $this->programSimilarDuplicateConflicts = $similarConflicts;
-        $this->programSimilarityConfirmed = false;
-
-        $this->dialog()->warning('Exact Duplicate Program Found', ProgramDuplicateDetector::exactWarningMessage($exactConflicts, $similarConflicts))->confirm('Go Back', 'reopenProgramModal')->send();
-    }
-
-    protected function openSimilarProgramDuplicateDialog(array $similarConflicts): void
-    {
-        $this->programDuplicateConflictType = 'similar';
-        $this->programExactDuplicateConflicts = [];
-        $this->programSimilarDuplicateConflicts = $similarConflicts;
-        $this->programSimilarityConfirmed = false;
-
-        $this->dialog()->warning('Possible Duplicate Program', ProgramDuplicateDetector::similarWarningMessage($similarConflicts))->confirm('Proceed anyway', 'proceedWithSimilarProgramCreation')->cancel('Go Back', 'reopenProgramModal')->send();
+        $this->resetProgramDuplicateState();
     }
 
     protected function findManagedProgram(int $id, bool $includeTrashed = false): Program
     {
-        $query = Program::query()->whereKey($id)->whereHas('colleges', fn($query) => $query->whereKey($this->college->id));
+        $query = Program::query()->whereKey($id)->whereHas('colleges', fn ($query) => $query->whereKey($this->college->id));
 
         if ($includeTrashed) {
             $query->withTrashed();
@@ -461,8 +438,131 @@ new class extends Component {
     </x-modal>
 
     <x-modal wire="programModal" title="{{ $isEditingProgram ? 'Edit Program Details' : 'New Program' }}"
-        size="3xl">
+        size="5xl">
         <div class="space-y-4">
+            @if($programDuplicateConflictType !== null)
+                @php $previewCount = 3; @endphp
+
+                @if($programDuplicateConflictType === 'exact')
+                    <div class="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-950/30">
+                        <div class="flex items-start gap-3">
+                            <x-icon icon="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
+                            <div class="min-w-0 flex-1 space-y-3">
+                                <div>
+                                    <p class="text-sm font-semibold text-red-800 dark:text-red-200">Exact Duplicate Found — Save Blocked</p>
+                                    <p class="mt-0.5 text-sm text-red-700 dark:text-red-300">A program with the exact same code or title already exists. Edit the fields to make this entry unique.</p>
+                                </div>
+
+                                @if($programExactDuplicateConflicts !== [])
+                                    <div x-data="{ open: false }">
+                                        <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">Exact matches</p>
+                                        <ul class="space-y-1">
+                                            @foreach(array_slice($programExactDuplicateConflicts, 0, $previewCount) as $conflict)
+                                                <li class="flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                                                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400"></span>
+                                                    <span class="break-all">{{ $conflict }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        @if(count($programExactDuplicateConflicts) > $previewCount)
+                                            <ul x-show="open" x-cloak class="mt-1 space-y-1">
+                                                @foreach(array_slice($programExactDuplicateConflicts, $previewCount) as $conflict)
+                                                    <li class="flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                                                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400"></span>
+                                                        <span class="break-all">{{ $conflict }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            <button @click="open = !open" type="button"
+                                                class="mt-2 text-xs font-medium text-red-600 underline underline-offset-2 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200">
+                                                <span x-show="!open">See {{ count($programExactDuplicateConflicts) - $previewCount }} more&hellip;</span>
+                                                <span x-show="open" x-cloak>Show less</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endif
+
+                                @if($programSimilarDuplicateConflicts !== [])
+                                    <div x-data="{ open: false }" class="border-t border-red-200 pt-2.5 dark:border-red-800/50">
+                                        <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">Other similar matches</p>
+                                        <ul class="space-y-1">
+                                            @foreach(array_slice($programSimilarDuplicateConflicts, 0, $previewCount) as $conflict)
+                                                <li class="flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                                                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400"></span>
+                                                    <span class="break-all">{{ $conflict }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        @if(count($programSimilarDuplicateConflicts) > $previewCount)
+                                            <ul x-show="open" x-cloak class="mt-1 space-y-1">
+                                                @foreach(array_slice($programSimilarDuplicateConflicts, $previewCount) as $conflict)
+                                                    <li class="flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                                                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400"></span>
+                                                        <span class="break-all">{{ $conflict }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            <button @click="open = !open" type="button"
+                                                class="mt-2 text-xs font-medium text-red-600 underline underline-offset-2 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200">
+                                                <span x-show="!open">See {{ count($programSimilarDuplicateConflicts) - $previewCount }} more&hellip;</span>
+                                                <span x-show="open" x-cloak>Show less</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="mt-3 flex justify-end border-t border-red-200 pt-3 dark:border-red-800/50">
+                            <x-button flat sm text="Dismiss & Edit" wire:click="dismissProgramConflict" />
+                        </div>
+                    </div>
+                @else
+                    <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800/50 dark:bg-amber-950/30">
+                        <div class="flex items-start gap-3">
+                            <x-icon icon="exclamation-triangle" class="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+                            <div class="min-w-0 flex-1 space-y-3">
+                                <div>
+                                    <p class="text-sm font-semibold text-amber-800 dark:text-amber-200">Possible Duplicate Programs Found</p>
+                                    <p class="mt-0.5 text-sm text-amber-700 dark:text-amber-300">These existing programs look similar to what you&rsquo;re creating. Review them before proceeding.</p>
+                                </div>
+
+                                @if($programSimilarDuplicateConflicts !== [])
+                                    <div x-data="{ open: false }">
+                                        <ul class="space-y-1">
+                                            @foreach(array_slice($programSimilarDuplicateConflicts, 0, $previewCount) as $conflict)
+                                                <li class="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-300">
+                                                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400"></span>
+                                                    <span class="break-all">{{ $conflict }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        @if(count($programSimilarDuplicateConflicts) > $previewCount)
+                                            <ul x-show="open" x-cloak class="mt-1 space-y-1">
+                                                @foreach(array_slice($programSimilarDuplicateConflicts, $previewCount) as $conflict)
+                                                    <li class="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-300">
+                                                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400"></span>
+                                                        <span class="break-all">{{ $conflict }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            <button @click="open = !open" type="button"
+                                                class="mt-2 text-xs font-medium text-amber-600 underline underline-offset-2 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200">
+                                                <span x-show="!open">See {{ count($programSimilarDuplicateConflicts) - $previewCount }} more&hellip;</span>
+                                                <span x-show="open" x-cloak>Show less</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-end gap-2 border-t border-amber-200 pt-3 dark:border-amber-800/50">
+                            <x-button flat sm text="Go Back" wire:click="dismissProgramConflict" />
+                            <x-button sm color="warning" text="Proceed Anyway" wire:click="proceedWithSimilarProgramCreation" />
+                        </div>
+                    </div>
+                @endif
+            @endif
+
             <div class="grid gap-4 md:grid-cols-2">
                 <x-input label="Program Code" wire:model="programForm.code"
                     hint="Use a short code like BSCS or BSEd." />
@@ -501,7 +601,7 @@ new class extends Component {
         <x-slot:footer>
             @canany(['programs.update', 'programs.create'])
                 <x-button flat text="Cancel" wire:click="closeProgramModal" sm />
-                <x-button color="primary" :text="$isEditingProgram ? 'Save Changes' : 'Create Program'" wire:click="confirmSaveProgram" sm />
+                <x-button color="primary" :text="$isEditingProgram ? 'Save Changes' : 'Create Program'" wire:click="confirmSaveProgram" sm :disabled="$programDuplicateConflictType === 'exact'" />
             @endcanany
         </x-slot:footer>
     </x-modal>

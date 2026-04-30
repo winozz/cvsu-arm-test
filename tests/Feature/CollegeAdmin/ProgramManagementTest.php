@@ -131,7 +131,7 @@ describe('college admin program management', function () {
                 'BSE - Bachelor of Secondary Education | Colleges: COE',
                 'ENGR - Bachelor of Science in Engineering | Colleges: COE',
             ])
-            ->assertSet('programModal', false);
+            ->assertSet('programModal', true);
 
         expect(Program::query()->where('code', 'BSE')->count())->toBe(1);
     });
@@ -163,7 +163,7 @@ describe('college admin program management', function () {
             ->assertSet('programSimilarDuplicateConflicts', [
                 'BSCS - Bachelor of Science in Computer Science | Colleges: COE',
             ])
-            ->assertSet('programModal', false)
+            ->assertSet('programModal', true)
             ->call('proceedWithSimilarProgramCreation')
             ->assertHasNoErrors();
 

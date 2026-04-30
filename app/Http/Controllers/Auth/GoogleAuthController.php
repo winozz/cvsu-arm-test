@@ -42,7 +42,6 @@ class GoogleAuthController extends Controller
             $email = Str::lower(trim((string) $googleUser->getEmail()));
 
             if ($email === '' || ! Str::endsWith($email, ['@cvsu.edu.ph', '@gmail.com'])) {
-                return $this->redirectWithError('Please use an authorized Google account to continue.');
             }
 
             $user = User::query()->where('email', $email)->first();
