@@ -176,7 +176,7 @@ if not exist "!CLOUDFLARED_EXE!" (
     )
     call :log "Portable cloudflared downloaded"
 )
-set "CLOUDFLARED_CMD=!CLOUDFLARED_EXE!"
+set "CLOUDFLARED_CMD=%CLOUDFLARED_EXE%"
 
 call :log "cloudflared version:"
 "!CLOUDFLARED_CMD!" --version 2>&1
@@ -185,7 +185,7 @@ call :log "Starting Cloudflare quick tunnel (trycloudflare.com - no account need
 call :log "  Tunnel URL will appear in: %WORKSPACE%\cloudflared-tunnel.log"
 
 set "CF_HOME=%WORKSPACE%\.cf-home"
-set "CF_CONFIG_DIR=!CF_HOME!\.cloudflared"
+set "CF_CONFIG_DIR=%CF_HOME%\.cloudflared"
 if exist "!CF_HOME!" rmdir /s /q "!CF_HOME!"
 mkdir "!CF_HOME!" 2>nul
 
@@ -193,21 +193,21 @@ set "TUNNEL_LAUNCHER=%WORKSPACE%\cloudflared-launch.ps1"
 > "%TUNNEL_LAUNCHER%" echo Get-ChildItem Env:TUNNEL_* -ErrorAction SilentlyContinue ^| Remove-Item -Force -ErrorAction SilentlyContinue
 >> "%TUNNEL_LAUNCHER%" echo $env:BUILD_ID = 'dontKillMe'
 >> "%TUNNEL_LAUNCHER%" echo $env:JENKINS_NODE_COOKIE = 'dontKillMe'
->> "%TUNNEL_LAUNCHER%" echo $env:USERPROFILE = '!CF_HOME!'
->> "%TUNNEL_LAUNCHER%" echo $env:HOME = '!CF_HOME!'
+>> "%TUNNEL_LAUNCHER%" echo $env:USERPROFILE = '%CF_HOME%'
+>> "%TUNNEL_LAUNCHER%" echo $env:HOME = '%CF_HOME%'
 >> "%TUNNEL_LAUNCHER%" echo $logPath = '%WORKSPACE%\cloudflared-tunnel.log'
 >> "%TUNNEL_LAUNCHER%" echo $outPath = '%WORKSPACE%\cloudflared-tunnel-err.log'
 >> "%TUNNEL_LAUNCHER%" echo $debugPath = '%WORKSPACE%\cloudflared-launcher.log'
 >> "%TUNNEL_LAUNCHER%" echo Set-Content -Path $debugPath -Value '=== LAUNCHER ENV DEBUG ==='
->> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('CLOUDFLARED_CMD=!CLOUDFLARED_CMD!')
+>> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('CLOUDFLARED_CMD=%CLOUDFLARED_CMD%')
 >> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('BUILD_ID=' + $env:BUILD_ID)
 >> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('JENKINS_NODE_COOKIE=' + $env:JENKINS_NODE_COOKIE)
 >> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('USERPROFILE=' + $env:USERPROFILE)
 >> "%TUNNEL_LAUNCHER%" echo $tunnelVars = Get-ChildItem Env:TUNNEL_* -ErrorAction SilentlyContinue
 >> "%TUNNEL_LAUNCHER%" echo if ($tunnelVars) { $tunnelVars ^| Sort-Object Name ^| ForEach-Object { Add-Content -Path $debugPath -Value ($_.Name + '=' + $_.Value) } } else { Add-Content -Path $debugPath -Value 'TUNNEL_VARS=[]' }
->> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('CONFIG_DIR=!CF_CONFIG_DIR!')
+>> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value ('CONFIG_DIR=%CF_CONFIG_DIR%')
 >> "%TUNNEL_LAUNCHER%" echo Add-Content -Path $debugPath -Value '=== END DEBUG ==='
->> "%TUNNEL_LAUNCHER%" echo Start-Process -FilePath '!CLOUDFLARED_CMD!' -ArgumentList @('tunnel','--url','http://127.0.0.1:%LOCAL_PORT%','--no-autoupdate','--protocol','http2') -WorkingDirectory '%WORKSPACE%' -RedirectStandardError $logPath -RedirectStandardOutput $outPath -WindowStyle Hidden ^| Out-Null
+>> "%TUNNEL_LAUNCHER%" echo Start-Process -FilePath '%CLOUDFLARED_CMD%' -ArgumentList @('tunnel','--url','http://127.0.0.1:%LOCAL_PORT%','--no-autoupdate','--protocol','http2') -WorkingDirectory '%WORKSPACE%' -RedirectStandardError $logPath -RedirectStandardOutput $outPath -WindowStyle Hidden ^| Out-Null
 
 set "MAX_TUNNEL_ATTEMPTS=3"
 set "TUNNEL_ATTEMPT=0"
