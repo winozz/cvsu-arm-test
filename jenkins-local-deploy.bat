@@ -163,25 +163,38 @@ docker inspect --format "  Name: {{.Name}} | Status: {{.State.Status}}" %CONTAIN
 docker stats %CONTAINER_NAME% --no-stream --format "  CPU: {{.CPUPerc}} | Mem: {{.MemUsage}}"
 echo.
 
-call :log "[BONUS] Setting up SSH Tunnel for temporary public access (localhost.run)..."
+REM ---------------------------------------------------------------
+REM  BONUS: Tunnel for temporary public access
+REM  TUNNEL_TYPE parameter: ssh (default) | cloudflare | none
+REM ---------------------------------------------------------------
+if not defined TUNNEL_TYPE set "TUNNEL_TYPE=ssh"
+call :log "[BONUS] Tunnel type: %TUNNEL_TYPE%"
 echo.
 
-REM Kill any leftover ssh tunnel to localhost.run from a previous run
+if /i "%TUNNEL_TYPE%"=="none" (
+    call :log "Tunnel skipped (TUNNEL_TYPE=none)."
+    goto :skip_tunnel
+)
+if /i "%TUNNEL_TYPE%"=="cloudflare" goto :do_cloudflare_tunnel
+REM default: ssh
+goto :do_ssh_tunnel
+
+REM ---------------------------------------------------------------
+REM  SSH tunnel via localhost.run (built-in OpenSSH, no download)
+REM ---------------------------------------------------------------
+:do_ssh_tunnel
+call :log "Starting SSH tunnel (localhost.run)..."
 powershell -NoProfile -Command "Get-Process ssh -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like '*localhost.run*' } | Stop-Process -Force -ErrorAction SilentlyContinue" >nul 2>&1
 
 set "SSH_TUNNEL_LOG=%WORKSPACE%\ssh-tunnel.log"
 if exist "%SSH_TUNNEL_LOG%" del "%SSH_TUNNEL_LOG%"
 
-REM Check ssh.exe is available
 where ssh >nul 2>&1
 if errorlevel 1 (
     call :log "WARNING: ssh.exe not found in PATH - skipping tunnel"
     goto :skip_tunnel
 )
 
-REM Launch SSH reverse tunnel detached via PowerShell Start-Process
-REM  -R 80:127.0.0.1:<port>  - forward remote port 80 to local container port
-REM  stdout+stderr -> log file so we can scrape the URL
 powershell -NoProfile -Command ^
   "Start-Process -FilePath 'ssh' ^
    -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') ^
@@ -192,25 +205,73 @@ powershell -NoProfile -Command ^
 call :log "Waiting for tunnel URL..."
 set "TUNNEL_URL="
 set "TUNNEL_WAIT=0"
-:tunnel_wait_loop
+:ssh_wait_loop
 ping -n 3 127.0.0.1 >nul 2>&1
 set /a TUNNEL_WAIT+=3
 for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%SSH_TUNNEL_LOG%') { $m = Select-String -Path '%SSH_TUNNEL_LOG%' -Pattern 'https://\S+\.lhr\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\S+\.lhr\.life').Value } }"`) do set "TUNNEL_URL=%%X"
 if defined TUNNEL_URL goto :tunnel_found
 if %TUNNEL_WAIT% geq 30 (
     call :log "WARNING: Tunnel URL not found after 30 seconds"
-    if exist "%SSH_TUNNEL_LOG%" (
-        call :log "ssh tunnel log:"
-        type "%SSH_TUNNEL_LOG%"
-    )
+    if exist "%SSH_TUNNEL_LOG%" type "%SSH_TUNNEL_LOG%"
     goto :skip_tunnel
 )
-goto :tunnel_wait_loop
+goto :ssh_wait_loop
+
+REM ---------------------------------------------------------------
+REM  Cloudflare tunnel via trycloudflare.com (downloads cloudflared.exe)
+REM ---------------------------------------------------------------
+:do_cloudflare_tunnel
+call :log "Starting Cloudflare tunnel (trycloudflare.com)..."
+set "CLOUDFLARED_EXE=%WORKSPACE%\cloudflared.exe"
+if not exist "%CLOUDFLARED_EXE%" (
+    call :log "Downloading portable cloudflared..."
+    powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe' -OutFile '%CLOUDFLARED_EXE%' -UseBasicParsing"
+    if errorlevel 1 (
+        call :log "WARNING: Failed to download cloudflared - skipping tunnel"
+        goto :skip_tunnel
+    )
+    call :log "cloudflared downloaded."
+)
+
+set "CF_TUNNEL_LOG=%WORKSPACE%\cloudflared-tunnel.log"
+set "CF_TUNNEL_ERR=%WORKSPACE%\cloudflared-tunnel-err.log"
+taskkill /F /IM cloudflared.exe >nul 2>&1
+if exist "%CF_TUNNEL_LOG%" del "%CF_TUNNEL_LOG%"
+if exist "%CF_TUNNEL_ERR%" del "%CF_TUNNEL_ERR%"
+
+set "CF_HOME=%WORKSPACE%\.cf-home"
+if exist "%CF_HOME%" rmdir /s /q "%CF_HOME%"
+mkdir "%CF_HOME%" 2>nul
+
+powershell -NoProfile -Command ^
+  "$env:USERPROFILE = '%CF_HOME%'; $env:HOME = '%CF_HOME%'; $env:BUILD_ID = 'dontKillMe'; $env:JENKINS_NODE_COOKIE = 'dontKillMe'; ^
+   Start-Process -FilePath '%CLOUDFLARED_EXE%' ^
+   -ArgumentList @('tunnel','--url','http://127.0.0.1:%LOCAL_PORT%','--no-autoupdate','--protocol','http2') ^
+   -WorkingDirectory '%WORKSPACE%' ^
+   -RedirectStandardError '%CF_TUNNEL_LOG%' ^
+   -RedirectStandardOutput '%CF_TUNNEL_ERR%' ^
+   -WindowStyle Hidden | Out-Null"
+
+call :log "Waiting for tunnel URL..."
+set "TUNNEL_URL="
+set "TUNNEL_WAIT=0"
+:cf_wait_loop
+ping -n 3 127.0.0.1 >nul 2>&1
+set /a TUNNEL_WAIT+=3
+for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%CF_TUNNEL_LOG%') { $m = Select-String -Path '%CF_TUNNEL_LOG%' -Pattern 'https://\S+trycloudflare\.com' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\S+trycloudflare\.com').Value } }"`) do set "TUNNEL_URL=%%X"
+if defined TUNNEL_URL goto :tunnel_found
+if %TUNNEL_WAIT% geq 30 (
+    call :log "WARNING: Tunnel URL not found after 30 seconds"
+    if exist "%CF_TUNNEL_LOG%" type "%CF_TUNNEL_LOG%"
+    goto :skip_tunnel
+)
+goto :cf_wait_loop
 
 :tunnel_found
 echo.
 echo ============================================================
-call :log "SSH Tunnel is LIVE!"
+call :log "Tunnel is LIVE!"
+call :log "  Type:       %TUNNEL_TYPE%"
 call :log "  Public URL: %TUNNEL_URL%"
 echo ============================================================
 echo.
