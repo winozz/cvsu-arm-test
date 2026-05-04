@@ -1,0 +1,73 @@
+name: cvsu-arm-test
+
+x-app-base: &app-base
+  build:
+    context: .
+    dockerfile: docker/app/Dockerfile
+  working_dir: /var/www/html
+  env_file:
+    - .env
+  environment:
+    APP_URL: http://localhost:8011
+    HEALTHCHECK_PATH: /up
+    MAIL_MAILER: smtp
+    MAIL_HOST: mailpit
+    MAIL_PORT: 1025
+  volumes:
+    - ./:/var/www/html
+
+services:
+  app:
+    <<: *app-base
+    stop_signal: SIGQUIT
+    ports:
+      - "8011:8080"
+    depends_on:
+      mailpit:
+        condition: service_started
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --show-error --fail http://localhost:8080${HEALTHCHECK_PATH:-/up} > /dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  queue:
+    <<: *app-base
+    command: ["php", "/var/www/html/artisan", "queue:work", "--tries=1", "--timeout=0"]
+    stop_signal: SIGTERM
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "healthcheck-queue"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  vite:
+    image: node:20-alpine
+    working_dir: /var/www/html
+    env_file:
+      - .env
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./:/var/www/html
+    command: sh -lc "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - "5174:5173"
+    depends_on:
+      app:
+        condition: service_healthy
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1026:1025"
+      - "8026:8025"

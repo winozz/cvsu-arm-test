@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'IMAGE_TAG',
+            defaultValue: 'latest',
+            description: 'Docker image tag to deploy (latest, main, or git SHA)'
+        )
+        string(
+            name: 'LOCAL_PORT',
+            defaultValue: '9091',
+            description: 'Local port to expose the application on'
+        )
+        string(
+            name: 'CONTAINER_NAME',
+            defaultValue: 'cvsu-arm-test-dev',
+            description: 'Container name for the running instance'
+        )
+    }
+
+    stages {
+        stage('Run Local Dev Deploy') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
+                    string(credentialsId: 'laravel-app-key', variable: 'APP_KEY')
+                ]) {
+                    bat 'call "%WORKSPACE%\\jenkins-local-deploy.bat"'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                echo "Build finished at ${new Date()}"
+            }
+        }
+        failure {
+            echo 'Build failed - Check logs above'
+        }
+    }
+}
