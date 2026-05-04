@@ -54,6 +54,7 @@ echo  Jenkins Local Dev Deploy - CVSU ARM Test
 echo ============================================================
 call :log "Deploy started"
 
+
 docker --version >nul 2>&1
 if errorlevel 1 (
     call :log "ERROR: Docker is not installed or not in PATH"
