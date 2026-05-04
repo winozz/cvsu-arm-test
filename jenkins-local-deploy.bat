@@ -103,8 +103,7 @@ for /f "tokens=*" %%d in ('docker inspect --format "{{.Created}}" %REGISTRY%/%IM
 echo.
 
 call :log "[3/4] Cleaning up existing container..."
-docker stop %CONTAINER_NAME% >nul 2>&1
-docker rm %CONTAINER_NAME% >nul 2>&1
+docker rm -f %CONTAINER_NAME% >nul 2>&1
 call :log "Old container removed."
 echo.
 
@@ -195,12 +194,7 @@ if errorlevel 1 (
     goto :skip_tunnel
 )
 
-powershell -NoProfile -Command ^
-  "Start-Process -FilePath 'ssh' ^
-   -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') ^
-   -RedirectStandardOutput '%SSH_TUNNEL_LOG%' ^
-   -RedirectStandardError '%SSH_TUNNEL_LOG%' ^
-   -WindowStyle Hidden -PassThru | Select-Object -ExpandProperty Id | Out-File '%WORKSPACE%\ssh-tunnel.pid'"
+powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') -RedirectStandardOutput '%SSH_TUNNEL_LOG%' -RedirectStandardError '%SSH_TUNNEL_LOG%' -WindowStyle Hidden -PassThru | Select-Object -ExpandProperty Id | Out-File '%WORKSPACE%\ssh-tunnel.pid'"
 
 call :log "Waiting for tunnel URL..."
 set "TUNNEL_URL="
@@ -243,14 +237,7 @@ set "CF_HOME=%WORKSPACE%\.cf-home"
 if exist "%CF_HOME%" rmdir /s /q "%CF_HOME%"
 mkdir "%CF_HOME%" 2>nul
 
-powershell -NoProfile -Command ^
-  "$env:USERPROFILE = '%CF_HOME%'; $env:HOME = '%CF_HOME%'; $env:BUILD_ID = 'dontKillMe'; $env:JENKINS_NODE_COOKIE = 'dontKillMe'; ^
-   Start-Process -FilePath '%CLOUDFLARED_EXE%' ^
-   -ArgumentList @('tunnel','--url','http://127.0.0.1:%LOCAL_PORT%','--no-autoupdate','--protocol','http2') ^
-   -WorkingDirectory '%WORKSPACE%' ^
-   -RedirectStandardError '%CF_TUNNEL_LOG%' ^
-   -RedirectStandardOutput '%CF_TUNNEL_ERR%' ^
-   -WindowStyle Hidden | Out-Null"
+powershell -NoProfile -Command "$env:USERPROFILE = '%CF_HOME%'; $env:HOME = '%CF_HOME%'; $env:BUILD_ID = 'dontKillMe'; $env:JENKINS_NODE_COOKIE = 'dontKillMe'; Start-Process -FilePath '%CLOUDFLARED_EXE%' -ArgumentList @('tunnel','--url','http://127.0.0.1:%LOCAL_PORT%','--no-autoupdate','--protocol','http2') -WorkingDirectory '%WORKSPACE%' -RedirectStandardError '%CF_TUNNEL_LOG%' -RedirectStandardOutput '%CF_TUNNEL_ERR%' -WindowStyle Hidden | Out-Null"
 
 call :log "Waiting for tunnel URL..."
 set "TUNNEL_URL="
