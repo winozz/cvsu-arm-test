@@ -83,7 +83,7 @@ describe('college admin program management', function () {
 
         $this->actingAs($user)
             ->get(route('programs.index'))
-            ->assertRedirect(route('dashboard.resolve'));
+            ->assertRedirect(route('dashboard'));
     });
 
     it('faculty users with only programs view permission do not see the create program action', function () {

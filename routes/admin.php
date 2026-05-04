@@ -5,11 +5,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])
     ->group(function () {
 
-        // Dashboard Routes
-        Route::livewire('/dashboard/admin', 'pages::admin.dashboard.index')
-            ->middleware('permission:campuses.view')
-            ->name('dashboard.admin');
-
         // Users Routes
         Route::livewire('/users', 'pages::admin.users.index')
             ->middleware('permission:users.view')

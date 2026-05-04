@@ -44,7 +44,7 @@ describe('google authentication', function () {
 
         $response = $this->get(route('google.callback'));
 
-        $response->assertRedirect(route('dashboard.admin'));
+        $response->assertRedirect(route('dashboard'));
         $response->assertSessionHasNoErrors();
         $this->assertAuthenticatedAs($user->fresh());
     });
@@ -107,6 +107,7 @@ describe('google authentication', function () {
 
     it('logout clears authenticated session and redirects to login', function () {
         $user = User::factory()->create();
+        /** @var User $user */
         $user->assignRole('superAdmin');
 
         $this->actingAs($user)

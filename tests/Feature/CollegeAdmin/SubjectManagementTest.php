@@ -84,7 +84,7 @@ describe('college admin subject management', function () {
 
         $this->actingAs($user)
             ->get(route('subjects.index'))
-            ->assertRedirect(route('dashboard.resolve'));
+            ->assertRedirect(route('dashboard'));
     });
 
     it('users with only subjects view permission do not see the create subject action', function () {

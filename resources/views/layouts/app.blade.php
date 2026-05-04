@@ -75,19 +75,17 @@
                     </div>
                 </x-slot:brand>
 
+                @php($dashboardRoute = Auth::user()?->dashboardRoute())
+
                 {{-- Dashboard Menu --}}
-                <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs(
-                    'dashboard.admin',
-                    'dashboard.faculty',
-                    'dashboard.college',
-                    'dashboard.department',
-                )" :route="route('dashboard.resolve')" />
+                <x-side-bar.item text="Dashboard" icon="home" :current="$dashboardRoute ? request()->routeIs($dashboardRoute) : false" :route="route('dashboard')" />
 
                 {{-- FACULTY LINKS --}}
                 @can('faculty_schedules.view')
                     {{-- Teaching Links --}}
                     <x-side-bar.item text="Faculty" opened>
-                        <x-side-bar.item text="My Schedules" icon="clipboard-document-list" />
+                        <x-side-bar.item text="My Schedules" icon="clipboard-document-list" :current="request()->routeIs('faculty-schedules.index')"
+                            :route="route('faculty-schedules.index')" />
                     </x-side-bar.item>
                 @endcan
 

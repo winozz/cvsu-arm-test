@@ -27,6 +27,9 @@ return new class extends Migration
 
             $table->index(['campus_id', 'college_id', 'semester', 'school_year'], 'schedules_context_index');
             $table->index(['status', 'department_id'], 'schedules_status_department_index');
+            $table->index(['college_id', 'status', 'id'], 'schedules_college_status_id_index');
+            $table->index(['campus_id', 'college_id', 'department_id', 'status'], 'schedules_scope_status_index');
+            $table->index(['college_id', 'status', 'sched_code'], 'schedules_college_status_code_index');
         });
 
         Schema::create('schedule_section', function (Blueprint $table) {
@@ -40,6 +43,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['program_code', 'year_level'], 'schedule_section_program_year_index');
+            $table->index('computed_section_name', 'schedule_section_name_index');
+            $table->index(['schedule_id', 'computed_section_name'], 'schedule_section_sched_name_index');
         });
 
         Schema::create('schedule_room_time', function (Blueprint $table) {
@@ -54,6 +59,8 @@ return new class extends Migration
 
             $table->index(['day', 'time_in', 'time_out'], 'schedule_room_time_day_time_index');
             $table->index(['room_id', 'day', 'time_in', 'time_out'], 'schedule_room_time_room_day_time_index');
+            $table->index(['schedule_id', 'class_type', 'day'], 'srt_schedule_class_day_index');
+            $table->index(['day', 'class_type', 'time_in', 'time_out'], 'srt_day_class_time_index');
         });
 
         Schema::create('schedule_faculty', function (Blueprint $table) {
@@ -63,7 +70,7 @@ return new class extends Migration
             $table->enum('class_type', ['LEC', 'LAB', 'CLINIC', 'OTHERS']);
             $table->timestamps();
 
-            $table->unique(['schedule_id', 'class_type'], 'schedule_faculty_schedule_class_unique');
+            $table->unique(['schedule_id', 'class_type'], 'schedule_faculty_sched_class_unique');
             $table->index(['user_id', 'class_type'], 'schedule_faculty_user_class_index');
         });
 
@@ -75,8 +82,9 @@ return new class extends Migration
             $table->foreignId('assigned_department_id')->nullable()->constrained('departments')->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
 
-            $table->index(['servicing_college_id', 'status'], 'schedule_service_requests_servicing_status_index');
-            $table->index(['requesting_college_id', 'status'], 'schedule_service_requests_requesting_status_index');
+            $table->index(['servicing_college_id', 'status', 'updated_at'], 'ssr_servicing_status_updated_idx');
+            $table->index(['requesting_college_id', 'updated_at'], 'ssr_requesting_updated_idx');
+            $table->index(['assigned_department_id', 'status'], 'ssr_assigned_status_idx');
         });
 
         Schema::create('schedule_service_request_schedules', function (Blueprint $table) {
@@ -91,7 +99,8 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->timestamps();
 
-            $table->unique(['service_request_id', 'schedule_id'], 'srrs_unique');
+            $table->unique(['service_request_id', 'schedule_id'], 'srrs_service_schedule_unique');
+            $table->index(['schedule_id', 'service_request_id'], 'srrs_schedule_service_index');
         });
     }
 

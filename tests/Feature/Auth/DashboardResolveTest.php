@@ -18,45 +18,49 @@ describe('dashboard resolver', function () {
     });
 
     it('guest users are redirected to login when opening dashboard resolver', function () {
-        $this->get(route('dashboard.resolve'))
+        $this->get(route('dashboard'))
             ->assertRedirect(route('login'));
     });
 
     it('dashboard resolver uses configured role priority for multi role users', function () {
         $user = User::factory()->create();
+        /** @var User $user */
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
         $this->actingAs($user)
-            ->get(route('dashboard.resolve'))
-            ->assertRedirect(route('dashboard.department'));
+            ->get(route('dashboard'))
+            ->assertRedirect(route('schedules.plot'));
     });
 
     it('dashboard resolver allows dept admins with permission only', function () {
         $user = User::factory()->create();
+        /** @var User $user */
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
         $this->actingAs($user)
-            ->get(route('dashboard.resolve'))
-            ->assertRedirect(route('dashboard.department'));
+            ->get(route('dashboard'))
+            ->assertRedirect(route('schedules.plot'));
     });
 
     it('dashboard resolver allows college access with permission only', function () {
         $user = User::factory()->create();
+        /** @var User $user */
         $user->assignRole('faculty');
         $user->givePermissionTo('departments.view');
 
         $this->actingAs($user)
-            ->get(route('dashboard.resolve'))
-            ->assertRedirect(route('dashboard.college'));
+            ->get(route('dashboard'))
+            ->assertRedirect(route('departments.index'));
     });
 
     it('dashboard resolver returns forbidden for users without valid dashboard', function () {
         $user = User::factory()->create();
+        /** @var User $user */
 
         $this->actingAs($user)
-            ->get(route('dashboard.resolve'))
+            ->get(route('dashboard'))
             ->assertForbidden();
     });
 });

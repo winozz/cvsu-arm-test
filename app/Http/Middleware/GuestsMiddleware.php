@@ -18,7 +18,7 @@ class GuestsMiddleware
     {
         // If the user is already logged in, redirect them based on their role
         if (Auth::check()) {
-            return redirect()->route('dashboard.resolve');
+            return redirect()->route('dashboard');
         }
 
         // If not logged in, allow them to view the guest page (e.g., login)

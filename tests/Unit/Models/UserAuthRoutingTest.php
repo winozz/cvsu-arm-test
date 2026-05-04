@@ -60,17 +60,17 @@ describe('User model', function () {
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
-        expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
+        expect($user->fresh()->dashboardRoute())->toBe('schedules.plot');
 
         $user->assignRole('collegeAdmin');
         $user->givePermissionTo('departments.view');
 
-        expect($user->fresh()->dashboardRoute())->toBe('dashboard.college');
+        expect($user->fresh()->dashboardRoute())->toBe('departments.index');
 
         $user->assignRole('superAdmin');
         $user->givePermissionTo('campuses.view');
 
-        expect($user->fresh()->dashboardRoute())->toBe('dashboard.admin');
+        expect($user->fresh()->dashboardRoute())->toBe('campuses.index');
     });
 
     it('allows dept admin dashboard routing with permission only', function () {
@@ -78,7 +78,7 @@ describe('User model', function () {
         $user->assignRole(['faculty', 'deptAdmin']);
         $user->givePermissionTo(['faculty_schedules.view', 'schedules.assign']);
 
-        expect($user->fresh()->dashboardRoute())->toBe('dashboard.department');
+        expect($user->fresh()->dashboardRoute())->toBe('schedules.plot');
     });
 
     it('allows college dashboard routing with permission only', function () {
@@ -86,7 +86,7 @@ describe('User model', function () {
         $user->assignRole('faculty');
         $user->givePermissionTo('departments.view');
 
-        expect($user->fresh()->dashboardRoute())->toBe('dashboard.college');
+        expect($user->fresh()->dashboardRoute())->toBe('departments.index');
     });
 
     it('syncs google profile data onto the user record', function () {

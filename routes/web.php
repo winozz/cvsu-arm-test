@@ -20,9 +20,9 @@ Route::middleware('guests')->group(function () {
 });
 
 /*
-|--------------------------------------------------------------------------
-| RESOLVER (SINGLE ENTRY POINT)
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------
+| DASHBOARD (SINGLE ENTRY POINT)
+|---------------------------------------------------------------------------
 */
 Route::middleware('auth')->get('/dashboard', function () {
     $dashboardRoute = Auth::user()?->dashboardRoute();
@@ -30,7 +30,7 @@ Route::middleware('auth')->get('/dashboard', function () {
     abort_unless($dashboardRoute && Route::has($dashboardRoute), 403, 'You do not have a valid permission assigned.');
 
     return redirect()->route($dashboardRoute);
-})->name('dashboard.resolve');
+})->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------

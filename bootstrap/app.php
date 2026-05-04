@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->renderable(function (UnauthorizedException $e, Request $request) {
             // Redirects unauthorized access to the resolver route in web.php
-            return redirect()->route('dashboard.resolve')
+            return redirect()->route('dashboard')
                 ->with('error', 'You do not have permission to access that page.');
         });
     })->create();

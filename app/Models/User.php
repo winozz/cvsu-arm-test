@@ -180,10 +180,10 @@ class User extends Authenticatable
      * Resolve the highest priority dashboard route for this user.
      */
     public const DASHBOARD_ACCESS = [
-        'dashboard.admin' => 'campuses.view',
-        'dashboard.college' => 'departments.view',
-        'dashboard.department' => 'schedules.assign',
-        'dashboard.faculty' => 'faculty_schedules.view',
+        'campuses.index' => 'campuses.view',
+        'departments.index' => 'departments.view',
+        'schedules.plot' => 'schedules.assign',
+        'faculty-schedules.index' => 'faculty_schedules.view',
     ];
 
     public function dashboardRoute(): ?string

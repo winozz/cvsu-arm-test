@@ -28,6 +28,11 @@ return new class extends Migration
             $table->enum('status', ['USEABLE', 'NOT_USEABLE', 'UNDER_RENOVATION', 'UNDER_CONSTRUCTION'])->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['campus_id', 'name'], 'rooms_campus_name_index');
+            $table->index(['college_id', 'department_id', 'is_active'], 'rooms_college_dept_active_idx');
+            $table->index(['room_category_id', 'status'], 'rooms_category_status_index');
+            $table->index(['department_id', 'room_no'], 'rooms_department_room_no_index');
         });
     }
 

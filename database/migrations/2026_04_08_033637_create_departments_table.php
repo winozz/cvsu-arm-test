@@ -21,6 +21,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['college_id', 'is_active', 'name'], 'departments_college_active_name_idx');
+            $table->index(['campus_id', 'college_id'], 'departments_campus_college_index');
         });
     }
 

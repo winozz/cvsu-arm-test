@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])
     ->group(function () {
-        Route::livewire('/dashboard/faculty', 'pages::faculty.dashboard.index')
+        Route::livewire('/faculty/schedules', 'pages::faculty.schedules.index')
             ->middleware('permission:faculty_schedules.view')
-            ->name('dashboard.faculty');
+            ->name('faculty-schedules.index');
     });

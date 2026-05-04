@@ -88,9 +88,11 @@ describe('admin room categories page', function () {
 
     it('allows only super admins with permission to access the room categories route', function () {
         $authorized = User::factory()->superAdmin()->create();
+        /** @var User $authorized */
         $authorized->givePermissionTo('room_categories.view');
 
         $unauthorized = User::factory()->create();
+        /** @var User $unauthorized */
 
         $this->actingAs($authorized)
             ->get(route('room-categories.index'))
@@ -98,6 +100,6 @@ describe('admin room categories page', function () {
 
         $this->actingAs($unauthorized)
             ->get(route('room-categories.index'))
-            ->assertRedirect(route('dashboard.resolve'));
+            ->assertRedirect(route('dashboard'));
     });
 });

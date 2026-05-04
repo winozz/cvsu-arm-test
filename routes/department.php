@@ -4,11 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])
     ->group(function () {
-        // Dashboard Routes
-        Route::livewire('/dashboard/department', 'pages::dept-admin.dashboard.index')
-            ->middleware('permission:schedules.assign')
-            ->name('dashboard.department');
-
         // Faculty Profile Routes
         Route::livewire('/faculty-profiles', 'pages::dept-admin.faculty-profiles.index')
             ->middleware(['permission:faculty_profiles.view', 'faculty_profile_scope:department'])
