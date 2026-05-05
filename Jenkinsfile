@@ -106,6 +106,7 @@ pipeline {
                     if exist "%JLOG%" del "%JLOG%"
                     where ssh >nul 2>&1
                     if errorlevel 1 ( echo WARNING: ssh.exe not found - skipping & exit /b 0 )
+                    setlocal enabledelayedexpansion
                     powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') -RedirectStandardOutput '%WORKSPACE%\\ssh-tunnel.out' -RedirectStandardError '%TLOG%' -WindowStyle Hidden | Out-Null"
                     powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:8081','nokey@localhost.run') -RedirectStandardOutput '%WORKSPACE%\\ssh-jenkins.out' -RedirectStandardError '%JLOG%' -WindowStyle Hidden | Out-Null"
                     echo Waiting for tunnel URLs...
