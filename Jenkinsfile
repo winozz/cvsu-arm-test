@@ -84,7 +84,7 @@ pipeline {
                         echo ====================================================
                         echo   LAN URL:     http://!LAN_IP!:%LOCAL_PORT%
                         echo   Jenkins URL: http://!LAN_IP!:8081
-                        echo   (Anyone on the same network can use these URLs)
+                        echo   (Anyone on the same network can use these URLs^)
                         echo ====================================================
                         exit /b 0
                     )
