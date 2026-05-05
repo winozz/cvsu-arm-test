@@ -70,7 +70,7 @@ pipeline {
             steps {
                 bat '''
                     if /i "%TUNNEL_TYPE%"=="none" ( echo Tunnel skipped. & exit /b 0 )
-                    set "TLOG=%WORKSPACE%\ssh-tunnel.log"
+                    set "TLOG=%WORKSPACE%\\ssh-tunnel.log"
                     if exist "%TLOG%" del "%TLOG%"
                     where ssh >nul 2>&1
                     if errorlevel 1 ( echo WARNING: ssh.exe not found - skipping & exit /b 0 )
