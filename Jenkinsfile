@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Pull Image') {
             steps {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                     bat '''
                         echo %GITHUB_TOKEN% | docker login ghcr.io -u winozz --password-stdin
                         docker pull --platform linux/amd64 ghcr.io/winozz/cvsu-arm-test:%IMAGE_TAG%
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Deploy Container') {
             steps {
-                withCredentials([string(credentialsId: 'laravel-app-key', variable: 'APP_KEY')]) {
+                withCredentials([string(credentialsId: 'APP_KEY', variable: 'APP_KEY')]) {
                     bat '''
                         docker rm -f %CONTAINER_NAME% >nul 2>&1
                         docker run -d --name %CONTAINER_NAME% ^
