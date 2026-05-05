@@ -26,7 +26,10 @@ pipeline {
 
         stage('Deploy Container') {
             steps {
-                withCredentials([string(credentialsId: 'APP_KEY', variable: 'APP_KEY')]) {
+                withCredentials([
+                    string(credentialsId: 'APP_KEY', variable: 'APP_KEY'),
+                    string(credentialsId: 'GOOGLE_CLIENT_SECRET', variable: 'GOOGLE_CLIENT_SECRET')
+                ]) {
                     bat '''
                         docker rm -f %CONTAINER_NAME% >nul 2>&1
                         docker run -d --name %CONTAINER_NAME% ^
@@ -41,6 +44,9 @@ pipeline {
                             -e QUEUE_CONNECTION=database ^
                             -e CACHE_STORE=database ^
                             -e HEALTHCHECK_PATH=/up ^
+                            -e GOOGLE_CLIENT_ID=577658695283-rn74vhl7f3hacitp0ispdnrg0rdhmhl4.apps.googleusercontent.com ^
+                            -e GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
+                            -e GOOGLE_REDIRECT_URI=http://localhost:%LOCAL_PORT%/auth/google/callback ^
                             ghcr.io/winozz/cvsu-arm-test:%IMAGE_TAG%
                     '''
                 }
