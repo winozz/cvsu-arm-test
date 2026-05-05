@@ -77,14 +77,16 @@ pipeline {
                     powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') -RedirectStandardOutput '%TLOG%' -RedirectStandardError '%TLOG%' -WindowStyle Hidden | Out-Null"
                     echo Waiting for tunnel URL...
                     set WAIT=0
+                    set TDONE=0
                     :tw_loop
                     ping -n 3 127.0.0.1 >nul 2>&1
                     set /a WAIT+=3
                     set TURL=
                     for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%TLOG%') { $m = Select-String '%TLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set TURL=%%X
-                    if defined TURL ( echo. & echo ==================================================== & echo   Public URL: %TURL% & echo ==================================================== & exit /b 0 )
-                    if %WAIT% geq 30 ( echo WARNING: tunnel URL not ready after 30s & if exist "%TLOG%" type "%TLOG%" & exit /b 0 )
-                    goto :tw_loop
+                    if defined TURL set TDONE=1
+                    if %WAIT% geq 30 ( echo WARNING: tunnel URL not ready after 30s & if exist "%TLOG%" type "%TLOG%" & set TDONE=1 )
+                    if "%TDONE%"=="0" goto :tw_loop
+                    if defined TURL ( echo. & echo ==================================================== & echo   Public URL: %TURL% & echo ==================================================== )
                 '''
             }
         }
