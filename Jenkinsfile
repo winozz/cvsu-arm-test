@@ -85,7 +85,7 @@ pipeline {
                     for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%TLOG%') { $m = Select-String '%TLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set TURL=%%X
                     if defined TURL set TDONE=1
                     if %WAIT% geq 30 ( echo WARNING: tunnel URL not ready after 30s & if exist "%TLOG%" type "%TLOG%" & set TDONE=1 )
-                    if "%TDONE%"=="0" goto :tw_loop
+                    if "!TDONE!"=="0" goto :tw_loop
                     if defined TURL ( echo. & echo ==================================================== & echo   Public URL: %TURL% & echo ==================================================== )
                 '''
             }
