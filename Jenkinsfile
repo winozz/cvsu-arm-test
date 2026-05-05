@@ -117,8 +117,8 @@ pipeline {
                     set /a WAIT+=3
                     set TURL=
                     set JURL=
-                    for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%TLOG%') { $m = Select-String '%TLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set TURL=%%X
-                    for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%JLOG%') { $m = Select-String '%JLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set JURL=%%X
+                    for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%WORKSPACE%\\ssh-tunnel.out') { $m = Select-String '%WORKSPACE%\\ssh-tunnel.out' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set TURL=%%X
+                    for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%WORKSPACE%\\ssh-jenkins.out') { $m = Select-String '%WORKSPACE%\\ssh-jenkins.out' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set JURL=%%X
                     if defined TURL if defined JURL set TDONE=1
                     if %WAIT% geq 45 set TDONE=1
                     if "!TDONE!"=="0" goto :tw_loop
