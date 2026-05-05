@@ -4,8 +4,8 @@ pipeline {
     parameters {
         choice(
             name: 'TUNNEL_TYPE',
-            choices: ['ssh', 'cloudflare', 'none'],
-            description: 'Tunnel: ssh = localhost.run (no download), cloudflare = trycloudflare.com, none = skip'
+            choices: ['lan', 'ssh', 'cloudflare', 'tailscale', 'none'],
+            description: 'Tunnel: lan = local network IP:port (no install needed), ssh = localhost.run, cloudflare = trycloudflare.com, tailscale = fixed IP:port (requires Tailscale), none = skip'
         )
         string(name: 'IMAGE_TAG',      defaultValue: 'latest',             description: 'Docker image tag to deploy')
         string(name: 'LOCAL_PORT',     defaultValue: '9091',               description: 'Host port for the container')
@@ -76,23 +76,56 @@ pipeline {
             steps {
                 bat '''
                     if /i "%TUNNEL_TYPE%"=="none" ( echo Tunnel skipped. & exit /b 0 )
-                    set "TLOG=%WORKSPACE%\\ssh-tunnel.log"
+                    if /i "%TUNNEL_TYPE%"=="lan" (
+                        setlocal enabledelayedexpansion
+                        for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' -and $_.InterfaceAlias -notlike '*Loopback*' -and $_.InterfaceAlias -notlike '*WSL*' -and $_.InterfaceAlias -notlike '*vEthernet*' } | Select-Object -First 1 -ExpandProperty IPAddress) 2>$null"`) do set LAN_IP=%%I
+                        if not defined LAN_IP ( echo WARNING: Could not detect LAN IP & exit /b 0 )
+                        echo.
+                        echo ====================================================
+                        echo   LAN URL:     http://!LAN_IP!:%LOCAL_PORT%
+                        echo   Jenkins URL: http://!LAN_IP!:8081
+                        echo   (Anyone on the same network can use these URLs)
+                        echo ====================================================
+                        exit /b 0
+                    )
+                    if /i "%TUNNEL_TYPE%"=="tailscale" (
+                        where tailscale >nul 2>&1
+                        if errorlevel 1 ( echo ERROR: tailscale.exe not found. Install from https://tailscale.com/download/windows & exit /b 1 )
+                        for /f "usebackq delims=" %%I in (`tailscale ip -4 2^>nul`) do set TS_IP=%%I
+                        if not defined TS_IP ( echo ERROR: Tailscale is not connected. Run: tailscale up & exit /b 1 )
+                        echo.
+                        echo ====================================================
+                        echo   Tailscale URL: http://!TS_IP!:%LOCAL_PORT%
+                        echo   Jenkins URL:   http://!TS_IP!:8081
+                        echo ====================================================
+                        exit /b 0
+                    )
+                    set "TLOG=%WORKSPACE%\\ssh-tunnel.err"
+                    set "JLOG=%WORKSPACE%\\ssh-jenkins.err"
                     if exist "%TLOG%" del "%TLOG%"
+                    if exist "%JLOG%" del "%JLOG%"
                     where ssh >nul 2>&1
                     if errorlevel 1 ( echo WARNING: ssh.exe not found - skipping & exit /b 0 )
-                    powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') -RedirectStandardOutput '%TLOG%' -RedirectStandardError '%TLOG%' -WindowStyle Hidden | Out-Null"
-                    echo Waiting for tunnel URL...
+                    powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:%LOCAL_PORT%','nokey@localhost.run') -RedirectStandardOutput '%WORKSPACE%\ssh-tunnel.out' -RedirectStandardError '%TLOG%' -WindowStyle Hidden | Out-Null"
+                    powershell -NoProfile -Command "Start-Process -FilePath 'ssh' -ArgumentList @('-o','StrictHostKeyChecking=no','-o','ServerAliveInterval=30','-o','ExitOnForwardFailure=yes','-R','80:127.0.0.1:8081','nokey@localhost.run') -RedirectStandardOutput '%WORKSPACE%\ssh-jenkins.out' -RedirectStandardError '%JLOG%' -WindowStyle Hidden | Out-Null"
+                    echo Waiting for tunnel URLs...
                     set WAIT=0
                     set TDONE=0
                     :tw_loop
                     ping -n 3 127.0.0.1 >nul 2>&1
                     set /a WAIT+=3
                     set TURL=
+                    set JURL=
                     for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%TLOG%') { $m = Select-String '%TLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set TURL=%%X
-                    if defined TURL set TDONE=1
-                    if %WAIT% geq 30 ( echo WARNING: tunnel URL not ready after 30s & if exist "%TLOG%" type "%TLOG%" & set TDONE=1 )
+                    for /f "usebackq delims=" %%X in (`powershell -NoProfile -Command "if (Test-Path '%JLOG%') { $m = Select-String '%JLOG%' -Pattern 'https://\\S+\\.lhr\\.life' | Select-Object -Last 1; if ($m) { [regex]::Match($m.Line,'https://\\S+\\.lhr\\.life').Value } }"`) do set JURL=%%X
+                    if defined TURL if defined JURL set TDONE=1
+                    if %WAIT% geq 45 set TDONE=1
                     if "!TDONE!"=="0" goto :tw_loop
-                    if defined TURL ( echo. & echo ==================================================== & echo   Public URL: %TURL% & echo ==================================================== )
+                    echo.
+                    echo ====================================================
+                    if defined TURL ( echo   App URL:     !TURL! ) else ( echo   App URL:     [tunnel not ready] )
+                    if defined JURL ( echo   Jenkins URL: !JURL! ) else ( echo   Jenkins URL: [tunnel not ready] )
+                    echo ====================================================
                 '''
             }
         }
